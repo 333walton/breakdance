@@ -7,124 +7,124 @@ const sportsOverlays = [{
   name: 'Soccer Overlay',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "c0be966d-c2ca-4506-9e20-81eed80c4cfa"
+  mpid: "d162c666-66ea-4f73-96b7-f0372b6676b1"
 }, {
   id: 'sport-2',
   name: 'Basketball Stats',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "f31b2fd3-ba2f-499c-a604-56a4d9cf9c77"
+  mpid: "e77832d2-e62b-4df7-ad4b-62f492293475"
 }, {
   id: 'sport-3',
   name: 'Football Scoreboard',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "266495af-ae7d-40e6-85a3-4772e4cdce8d"
+  mpid: "40c24247-00e4-4dbd-8850-1a726e4e3f01"
 }, {
   id: 'sport-4',
   name: 'Tennis Match',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "960de248-4dd3-47ad-b538-7a3117613a40"
+  mpid: "9ad6d9e8-b85b-449f-a722-e4c88b843cf8"
 }, {
   id: 'sport-5',
   name: 'Baseball Diamond',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "2e872182-78c8-4327-ba8b-775e731d767f"
+  mpid: "70179c90-2615-4a31-a93f-e2b9861af869"
 }, {
   id: 'sport-6',
   name: 'Hockey Rink',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "ae72bb2b-b356-4af9-bae2-b25f531ad8dd"
+  mpid: "13ecc7fe-b1ac-4ba1-a231-ff667feb93b2"
 }] as any[];
 const gamingOverlays = [{
   id: 'game-1',
   name: 'FPS Overlay',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "78a934d0-24d8-481a-bfdc-3f656c2eb699"
+  mpid: "ad721e14-57af-4fc0-aeb6-19f86fc49c81"
 }, {
   id: 'game-2',
   name: 'RPG Interface',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "5b9fa5ad-6317-439c-be5b-2af571a044c0"
+  mpid: "7fa105d3-365f-4d28-b2a0-4051573a6d23"
 }, {
   id: 'game-3',
   name: 'Racing HUD',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "189a2656-35f5-4a3e-bf48-684b23079700"
+  mpid: "ceab8499-b29a-4663-8d7c-b758ea42dfe7"
 }, {
   id: 'game-4',
   name: 'Strategy Map',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "54421102-12a9-40a2-af20-20ac3f6f95ac"
+  mpid: "244adc2d-aa53-4c1b-a868-84d1cfb2169d"
 }, {
   id: 'game-5',
   name: 'Battle Royale',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "69a84482-298b-4c7f-9e16-80738c8d691f"
+  mpid: "3cc3dd86-7c89-47c2-8feb-955e5b750f84"
 }, {
   id: 'game-6',
   name: 'Retro Arcade',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "4be745a7-b381-4a98-a67a-250120d47419"
+  mpid: "731457ba-3b1d-4662-83dc-13e047b8d706"
 }] as any[];
 const podcastOverlays = [{
   id: 'podcast-1',
   name: 'Talk Show Layout',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "2152db84-7001-4d71-acc3-6cef0fc0b62d"
+  mpid: "42fd6d0b-5a48-4ab7-99d2-43260b8ebb7e"
 }, {
   id: 'podcast-2',
   name: 'Interview Setup',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "a36fd521-61f5-4e5b-a5bf-f4a0e442a5a8"
+  mpid: "456ac7eb-2509-48b1-803f-a55f64b363b5"
 }, {
   id: 'podcast-3',
   name: 'News Broadcast',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "59716eb9-a620-4f86-a346-d267f10cf9ec"
+  mpid: "b97ce887-3ff2-4659-aefe-c81bdd5f698b"
 }, {
   id: 'podcast-4',
   name: 'Panel Discussion',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "3a8d07ce-7130-4a33-85de-8ad64d943958"
+  mpid: "60dc5332-9849-450f-849a-b89adab24fbb"
 }, {
   id: 'podcast-5',
   name: 'Solo Cast',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "3f0f5be4-e432-46f8-87cb-a973f1e19b9e"
+  mpid: "db51b432-ec2e-4e5b-a213-db23dd8ac391"
 }, {
   id: 'podcast-6',
   name: 'Live Q&A',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "e743e002-e150-4cab-bda6-7df0d0f573db"
+  mpid: "f0f30318-a5b0-4dbe-8a6e-76a0de82563e"
 }] as any[];
 const carouselSections = [{
   title: 'Sports',
   overlays: sportsOverlays,
-  mpid: "1a3ccc14-ea38-4b6b-b3a0-c899e2e9b062"
+  mpid: "73a02744-9b74-4db8-a813-6f240e1d7fed"
 }, {
   title: 'Gaming',
   overlays: gamingOverlays,
-  mpid: "e26dffb1-8cc3-4b0d-87b8-67d694d26977"
+  mpid: "5717dd6c-f6a8-4cdd-ba70-30b647b732c9"
 }, {
   title: 'Podcasts',
   overlays: podcastOverlays,
-  mpid: "1421017b-e882-4345-8f75-c23f72d30875"
+  mpid: "cdafd007-9618-4b60-9672-546ced99cdc7"
 }] as any[];
 
 // @component: OverlayCarouselsSection
@@ -147,14 +147,14 @@ export const OverlayCarouselsSection = () => {
   };
 
   // @return
-  return <SortableContainer dndKitId="c8bf3259-9b7a-4a45-81bc-2c2536ed5fa0" containerType="collection" prevTag="div" className="space-y-16" data-magicpath-id="0" data-magicpath-path="OverlayCarouselsSection.tsx">
+  return <SortableContainer dndKitId="f963ad0f-69bd-4ca7-af99-83339bd3d52b" containerType="collection" prevTag="div" className="space-y-16" data-magicpath-id="0" data-magicpath-path="OverlayCarouselsSection.tsx">
       {carouselSections.map(section => {
       const containerRef = useRef<HTMLDivElement>(null);
       return <section key={section.title} className="px-6 py-8" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="1" data-magicpath-path="OverlayCarouselsSection.tsx">
             <div className="max-w-7xl mx-auto" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="2" data-magicpath-path="OverlayCarouselsSection.tsx">
               <div className="flex items-center justify-between mb-8" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="3" data-magicpath-path="OverlayCarouselsSection.tsx">
                 <h2 className="text-3xl font-bold" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="4" data-magicpath-path="OverlayCarouselsSection.tsx">
-                  <span data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-field="title:string" data-magicpath-id="5" data-magicpath-path="OverlayCarouselsSection.tsx">{section.title}</span>
+                  <span data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-field="title:unknown" data-magicpath-id="5" data-magicpath-path="OverlayCarouselsSection.tsx">{section.title}</span>
                 </h2>
                 <div className="flex items-center space-x-4" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="6" data-magicpath-path="OverlayCarouselsSection.tsx">
                   <div className="flex items-center space-x-2" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="7" data-magicpath-path="OverlayCarouselsSection.tsx">
