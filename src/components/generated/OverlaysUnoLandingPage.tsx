@@ -190,8 +190,10 @@ export const OverlaysUnoLandingPage = () => {
                 <span data-magicpath-id="14" data-magicpath-path="OverlaysUnoLandingPage.tsx">Login</span>
               </SortableContainer>
               <SortableContainer dndKitId="d37e7788-97ad-4908-ae14-a7fea2cbdd0c" containerType="regular" prevTag="button" className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white transition-colors text-sm font-medium rounded-lg flex items-center space-x-2" data-magicpath-id="15" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <Users className="w-4 h-4" data-magicpath-id="16" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
-                <span data-magicpath-id="17" data-magicpath-path="OverlaysUnoLandingPage.tsx">Discord</span>
+                <Users className="w-4 h-4" data-magicpath-id="16" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+                display: "none"
+              }} />
+                <span data-magicpath-id="17" data-magicpath-path="OverlaysUnoLandingPage.tsx">Launch App</span>
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
