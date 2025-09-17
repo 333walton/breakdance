@@ -166,10 +166,15 @@ export const OverlaysUnoLandingPage = () => {
   return <SortableContainer dndKitId="59750c0d-d55b-44b5-bb51-b59e20202cdf" containerType="regular" prevTag="div" className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 text-white font-sans" data-magicpath-id="0" data-magicpath-path="OverlaysUnoLandingPage.tsx">
       {/* Header */}
       <SortableContainer dndKitId="7f8da8cb-b989-4923-9723-decb7be3d6ca" containerType="regular" prevTag="header" className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50 sticky top-0 z-50" data-magicpath-id="1" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="b1243f74-1682-490e-9b4b-4c4893f5edf0" containerType="regular" prevTag="div" className="max-w-7xl mx-auto px-6 py-4" data-magicpath-id="2" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="b1243f74-1682-490e-9b4b-4c4893f5edf0" containerType="regular" prevTag="div" className="max-w-7xl mx-auto px-6 py-4" data-magicpath-id="2" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+        marginLeft: "10px",
+        marginRight: "10px"
+      }}>
           <SortableContainer dndKitId="603042ab-16d7-45bd-b57f-9168d851ff3b" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
-          width: "1300px",
-          maxWidth: "1300px"
+          width: "1500px",
+          maxWidth: "1500px",
+          marginRight: "",
+          paddingRight: ""
         }}>
             {/* Logo */}
             <SortableContainer dndKitId="8033f916-c9cb-4ebc-b975-d47db9686a64" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="4" data-magicpath-path="OverlaysUnoLandingPage.tsx">
@@ -193,7 +198,8 @@ export const OverlaysUnoLandingPage = () => {
             {/* Auth & Discord */}
             <SortableContainer dndKitId="9fd0b688-e44c-4293-a0ed-c820fba8d761" containerType="regular" prevTag="div" className="flex items-center space-x-3" data-magicpath-id="10" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
             marginLeft: "",
-            paddingLeft: ""
+            paddingLeft: "",
+            marginRight: "190px"
           }}>
               <SortableContainer dndKitId="bb8b7dd4-c380-472a-a629-3df0757b704b" containerType="regular" prevTag="button" className="px-4 py-2 text-gray-300 hover:text-white transition-colors text-sm font-medium border border-gray-600 rounded-lg hover:border-gray-500" data-magicpath-id="11" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="12" data-magicpath-path="OverlaysUnoLandingPage.tsx">Sign up</span>
