@@ -173,11 +173,11 @@ export const OverlaysUnoLandingPage = () => {
         marginLeft: "10px"
       }}>
           <SortableContainer dndKitId="603042ab-16d7-45bd-b57f-9168d851ff3b" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
-          marginRight: "",
           paddingRight: "",
           width: "1500px",
           maxWidth: "1500px",
-          marginLeft: "90px"
+          marginLeft: "90px",
+          marginRight: "90px"
         }}>
             {/* Logo */}
             <SortableContainer dndKitId="8033f916-c9cb-4ebc-b975-d47db9686a64" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="4" data-magicpath-path="OverlaysUnoLandingPage.tsx">
