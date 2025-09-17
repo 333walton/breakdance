@@ -167,29 +167,43 @@ export const OverlaysUnoLandingPage = () => {
       {/* Header */}
       <SortableContainer dndKitId="7f8da8cb-b989-4923-9723-decb7be3d6ca" containerType="regular" prevTag="header" className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50 sticky top-0 z-50" data-magicpath-id="1" data-magicpath-path="OverlaysUnoLandingPage.tsx">
         <SortableContainer dndKitId="b1243f74-1682-490e-9b4b-4c4893f5edf0" containerType="regular" prevTag="div" className="max-w-7xl mx-auto px-6 py-4" data-magicpath-id="2" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="603042ab-16d7-45bd-b57f-9168d851ff3b" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="603042ab-16d7-45bd-b57f-9168d851ff3b" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+          width: "1300px",
+          maxWidth: "1300px"
+        }}>
             {/* Logo */}
             <SortableContainer dndKitId="8033f916-c9cb-4ebc-b975-d47db9686a64" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="4" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <span className="text-orange-500" data-magicpath-id="5" data-magicpath-path="OverlaysUnoLandingPage.tsx">overlays.</span>
-              <span className="text-white" data-magicpath-id="6" data-magicpath-path="OverlaysUnoLandingPage.tsx">uno</span>
+              <span className="text-orange-500" data-magicpath-id="5" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+              display: "none"
+            }}>overlays.</span>
+              <span className="text-white" data-magicpath-id="6" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+              display: "none"
+            }}>uno</span>
             </SortableContainer>
             
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8" data-magicpath-id="7" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <nav className="hidden md:flex items-center space-x-8" data-magicpath-id="7" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+            marginRight: "320px"
+          }}>
               {['LIBRARY', 'HOW IT WORKS', 'PRICING', 'BLOG', 'STREAM DECK PLUGIN', 'SHOP', 'DONATE'].map(item => <a key={item} href="#" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide" data-magicpath-id="8" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <span data-magicpath-id="9" data-magicpath-path="OverlaysUnoLandingPage.tsx">{item}</span>
                 </a>)}
             </nav>
 
             {/* Auth & Discord */}
-            <SortableContainer dndKitId="9fd0b688-e44c-4293-a0ed-c820fba8d761" containerType="regular" prevTag="div" className="flex items-center space-x-3" data-magicpath-id="10" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="9fd0b688-e44c-4293-a0ed-c820fba8d761" containerType="regular" prevTag="div" className="flex items-center space-x-3" data-magicpath-id="10" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+            marginLeft: "",
+            paddingLeft: ""
+          }}>
               <SortableContainer dndKitId="bb8b7dd4-c380-472a-a629-3df0757b704b" containerType="regular" prevTag="button" className="px-4 py-2 text-gray-300 hover:text-white transition-colors text-sm font-medium border border-gray-600 rounded-lg hover:border-gray-500" data-magicpath-id="11" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="12" data-magicpath-path="OverlaysUnoLandingPage.tsx">Sign up</span>
               </SortableContainer>
               <SortableContainer dndKitId="9a907ce1-7c84-4437-b79f-0520c8f07b10" containerType="regular" prevTag="button" className="px-4 py-2 text-gray-300 hover:text-white transition-colors text-sm font-medium border border-gray-600 rounded-lg hover:border-gray-500" data-magicpath-id="13" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="14" data-magicpath-path="OverlaysUnoLandingPage.tsx">Login</span>
               </SortableContainer>
-              <SortableContainer dndKitId="d37e7788-97ad-4908-ae14-a7fea2cbdd0c" containerType="regular" prevTag="button" className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white transition-colors text-sm font-medium rounded-lg flex items-center space-x-2" data-magicpath-id="15" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="d37e7788-97ad-4908-ae14-a7fea2cbdd0c" containerType="regular" prevTag="button" className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white transition-colors text-sm font-medium rounded-lg flex items-center space-x-2" data-magicpath-id="15" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+              background: "oklch(0.647 0.217 36.8)"
+            }}>
                 <Users className="w-4 h-4" data-magicpath-id="16" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
                 display: "none"
               }} />
