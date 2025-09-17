@@ -219,7 +219,9 @@ export const OverlaysUnoLandingPage = () => {
                 <Users className="w-4 h-4" style={{
                 display: "none"
               }} data-magicpath-id="16" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
-                <span data-magicpath-id="17" data-magicpath-path="OverlaysUnoLandingPage.tsx">Launch App</span>
+                <span data-magicpath-id="17" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+                color: "rgb(0 0 0)"
+              }}>Launch App</span>
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
