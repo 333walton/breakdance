@@ -141,3 +141,12 @@ body {
     padding: 0;
   }
 }
+
+/* Utility: fully hide scrollbars across browsers */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
