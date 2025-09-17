@@ -202,7 +202,9 @@ export const OverlaysUnoLandingPage = () => {
             <SortableContainer dndKitId="9fd0b688-e44c-4293-a0ed-c820fba8d761" containerType="regular" prevTag="div" className="flex items-center space-x-3" data-magicpath-id="10" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
             marginLeft: "",
             paddingLeft: "",
-            marginRight: "190px"
+            marginRight: "190px",
+            flexWrap: "nowrap",
+            justifyContent: "flex-end"
           }}>
               <SortableContainer dndKitId="bb8b7dd4-c380-472a-a629-3df0757b704b" containerType="regular" prevTag="button" className="px-4 py-2 text-gray-300 hover:text-white transition-colors text-sm font-medium border border-gray-600 rounded-lg hover:border-gray-500" data-magicpath-id="11" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="12" data-magicpath-path="OverlaysUnoLandingPage.tsx">Sign up</span>
