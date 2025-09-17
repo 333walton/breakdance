@@ -167,15 +167,15 @@ export const OverlaysUnoLandingPage = () => {
       {/* Header */}
       <SortableContainer dndKitId="7f8da8cb-b989-4923-9723-decb7be3d6ca" containerType="regular" prevTag="header" className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50 sticky top-0 z-50" data-magicpath-id="1" data-magicpath-path="OverlaysUnoLandingPage.tsx">
         <SortableContainer dndKitId="b1243f74-1682-490e-9b4b-4c4893f5edf0" containerType="regular" prevTag="div" className="max-w-7xl mx-auto px-6 py-4" data-magicpath-id="2" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
-        marginLeft: "10px",
-        marginRight: "10px"
+        marginRight: "10px",
+        marginLeft: "80px"
       }}>
           <SortableContainer dndKitId="603042ab-16d7-45bd-b57f-9168d851ff3b" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
-          width: "1500px",
-          maxWidth: "1500px",
           marginRight: "",
           paddingRight: "",
-          marginLeft: "20px"
+          marginLeft: "20px",
+          width: "1500px",
+          maxWidth: "1500px"
         }}>
             {/* Logo */}
             <SortableContainer dndKitId="8033f916-c9cb-4ebc-b975-d47db9686a64" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="4" data-magicpath-path="OverlaysUnoLandingPage.tsx">
