@@ -174,7 +174,8 @@ export const OverlaysUnoLandingPage = () => {
           width: "1500px",
           maxWidth: "1500px",
           marginRight: "",
-          paddingRight: ""
+          paddingRight: "",
+          marginLeft: "20px"
         }}>
             {/* Logo */}
             <SortableContainer dndKitId="8033f916-c9cb-4ebc-b975-d47db9686a64" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="4" data-magicpath-path="OverlaysUnoLandingPage.tsx">
