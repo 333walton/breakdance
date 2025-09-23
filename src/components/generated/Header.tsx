@@ -6,27 +6,31 @@ const navigationItems = ['Library', 'How it works', 'Pricing', 'Blog', 'Stream D
 // @component: Header
 export const Header = () => {
   // @return
-  return <SortableContainer dndKitId="8c1bf124-6cf2-4d3f-adaf-4e6e545de1f9" containerType="regular" prevTag="header" className="flex items-center justify-between px-6 py-4 border-b border-white/10" data-magicpath-id="0" data-magicpath-path="Header.tsx">
-      <SortableContainer dndKitId="f24791b1-cf75-4026-a663-284d4fdea3eb" containerType="regular" prevTag="div" className="flex items-center space-x-8" data-magicpath-id="1" data-magicpath-path="Header.tsx">
-        <SortableContainer dndKitId="d84ed611-4d5e-44d1-965d-6dcf6b96935c" containerType="regular" prevTag="div" className="text-2xl font-bold text-orange-400" data-magicpath-id="2" data-magicpath-path="Header.tsx">
-          <span data-magicpath-id="3" data-magicpath-path="Header.tsx">overlays.</span>
-          <span className="text-white" data-magicpath-id="4" data-magicpath-path="Header.tsx">uno</span>
+  return <SortableContainer dndKitId="a9120772-1dbd-48bd-a1b5-cad994781535" containerType="regular" prevTag="header" className="w-full border-b border-white/10" data-magicpath-id="0" data-magicpath-path="Header.tsx">
+      <SortableContainer dndKitId="e2f054f6-ed99-4314-8ff4-03e4e572ea15" containerType="regular" prevTag="div" className="mx-auto flex h-14 max-w-7xl items-center px-4 sm:px-6 lg:px-8" data-magicpath-id="1" data-magicpath-path="Header.tsx">
+        <SortableContainer dndKitId="1a942f11-b532-4cfd-8654-e8ea97d175e2" containerType="regular" prevTag="div" className="flex min-w-[92px] items-center justify-start" data-magicpath-id="2" data-magicpath-path="Header.tsx">
+          <a href="#" className="inline-flex items-center leading-none" data-magicpath-id="3" data-magicpath-path="Header.tsx">
+            <span className="text-2xl font-bold text-orange-400" data-magicpath-id="4" data-magicpath-path="Header.tsx"><span data-magicpath-id="5" data-magicpath-path="Header.tsx">overlays.</span></span>
+            <span className="text-2xl font-bold text-white" data-magicpath-id="6" data-magicpath-path="Header.tsx"><span data-magicpath-id="7" data-magicpath-path="Header.tsx">uno</span></span>
+          </a>
         </SortableContainer>
-        <SortableContainer dndKitId="5bafc101-88b9-43ef-b73e-3ca4e80b39be" containerType="collection" prevTag="nav" className="hidden md:flex items-center space-x-6" data-magicpath-id="5" data-magicpath-path="Header.tsx">
-          {navigationItems.map(item => <a key={item} href="#" className="text-gray-300 hover:text-white transition-colors duration-200 font-medium" data-magicpath-uuid={(item as any)["mpid"] ?? "unsafe"} data-magicpath-id="6" data-magicpath-path="Header.tsx">
-              <span data-magicpath-uuid={(item as any)["mpid"] ?? "unsafe"} data-magicpath-id="7" data-magicpath-path="Header.tsx">{item}</span>
+        <SortableContainer dndKitId="0931a0a7-ff1f-479f-969b-dc764b17075c" containerType="collection" prevTag="nav" className="ml-6 hidden gap-6 whitespace-nowrap md:flex" data-magicpath-id="8" data-magicpath-path="Header.tsx">
+          {navigationItems.map(item => <a key={item} href="#" className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white" data-magicpath-uuid={(item as any)["mpid"] ?? "unsafe"} data-magicpath-id="9" data-magicpath-path="Header.tsx">
+              <span data-magicpath-uuid={(item as any)["mpid"] ?? "unsafe"} data-magicpath-id="10" data-magicpath-path="Header.tsx">{item}</span>
             </a>)}
         </SortableContainer>
-      </SortableContainer>
-      <SortableContainer dndKitId="92997509-a5ae-4674-9487-974522cb2da7" containerType="regular" prevTag="div" className="flex items-center space-x-4" data-magicpath-id="8" data-magicpath-path="Header.tsx">
-        <SortableContainer dndKitId="acbe744b-9446-49a8-ae9d-47ed3ccb0712" containerType="regular" prevTag="button" className="px-4 py-2 text-gray-300 hover:text-white transition-colors duration-200 font-medium" data-magicpath-id="9" data-magicpath-path="Header.tsx">
-          <span data-magicpath-id="10" data-magicpath-path="Header.tsx">Sign up</span>
-        </SortableContainer>
-        <SortableContainer dndKitId="197fd93d-6013-4d42-8d23-8580cd915b9a" containerType="regular" prevTag="button" className="px-4 py-2 text-gray-300 hover:text-white transition-colors duration-200 font-medium" data-magicpath-id="11" data-magicpath-path="Header.tsx">
-          <span data-magicpath-id="12" data-magicpath-path="Header.tsx">Login</span>
-        </SortableContainer>
-        <SortableContainer dndKitId="95c32cd6-0590-484d-80a8-fb34c545828e" containerType="regular" prevTag="button" className="p-2 text-gray-300 hover:text-white transition-colors duration-200" data-magicpath-id="13" data-magicpath-path="Header.tsx">
-          <Users className="w-5 h-5" data-magicpath-id="14" data-magicpath-path="Header.tsx" />
+        <SortableContainer dndKitId="a788e877-23a9-477b-8575-159defd145bc" containerType="regular" prevTag="div" className="ml-auto flex items-center gap-3" data-magicpath-id="11" data-magicpath-path="Header.tsx">
+          <SortableContainer dndKitId="9dda3e72-ca74-4f6f-9d98-fdbbd20d8572" containerType="regular" prevTag="button" className="inline-flex items-center rounded-full border border-white/20 px-4 py-1.5 text-sm font-semibold text-gray-100 hover:border-white/40 hover:text-white" data-magicpath-id="12" data-magicpath-path="Header.tsx">
+            <span data-magicpath-id="13" data-magicpath-path="Header.tsx">Sign up</span>
+          </SortableContainer>
+          <SortableContainer dndKitId="921b271f-6b70-44d9-b7c9-2c0b92769739" containerType="regular" prevTag="button" className="inline-flex items-center rounded-full border border-white/20 px-4 py-1.5 text-sm font-semibold text-gray-100 hover:border-white/40 hover:text-white" data-magicpath-id="14" data-magicpath-path="Header.tsx">
+            <span data-magicpath-id="15" data-magicpath-path="Header.tsx">Login</span>
+          </SortableContainer>
+          <SortableContainer dndKitId="1986c079-5fa3-4621-af32-c9a5dce653c2" containerType="regular" prevTag="button" className="inline-flex items-center gap-2 rounded-full bg-indigo-600/30 px-4 py-1.5 text-sm font-semibold text-indigo-200 hover:bg-indigo-600/40" data-magicpath-id="16" data-magicpath-path="Header.tsx">
+            <span aria-hidden="true" className="sr-only" data-magicpath-id="17" data-magicpath-path="Header.tsx">Discord</span>
+            <Users className="h-4 w-4" data-magicpath-id="18" data-magicpath-path="Header.tsx" />
+            <span data-magicpath-id="19" data-magicpath-path="Header.tsx">Discord</span>
+          </SortableContainer>
         </SortableContainer>
       </SortableContainer>
     </SortableContainer>;
