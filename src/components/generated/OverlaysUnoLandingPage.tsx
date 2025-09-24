@@ -376,14 +376,21 @@ export const OverlaysUnoLandingPage = () => {
         {/* Front layer – Phone Button */}
         <SortableContainer dndKitId="30f80a42-451a-433c-b350-5f40f1b7990e" containerType="regular" prevTag="button" type="button" aria-label="Open phone preview" onClick={() => setFrontId('phone-preview')} className={`${baseStyles} phone-preview`} style={{
         zIndex: zFor('phone-preview'),
-        width: '20%',
-        height: '64%',
         left: '3%',
         top: '17%',
         transform: transformFor('phone-preview'),
-        transformStyle: 'preserve-3d'
+        transformStyle: 'preserve-3d',
+        height: "auto",
+        minHeight: "min-content",
+        width: "auto",
+        maxWidth: "100%"
       }} data-magicpath-id="66" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="492f48b8-f01b-4e53-816c-a53f2f1cc6ae" containerType="regular" prevTag="div" className="relative w-full h-full rounded-[28px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]" data-magicpath-id="67" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="492f48b8-f01b-4e53-816c-a53f2f1cc6ae" containerType="regular" prevTag="div" className="relative w-full h-full rounded-[28px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]" data-magicpath-id="67" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+          width: "auto",
+          maxWidth: "100%",
+          height: "auto",
+          minHeight: "min-content"
+        }}>
             {/* iPhone top dynamic island / notch */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-full bg-black/90 border border-white/10" aria-hidden="true" data-magicpath-id="68" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             {/* side buttons (decorative) */}
@@ -391,7 +398,12 @@ export const OverlaysUnoLandingPage = () => {
             <span className="absolute right-0 top-[26%] translate-x-1/2 h-6 w-0.5 rounded bg-white/20" aria-hidden="true" data-magicpath-id="70" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             <span className="absolute right-0 top-[36%] translate-x-1/2 h-14 w-0.5 rounded bg-white/20" aria-hidden="true" data-magicpath-id="71" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             {/* screen */}
-            <SortableContainer dndKitId="26c4e7ca-ae21-456c-a190-3f0d2ffa352e" containerType="regular" prevTag="div" className="w-full h-full rounded-[24px] overflow-hidden bg-neutral-900" data-magicpath-id="72" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="26c4e7ca-ae21-456c-a190-3f0d2ffa352e" containerType="regular" prevTag="div" className="w-full h-full rounded-[24px] overflow-hidden bg-neutral-900" data-magicpath-id="72" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+            width: "auto",
+            maxWidth: "100%",
+            height: "auto",
+            minHeight: "min-content"
+          }}>
               {/* status bar */}
               <SortableContainer dndKitId="9cf38d31-206f-4694-a4f3-0e1e19192993" containerType="regular" prevTag="div" className="flex items-center justify-between px-4 pt-4 pb-2 text-[10px] text-white/80" data-magicpath-id="73" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <p className="tracking-widest" data-magicpath-id="74" data-magicpath-path="OverlaysUnoLandingPage.tsx">
@@ -404,7 +416,13 @@ export const OverlaysUnoLandingPage = () => {
                 </SortableContainer>
               </SortableContainer>
               {/* blank content frame */}
-              <SortableContainer dndKitId="9c290436-e3a5-4b54-9a88-c46d92e1aad2" containerType="regular" prevTag="div" className="mx-3 mb-3 h-[82%] rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent" aria-label="Blank iPhone frame" data-magicpath-id="80" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="9c290436-e3a5-4b54-9a88-c46d92e1aad2" containerType="regular" prevTag="div" className="mx-3 mb-3 h-[82%] rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent" aria-label="Blank iPhone frame" data-magicpath-id="80" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+              background: "linear-gradient(90deg, oklab(0.999994 0.0000455678 0.0000200868 / 0.05) 0%, rgba(0, 0, 0, 0) 100%)",
+              width: "auto",
+              maxWidth: "100%",
+              height: "auto",
+              minHeight: "min-content"
+            }}>
                 <SortableContainer dndKitId="7877a57d-0143-466d-88a1-1f20da185c7b" containerType="regular" prevTag="div" className="h-full w-full grid grid-rows-[auto,1fr,auto]" data-magicpath-id="81" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <SortableContainer dndKitId="84683684-9665-49c7-a7b2-ee3b5927abc6" containerType="regular" prevTag="div" className="px-4 py-3 border-b border-white/10" data-magicpath-id="82" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                     <h4 className="text-xs font-medium text-white/80 tracking-wide" data-magicpath-id="83" data-magicpath-path="OverlaysUnoLandingPage.tsx">
