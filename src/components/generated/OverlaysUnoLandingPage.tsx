@@ -5,118 +5,118 @@ import { ChevronLeft, ChevronRight, Play, Check, ArrowRight, Users, Youtube, Hea
 const overlayCategories = [{
   name: 'Browse Overlays',
   active: true,
-  mpid: "c0b335ac-ee37-4bc8-8a24-070892a0e603"
+  mpid: "4bedebde-2b0a-4569-bc1b-bb20b46befc6"
 }, {
   name: 'Browse Tools',
   active: false,
-  mpid: "89e17823-81dd-4596-9eb0-9158652d6b85"
+  mpid: "d879d3e9-0de3-492f-a4c5-3fc5cdbd0837"
 }] as any[];
 const sportsOverlays = [{
   name: 'LPF Argentina Stadium Fly In',
   aspect: '16:9',
-  mpid: "f26972ed-d0b9-48f0-8c07-29b9a6167a56"
+  mpid: "cd9338d5-ba64-412a-a76a-73175eaceeaf"
 }, {
   name: 'Basketball Stats Overlay',
   aspect: '16:9',
-  mpid: "33f66c71-05a3-4e1e-bf9b-90fe6f494a23"
+  mpid: "cc1bfd7f-9878-4e15-a5f9-79acf31909d7"
 }, {
   name: 'Football Scoreboard Pro',
   aspect: '16:9',
-  mpid: "b9bfd7a3-fa5b-40e4-a949-8fc34103eae2"
+  mpid: "8ca3aa01-4539-4cda-9d42-0fe0e01add73"
 }, {
   name: 'Tennis Match Display',
   aspect: '16:9',
-  mpid: "d4e03e7d-87f0-4c27-9ac1-d6d52c46fe91"
+  mpid: "874b13f8-f724-4cd3-94b8-36dc7d7aa317"
 }, {
   name: 'Baseball Diamond View',
   aspect: '16:9',
-  mpid: "8ec47a72-d56b-43fb-a71f-7152e33ea93d"
+  mpid: "7cd63c72-fe9d-4125-9706-60e622a02dab"
 }, {
   name: 'Hockey Rink Layout',
   aspect: '16:9',
-  mpid: "5e0361cb-afbf-4b2e-9106-5b35bb614446"
+  mpid: "5f9ac463-7fe4-4ea8-abfd-7bf69bc5933b"
 }] as any[];
 const gamingOverlays = [{
   name: 'FPS Combat HUD',
   aspect: '16:9',
-  mpid: "6c9fb068-d317-4ec4-9496-0fc4eb6bda0a"
+  mpid: "0faf2fc3-a21a-4861-8377-009b07900533"
 }, {
   name: 'RPG Interface Pro',
   aspect: '16:9',
-  mpid: "5e521890-1f18-441e-b4a9-dcba0dd92fea"
+  mpid: "2de6fbd6-c80c-4fb9-8d3d-acd4c5490fce"
 }, {
   name: 'Racing Dashboard',
   aspect: '16:9',
-  mpid: "8c880f7a-8d50-456c-a891-5d43f36fd51a"
+  mpid: "1cafb2d0-9c49-400f-bbfc-dd0b4ddb6d93"
 }, {
   name: 'Strategy Command',
   aspect: '16:9',
-  mpid: "77dc7933-4f61-4473-96db-5e5710762e10"
+  mpid: "2cd8b329-f49a-4442-8572-b94d8ec50c64"
 }, {
   name: 'Battle Royale UI',
   aspect: '16:9',
-  mpid: "8698da21-77b1-41d8-a827-8ce6092bafe2"
+  mpid: "c1387d02-d053-44c0-b494-19163e17c8ff"
 }, {
   name: 'Retro Arcade Style',
   aspect: '16:9',
-  mpid: "783d7074-6f84-4185-8846-d96d252f136c"
+  mpid: "8951a625-171e-4fcf-81ec-fb4bad11b91b"
 }] as any[];
 const podcastOverlays = [{
   name: 'Talk Show Professional',
   aspect: '16:9',
-  mpid: "a040935d-810f-444f-ab78-8eddf94be9e6"
+  mpid: "e86a4b1b-8eb1-41ee-a0e2-f4caf799c5e2"
 }, {
   name: 'Interview Setup Clean',
   aspect: '16:9',
-  mpid: "a5df2513-1dca-4e7e-ab10-538a0a503d85"
+  mpid: "915d9b81-18b9-4576-9b43-9bd51706f1bb"
 }, {
   name: 'News Broadcast Modern',
   aspect: '16:9',
-  mpid: "2979f1f9-a6ea-4c51-a16a-994fb5aa62dc"
+  mpid: "46e10f90-c12f-4bab-bd0b-73f3b4250ce7"
 }, {
   name: 'Panel Discussion Layout',
   aspect: '16:9',
-  mpid: "46689d24-2c38-439a-8d4f-6dacc4ef5f7c"
+  mpid: "f00b9958-2ed3-4e68-a9bd-a2155ff45a59"
 }, {
   name: 'Solo Cast Minimal',
   aspect: '16:9',
-  mpid: "4bac4b05-7999-4d09-b40b-0e19fffed6c8"
+  mpid: "8ccd9d18-bff0-4c41-b503-81dde710b050"
 }, {
   name: 'Live Q&A Interactive',
   aspect: '16:9',
-  mpid: "d71e6f02-3740-4eed-9a36-e81ba2342c8e"
+  mpid: "42777468-4744-4056-bb5a-908dfa5be75f"
 }] as any[];
 const howItWorksSteps = [{
   icon: Target,
   title: 'Choose Your Style',
   description: 'Pick from your collection or browse our overlay library for a new theme—themes range from vintage Topps to modern Panini to match your break’s vibe.',
-  mpid: "76cfa119-2001-49c1-a384-ac97edd73265"
+  mpid: "923d3922-bbc7-4a9e-8e2b-2a4e1fcd826e"
 }, {
   icon: Palette,
   title: 'One-Click Integration',
   description: 'Copy your unique overlay URL and paste it as a browser source into any streaming software for instant integration',
-  mpid: "427729a6-d49d-4d92-9ab7-e00b8cd399aa"
+  mpid: "b99c834a-7298-4008-8bf1-34783f4eaaf8"
 }, {
   icon: Copy,
   title: 'Go live with control',
   description: 'Just enter a buyer’s name into the break editor—your spot counter and team list update instantly and automatically',
-  mpid: "f75a6228-7e80-4e96-ba24-40acbb5abb2b"
+  mpid: "18d88df2-393e-4922-bbb3-e708a3a9b337"
 }] as any[];
 const stats = [{
   number: '19.8%',
   label: 'Higher Viewer Engagement',
   sublabel: '',
-  mpid: "4d67499d-fd82-4910-8ea4-7cc399493d75"
+  mpid: "913199b7-bb14-49cd-b39d-c956458d21d6"
 }, {
   number: '3.2x',
   label: 'Higher Conversion Rates',
   sublabel: '',
-  mpid: "ba236f28-6aaa-49fb-bc1e-4676a8456194"
+  mpid: "6a22b737-aff5-4301-80ea-d21957327141"
 }, {
   number: '47%',
   label: 'Fewer Technical Issues',
   sublabel: '',
-  mpid: "1d818745-895b-4b59-82c8-a00902dd5c69"
+  mpid: "5d476c0a-7d38-4e93-8f3f-a86b30b443b2"
 }] as any[];
 const communityCards = [{
   icon: Users,
@@ -124,43 +124,43 @@ const communityCards = [{
   subtitle: 'Connect with our community of creators',
   buttonText: 'Join Community',
   color: 'bg-indigo-600',
-  mpid: "5d79f756-bad8-4e5c-9fdb-5dfe7f1dcb65"
+  mpid: "58724b76-740b-4cf0-bf01-4ba0f1d59238"
 }, {
   icon: Youtube,
   title: 'Subscribe to our YT',
   subtitle: 'Stay updated with tutorials and tips',
   buttonText: 'Subscribe Now',
   color: 'bg-red-600',
-  mpid: "4abe47da-cd29-41e3-a0e5-88a9bdda0235"
+  mpid: "bee7990c-35f3-4c78-81f4-57d45dc6ef3a"
 }, {
   icon: Heart,
   title: 'Donate to uno',
   subtitle: 'Support our development and growth',
   buttonText: 'Support Us',
   color: 'bg-pink-600',
-  mpid: "1326b51b-314b-4c43-87bc-9f9c7f09895c"
+  mpid: "ae025f47-28ef-4217-a191-c5f718564a15"
 }] as any[];
 const navigationItems = [{
   label: 'Library',
-  mpid: "362b8a92-78ff-43c7-b673-a8ec9b692b1d"
+  mpid: "d526a402-cad5-46b8-b0bd-c8ee6f150649"
 }, {
   label: 'Tools',
-  mpid: "f6ca7d1a-37c2-40a3-b1ef-06b4adb6885d"
+  mpid: "88924698-edf1-4dd8-a8a4-7fca8293f3cb"
 }, {
   label: 'How It Works',
-  mpid: "b42b77d1-054d-4798-b4f7-b6e71d41e40e"
+  mpid: "8381b53a-b45e-4f02-9a22-c516fd9e0eed"
 }, {
   label: 'Demo',
-  mpid: "4871a631-2044-4333-8422-ab15dc5f2934"
+  mpid: "e4e9a5db-5e46-447c-a0a7-bb7531978784"
 }, {
   label: 'Live Breaks',
-  mpid: "47d00bdd-a747-4abb-b41b-450f88ead6b2"
+  mpid: "63185cea-fcd8-45c6-8ff4-b795a409df53"
 }, {
   label: 'Shop',
-  mpid: "f8ed0e24-1361-447d-a9e2-f2e710c75436"
+  mpid: "cba725cb-8184-4116-b914-b44947f87ab1"
 }, {
   label: 'About',
-  mpid: "f9a3f08e-d1d2-409f-b547-8d25a0460803"
+  mpid: "89c2162e-32e0-42fb-8fec-a0a5facb1b50"
 }] as any[];
 
 // @component: OverlaysUnoLandingPage
@@ -187,7 +187,7 @@ export const OverlaysUnoLandingPage = () => {
     preview: {
       label: 'Stream Deck Interface Preview'
     },
-    mpid: "64b52a62-e59d-4ed5-bc6a-74f724d1419b"
+    mpid: "1448ec7a-c095-4d0b-9965-b9b7a69cc587"
   }, {
     id: 'dot-2',
     title: 'Tools built for success',
@@ -195,7 +195,7 @@ export const OverlaysUnoLandingPage = () => {
     preview: {
       label: 'tools preview'
     },
-    mpid: "0c268a5c-85a5-463b-918b-9f600d5a05e2"
+    mpid: "49ab82f7-24b0-45a7-acbf-c6ed38e5efdb"
   }, {
     id: 'dot-3',
     title: 'Boost your views',
@@ -203,7 +203,7 @@ export const OverlaysUnoLandingPage = () => {
     preview: {
       label: 'boost views preview'
     },
-    mpid: "17713edf-2a4b-49bc-aa12-da63bb0513f0"
+    mpid: "f4d342c8-a6da-4a80-a297-a64113f62522"
   }] as const;
   const handleDotClick = (index: number) => {
     setActiveDot(index);
@@ -215,17 +215,17 @@ export const OverlaysUnoLandingPage = () => {
       id: 'form-window',
       label: 'Form Window',
       z: 1,
-      mpid: "d7a68447-6679-4fef-a6b2-4c9e79ca92ff"
+      mpid: "c298a7fd-168b-417b-9cdb-b6593f33f18d"
     }, {
       id: 'nfl-grid',
       label: 'NFL Grid',
       z: 2,
-      mpid: "7ccbe7b9-9a3b-4194-8682-16e38cc50c70"
+      mpid: "afbc4a6a-6357-4031-8760-9f42f5130567"
     }, {
       id: 'phone-preview',
       label: 'Phone Preview',
       z: 3,
-      mpid: "9d41d526-aca6-4fef-93d2-2fdcc1bb0e75"
+      mpid: "b5221cc7-bc53-4fad-9f92-610a110eec59"
     }] as any[];
     const [frontId, setFrontId] = React.useState<string>('phone-preview');
     const baseStyles = 'hero-button absolute will-change-transform rounded-2xl transition-[transform,filter,box-shadow] duration-[500ms] ease-in-out border border-white/10 bg-white/5 backdrop-blur-md';
@@ -250,9 +250,9 @@ export const OverlaysUnoLandingPage = () => {
         boxShadow: isFront ? '0 20px 60px rgba(255, 197, 67, 0.25)' : '0 14px 40px rgba(0,0,0,0.35)'
       } as React.CSSProperties;
     }
-    return <SortableContainer dndKitId="09911815-697a-4e65-992c-e4e1aab0d3ba" containerType="regular" prevTag="div" className="relative w-full h-full" data-magicpath-id="0" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+    return <SortableContainer dndKitId="f55fd421-23ed-47e6-9a5d-181ea7c63413" containerType="regular" prevTag="div" className="relative w-full h-full" data-magicpath-id="0" data-magicpath-path="OverlaysUnoLandingPage.tsx">
         {/* Back layer – Browser Button */}
-        <SortableContainer dndKitId="4a3b5997-bbba-4de0-8f2b-b54985d6af9e" containerType="regular" prevTag="button" type="button" aria-label="Open form window" onClick={() => setSelectedHero('form')} className={`${baseStyles} form-window`} style={{
+        <SortableContainer dndKitId="533b3aa0-0268-47e2-82ad-e0eefea77d04" containerType="regular" prevTag="button" type="button" aria-label="Open form window" onClick={() => setSelectedHero('form')} className={`${baseStyles} form-window`} style={{
         zIndex: zFor('form-window'),
         width: '85%',
         height: '74%',
@@ -261,8 +261,8 @@ export const OverlaysUnoLandingPage = () => {
         transform: 'translate(0%, 6%) scale(0.98)',
         transformStyle: 'preserve-3d'
       }} data-magicpath-id="1" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="8b948b56-f55d-44d8-a044-3039d08557ab" containerType="regular" prevTag="div" className="w-full h-full rounded-2xl bg-slate-900/80 border border-white/10 overflow-hidden" data-magicpath-id="2" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="bee2b5a5-0c99-4a20-b9db-f18f775a3099" containerType="regular" prevTag="div" className="flex items-center gap-2 px-4 py-2 border-b border-white/10" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="76fc1109-55b6-4a08-86fc-57d7017fb7ec" containerType="regular" prevTag="div" className="w-full h-full rounded-2xl bg-slate-900/80 border border-white/10 overflow-hidden" data-magicpath-id="2" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="1fb8e45a-6464-4365-96f6-9a46b38fa0d1" containerType="regular" prevTag="div" className="flex items-center gap-2 px-4 py-2 border-b border-white/10" data-magicpath-id="3" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full bg-red-500" data-magicpath-id="4" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
               <span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full bg-yellow-400" data-magicpath-id="5" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
               <span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full bg-green-500" data-magicpath-id="6" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
@@ -275,7 +275,7 @@ export const OverlaysUnoLandingPage = () => {
         </SortableContainer>
 
         {/* Middle layer – Grid Button */}
-        <SortableContainer dndKitId="b414cbd6-0145-4b5a-9fb2-b3b18cf04314" containerType="regular" prevTag="button" type="button" aria-label="Open NFL grid" onClick={() => setSelectedHero('nfl')} className={`${baseStyles} nfl-grid`} style={{
+        <SortableContainer dndKitId="ebfcfef1-e3d9-45d9-9b0c-037b1b9cd476" containerType="regular" prevTag="button" type="button" aria-label="Open NFL grid" onClick={() => setSelectedHero('nfl')} className={`${baseStyles} nfl-grid`} style={{
         zIndex: zFor('nfl-grid'),
         width: '92%',
         height: '58%',
@@ -288,7 +288,7 @@ export const OverlaysUnoLandingPage = () => {
         </SortableContainer>
 
         {/* Front layer – Phone Button */}
-        <SortableContainer dndKitId="af63dedd-25fa-48bf-9c3b-961cc43b44d5" containerType="regular" prevTag="button" type="button" aria-label="Open phone preview" onClick={() => setSelectedHero('phone')} className={`${baseStyles} phone-preview`} style={{
+        <SortableContainer dndKitId="6376c0de-ab65-4cd9-b725-ac0b819d9346" containerType="regular" prevTag="button" type="button" aria-label="Open phone preview" onClick={() => setSelectedHero('phone')} className={`${baseStyles} phone-preview`} style={{
         zIndex: zFor('phone-preview'),
         left: '3%',
         top: '17%',
@@ -297,7 +297,7 @@ export const OverlaysUnoLandingPage = () => {
         width: '36%',
         height: '72%'
       }} data-magicpath-id="11" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="fa3d1bfe-07ab-48b9-8ac2-a65ae84b3b1a" containerType="regular" prevTag="div" className="relative w-full h-full rounded-[14px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]" data-magicpath-id="12" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="14d75201-bea9-44af-98d4-c04d0d7bc64d" containerType="regular" prevTag="div" className="relative w-full h-full rounded-[14px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]" data-magicpath-id="12" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {/* iPhone top dynamic island / notch */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-full bg-black/90 border border-white/10" aria-hidden="true" data-magicpath-id="13" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             {/* side buttons (decorative) */}
@@ -318,13 +318,13 @@ export const OverlaysUnoLandingPage = () => {
   };
 
   // @return
-  return <SortableContainer dndKitId="401bceb1-75c8-4c48-a91e-64f5ad3e6883" containerType="regular" prevTag="div" className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 text-white font-sans" data-magicpath-id="19" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+  return <SortableContainer dndKitId="c16d4720-2667-4684-b291-6adf8ee7bab7" containerType="regular" prevTag="div" className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 text-white font-sans" data-magicpath-id="19" data-magicpath-path="OverlaysUnoLandingPage.tsx">
       {/* Header */}
-      <SortableContainer dndKitId="902957b7-40f6-4488-89e3-27590ccca39b" containerType="regular" prevTag="header" className="bg-slate-900/80 backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between" data-magicpath-id="20" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="e2f631e3-31a3-4a71-aa0a-95b54c24dbe7" containerType="regular" prevTag="div" className="w-full max-w-screen-xl mx-auto px-4 py-4" data-magicpath-id="21" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="8d8fea98-41d0-48c8-9313-edc3b0460a33" containerType="regular" prevTag="div" className="flex flex-col md:flex-row items-center justify-between w-full" data-magicpath-id="22" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+      <SortableContainer dndKitId="ad06e903-ba33-4d52-9dc3-ba69fb489a43" containerType="regular" prevTag="header" className="bg-slate-900/80 backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between" data-magicpath-id="20" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="77c9f8be-11be-4744-8a9a-76f152a5654d" containerType="regular" prevTag="div" className="w-full max-w-screen-xl mx-auto px-4 py-4" data-magicpath-id="21" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="131c5f94-b629-4027-a5d9-a89c746bdb5c" containerType="regular" prevTag="div" className="flex flex-col md:flex-row items-center justify-between w-full" data-magicpath-id="22" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {/* Logo */}
-            <SortableContainer dndKitId="9790e9d2-1323-4004-973e-341797419cfc" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="23" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="50aa622a-ba7a-405b-bcc2-f9f4271951d7" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="23" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span className="text-orange-500" style={{
               display: "none"
             }} data-magicpath-id="24" data-magicpath-path="OverlaysUnoLandingPage.tsx">overlays.</span>
@@ -334,7 +334,7 @@ export const OverlaysUnoLandingPage = () => {
             </SortableContainer>
             
             {/* Navigation */}
-            <SortableContainer dndKitId="20b6c739-853b-4b06-a0ed-74f7d0956d8c" containerType="collection" prevTag="nav" className="hidden md:flex items-center space-x-8 -ml-8 lg:-ml-64" data-magicpath-id="26" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="b2a45607-4d64-410f-a429-81bcc8e88822" containerType="collection" prevTag="nav" className="hidden md:flex items-center space-x-8 -ml-8 lg:-ml-64" data-magicpath-id="26" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               {navigationItems.map(nav => <a key={nav.label} href="#" className="text-gray-300 hover:text-[#FFC543] transition-colors text-sm font-medium tracking-wide relative" data-magicpath-uuid={(nav as any)["mpid"] ?? "unsafe"} data-magicpath-id="27" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <span style={{
                 fontSize: "16px"
@@ -351,14 +351,14 @@ export const OverlaysUnoLandingPage = () => {
             </SortableContainer>
 
             {/* Auth & Discord */}
-            <SortableContainer dndKitId="2c11a09b-20c9-4df8-9ba9-e64440d179ac" containerType="regular" prevTag="div" className="flex items-center space-x-3" data-magicpath-id="30" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="b2479572-c9c4-4382-ae67-f84dcd67bd2b" containerType="regular" prevTag="button" className="px-4 py-2 text-white border border-white rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900" data-magicpath-id="31" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="ae2498f0-652c-4c9a-b48a-bc20410c1d2a" containerType="regular" prevTag="div" className="flex items-center space-x-3" data-magicpath-id="30" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="920d8bda-6a1a-4fd5-90e0-ede2e1292884" containerType="regular" prevTag="button" className="px-4 py-2 text-white border border-white rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900" data-magicpath-id="31" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="32" data-magicpath-path="OverlaysUnoLandingPage.tsx">Sign up</span>
               </SortableContainer>
-              <SortableContainer dndKitId="036830d5-545e-425b-acc4-036cbdb69488" containerType="regular" prevTag="button" className="px-4 py-2 text-white border border-white rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900" data-magicpath-id="33" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="e13607a8-7714-4dbe-a91a-d1e2052d9192" containerType="regular" prevTag="button" className="px-4 py-2 text-white border border-white rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900" data-magicpath-id="33" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="34" data-magicpath-path="OverlaysUnoLandingPage.tsx">Login</span>
               </SortableContainer>
-              <SortableContainer dndKitId="e97a73e5-9f0b-4044-a118-aa0f4d0fc796" containerType="regular" prevTag="button" className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2" data-magicpath-id="35" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="c26ab1cc-60d4-4698-ac7e-e20fc36246f0" containerType="regular" prevTag="button" className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2" data-magicpath-id="35" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <Users className="w-4 h-4" style={{
                 display: "none"
               }} data-magicpath-id="36" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
@@ -372,10 +372,10 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Hero Section */}
-      <SortableContainer dndKitId="07a18c89-b8ce-47ab-a225-5ecbad650085" containerType="regular" prevTag="section" className="px-6 py-14" data-magicpath-id="38" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="89ca9d31-c2bb-43e6-9db8-259c9a8d83d2" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="39" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="d69a0bf1-34d4-41e1-857f-78dcf256ff07" containerType="regular" prevTag="div" className="grid lg:grid-cols-2 gap-16 items-center" data-magicpath-id="40" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="24cb76ed-74f3-4734-bac5-fc6842d0f2f6" containerType="regular" prevTag="motion.div" initial={{
+      <SortableContainer dndKitId="2ed7aa18-b44c-4b2a-ac15-bc1689c73163" containerType="regular" prevTag="section" className="px-6 py-14" data-magicpath-id="38" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="6b8af361-2413-487c-94b4-d8cb9eedc014" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="39" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="8b17f3bc-1942-485a-970d-34f96bd0d3d8" containerType="regular" prevTag="div" className="grid lg:grid-cols-2 gap-16 items-center" data-magicpath-id="40" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="90015bf9-27bf-4891-b8fe-0ed56c87d71c" containerType="regular" prevTag="motion.div" initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -396,7 +396,7 @@ export const OverlaysUnoLandingPage = () => {
               {selectedHero && <p className="text-xl text-gray-300 leading-relaxed max-w-lg transition-opacity duration-300" data-magicpath-id="45" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <span data-magicpath-id="46" data-magicpath-path="OverlaysUnoLandingPage.tsx">{selectedHero === 'form' ? 'Break smarter with integrated tools—every feature tuned for creators to streamline and succeed.' : selectedHero === 'nfl' ? 'Inspired by the hobby’s most iconic card designs — from Panini, Topps, and more — reimagined for streaming.' : 'Stream with BreakDance overlays and get instant promotion to collectors in our Live Breaks directory.'}</span>
                 </p>}
-              <SortableContainer dndKitId="30873a5f-f0e6-49fd-a951-7f7f979e381d" containerType="regular" prevTag="motion.button" className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-10 py-4 rounded-full font-bold text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg" whileHover={{
+              <SortableContainer dndKitId="ed1230ec-7b1a-4491-9698-69de7818b6bc" containerType="regular" prevTag="motion.button" className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-10 py-4 rounded-full font-bold text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg" whileHover={{
               scale: 1.05
             }} whileTap={{
               scale: 0.95
@@ -405,7 +405,7 @@ export const OverlaysUnoLandingPage = () => {
               </SortableContainer>
             </SortableContainer>
             
-            <SortableContainer dndKitId="00ecc779-ac53-4b63-aeda-25224037a94a" containerType="regular" prevTag="motion.div" className="relative" initial={{
+            <SortableContainer dndKitId="a2ac628f-1d3d-4df0-959c-50e5546813f3" containerType="regular" prevTag="motion.div" className="relative" initial={{
             opacity: 0,
             x: 30
           }} animate={{
@@ -415,11 +415,11 @@ export const OverlaysUnoLandingPage = () => {
             duration: 0.8,
             delay: 0.2
           }} data-magicpath-id="49" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="9940de4b-868c-4818-bbdd-8a4812700dbd" containerType="regular" prevTag="div" className="relative w-full h-full" data-magicpath-id="50" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <SortableContainer dndKitId="b61c985a-b055-4b46-a502-c1f411b41c5d" containerType="regular" prevTag="div" className="relative w-full h-[420px] sm:h-[460px] md:h-[500px] lg:h-[520px] xl:h-[560px] rounded-3xl bg-gradient-to-br from-white/5 to-white/0 border border-white/10 p-6 sm:p-8" style={{
+              <SortableContainer dndKitId="57ad5348-7d59-4b57-b396-acfe45d38f7f" containerType="regular" prevTag="div" className="relative w-full h-full" data-magicpath-id="50" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="957021d8-7b10-4e45-b714-95eb7496def6" containerType="regular" prevTag="div" className="relative w-full h-[420px] sm:h-[460px] md:h-[500px] lg:h-[520px] xl:h-[560px] rounded-3xl bg-gradient-to-br from-white/5 to-white/0 border border-white/10 p-6 sm:p-8" style={{
                 perspective: 1200
               }} data-magicpath-id="51" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                  <SortableContainer dndKitId="d8cfefd9-9e87-4e4b-9ee1-4386295c9daa" containerType="regular" prevTag="div" className="relative w-full h-full" data-magicpath-id="52" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                  <SortableContainer dndKitId="b4814d66-6da0-4405-9fbd-53080dc91d7c" containerType="regular" prevTag="div" className="relative w-full h-full" data-magicpath-id="52" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                     {/* Layered feature buttons container */}
                     <LayeredHeroButtons data-magicpath-id="53" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                   </SortableContainer>
@@ -428,8 +428,8 @@ export const OverlaysUnoLandingPage = () => {
             </SortableContainer>
           </SortableContainer>
 
-          <SortableContainer dndKitId="1fdb9ae1-c4e1-4a4e-af8a-5d095edd3f14" containerType="regular" prevTag="nav" aria-label="Hero pagination" className="mt-14 translate-y-5 flex items-center justify-center" data-magicpath-id="54" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="3fd9a0ac-299b-429b-9d97-8849a68b785c" containerType="collection" prevTag="ul" className="flex items-center gap-x-4" style={{
+          <SortableContainer dndKitId="d7d4ded7-4935-48e9-bf54-6bffa3e646d0" containerType="regular" prevTag="nav" aria-label="Hero pagination" className="mt-14 translate-y-5 flex items-center justify-center" data-magicpath-id="54" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="e42789c9-d607-49bf-9708-bb7535e9ee3d" containerType="collection" prevTag="ul" className="flex items-center gap-x-4" style={{
             display: "none"
           }} data-magicpath-id="55" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               {dotContent.map((d, idx) => {
@@ -447,9 +447,9 @@ export const OverlaysUnoLandingPage = () => {
       <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" data-magicpath-id="58" data-magicpath-path="OverlaysUnoLandingPage.tsx"></div>
 
       {/* Overlay Categories Navigation */}
-      <SortableContainer dndKitId="654425ef-8e36-4839-bc80-7b25772d9596" containerType="regular" prevTag="section" className="px-6 pt-12 pb-0 bg-black/20" data-magicpath-id="59" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="63800bb6-f1b0-48af-9212-9941fcc6d3b6" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="60" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="f2c21943-106e-4656-9334-1a18c1beaabe" containerType="collection" prevTag="div" className="flex space-x-4 overflow-x-auto scrollbar-hide justify-center no-scrollbar snap-x snap-mandatory" data-magicpath-id="61" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+      <SortableContainer dndKitId="8c8f254e-0291-4315-b0d1-5cdd3bdfbe10" containerType="regular" prevTag="section" className="px-6 pt-12 pb-0 bg-black/20" data-magicpath-id="59" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="fad46968-a83f-4eec-9619-779fa74acfdf" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="60" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="62479a55-f164-433b-a87b-1892a66559c8" containerType="collection" prevTag="div" className="flex space-x-4 overflow-x-auto scrollbar-hide justify-center no-scrollbar snap-x snap-mandatory" data-magicpath-id="61" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {overlayCategories.map(category => <motion.button data-magicpath-motion-tag="motion.button" key={category.name} onClick={() => setActiveCategory(category.name)} className={`relative whitespace-nowrap px-8 py-4 rounded-xl font-medium transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/10 ${activeCategory === category.name ? '!bg-white/20 !text-white shadow-lg border border-white/20' : ''}`} whileHover={{
             scale: 1.02
           }} whileTap={{
@@ -471,36 +471,36 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Sports Overlays Carousel */}
-      <SortableContainer dndKitId="f3b3ca75-0a76-4b12-b228-37fac125e66a" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`} data-magicpath-id="65" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="e3b66559-7a01-4bcc-8c62-1a18baa63e8e" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="66" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="5e68119a-9557-44bc-8c15-102a5df236c5" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="67" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+      <SortableContainer dndKitId="57681ec1-a634-47b5-b763-a4f84a17acf8" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`} data-magicpath-id="65" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="af57522d-4a74-4d0f-886a-dd7156d79d99" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="66" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="b34b917d-6154-4428-85ef-98a1aca187bc" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="67" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <h2 className="text-4xl font-bold" data-magicpath-id="68" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="69" data-magicpath-path="OverlaysUnoLandingPage.tsx">Team Boards</span>
             </h2>
-            <SortableContainer dndKitId="2937cac6-c460-4a81-9f13-15ea09153b82" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="70" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="94a7a683-857f-4c11-9580-ff2bfd960c62" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="71" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <SortableContainer dndKitId="d9266cb2-d384-4c8a-94bc-b90516c2fbd7" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="72" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="426560b2-d28e-4e45-95bf-9ac36936c587" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="70" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="cf00a4e1-9cc7-4de7-9817-0d8f7660adc9" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="71" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="9c5131f8-271d-486f-900b-7b174135b20c" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="72" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronLeft className="w-5 h-5" data-magicpath-id="73" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
-                <SortableContainer dndKitId="5b03f90e-2b02-474a-9a3b-927bc9768643" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="74" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="4aa43fdb-49d1-48df-871a-c56be04d8b08" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="74" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronRight className="w-5 h-5" data-magicpath-id="75" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
               </SortableContainer>
-              <SortableContainer dndKitId="cd0c260e-b70c-4166-9f06-401a2cd52b16" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5" data-magicpath-id="76" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="b03a6f29-db4d-4466-9dac-a83d1e1d1504" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5" data-magicpath-id="76" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="77" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
                 <ArrowRight className="w-4 h-4" data-magicpath-id="78" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
 
-          <SortableContainer dndKitId="22122443-f442-40c1-91d0-fe3e34b856dc" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="79" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="2bff0b41-34fa-4247-8729-934cec885f9d" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="80" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="3bed0a5e-01a3-46cd-af3b-816659d75113" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="79" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="05d820cc-ae3f-4a9f-9962-007c54a6cc8e" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="80" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="81" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
               <ArrowRight className="w-4 h-4" data-magicpath-id="82" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             </SortableContainer>
           </SortableContainer>
           
-          <SortableContainer dndKitId="24a80c5a-67f3-46f4-8624-05a5aae42c6b" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="83" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="74358be5-e79a-45da-bdd6-7a6c3a41c204" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="83" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {sportsOverlays.slice(0, 4).map(overlay => <motion.div data-magicpath-motion-tag="motion.div" key={overlay.name} className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10" whileHover={{
             scale: 1.02,
             y: -8
@@ -529,38 +529,38 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Gaming Overlays Carousel */}
-      <SortableContainer dndKitId="764bdadd-2979-4f5c-bb40-a44be9b640a4" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`} style={{
+      <SortableContainer dndKitId="c6fedddc-9f66-4404-ac4a-c7258740f4b9" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`} style={{
       paddingTop: 'calc(var(--spacing)*0)'
     }} data-magicpath-id="95" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="c5a29a30-17e9-44d1-952c-7c36eeeab824" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="96" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="d945663e-f543-4519-8ad3-15e613be63a0" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="97" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="b4a23cd1-e3fd-4a0b-96c0-212bcfd713a6" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="96" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="5242a2ad-5d97-4f4a-98d5-00432c6ad448" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="97" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <h2 className="text-4xl font-bold" data-magicpath-id="98" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="99" data-magicpath-path="OverlaysUnoLandingPage.tsx">Themes</span>
             </h2>
-            <SortableContainer dndKitId="f86b41e0-0191-4750-adc1-7df123b3e9a1" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="100" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="ac150f9e-f09f-4e84-a7cc-3d2f41037c2c" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="101" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <SortableContainer dndKitId="cc3826bc-3652-4888-8df2-3073e51180c4" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="102" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="d438be61-a2aa-4eb8-b5fd-09bb658d8dc9" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="100" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="3aac1afc-0b9d-4eb4-abb1-550136a6c703" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="101" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="7fc72689-af76-431d-a390-22844eca47ac" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="102" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronLeft className="w-5 h-5" data-magicpath-id="103" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
-                <SortableContainer dndKitId="5af442d2-2cdb-41ab-aa37-c38805bc3ada" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="104" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="847dc1d8-f32b-426b-8aea-417b8ac56608" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="104" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronRight className="w-5 h-5" data-magicpath-id="105" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
               </SortableContainer>
-              <SortableContainer dndKitId="2012259e-a142-453f-a3bc-4a909ffacef8" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5" data-magicpath-id="106" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="ce72450a-15cd-4cb5-88d7-fd45e9412f64" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5" data-magicpath-id="106" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="107" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
                 <ArrowRight className="w-4 h-4" data-magicpath-id="108" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
 
-          <SortableContainer dndKitId="63ab8b07-8749-47c0-9e59-fd0b22b39f3b" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="109" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="eaf5f12e-ab71-421d-8555-12b9d4cfc6bf" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="110" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="60154621-46d9-45ce-a872-730942223e16" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="109" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="302349ed-4161-45bb-9b17-c0c4ec184b9d" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="110" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="111" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
               <ArrowRight className="w-4 h-4" data-magicpath-id="112" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             </SortableContainer>
           </SortableContainer>
           
-          <SortableContainer dndKitId="49cd9592-6916-4b7a-93fc-3fcdb75d5375" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="113" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="5f12c50a-d322-4408-aa45-52f35f3e964f" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="113" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {gamingOverlays.slice(0, 4).map(overlay => <motion.div data-magicpath-motion-tag="motion.div" key={overlay.name} className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10" whileHover={{
             scale: 1.02,
             y: -8
@@ -589,39 +589,39 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Podcasts Overlays Carousel */}
-      <SortableContainer dndKitId="d08c65ad-cedd-4295-af59-98b23a66fcae" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`} style={{
+      <SortableContainer dndKitId="ff060121-7ef2-4d4f-94e7-a79d4ca47060" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`} style={{
       paddingBottom: 'calc(var(--spacing)*14)',
       paddingTop: 'calc(var(--spacing)*0)'
     }} data-magicpath-id="125" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="bccd2b7f-255e-4909-bca5-03d6870e3437" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="126" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="d6b29424-9ca6-44bd-8d9f-3bff44dab202" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="127" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="9cdd55cc-a16a-4945-beba-3ecb14bdccd6" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="126" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="505723ec-76d6-4c7b-9066-423df1f03b46" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="127" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <h2 className="text-4xl font-bold" data-magicpath-id="128" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="129" data-magicpath-path="OverlaysUnoLandingPage.tsx">Extras</span>
             </h2>
-            <SortableContainer dndKitId="e9ba76ab-a34a-4acb-a385-dbbccd79cfb9" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="130" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="8888c054-9654-4b5b-97aa-be05ed9d7fac" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="131" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <SortableContainer dndKitId="786290da-b686-4c39-a9d5-0fcb06872ecd" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="132" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="cfd94002-4e67-44f6-9fa5-ce82bb4fabd0" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="130" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="6704b94d-7541-4156-94b8-3c6337443925" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="131" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="54346a24-caf6-4e64-8fa1-492280081ca6" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="132" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronLeft className="w-5 h-5" data-magicpath-id="133" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
-                <SortableContainer dndKitId="e85f1fec-0566-472b-b0b4-b75f23038a83" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="134" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="e5a44694-6a6e-4bce-ac01-18de31393cb8" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="134" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronRight className="w-5 h-5" data-magicpath-id="135" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
               </SortableContainer>
-              <SortableContainer dndKitId="b816142f-314b-456b-aaac-523f6354a881" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5" data-magicpath-id="136" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="d5a602d2-a857-4be4-8b55-edb6e1b0b93a" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5" data-magicpath-id="136" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="137" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
                 <ArrowRight className="w-4 h-4" data-magicpath-id="138" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
 
-          <SortableContainer dndKitId="6e92d3c8-f785-47b7-9b81-8f86b9180b84" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="139" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="f697b81b-1676-4e3f-8650-75ebff4c21fe" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="140" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="eab874ad-8acc-429a-8f93-11a0dd17cfcd" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="139" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="0eba7dd2-604a-47e3-8d1a-27dcca8d90f8" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="140" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="141" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
               <ArrowRight className="w-4 h-4" data-magicpath-id="142" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             </SortableContainer>
           </SortableContainer>
           
-          <SortableContainer dndKitId="05fcc9ce-709f-48f6-b1de-08f6145410fd" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="143" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="8ba45c19-324d-43f5-9072-d0818d38b12a" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="143" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {podcastOverlays.slice(0, 4).map(overlay => <motion.div data-magicpath-motion-tag="motion.div" key={overlay.name} className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10" whileHover={{
             scale: 1.02,
             y: -8
@@ -650,34 +650,34 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Tools (Duplicate of Sports) displayed when Browse Tools is active */}
-      <SortableContainer dndKitId="303b457d-4784-42c7-aeb4-4f89a6957fb2" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? '' : 'hidden'}`} style={{
+      <SortableContainer dndKitId="18cae2c5-6344-42b5-97c7-c6ce91762441" containerType="regular" prevTag="section" className={`px-6 py-5 bg-black/20 ${activeCategory === 'Browse Tools' ? '' : 'hidden'}`} style={{
       paddingBottom: 'calc(var(--spacing)*14)'
     }} data-magicpath-id="155" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="07578945-568b-4982-bf21-d77b2355e7d0" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="156" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="0c58e375-0415-45e5-8461-bdc31930c6d8" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="157" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="bb739b1e-8ead-4dc9-b233-0b28895951c1" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="156" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="1c3f1120-4383-4c9b-bdc4-7c2c7af4283e" containerType="regular" prevTag="div" className="flex items-center justify-between mb-0" data-magicpath-id="157" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <h2 className="text-4xl font-bold" data-magicpath-id="158" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="159" data-magicpath-path="OverlaysUnoLandingPage.tsx">Tools</span>
             </h2>
-            <SortableContainer dndKitId="35f1e641-4f28-4831-b9f2-3408f5a9f16b" containerType="regular" prevTag="div" className="flex items-center" data-magicpath-id="160" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="3168d57b-3b84-45e1-acc3-62d9a78d0c80" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="161" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <SortableContainer dndKitId="455735f0-f4c8-4a91-ac8c-ce03ab6aa537" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="162" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="34784aa5-a4de-48f3-8853-c6e7138dba8b" containerType="regular" prevTag="div" className="flex items-center" data-magicpath-id="160" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="ae3f3d92-e521-4df0-9997-b94966797c0b" containerType="regular" prevTag="div" className="hidden" data-magicpath-id="161" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="a9c8052b-f2f4-4d1f-a84a-331d2e4d9101" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10" data-magicpath-id="162" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronLeft className="w-5 h-5" data-magicpath-id="163" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
-                <SortableContainer dndKitId="00562a34-57f0-4342-b2e7-427e31fa626d" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10 ml-3" data-magicpath-id="164" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="74f0b26c-eda0-4bd5-a30a-5f14e36bb930" containerType="regular" prevTag="button" className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10 ml-3" data-magicpath-id="164" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <ChevronRight className="w-5 h-5" data-magicpath-id="165" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
           
-          <SortableContainer dndKitId="47a93811-dfdd-4d6d-ae24-fadf7d2f3f4f" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="166" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="4324d2cf-d77c-4324-aa7e-0df769934285" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="167" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="37b90101-c88b-40e0-bb3a-f386681d6c18" containerType="regular" prevTag="div" className="flex justify-end" data-magicpath-id="166" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="47317d0c-0ad8-4861-ab1d-e1a000894443" containerType="regular" prevTag="button" className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2" data-magicpath-id="167" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <span data-magicpath-id="168" data-magicpath-path="OverlaysUnoLandingPage.tsx">See More</span>
               <ArrowRight className="w-4 h-4" data-magicpath-id="169" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
             </SortableContainer>
           </SortableContainer>
           
-          <SortableContainer dndKitId="49d70544-d029-4ead-b128-493a706edcd1" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="170" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="b919292d-e9f2-4b08-a2ef-acdae5438a17" containerType="collection" prevTag="div" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-magicpath-id="170" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {sportsOverlays.slice(0, 4).map(overlay => <motion.div data-magicpath-motion-tag="motion.div" key={`tools-${overlay.name}`} className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10" whileHover={{
             scale: 1.02,
             y: -8
@@ -709,12 +709,12 @@ export const OverlaysUnoLandingPage = () => {
       <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" data-magicpath-id="182" data-magicpath-path="OverlaysUnoLandingPage.tsx"></div>
 
       {/* Feature Panel */}
-      <SortableContainer dndKitId="5fd8700c-3a3f-4adb-a7b6-739061be95a7" containerType="regular" prevTag="section" className="px-6 py-24" style={{
+      <SortableContainer dndKitId="ab9b2932-f14a-427b-8cae-b5e92d2eeb0c" containerType="regular" prevTag="section" className="px-6 py-24" style={{
       paddingBlock: 'calc(var(--spacing)*14)'
     }} data-magicpath-id="183" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="93884e61-41a8-4f39-aa5e-20defc5f3194" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="184" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="7b52be1c-364e-43f0-a772-0c3e651a5038" containerType="regular" prevTag="div" className="grid lg:grid-cols-2 gap-16 items-center" data-magicpath-id="185" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="1e3d487b-fa44-4916-9c02-655c67097203" containerType="regular" prevTag="div" className="space-y-8" data-magicpath-id="186" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="068e26de-1eca-432d-9c11-acee718c15ad" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="184" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="0fef2e09-21e8-45f8-ac3c-b81933bb5ef5" containerType="regular" prevTag="div" className="grid lg:grid-cols-2 gap-16 items-center" data-magicpath-id="185" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="d246f11e-47d9-48a5-9b3d-2652f5b611df" containerType="regular" prevTag="div" className="space-y-8" data-magicpath-id="186" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <h2 className="text-5xl font-bold leading-tight" data-magicpath-id="187" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="188" data-magicpath-path="OverlaysUnoLandingPage.tsx">Go live. Get featured. Stand out.</span>
               </h2>
@@ -722,13 +722,13 @@ export const OverlaysUnoLandingPage = () => {
                 <span data-magicpath-id="190" data-magicpath-path="OverlaysUnoLandingPage.tsx">Every BreakDance overlay automatically features your stream in our Live Breaks directory, driving qualified traffic to your channel</span>
               </p>
               <div className="w-16 h-1 bg-orange-500 rounded-full" data-magicpath-id="191" data-magicpath-path="OverlaysUnoLandingPage.tsx"></div>
-              <SortableContainer dndKitId="646f0f42-27b9-4df8-a1c0-69bc64c2909a" containerType="regular" prevTag="button" className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none" data-magicpath-id="192" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="f6d1c881-337f-404a-bd78-ddae505ead0e" containerType="regular" prevTag="button" className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none" data-magicpath-id="192" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="193" data-magicpath-path="OverlaysUnoLandingPage.tsx">Learn More</span>
               </SortableContainer>
             </SortableContainer>
-            <SortableContainer dndKitId="e097836e-1fb9-4d85-ac20-5560448b6097" containerType="regular" prevTag="div" className="bg-gradient-to-br from-purple-800/20 to-blue-800/20 rounded-3xl p-12 flex items-center justify-center border border-white/10" data-magicpath-id="194" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="a26ef7e7-ad6a-4c25-bc89-e1012d06af9d" containerType="regular" prevTag="div" className="text-center space-y-6" data-magicpath-id="195" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <SortableContainer dndKitId="bec2758a-8a2c-459b-bba0-44b932110252" containerType="regular" prevTag="div" className="w-24 h-24 bg-orange-500/20 rounded-2xl mx-auto flex items-center justify-center" data-magicpath-id="196" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="2c291cc2-17de-4bfa-a7d2-0b39ad08b9e5" containerType="regular" prevTag="div" className="bg-gradient-to-br from-purple-800/20 to-blue-800/20 rounded-3xl p-12 flex items-center justify-center border border-white/10" data-magicpath-id="194" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="f5316b52-a52f-4e42-8685-077391f5bded" containerType="regular" prevTag="div" className="text-center space-y-6" data-magicpath-id="195" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <SortableContainer dndKitId="abc8ea7f-7a2a-4715-af64-ae4c7c623a43" containerType="regular" prevTag="div" className="w-24 h-24 bg-orange-500/20 rounded-2xl mx-auto flex items-center justify-center" data-magicpath-id="196" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <Play className="w-12 h-12 text-orange-400" data-magicpath-id="197" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                 </SortableContainer>
                 <p className="text-gray-300 text-lg font-medium" data-magicpath-id="198" data-magicpath-path="OverlaysUnoLandingPage.tsx">
@@ -741,8 +741,8 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* How It Works */}
-      <SortableContainer dndKitId="2a3ae7b9-cf21-41ec-9356-221d67000b09" containerType="regular" prevTag="section" className="px-6 py-24 bg-black/20" data-magicpath-id="200" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="4ab63f06-cc96-4cdb-ade2-c8857f69b4ec" containerType="regular" prevTag="div" className="max-w-7xl mx-auto text-center" data-magicpath-id="201" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+      <SortableContainer dndKitId="357b7655-7afb-4207-ab75-d67ee5f657ff" containerType="regular" prevTag="section" className="px-6 py-24 bg-black/20" data-magicpath-id="200" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="68401701-852f-4af6-b79e-d2416a9b4ba7" containerType="regular" prevTag="div" className="max-w-7xl mx-auto text-center" data-magicpath-id="201" data-magicpath-path="OverlaysUnoLandingPage.tsx">
           <h2 className="text-5xl font-bold mb-6" data-magicpath-id="202" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <span data-magicpath-id="203" data-magicpath-path="OverlaysUnoLandingPage.tsx">From Purchase to Live in Minutes</span>
           </h2>
@@ -750,7 +750,7 @@ export const OverlaysUnoLandingPage = () => {
             <span data-magicpath-id="205" data-magicpath-path="OverlaysUnoLandingPage.tsx">Get streaming like a pro in under 5 minutes with our streamlined process - for breakers at every level</span>
           </p>
           
-          <SortableContainer dndKitId="6e8acc1a-f8ea-4018-a76e-04f860c97965" containerType="collection" prevTag="div" className="grid md:grid-cols-3 gap-12" data-magicpath-id="206" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="c1250fa2-a2d6-475b-88f3-2516f9c0f1b8" containerType="collection" prevTag="div" className="grid md:grid-cols-3 gap-12" data-magicpath-id="206" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {howItWorksSteps.map((step, index) => <motion.div data-magicpath-motion-tag="motion.div" key={step.title} className="text-center space-y-6" initial={{
             opacity: 0,
             y: 20
@@ -773,15 +773,15 @@ export const OverlaysUnoLandingPage = () => {
               </motion.div>)}
           </SortableContainer>
           
-          <SortableContainer dndKitId="45a2d2f5-35c3-4a3e-8aeb-875a91bea228" containerType="regular" prevTag="button" className="mt-16 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none" data-magicpath-id="214" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="f22330a6-b9d3-4606-b9de-50be858d6200" containerType="regular" prevTag="button" className="mt-16 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none" data-magicpath-id="214" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <span data-magicpath-id="215" data-magicpath-path="OverlaysUnoLandingPage.tsx">Get Started</span>
           </SortableContainer>
         </SortableContainer>
       </SortableContainer>
 
       {/* Pricing */}
-      <SortableContainer dndKitId="bba308c4-104a-47ff-ab91-ba2f45adec8b" containerType="regular" prevTag="section" className="px-6 py-24" data-magicpath-id="216" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="93bb5ca9-484b-45da-a411-7a832faf5067" containerType="regular" prevTag="div" className="max-w-5xl mx-auto text-center" data-magicpath-id="217" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+      <SortableContainer dndKitId="d8f4e048-4318-4d0a-8ae0-5e6d2ef6bacd" containerType="regular" prevTag="section" className="px-6 py-24" data-magicpath-id="216" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="884a0573-5231-44ff-9301-ce21cdc0bc18" containerType="regular" prevTag="div" className="max-w-5xl mx-auto text-center" data-magicpath-id="217" data-magicpath-path="OverlaysUnoLandingPage.tsx">
           <h2 className="text-5xl font-bold mb-6" data-magicpath-id="218" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <span data-magicpath-id="219" data-magicpath-path="OverlaysUnoLandingPage.tsx">Unlock Your Potential</span>
           </h2>
@@ -789,30 +789,30 @@ export const OverlaysUnoLandingPage = () => {
             <span data-magicpath-id="221" data-magicpath-path="OverlaysUnoLandingPage.tsx">Ready for a breakthrough? Upgrade to Pro for premium tools and bigger reach.</span>
           </p>
           
-          <SortableContainer dndKitId="0501d951-a6e9-475a-9cb9-6f6e4fa56bd4" containerType="regular" prevTag="div" className="flex items-center justify-center mb-16" data-magicpath-id="222" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="a11e52b5-1a6e-4159-8b8d-b8eebb2cdd8d" containerType="regular" prevTag="div" className="bg-slate-800/50 rounded-xl p-2 border border-slate-700/50" data-magicpath-id="223" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <SortableContainer dndKitId="a313b9ba-52b4-459a-9d9c-81880bc07748" containerType="regular" prevTag="button" onClick={() => setPricingToggle('monthly')} className={`px-8 py-3 rounded-lg transition-all font-medium ${pricingToggle === 'monthly' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-300 hover:text-white'}`} data-magicpath-id="224" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="bde58f07-1581-4436-8567-48cdbd960ee9" containerType="regular" prevTag="div" className="flex items-center justify-center mb-16" data-magicpath-id="222" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="cb6803f3-0eb3-4648-a7b1-93e7502404fb" containerType="regular" prevTag="div" className="bg-slate-800/50 rounded-xl p-2 border border-slate-700/50" data-magicpath-id="223" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="5061754e-810c-4a25-bd6d-0ba0e06e30ea" containerType="regular" prevTag="button" onClick={() => setPricingToggle('monthly')} className={`px-8 py-3 rounded-lg transition-all font-medium ${pricingToggle === 'monthly' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-300 hover:text-white'}`} data-magicpath-id="224" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="225" data-magicpath-path="OverlaysUnoLandingPage.tsx">Monthly</span>
               </SortableContainer>
-              <SortableContainer dndKitId="07daaf3f-e740-411b-8f26-17a6aa120b0f" containerType="regular" prevTag="button" onClick={() => setPricingToggle('yearly')} className={`px-8 py-3 rounded-lg transition-all font-medium ${pricingToggle === 'yearly' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-300 hover:text-white'}`} data-magicpath-id="226" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="18440aa8-ac7c-4352-89f6-f2f7e7ea39d9" containerType="regular" prevTag="button" onClick={() => setPricingToggle('yearly')} className={`px-8 py-3 rounded-lg transition-all font-medium ${pricingToggle === 'yearly' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-300 hover:text-white'}`} data-magicpath-id="226" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="227" data-magicpath-path="OverlaysUnoLandingPage.tsx">Yearly</span>
               </SortableContainer>
             </SortableContainer>
           </SortableContainer>
 
-          <SortableContainer dndKitId="efd77337-c154-4009-8fd6-bfda820195d3" containerType="regular" prevTag="div" className="grid md:grid-cols-2 gap-8" data-magicpath-id="228" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="c6d1be1c-14e8-4a5e-8c37-4fdf954f619e" containerType="regular" prevTag="div" className="grid md:grid-cols-2 gap-8" data-magicpath-id="228" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             {/* Free Plan */}
-            <SortableContainer dndKitId="fbe4310a-045e-420d-8819-f9af7b0860b9" containerType="regular" prevTag="div" className="bg-white/10 rounded-3xl p-10 border border-white/10" data-magicpath-id="229" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="7f20d49a-be6e-4147-be39-befe8ca67d9d" containerType="regular" prevTag="div" className="bg-white/10 rounded-3xl p-10 border border-white/10" data-magicpath-id="229" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <h3 className="text-3xl font-bold mb-2" data-magicpath-id="230" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="231" data-magicpath-path="OverlaysUnoLandingPage.tsx">BreakDance Starter</span>
               </h3>
               <p className="text-gray-300 mb-6 text-base" data-magicpath-id="232" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="233" data-magicpath-path="OverlaysUnoLandingPage.tsx">Get started and explore BreakDance with no cost or no commitment</span>
               </p>
-              <SortableContainer dndKitId="057d0f07-78ac-4210-bfd6-1954c02139a9" containerType="regular" prevTag="div" className="text-5xl font-bold mb-8" data-magicpath-id="234" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="cf8c2a13-513d-4d22-92ff-dcae9603e80b" containerType="regular" prevTag="div" className="text-5xl font-bold mb-8" data-magicpath-id="234" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="235" data-magicpath-path="OverlaysUnoLandingPage.tsx">$0.00</span>
               </SortableContainer>
-              <SortableContainer dndKitId="063893ad-f076-46c9-a81b-bdcba83807ff" containerType="regular" prevTag="ul" className="space-y-4 mb-10 text-left" data-magicpath-id="236" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="d12f587c-73df-479a-9458-560fa9c540ec" containerType="regular" prevTag="ul" className="space-y-4 mb-10 text-left" data-magicpath-id="236" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <li className="flex items-center" data-magicpath-id="237" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" data-magicpath-id="238" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                   <span className="text-lg" data-magicpath-id="239" data-magicpath-path="OverlaysUnoLandingPage.tsx">Full access to the overlay library</span>
@@ -830,14 +830,14 @@ export const OverlaysUnoLandingPage = () => {
                   <span className="text-lg" data-magicpath-id="248" data-magicpath-path="OverlaysUnoLandingPage.tsx">Limited access to  break tools dashboard</span>
                 </li>
               </SortableContainer>
-              <SortableContainer dndKitId="34055a44-ab37-4e97-951e-10a5e2ca61d3" containerType="regular" prevTag="button" className="w-full py-4 bg-slate-600 text-gray-300 rounded-xl font-semibold text-lg" data-magicpath-id="249" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="961f05d5-37df-488b-af1f-8fac3a9aa557" containerType="regular" prevTag="button" className="w-full py-4 bg-slate-600 text-gray-300 rounded-xl font-semibold text-lg" data-magicpath-id="249" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="250" data-magicpath-path="OverlaysUnoLandingPage.tsx">Current Plan</span>
               </SortableContainer>
             </SortableContainer>
 
             {/* Plus Plan */}
-            <SortableContainer dndKitId="7e3a4a67-ff7e-473d-acb8-000191fd1228" containerType="regular" prevTag="div" className="bg-white/10 rounded-3xl p-10 border border-orange-500/30 relative" data-magicpath-id="251" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              {pricingToggle === 'yearly' && <SortableContainer dndKitId="1a6bff8e-fae9-44e4-9981-f644ae8deded" containerType="regular" prevTag="div" className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold" data-magicpath-id="252" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="4d022d80-e579-4565-8bf5-5042d3d8be49" containerType="regular" prevTag="div" className="bg-white/10 rounded-3xl p-10 border border-orange-500/30 relative" data-magicpath-id="251" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              {pricingToggle === 'yearly' && <SortableContainer dndKitId="68619c68-0b43-415f-b64a-5450983fa8e8" containerType="regular" prevTag="div" className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold" data-magicpath-id="252" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <span data-magicpath-id="253" data-magicpath-path="OverlaysUnoLandingPage.tsx">Save 20%</span>
                 </SortableContainer>}
               <h3 className="text-3xl font-bold mb-2" data-magicpath-id="254" data-magicpath-path="OverlaysUnoLandingPage.tsx">
@@ -846,13 +846,13 @@ export const OverlaysUnoLandingPage = () => {
               <p className="text-gray-300 mb-6 text-base" data-magicpath-id="256" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="257" data-magicpath-path="OverlaysUnoLandingPage.tsx">Best for regular users who want to experience the full functionality of the platform</span>
               </p>
-              <SortableContainer dndKitId="a71a75bd-91a1-4673-bb34-c495584f0886" containerType="regular" prevTag="div" className="text-5xl font-bold mb-8" data-magicpath-id="258" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="41bf2ef4-0cc3-4684-9b5d-72b30e3e4eb3" containerType="regular" prevTag="div" className="text-5xl font-bold mb-8" data-magicpath-id="258" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="259" data-magicpath-path="OverlaysUnoLandingPage.tsx">{pricingToggle === 'monthly' ? '$1.99' : '$19.99'}</span>
                 <span className="text-lg text-gray-400 font-normal" data-magicpath-id="260" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   /{pricingToggle === 'monthly' ? 'month' : 'year'}
                 </span>
               </SortableContainer>
-              <SortableContainer dndKitId="5dd652d9-3742-4ebc-b010-6d5c9439c61a" containerType="regular" prevTag="ul" className="space-y-4 mb-10 text-left" data-magicpath-id="261" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="342a3be5-f192-468b-b7e2-4c84b3046cac" containerType="regular" prevTag="ul" className="space-y-4 mb-10 text-left" data-magicpath-id="261" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <li className="flex items-center" data-magicpath-id="262" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                   <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" data-magicpath-id="263" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
                   <span className="text-lg" data-magicpath-id="264" data-magicpath-path="OverlaysUnoLandingPage.tsx">Everything in Free</span>
@@ -870,7 +870,7 @@ export const OverlaysUnoLandingPage = () => {
                   <span className="text-lg" data-magicpath-id="273" data-magicpath-path="OverlaysUnoLandingPage.tsx">Get notified first for LE collection drops</span>
                 </li>
               </SortableContainer>
-              <SortableContainer dndKitId="018cdd7f-b29c-47cc-ad66-6bd9eafd9348" containerType="regular" prevTag="button" className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors" data-magicpath-id="274" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <SortableContainer dndKitId="ae911107-0664-42ac-aa35-3934ff109b88" containerType="regular" prevTag="button" className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors" data-magicpath-id="274" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="275" data-magicpath-path="OverlaysUnoLandingPage.tsx">Get Pro</span>
               </SortableContainer>
             </SortableContainer>
@@ -879,12 +879,12 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Stats */}
-      <SortableContainer dndKitId="bba34898-e117-4343-88ee-0e63b22028ef" containerType="regular" prevTag="section" className="px-6 py-24 bg-black/20" data-magicpath-id="276" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="7f180d48-ab00-40a3-8eb1-c4302affb61a" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="277" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+      <SortableContainer dndKitId="545edf46-6c21-4fc2-aaf5-0b19ef12d2a1" containerType="regular" prevTag="section" className="px-6 py-24 bg-black/20" data-magicpath-id="276" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="9c3ef952-dc9a-49c6-a33a-11ff52b5a14c" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="277" data-magicpath-path="OverlaysUnoLandingPage.tsx">
           <h2 className="text-center text-4xl font-bold mb-20" data-magicpath-id="278" data-magicpath-path="OverlaysUnoLandingPage.tsx">
             <span data-magicpath-id="279" data-magicpath-path="OverlaysUnoLandingPage.tsx">Why Production Quality Matters</span>
           </h2>
-          <SortableContainer dndKitId="1842810d-5a72-43af-a3e6-7d8ab4e21ec6" containerType="collection" prevTag="div" className="grid md:grid-cols-3 gap-8" onMouseLeave={e => {
+          <SortableContainer dndKitId="a754428e-cec6-421c-b19b-deedde571307" containerType="collection" prevTag="div" className="grid md:grid-cols-3 gap-8" onMouseLeave={e => {
           // Collapse all cards when leaving the grid entirely
           const container = e.currentTarget as HTMLDivElement;
           const cards = Array.from(container.children) as HTMLElement[];
@@ -927,28 +927,41 @@ export const OverlaysUnoLandingPage = () => {
                     <span data-magicpath-uuid={(stat as any)["mpid"] ?? "unsafe"} data-magicpath-id="290" data-magicpath-path="OverlaysUnoLandingPage.tsx">{stat.number === '19.8%' ? 'Streams with premium production quality generate 19.8% longer average watch times and more active chat participation' : stat.number === '3.2x' ? 'Professional production quality converts casual viewers to regular customers 3.2x more effectively than basic setups' : 'Streamlined overlay systems reduce technical interruptions by 47%, keeping your audience engaged throughout every break'}</span>
                   </p>
                 </div>
+                {/* Isolated hover expansion styles for individual cards only */}
+                <style data-magicpath-uuid={(stat as any)["mpid"] ?? "unsafe"} data-magicpath-id="291" data-magicpath-path="OverlaysUnoLandingPage.tsx">{`
+                  @media (hover:hover) {
+                    .text-center.bg-white\\/5.rounded-3xl.p-12.border.border-white\\/10.overflow-hidden:hover {
+                      transform: scale(1.04);
+                      transition: transform 300ms ease, box-shadow 300ms ease;
+                      will-change: transform;
+                      box-shadow: 0 16px 44px rgba(0,0,0,0.35);
+                    }
+                    /* Ensure parent grid has no layout transition to prevent ripple */
+                    .grid.md\\:grid-cols-3.gap-8 { transition: none !important; }
+                  }
+                `}</style>
               </div>)}
           </SortableContainer>
         </SortableContainer>
       </SortableContainer>
 
       {/* Community CTAs */}
-      <SortableContainer dndKitId="b4eed814-7c69-4346-9cc2-a7f5c3280bde" containerType="regular" prevTag="section" className="px-6 py-24" data-magicpath-id="291" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="43fcf049-c60e-4199-8c9e-9ed58908d1dc" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="292" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <h2 className="text-center text-4xl font-bold mb-20" data-magicpath-id="293" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <span data-magicpath-id="294" data-magicpath-path="OverlaysUnoLandingPage.tsx">Follow us</span>
+      <SortableContainer dndKitId="97cface2-1f4b-4d9e-a087-a1b00ae8fc85" containerType="regular" prevTag="section" className="px-6 py-24" data-magicpath-id="292" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="cae7e444-cd38-4a34-a8ff-9ca9e90b1a26" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="293" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <h2 className="text-center text-4xl font-bold mb-20" data-magicpath-id="294" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <span data-magicpath-id="295" data-magicpath-path="OverlaysUnoLandingPage.tsx">Follow us</span>
           </h2>
-          <SortableContainer dndKitId="a3127deb-6886-476a-8c37-e7061c1d1285" containerType="collection" prevTag="div" className="grid md:grid-cols-3 gap-8" data-magicpath-id="295" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            {communityCards.map(card => <div key={card.title} className="bg-white/10 rounded-3xl p-10 text-center border border-white/10" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="296" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <card.icon className="w-16 h-16 mx-auto mb-6 text-white" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="297" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
-                <h3 className="text-2xl font-bold mb-4" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="298" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                  <span data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-field="title:unknown" data-magicpath-id="299" data-magicpath-path="OverlaysUnoLandingPage.tsx">{card.title}</span>
+          <SortableContainer dndKitId="e7c3ec6f-a4e5-4d94-a234-6f59e17ead6c" containerType="collection" prevTag="div" className="grid md:grid-cols-3 gap-8" data-magicpath-id="296" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            {communityCards.map(card => <div key={card.title} className="bg-white/10 rounded-3xl p-10 text-center border border-white/10" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="297" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <card.icon className="w-16 h-16 mx-auto mb-6 text-white" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="298" data-magicpath-path="OverlaysUnoLandingPage.tsx" />
+                <h3 className="text-2xl font-bold mb-4" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="299" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                  <span data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-field="title:unknown" data-magicpath-id="300" data-magicpath-path="OverlaysUnoLandingPage.tsx">{card.title}</span>
                 </h3>
-                <p className="text-gray-300 mb-8 text-lg" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="300" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                  <span data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-field="subtitle:unknown" data-magicpath-id="301" data-magicpath-path="OverlaysUnoLandingPage.tsx">{card.subtitle}</span>
+                <p className="text-gray-300 mb-8 text-lg" data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="301" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                  <span data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-field="subtitle:unknown" data-magicpath-id="302" data-magicpath-path="OverlaysUnoLandingPage.tsx">{card.subtitle}</span>
                 </p>
-                <button className={`w-full py-4 ${card.color} hover:opacity-90 text-white rounded-xl transition-opacity duration-200 font-semibold text-lg`} data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="302" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                  <span data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-field="buttonText:unknown" data-magicpath-id="303" data-magicpath-path="OverlaysUnoLandingPage.tsx">{card.buttonText}</span>
+                <button className={`w-full py-4 ${card.color} hover:opacity-90 text-white rounded-xl transition-opacity duration-200 font-semibold text-lg`} data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-id="303" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                  <span data-magicpath-uuid={(card as any)["mpid"] ?? "unsafe"} data-magicpath-field="buttonText:unknown" data-magicpath-id="304" data-magicpath-path="OverlaysUnoLandingPage.tsx">{card.buttonText}</span>
                 </button>
               </div>)}
           </SortableContainer>
@@ -956,22 +969,22 @@ export const OverlaysUnoLandingPage = () => {
       </SortableContainer>
 
       {/* Section Divider */}
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" data-magicpath-id="304" data-magicpath-path="OverlaysUnoLandingPage.tsx"></div>
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" data-magicpath-id="305" data-magicpath-path="OverlaysUnoLandingPage.tsx"></div>
 
       {/* Footer */}
-      <SortableContainer dndKitId="3d2cd942-6143-4f2d-b14f-0828a9d543d6" containerType="regular" prevTag="footer" className="px-6 py-16" data-magicpath-id="305" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-        <SortableContainer dndKitId="bc0d9abb-400a-4ed7-9b68-909e2bb24fa3" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="306" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-          <SortableContainer dndKitId="5349fd16-ce24-4480-ac1a-e35ac40c6d8b" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="307" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="e1c9f80a-76c0-41af-8e1b-b79400519447" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="308" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <span className="text-orange-500" data-magicpath-id="309" data-magicpath-path="OverlaysUnoLandingPage.tsx">overlays.</span>
-              <span className="text-white" data-magicpath-id="310" data-magicpath-path="OverlaysUnoLandingPage.tsx">uno</span>
+      <SortableContainer dndKitId="f298e0d9-f11b-4f89-88c2-5434a612b1a8" containerType="regular" prevTag="footer" className="px-6 py-16" data-magicpath-id="306" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+        <SortableContainer dndKitId="02d85c0c-a0ba-4d8d-af05-820eda0095d3" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="307" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+          <SortableContainer dndKitId="92d31bbe-42b3-48bf-959d-a3a2d097f348" containerType="regular" prevTag="div" className="flex items-center justify-between" data-magicpath-id="308" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="8706ccd1-20cb-4639-9405-4ac144d33597" containerType="regular" prevTag="div" className="text-2xl font-bold" data-magicpath-id="309" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <span className="text-orange-500" data-magicpath-id="310" data-magicpath-path="OverlaysUnoLandingPage.tsx">overlays.</span>
+              <span className="text-white" data-magicpath-id="311" data-magicpath-path="OverlaysUnoLandingPage.tsx">uno</span>
             </SortableContainer>
-            <SortableContainer dndKitId="f1ef988d-d0d9-40f5-af01-f3c05199d30f" containerType="regular" prevTag="div" className="flex items-center space-x-8" data-magicpath-id="311" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors font-medium" data-magicpath-id="312" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <span data-magicpath-id="313" data-magicpath-path="OverlaysUnoLandingPage.tsx">Privacy Policy</span>
+            <SortableContainer dndKitId="2307cd31-ac61-4364-b6c1-929bfaa6e9e7" containerType="regular" prevTag="div" className="flex items-center space-x-8" data-magicpath-id="312" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors font-medium" data-magicpath-id="313" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <span data-magicpath-id="314" data-magicpath-path="OverlaysUnoLandingPage.tsx">Privacy Policy</span>
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors font-medium" data-magicpath-id="314" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <span data-magicpath-id="315" data-magicpath-path="OverlaysUnoLandingPage.tsx">Terms</span>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors font-medium" data-magicpath-id="315" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+                <span data-magicpath-id="316" data-magicpath-path="OverlaysUnoLandingPage.tsx">Terms</span>
               </a>
             </SortableContainer>
           </SortableContainer>
