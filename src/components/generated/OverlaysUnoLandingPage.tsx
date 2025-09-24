@@ -370,7 +370,9 @@ export const OverlaysUnoLandingPage = () => {
           </SortableContainer>
 
           <SortableContainer dndKitId="5a530c0f-d0fa-488c-b94f-4dec64999fa6" containerType="regular" prevTag="nav" aria-label="Hero pagination" className="mt-14 translate-y-5 flex items-center justify-center" data-magicpath-id="43" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-            <SortableContainer dndKitId="f9e2b896-4ab6-4562-a9a5-973bd58eb1b4" containerType="collection" prevTag="ul" className="flex items-center gap-x-4" data-magicpath-id="44" data-magicpath-path="OverlaysUnoLandingPage.tsx">
+            <SortableContainer dndKitId="f9e2b896-4ab6-4562-a9a5-973bd58eb1b4" containerType="collection" prevTag="ul" className="flex items-center gap-x-4" data-magicpath-id="44" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+            display: "none"
+          }}>
               {dotContent.map((d, idx) => {
               const isActive = idx === activeDot; // no default selection
               return <li key={d.id} data-magicpath-uuid={(d as any)["mpid"] ?? "unsafe"} data-magicpath-id="45" data-magicpath-path="OverlaysUnoLandingPage.tsx">
