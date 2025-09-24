@@ -7,124 +7,124 @@ const sportsOverlays = [{
   name: 'Soccer Overlay',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "a9b85807-61d8-48ec-9a5a-effef070689d"
+  mpid: "354206c9-4ba0-4890-bcc5-064c2d2e8bd2"
 }, {
   id: 'sport-2',
   name: 'Basketball Stats',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "42c6c284-c5d9-407c-b9e4-992d015d5874"
+  mpid: "f98b0dba-e3f7-4b3a-84d1-7aa0e13f8df8"
 }, {
   id: 'sport-3',
   name: 'Football Scoreboard',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "82bd5bdf-2338-46be-b529-fa0a0a9d176c"
+  mpid: "19a64f06-e030-447d-8816-55eb8abca7c0"
 }, {
   id: 'sport-4',
   name: 'Tennis Match',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "2d6a0b52-7c32-4ee4-885d-405b138c5cb7"
+  mpid: "6b05690f-d2c1-4df1-8b6b-15622e20f637"
 }, {
   id: 'sport-5',
   name: 'Baseball Diamond',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "e5fd3325-7fd9-4336-91df-2b51d71e6fcb"
+  mpid: "0698fffe-2f9c-499c-90d4-746c61b3f391"
 }, {
   id: 'sport-6',
   name: 'Hockey Rink',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "9b88284a-2ec6-45b5-a3e8-40a066918845"
+  mpid: "c3ca8c81-6c1f-4d17-be30-c470229025dc"
 }] as any[];
 const gamingOverlays = [{
   id: 'game-1',
   name: 'FPS Overlay',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "58de2909-781f-4acc-8759-ff8bf206d62d"
+  mpid: "7727c81d-f653-40ee-9ecb-3dc1911ab04e"
 }, {
   id: 'game-2',
   name: 'RPG Interface',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "9bece552-fbea-4b7f-9cc8-24660bc34dc5"
+  mpid: "3112f604-5377-417d-ab2b-8d0640dfe746"
 }, {
   id: 'game-3',
   name: 'Racing HUD',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "3a5a582d-8a36-44e0-842a-a0033d790d68"
+  mpid: "5432aad1-5fcb-4232-9af4-4419d27aef6d"
 }, {
   id: 'game-4',
   name: 'Strategy Map',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "0b85b0da-92eb-4d7e-9a38-31f87eae50fd"
+  mpid: "1347bbbb-b12a-4533-81e8-f575fcc2e322"
 }, {
   id: 'game-5',
   name: 'Battle Royale',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "a4f7099d-7d9c-42f1-b798-cfee2302a4ff"
+  mpid: "273050d2-b9f6-4f47-9e58-562f84c13c4a"
 }, {
   id: 'game-6',
   name: 'Retro Arcade',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "ccc5f06e-a486-44af-a360-8206d73d1495"
+  mpid: "4c332362-37b3-4d44-b70b-3c0b0a18aa77"
 }] as any[];
 const podcastOverlays = [{
   id: 'podcast-1',
   name: 'Talk Show Layout',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "18f7a13b-1600-4436-8942-0fde09fa8c7b"
+  mpid: "84e246df-be88-4b7b-9f95-cd39f2f624c2"
 }, {
   id: 'podcast-2',
   name: 'Interview Setup',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "47642d49-c027-414a-88d0-eca7d2f03c24"
+  mpid: "6e69e15d-0340-41ec-9baa-205110941ade"
 }, {
   id: 'podcast-3',
   name: 'News Broadcast',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "b9f6f61f-3eea-4146-9076-695796b12c0f"
+  mpid: "1900e748-69af-408f-a81a-b4085adde30a"
 }, {
   id: 'podcast-4',
   name: 'Panel Discussion',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "5653f8a0-53b3-4ead-ac98-3b21c8587e94"
+  mpid: "9919fc06-0756-40b0-ae00-65f13a185d9a"
 }, {
   id: 'podcast-5',
   name: 'Solo Cast',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "70185c6d-5861-4c66-834c-c62d5589c72b"
+  mpid: "092121ee-dcfe-419e-ab6a-5880ed5d18fe"
 }, {
   id: 'podcast-6',
   name: 'Live Q&A',
   aspect: '16:9',
   image: '/api/placeholder/300/200',
-  mpid: "5b67b72f-27c2-40c2-8661-263129a39e80"
+  mpid: "4696eb84-063f-40aa-8ed2-346b44b0b50a"
 }] as any[];
 const carouselSections = [{
   title: 'Sports',
   overlays: sportsOverlays,
-  mpid: "1ad4b329-0efc-48c8-a7dd-28bfbf704df0"
+  mpid: "240d2b8c-3ac8-421b-a117-c383680ffd31"
 }, {
   title: 'Gaming',
   overlays: gamingOverlays,
-  mpid: "80c589ae-de2c-454e-9ade-a9f6bad0b54c"
+  mpid: "51f93bdd-f1d0-4f27-8084-54288c629842"
 }, {
   title: 'Podcasts',
   overlays: podcastOverlays,
-  mpid: "b9eff971-8ad8-4898-b8ff-6b4f26fbd4d7"
+  mpid: "edb5fd79-9389-4b20-941b-213040fcdedc"
 }] as any[];
 
 // @component: OverlayCarouselsSection
@@ -147,7 +147,7 @@ export const OverlayCarouselsSection = () => {
   };
 
   // @return
-  return <SortableContainer dndKitId="5331eac5-abb6-463b-a79b-8925550ed93d" containerType="collection" prevTag="div" className="space-y-16" data-magicpath-id="0" data-magicpath-path="OverlayCarouselsSection.tsx">
+  return <SortableContainer dndKitId="c58b96b9-63d0-4ccf-9af7-ff53f4de3995" containerType="collection" prevTag="div" className="space-y-16" data-magicpath-id="0" data-magicpath-path="OverlayCarouselsSection.tsx">
       {carouselSections.map(section => {
       const containerRef = useRef<HTMLDivElement>(null);
       return <section key={section.title} className="px-6 py-8" data-magicpath-uuid={(section as any)["mpid"] ?? "unsafe"} data-magicpath-id="1" data-magicpath-path="OverlayCarouselsSection.tsx">
