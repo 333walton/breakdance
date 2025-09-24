@@ -275,8 +275,12 @@ export const OverlaysUnoLandingPage = () => {
             duration: 0.8
           }} className="space-y-8" data-magicpath-id="22" data-magicpath-path="OverlaysUnoLandingPage.tsx">
               <h1 className="text-6xl lg:text-7xl font-bold leading-tight" data-magicpath-id="23" data-magicpath-path="OverlaysUnoLandingPage.tsx">
-                <span className="block" data-magicpath-id="24" data-magicpath-path="OverlaysUnoLandingPage.tsx">Premium Overlays & Tools —</span>
-                <span className="block" data-magicpath-id="25" data-magicpath-path="OverlaysUnoLandingPage.tsx">Made for Breaking</span>
+                <span className="block" data-magicpath-id="24" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+                fontSize: "70px"
+              }}>Premium Overlays & Tools - Built For Breaking</span>
+                <span className="block" data-magicpath-id="25" data-magicpath-path="OverlaysUnoLandingPage.tsx" style={{
+                display: "none"
+              }}>Made for Breaking</span>
               </h1>
               <p className="text-xl text-gray-300 leading-relaxed max-w-lg transition-opacity duration-500" key={activeDot === -1 ? 'default' : dotContent[activeDot].id} data-magicpath-id="26" data-magicpath-path="OverlaysUnoLandingPage.tsx">
                 <span data-magicpath-id="27" data-magicpath-path="OverlaysUnoLandingPage.tsx">{activeDot === 0 ? 'Inspired by the hobby’s most iconic card designs — from Panini, Topps, and more — reimagined for streaming.' : activeDot === 1 ? 'Break smarter with integrated tools—every feature tuned for creators to streamline and succeed.' : activeDot === 2 ? 'Stream with BreakDance overlays and get instant promotion in our Live Breaks directory' : ''}</span>
