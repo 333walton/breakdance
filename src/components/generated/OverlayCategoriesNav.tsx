@@ -5,32 +5,32 @@ const categories = [{
   name: 'Browse overlays',
   id: 'browse',
   active: true,
-  mpid: "8dbeb6fd-6807-4d90-8cce-8495365f8a62"
+  mpid: "33c319ac-560c-4389-b6c8-7f9cdf8411ed"
 }, {
   name: 'Art & Design',
   id: 'art',
   active: false,
-  mpid: "88168656-c62c-491f-84c2-1362feecde78"
+  mpid: "2f95a0e4-3731-4eef-9323-50e7cd291bfe"
 }, {
   name: 'Business & Finance',
   id: 'business',
   active: false,
-  mpid: "df1f1b1c-379d-4fa0-88d9-ddd10823345e"
+  mpid: "b0d92fad-94b9-45f9-b350-e7775c97ab26"
 }, {
   name: 'Education',
   id: 'education',
   active: false,
-  mpid: "2fd822ee-6a67-4e3d-aa27-f5d4738a42e3"
+  mpid: "dae11468-b862-44d4-b778-221031e0468f"
 }, {
   name: 'Game',
   id: 'game',
   active: false,
-  mpid: "b88bf2c7-6f81-4b7a-b880-55f85285777d"
+  mpid: "1f0f158a-045c-4175-b0dd-c7a1781ad9e3"
 }, {
   name: 'Holiday',
   id: 'holiday',
   active: false,
-  mpid: "32cd1f80-8c8e-43c2-b5ef-c15be0fbf2bc"
+  mpid: "e93ba30c-5602-4d12-9954-fbf28bab4e33"
 }] as any[];
 
 // @component: OverlayCategoriesNav
@@ -38,9 +38,9 @@ export const OverlayCategoriesNav = () => {
   const [activeCategory, setActiveCategory] = useState('browse');
 
   // @return
-  return <SortableContainer dndKitId="379b6354-c219-4c9d-9c19-6cdab1cbe814" containerType="regular" prevTag="section" className="px-6 py-8 border-y border-white/10 bg-black/20" data-magicpath-id="0" data-magicpath-path="OverlayCategoriesNav.tsx">
-      <SortableContainer dndKitId="5b5c46bf-b426-45a7-a7d4-d6192733356f" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="1" data-magicpath-path="OverlayCategoriesNav.tsx">
-        <SortableContainer dndKitId="4d2572c1-3017-4b2f-8f4d-9cec00f1339c" containerType="collection" prevTag="div" className="flex space-x-2 overflow-x-auto scrollbar-hide" data-magicpath-id="2" data-magicpath-path="OverlayCategoriesNav.tsx">
+  return <SortableContainer dndKitId="2044065b-6604-4878-a00d-ed5a24236c51" containerType="regular" prevTag="section" className="px-6 py-8 border-y border-white/10 bg-black/20" data-magicpath-id="0" data-magicpath-path="OverlayCategoriesNav.tsx">
+      <SortableContainer dndKitId="04e02228-e0ca-47d4-89db-6b9f099f502a" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="1" data-magicpath-path="OverlayCategoriesNav.tsx">
+        <SortableContainer dndKitId="aeabb223-842c-44b4-b1bd-48b19491c3c8" containerType="collection" prevTag="div" className="flex space-x-2 overflow-x-auto scrollbar-hide" data-magicpath-id="2" data-magicpath-path="OverlayCategoriesNav.tsx">
           {categories.map(category => <motion.button data-magicpath-motion-tag="motion.button" key={category.id} onClick={() => setActiveCategory(category.id)} className={`relative whitespace-nowrap px-6 py-3 rounded-lg font-medium transition-all duration-200 ${activeCategory === category.id ? 'bg-white/20 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/10'}`} whileHover={{
           scale: 1.02
         }} whileTap={{
