@@ -6,10 +6,10 @@ import { Play } from 'lucide-react';
 // @component: HeroSection
 export const HeroSection = () => {
   // @return
-  return <SortableContainer dndKitId="313d7c43-9376-4d45-9383-d4b3885d6663" containerType="regular" prevTag="section" className="px-6 py-20" data-magicpath-id="0" data-magicpath-path="HeroSection.tsx">
-      <SortableContainer dndKitId="76a7bd3d-83ac-4e9b-91ae-6b3824afea1f" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="1" data-magicpath-path="HeroSection.tsx">
-        <SortableContainer dndKitId="cadf9f73-7dbf-46ae-b7a5-0d5ccafbaa20" containerType="regular" prevTag="div" className="grid lg:grid-cols-2 gap-12 items-center" data-magicpath-id="2" data-magicpath-path="HeroSection.tsx">
-          <SortableContainer dndKitId="9ec98d6d-a5f0-4f1a-9e1b-661b7ad28f21" containerType="regular" prevTag="motion.div" initial={{
+  return <SortableContainer dndKitId="c946a3c2-4ece-445b-b840-448c23cf3e52" containerType="regular" prevTag="section" className="px-6 py-20" data-magicpath-id="0" data-magicpath-path="HeroSection.tsx">
+      <SortableContainer dndKitId="0e93c6e7-1265-4fa0-9b79-248d939a6709" containerType="regular" prevTag="div" className="max-w-7xl mx-auto" data-magicpath-id="1" data-magicpath-path="HeroSection.tsx">
+        <SortableContainer dndKitId="32be6c44-d139-4dcc-9cfc-028e2837e9b1" containerType="regular" prevTag="div" className="grid lg:grid-cols-2 gap-12 items-center" data-magicpath-id="2" data-magicpath-path="HeroSection.tsx">
+          <SortableContainer dndKitId="612313c9-67bd-4c26-9283-11e7a6850c76" containerType="regular" prevTag="motion.div" initial={{
           opacity: 0,
           y: 30
         }} animate={{
@@ -22,7 +22,7 @@ export const HeroSection = () => {
               <span className="block" data-magicpath-id="5" data-magicpath-path="HeroSection.tsx">Overlays</span>
               <span className="block" data-magicpath-id="6" data-magicpath-path="HeroSection.tsx">built for pros</span>
             </h1>
-            <SortableContainer dndKitId="262e5fad-7081-49c0-8737-63a9b0a166e4" containerType="regular" prevTag="motion.button" className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-8 py-4 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg" whileHover={{
+            <SortableContainer dndKitId="5edd3b88-b0e2-4a1e-ba74-2de2ca5b9629" containerType="regular" prevTag="motion.button" className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-8 py-4 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg" whileHover={{
             scale: 1.05
           }} whileTap={{
             scale: 0.95
@@ -30,7 +30,7 @@ export const HeroSection = () => {
               <span data-magicpath-id="8" data-magicpath-path="HeroSection.tsx">Browse overlays</span>
             </SortableContainer>
           </SortableContainer>
-          <SortableContainer dndKitId="61b37311-6812-4b71-ade7-24dfc80a21de" containerType="regular" prevTag="motion.div" className="relative" initial={{
+          <SortableContainer dndKitId="f0be1eef-59ff-4779-aedf-54145de1bb73" containerType="regular" prevTag="motion.div" className="relative" initial={{
           opacity: 0,
           x: 30
         }} animate={{
@@ -40,10 +40,10 @@ export const HeroSection = () => {
           duration: 0.8,
           delay: 0.2
         }} data-magicpath-id="9" data-magicpath-path="HeroSection.tsx">
-            <SortableContainer dndKitId="9384e8f5-8b3d-4b68-ab1b-c0a11b99893a" containerType="regular" prevTag="div" className="relative bg-gradient-to-br from-purple-800/50 to-blue-800/50 rounded-2xl p-8 backdrop-blur-sm" data-magicpath-id="10" data-magicpath-path="HeroSection.tsx">
-              <SortableContainer dndKitId="00e54e2e-b1d7-4e71-8d75-d5cfdece8f7c" containerType="regular" prevTag="div" className="w-full h-80 bg-gray-800/50 rounded-lg flex items-center justify-center" data-magicpath-id="11" data-magicpath-path="HeroSection.tsx">
-                <SortableContainer dndKitId="4a1e6421-3ddc-48de-8e9b-f8959c36c80e" containerType="regular" prevTag="div" className="text-center" data-magicpath-id="12" data-magicpath-path="HeroSection.tsx">
-                  <SortableContainer dndKitId="ab431ad1-b445-42e8-bc1e-4b2a84da4f06" containerType="regular" prevTag="div" className="w-16 h-16 bg-orange-500/20 rounded-lg mx-auto mb-4 flex items-center justify-center" data-magicpath-id="13" data-magicpath-path="HeroSection.tsx">
+            <SortableContainer dndKitId="947014a9-502b-446e-846f-761126238fe2" containerType="regular" prevTag="div" className="relative bg-gradient-to-br from-purple-800/50 to-blue-800/50 rounded-2xl p-8 backdrop-blur-sm" data-magicpath-id="10" data-magicpath-path="HeroSection.tsx">
+              <SortableContainer dndKitId="d6ef6edf-d389-4219-b03d-62cd7fb22814" containerType="regular" prevTag="div" className="w-full h-80 bg-gray-800/50 rounded-lg flex items-center justify-center" data-magicpath-id="11" data-magicpath-path="HeroSection.tsx">
+                <SortableContainer dndKitId="d9b77bbd-05f7-4fe6-a8f8-3bd10de9d4e3" containerType="regular" prevTag="div" className="text-center" data-magicpath-id="12" data-magicpath-path="HeroSection.tsx">
+                  <SortableContainer dndKitId="6f369688-7edb-475f-8315-1caa0cbfc524" containerType="regular" prevTag="div" className="w-16 h-16 bg-orange-500/20 rounded-lg mx-auto mb-4 flex items-center justify-center" data-magicpath-id="13" data-magicpath-path="HeroSection.tsx">
                     <Play className="w-8 h-8 text-orange-400" data-magicpath-id="14" data-magicpath-path="HeroSection.tsx" />
                   </SortableContainer>
                   <p className="text-gray-300 text-sm" data-magicpath-id="15" data-magicpath-path="HeroSection.tsx">
