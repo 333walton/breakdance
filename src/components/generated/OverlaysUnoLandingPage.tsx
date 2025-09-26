@@ -484,10 +484,16 @@ export const OverlaysUnoLandingPage = () => {
   return <div className="min-h-screen bg-gradient-to-b from-[#1F1A30] via-[#582864] to-[#9149c1] text-white font-sans">
       {/* Header */}
       <header className="bg-gradient-to-b from-[#26213a] to-[#302742] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
-        <div className="w-full max-w-screen-xl mx-auto px-4 py-4">
+        <div className="w-full max-w-screen-xl mx-auto px-4" style={{ paddingTop: '5px', paddingBottom: '0px' }}>
           <div className="flex flex-col md:flex-row items-center justify-between w-full">
             {/* Logo */}
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold flex items-center -ml-4">
+              <img 
+                src="/static/logo_rough.png" 
+                alt="Logo" 
+                className="h-20 w-auto object-contain mr-3 transition-all duration-300 hover:scale-105 hover:brightness-110 cursor-pointer"
+                style={{ marginLeft: '-20px' }}
+              />
               <span className="text-orange-500" style={{
               display: "none"
             }}>overlays.</span>
