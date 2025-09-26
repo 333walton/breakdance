@@ -963,7 +963,7 @@ export const OverlaysUnoLandingPage = () => {
                         >
                           {nflFocused && (
                             <div className="w-full h-full flex items-center justify-center">
-                              <p className="text-white/60 text-sm">Click to close</p>
+                              <p className="text-white/60 text-sm"></p>
                             </div>
                           )}
                         </div>
