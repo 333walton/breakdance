@@ -836,7 +836,7 @@ export const OverlaysUnoLandingPage = () => {
                     />
                   )}
 
-                  <div className="relative w-full h-full z-10">
+                  <div className="relative w-full h-full">
                     {/* Layered feature buttons container */}
                     <div ref={heroStageRef} className="relative w-full h-full">
                       {/* Back layer – Browser Button */}
