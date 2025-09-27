@@ -157,7 +157,7 @@ const communityCards = [
   {
     icon: Heart,
     title: 'Customize It',
-    subtitle: 'Have something unique in mind? We can help',
+    subtitle: 'Something specific? We can help',
     buttonText: 'Reach Out',
     color: 'bg-[oklch(0.510_0.262_276.9)]',
   },
@@ -386,7 +386,7 @@ export const OverlaysUnoLandingPage = () => {
           clientY: rect.top + y,
           bubbles: true,
           cancelable: true,
-          view: window
+          view: window,
         });
 
         const mouseMoveEvent = new MouseEvent('mousemove', {
@@ -394,7 +394,7 @@ export const OverlaysUnoLandingPage = () => {
           clientY: rect.top + y + (Math.random() - 0.5) * 50,
           bubbles: true,
           cancelable: true,
-          view: window
+          view: window,
         });
 
         const mouseUpEvent = new MouseEvent('mouseup', {
@@ -402,7 +402,7 @@ export const OverlaysUnoLandingPage = () => {
           clientY: rect.top + y + (Math.random() - 0.5) * 50,
           bubbles: true,
           cancelable: true,
-          view: window
+          view: window,
         });
 
         // Dispatch the events
@@ -424,7 +424,7 @@ export const OverlaysUnoLandingPage = () => {
           cancelable: true,
           view: window,
           pointerId: 1,
-          pointerType: 'mouse'
+          pointerType: 'mouse',
         });
 
         const pointerMoveEvent = new PointerEvent('pointermove', {
@@ -434,7 +434,7 @@ export const OverlaysUnoLandingPage = () => {
           cancelable: true,
           view: window,
           pointerId: 1,
-          pointerType: 'mouse'
+          pointerType: 'mouse',
         });
 
         const pointerUpEvent = new PointerEvent('pointerup', {
@@ -444,7 +444,7 @@ export const OverlaysUnoLandingPage = () => {
           cancelable: true,
           view: window,
           pointerId: 1,
-          pointerType: 'mouse'
+          pointerType: 'mouse',
         });
 
         // Try pointer events too
@@ -457,13 +457,15 @@ export const OverlaysUnoLandingPage = () => {
             }, 50);
           }, 10);
         }, 100);
-
       }, i * 150); // Stagger splats by 150ms
     }
 
     // Also try accessing the animation instance for direct API calls
     if (fluidAnimationRef.current) {
-      console.log('🎨 Available methods on fluid animation:', Object.getOwnPropertyNames(fluidAnimationRef.current));
+      console.log(
+        '🎨 Available methods on fluid animation:',
+        Object.getOwnPropertyNames(fluidAnimationRef.current)
+      );
       console.log('🎨 Fluid animation current value:', fluidAnimationRef.current);
     }
   };
@@ -487,7 +489,7 @@ export const OverlaysUnoLandingPage = () => {
           clientY: rect.top + y,
           bubbles: true,
           cancelable: true,
-          view: window
+          view: window,
         });
 
         canvasElement.dispatchEvent(mouseMoveEvent);
@@ -685,26 +687,25 @@ export const OverlaysUnoLandingPage = () => {
           type="button"
           aria-label="Open NFL grid"
           onClick={() => bringToFront('nfl')}
-          className={`${baseStyles} nfl-grid transition-[transform,opacity,left,top,filter,box-shadow,background-color,border-color] duration-500 ease-in-out hover:bg-white/10 hover:shadow-lg hover:border-white/20`}
+          className={`${baseStyles} nfl-grid aspect-video transition-[transform,opacity,left,top,filter,box-shadow,background-color,border-color] duration-500 ease-in-out hover:bg-white/10 hover:shadow-lg hover:border-white/20`}
           style={{
             zIndex: zFor('nfl-grid'),
             // Lock footprint to keep size consistent when active/focused
             width: '92%',
-            height: '58%',
-            left: nflFocused ? '10%' : '17%',
+            left: nflFocused ? '10%' : '15%',
             top: nflFocused ? '15%' : '20%',
-            transform: nflFocused ? 'translate(0,0) scale(0.9)' : 'translate(4%, -2%) scale(0.7)',
+            transform: nflFocused ? 'translate(0,0) scale(0.9)' : 'translate(4%, -2%) scale(0.73)',
             transformStyle: 'preserve-3d',
             padding: 0,
           }}
           onMouseEnter={e => {
             if (selectedHero !== 'nfl' && !nflFocused) {
-              e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.75)';
+              e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.78)';
             }
           }}
           onMouseLeave={e => {
             if (!nflFocused) {
-              e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.7)';
+              e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.73)';
             }
           }}
         >
@@ -719,15 +720,13 @@ export const OverlaysUnoLandingPage = () => {
           type="button"
           aria-label="Open phone preview"
           onClick={() => bringToFront('phone')}
-          className={`${baseStyles} phone-preview transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-[transform,filter,box-shadow,background-color,border-color] duration-500 ease-in-out hover:bg-white/10 hover:shadow-lg hover:border-white/20`}
+          className={`${baseStyles} phone-preview aspect-[390/844] w-45 transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-[transform,filter,box-shadow,background-color,border-color] duration-500 ease-in-out hover:bg-white/10 hover:shadow-lg hover:border-white/20`}
           style={{
             zIndex: zFor('phone-preview'),
-            left: '3%',
+            left: '2%',
             top: '17%',
             transform: 'translate(-6%, -6%) scale(.7)',
             transformStyle: 'preserve-3d',
-            width: '36%',
-            height: '72%',
           }}
           onMouseEnter={e => {
             if (selectedHero !== 'phone' && !nflFocused) {
@@ -744,7 +743,7 @@ export const OverlaysUnoLandingPage = () => {
           <div className="relative w-full h-full rounded-[14px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]">
             {/* iPhone top dynamic island / notch */}
             <div
-              className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-full bg-black/90 border border-white/10"
+              className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black/90 border border-white/10"
               aria-hidden="true"
             />
             {/* side buttons (decorative) */}
@@ -788,26 +787,26 @@ export const OverlaysUnoLandingPage = () => {
             width: '160px',
             maxHeight: '40vh',
             backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            backdropFilter: 'blur(12px)'
+            backdropFilter: 'blur(12px)',
           }}
-          onClick={(e) => e.stopPropagation()}
-          onMouseDown={(e) => e.stopPropagation()}
-          onMouseUp={(e) => e.stopPropagation()}
-          onPointerDown={(e) => e.stopPropagation()}
-          onPointerUp={(e) => e.stopPropagation()}
+          onClick={e => e.stopPropagation()}
+          onMouseDown={e => e.stopPropagation()}
+          onMouseUp={e => e.stopPropagation()}
+          onPointerDown={e => e.stopPropagation()}
+          onPointerUp={e => e.stopPropagation()}
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-2 pb-2 border-b border-white/20">
             <h4 className="text-white text-xs font-semibold">🎛️ Controls</h4>
             <button
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
                 e.preventDefault();
                 console.log('🎛️ Control panel close button clicked');
                 setShowControls(false);
               }}
-              onMouseDown={(e) => e.stopPropagation()}
-              onPointerDown={(e) => e.stopPropagation()}
+              onMouseDown={e => e.stopPropagation()}
+              onPointerDown={e => e.stopPropagation()}
               className="w-5 h-5 flex items-center justify-center rounded hover:bg-white/10 transition-colors"
               aria-label="Hide controls"
             >
@@ -837,10 +836,10 @@ export const OverlaysUnoLandingPage = () => {
                   console.log('🎛️ Density changed to:', e.target.value);
                   handleConfigChange('densityDissipation', parseFloat(e.target.value));
                 }}
-                onMouseDown={(e) => e.stopPropagation()}
-                onMouseUp={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
+                onPointerUp={e => e.stopPropagation()}
                 className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.densityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.densityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
@@ -867,10 +866,10 @@ export const OverlaysUnoLandingPage = () => {
                   e.preventDefault();
                   handleConfigChange('velocityDissipation', parseFloat(e.target.value));
                 }}
-                onMouseDown={(e) => e.stopPropagation()}
-                onMouseUp={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
+                onPointerUp={e => e.stopPropagation()}
                 className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.velocityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.velocityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
@@ -897,10 +896,10 @@ export const OverlaysUnoLandingPage = () => {
                   e.preventDefault();
                   handleConfigChange('pressureDissipation', parseFloat(e.target.value));
                 }}
-                onMouseDown={(e) => e.stopPropagation()}
-                onMouseUp={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
+                onPointerUp={e => e.stopPropagation()}
                 className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.pressureDissipation - 0.5) / 0.5) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.pressureDissipation - 0.5) / 0.5) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
@@ -925,10 +924,10 @@ export const OverlaysUnoLandingPage = () => {
                   e.preventDefault();
                   handleConfigChange('curl', parseInt(e.target.value));
                 }}
-                onMouseDown={(e) => e.stopPropagation()}
-                onMouseUp={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
+                onPointerUp={e => e.stopPropagation()}
                 className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${fluidConfig.curl}%, rgba(255, 255, 255, 0.2) ${fluidConfig.curl}%, rgba(255, 255, 255, 0.2) 100%)`,
@@ -940,7 +939,9 @@ export const OverlaysUnoLandingPage = () => {
             <div>
               <label className="text-white/70 text-xs flex justify-between mb-1">
                 <span>Splat</span>
-                <span className="text-white/90 font-mono text-xs">{fluidConfig.splatRadius.toFixed(3)}</span>
+                <span className="text-white/90 font-mono text-xs">
+                  {fluidConfig.splatRadius.toFixed(3)}
+                </span>
               </label>
               <input
                 type="range"
@@ -953,10 +954,10 @@ export const OverlaysUnoLandingPage = () => {
                   e.preventDefault();
                   handleConfigChange('splatRadius', parseFloat(e.target.value));
                 }}
-                onMouseDown={(e) => e.stopPropagation()}
-                onMouseUp={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
+                onPointerUp={e => e.stopPropagation()}
                 className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.splatRadius - 0.001) / 0.019) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.splatRadius - 0.001) / 0.019) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
@@ -968,7 +969,9 @@ export const OverlaysUnoLandingPage = () => {
             <div>
               <label className="text-white/70 text-xs flex justify-between mb-1">
                 <span>Iterations</span>
-                <span className="text-white/90 font-mono text-xs">{fluidConfig.pressureIterations}</span>
+                <span className="text-white/90 font-mono text-xs">
+                  {fluidConfig.pressureIterations}
+                </span>
               </label>
               <input
                 type="range"
@@ -981,10 +984,10 @@ export const OverlaysUnoLandingPage = () => {
                   e.preventDefault();
                   handleConfigChange('pressureIterations', parseInt(e.target.value));
                 }}
-                onMouseDown={(e) => e.stopPropagation()}
-                onMouseUp={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
+                onPointerUp={e => e.stopPropagation()}
                 className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.pressureIterations - 10) / 40) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.pressureIterations - 10) / 40) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
@@ -995,45 +998,45 @@ export const OverlaysUnoLandingPage = () => {
             {/* Random Splats Button */}
             <div
               className="pt-2 border-t border-white/10"
-              onClick={(e) => e.stopPropagation()}
-              onMouseDown={(e) => e.stopPropagation()}
-              onMouseUp={(e) => e.stopPropagation()}
-              onPointerDown={(e) => e.stopPropagation()}
-              onPointerUp={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
+              onMouseDown={e => e.stopPropagation()}
+              onMouseUp={e => e.stopPropagation()}
+              onPointerDown={e => e.stopPropagation()}
+              onPointerUp={e => e.stopPropagation()}
             >
               <button
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
                   triggerRandomSplats();
                 }}
-                onMouseDown={(e) => {
+                onMouseDown={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
                 }}
-                onMouseUp={(e) => {
+                onMouseUp={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
                 }}
-                onPointerDown={(e) => {
+                onPointerDown={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
                 }}
-                onPointerUp={(e) => {
+                onPointerUp={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
                 }}
-                onTouchStart={(e) => {
+                onTouchStart={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
                 }}
-                onTouchEnd={(e) => {
+                onTouchEnd={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   e.nativeEvent.stopImmediatePropagation();
@@ -1206,7 +1209,7 @@ export const OverlaysUnoLandingPage = () => {
                 </div>
               </div>
               <motion.button
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   console.log('🎛️ Hero button clicked - toggling control panel');
                   setShowControls(!showControls);
@@ -1361,7 +1364,7 @@ export const OverlaysUnoLandingPage = () => {
                             setSelectedHero(null);
                           }
                         }}
-                        className={`${baseStyles} nfl-grid transition-[transform,opacity,left,top] duration-500 ease-in-out ${
+                        className={`${baseStyles} nfl-grid aspect-video transition-[transform,opacity,left,top] duration-500 ease-in-out ${
                           nflFocused
                             ? 'hover:bg-white/5'
                             : 'hover:bg-white/10 hover:shadow-lg hover:border-white/20'
@@ -1371,26 +1374,25 @@ export const OverlaysUnoLandingPage = () => {
                           pointerEvents: 'auto',
                           // Lock footprint to keep size consistent when active/focused
                           width: '92%',
-                          height: '58%',
                           // Center within the relative container when focused
-                          left: nflFocused ? '50%' : '17%',
+                          left: nflFocused ? '50%' : '15%',
                           top: nflFocused ? '50%' : '20%',
                           transform: nflFocused
                             ? 'translate(-50%, -50%) scale(0.9)'
-                            : 'translate(4%, -2%) scale(0.7)',
+                            : 'translate(4%, -2%) scale(0.73)',
                           transformStyle: 'preserve-3d',
                           padding: 0,
                         }}
                         onMouseEnter={e => {
                           if (selectedHero !== 'nfl' && !nflFocused) {
-                            e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.75)';
+                            e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.78)';
                           }
                           // Stop propagation to prevent container hover effect
                           e.stopPropagation();
                         }}
                         onMouseLeave={e => {
                           if (!nflFocused) {
-                            e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.7)';
+                            e.currentTarget.style.transform = 'translate(4%, -2%) scale(0.73)';
                           }
                           e.stopPropagation();
                         }}
@@ -1426,15 +1428,13 @@ export const OverlaysUnoLandingPage = () => {
                             return next;
                           });
                         }}
-                        className={`${baseStyles} phone-preview transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-transform duration-500 ease-in-out`}
+                        className={`${baseStyles} phone-preview aspect-[390/844] w-45 transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-transform duration-500 ease-in-out`}
                         style={{
                           zIndex: zFor('phone-preview'),
-                          left: '3%',
+                          left: '2%',
                           top: '17%',
                           transform: 'translate(-6%, -6%) scale(.7)',
                           transformStyle: 'preserve-3d',
-                          width: '36%',
-                          height: '72%',
                         }}
                         onMouseEnter={e => {
                           if (selectedHero !== 'phone' && !nflFocused) {
@@ -1449,7 +1449,7 @@ export const OverlaysUnoLandingPage = () => {
                       >
                         <div className="relative w-full h-full rounded-[14px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]">
                           <div
-                            className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-full bg-black/90 border border-white/10"
+                            className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black/90 border border-white/10"
                             aria-hidden="true"
                           />
                           <span
@@ -1471,7 +1471,7 @@ export const OverlaysUnoLandingPage = () => {
                       {/* Bottom-center dots indicator for NFL selected */}
                       {selectedHero === 'nfl' ? (
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                          <span className="inline-block h-2.5 w-2.5 rounded-full bg-white/10" />
+                          <span className="inline-block h-2.5 w-2.5 rounded-full bg-gray-400" />
                           <span className="inline-block h-2.5 w-2.5 rounded-full bg-white/10" />
                           <span className="inline-block h-2.5 w-2.5 rounded-full bg-white/10" />
                         </div>
