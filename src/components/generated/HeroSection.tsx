@@ -90,19 +90,27 @@ export const HeroSection = () => {
                 }}
                 config={{
                   textureDownsample: 1,
-                  densityDissipation: 0.98,
+                  densityDissipation: 0.96, //from 0.98
                   velocityDissipation: 0.99,
-                  pressureDissipation: 0.8,
-                  pressureIterations: 25,
-                  curl: 30,
-                  splatRadius: 0.005,
+                  pressureDissipation: 0.77, //from 0.8
+                  pressureIterations: 28, //from 25
+                  curl: 40, //from 30
+                  splatRadius: 0.004, //from 0.005
                   colorsPool: [
                     '#FF5C25', // Orange
                     '#FFC542', // Yellow
+                    '#c10e69', // Vibrant pink / magenta
+                    '#cc6c99', // Bright pink
+                    '#58aa0a', // Neon green
+                    '#71da0d', // Lime/neon green
+                    '#64b1aa', // Turquoise blue
+                    '#aec76d', // Yellow-green
                     '#9149c1', // Purple
                     '#582864', // Deep purple
                     '#1c172b', // Dark blue
                     '#231b34', // Dark purple
+                    '#f3f5f3', // White/neutral base
+                    '#c8d7cc', // Soft muted background
                   ],
                 }}
               />
