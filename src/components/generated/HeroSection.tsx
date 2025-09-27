@@ -95,7 +95,7 @@ export const HeroSection = () => {
                   pressureDissipation: 0.77, //from 0.8
                   pressureIterations: 28, //from 25
                   curl: 40, //from 30
-                  splatRadius: 0.004, //from 0.005
+                  splatRadius: 0.0028, //from 0.005
                   colorsPool: [
                     '#FF5C25', // Orange
                     '#FFC542', // Yellow
