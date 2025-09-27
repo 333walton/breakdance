@@ -1,31 +1,217 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Play } from 'lucide-react';
+import { Play, Settings, X } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
 
 // @component: HeroSection
 export const HeroSection = () => {
+  // Control panel state
+  const [showControls, setShowControls] = useState(false);
+  const [fluidConfig, setFluidConfig] = useState({
+    textureDownsample: 1,
+    densityDissipation: 0.98,
+    velocityDissipation: 0.99,
+    pressureDissipation: 0.8,
+    pressureIterations: 25,
+    curl: 30,
+    splatRadius: 0.005,
+  });
+
+  const handleConfigChange = (key: string, value: number) => {
+    setFluidConfig(prev => ({ ...prev, [key]: value }));
+  };
+
   // @return
   return (
     <section className="px-6 py-20">
       <div className="max-w-7xl mx-auto">
         {/* Test Container for Fluid Animation */}
-        <div className="mb-12 p-4 bg-gray-900 rounded-lg">
-          <h3 className="text-white text-lg mb-4">Test Container - Fluid Animation</h3>
-          <div className="relative w-full h-[300px] rounded-lg overflow-hidden border border-white/20">
-            <FluidAnimationWrapper
-              className="absolute inset-0"
-              config={{
-                textureDownsample: 1,
-                densityDissipation: 0.98,
-                velocityDissipation: 0.99,
-                pressureDissipation: 0.8,
-                pressureIterations: 25,
-                curl: 30,
-                splatRadius: 0.005,
-              }}
-            />
+        <div className="mb-12 p-4 bg-gray-900 rounded-lg relative">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white text-lg">Test Container - Fluid Animation</h3>
+            <button
+              onClick={() => setShowControls(!showControls)}
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              aria-label="Toggle controls"
+            >
+              {showControls ? (
+                <X className="w-5 h-5 text-white" />
+              ) : (
+                <Settings className="w-5 h-5 text-white" />
+              )}
+            </button>
           </div>
+
+          <div className="relative w-full h-[300px] rounded-lg overflow-hidden border border-white/20">
+            <FluidAnimationWrapper className="absolute inset-0" config={fluidConfig} />
+
+            {/* Control Panel Overlay */}
+            {showControls && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute top-2 left-2 right-2 bg-black/80 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-w-sm"
+                style={{ zIndex: 10 }}
+              >
+                <h4 className="text-white text-sm font-semibold mb-3">Fluid Animation Controls</h4>
+                <div className="space-y-3 max-h-[240px] overflow-y-auto">
+                  {/* Density Dissipation */}
+                  <div>
+                    <label className="text-white/70 text-xs flex justify-between mb-1">
+                      <span>Density Dissipation</span>
+                      <span className="text-white/90">
+                        {fluidConfig.densityDissipation.toFixed(2)}
+                      </span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0.9"
+                      max="1"
+                      step="0.01"
+                      value={fluidConfig.densityDissipation}
+                      onChange={e =>
+                        handleConfigChange('densityDissipation', parseFloat(e.target.value))
+                      }
+                      className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.densityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.densityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Velocity Dissipation */}
+                  <div>
+                    <label className="text-white/70 text-xs flex justify-between mb-1">
+                      <span>Velocity Dissipation</span>
+                      <span className="text-white/90">
+                        {fluidConfig.velocityDissipation.toFixed(2)}
+                      </span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0.9"
+                      max="1"
+                      step="0.01"
+                      value={fluidConfig.velocityDissipation}
+                      onChange={e =>
+                        handleConfigChange('velocityDissipation', parseFloat(e.target.value))
+                      }
+                      className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.velocityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.velocityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Pressure Dissipation */}
+                  <div>
+                    <label className="text-white/70 text-xs flex justify-between mb-1">
+                      <span>Pressure Dissipation</span>
+                      <span className="text-white/90">
+                        {fluidConfig.pressureDissipation.toFixed(2)}
+                      </span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="1"
+                      step="0.01"
+                      value={fluidConfig.pressureDissipation}
+                      onChange={e =>
+                        handleConfigChange('pressureDissipation', parseFloat(e.target.value))
+                      }
+                      className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.pressureDissipation - 0.5) / 0.5) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.pressureDissipation - 0.5) / 0.5) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Curl */}
+                  <div>
+                    <label className="text-white/70 text-xs flex justify-between mb-1">
+                      <span>Curl (Vorticity)</span>
+                      <span className="text-white/90">{fluidConfig.curl}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={fluidConfig.curl}
+                      onChange={e => handleConfigChange('curl', parseInt(e.target.value))}
+                      className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${fluidConfig.curl}%, rgba(255, 255, 255, 0.2) ${fluidConfig.curl}%, rgba(255, 255, 255, 0.2) 100%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Splat Radius */}
+                  <div>
+                    <label className="text-white/70 text-xs flex justify-between mb-1">
+                      <span>Splat Radius</span>
+                      <span className="text-white/90">{fluidConfig.splatRadius.toFixed(3)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0.001"
+                      max="0.02"
+                      step="0.001"
+                      value={fluidConfig.splatRadius}
+                      onChange={e => handleConfigChange('splatRadius', parseFloat(e.target.value))}
+                      className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.splatRadius - 0.001) / 0.019) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.splatRadius - 0.001) / 0.019) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Pressure Iterations */}
+                  <div>
+                    <label className="text-white/70 text-xs flex justify-between mb-1">
+                      <span>Pressure Iterations</span>
+                      <span className="text-white/90">{fluidConfig.pressureIterations}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="10"
+                      max="50"
+                      step="5"
+                      value={fluidConfig.pressureIterations}
+                      onChange={e =>
+                        handleConfigChange('pressureIterations', parseInt(e.target.value))
+                      }
+                      className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.pressureIterations - 10) / 40) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.pressureIterations - 10) / 40) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          <style jsx>{`
+            input[type='range']::-webkit-slider-thumb {
+              appearance: none;
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              background: #ffc542;
+              cursor: pointer;
+            }
+            input[type='range']::-moz-range-thumb {
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              background: #ffc542;
+              cursor: pointer;
+              border: none;
+            }
+          `}</style>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -74,7 +260,7 @@ export const HeroSection = () => {
             }}
           >
             {/* Final Container with Fluid Animation using specified Tailwind classes */}
-            <div className="relative w-full h-[420px] sm:h-[460px] md:h-[500px] lg:h-[520px] xl:h-[560px] rounded-3xl border border-white/10 p-6 sm:p-8 transition-colors duration-500 ease-in-out bg-gradient-to-b from-[#1c172b]/80 to-[#231b34]/70 overflow-hidden">
+            <div className="relative w-full h-[420px] sm:h-[460px] md:h-[500px] lg:h-[520px] xl:h-[520px] rounded-3xl border border-white/10 p-6 sm:p-8 transition-colors duration-500 ease-in-out bg-gradient-to-b from-[#1c172b]/80 to-[#231b34]/70 overflow-hidden">
               {/* Fluid Animation Background */}
               <FluidAnimationWrapper
                 className="absolute inset-0"
@@ -109,8 +295,6 @@ export const HeroSection = () => {
                     '#582864', // Deep purple
                     '#1c172b', // Dark blue
                     '#231b34', // Dark purple
-                    '#f3f5f3', // White/neutral base
-                    '#c8d7cc', // Soft muted background
                   ],
                 }}
               />

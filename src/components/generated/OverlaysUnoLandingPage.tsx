@@ -797,7 +797,7 @@ export const OverlaysUnoLandingPage = () => {
             >
               <div className="relative w-full h-full">
                 <div
-                  className={`relative w-full h-[420px] sm:h-[460px] md:h-[500px] lg:h-[520px] xl:h-[560px] rounded-3xl border border-white/10 p-6 sm:p-8 transition-all duration-500 ease-in-out overflow-hidden ${
+                  className={`relative w-full h-[420px] sm:h-[460px] md:h-[500px] lg:h-[520px] xl:h-[520px] rounded-3xl border border-white/10 p-6 sm:p-8 transition-all duration-500 ease-in-out overflow-hidden ${
                     nflFocused ? 'bg-black' : 'bg-gradient-to-b from-[#1c172b]/80 to-[#231b34]/70'
                   }`}
                   style={{
