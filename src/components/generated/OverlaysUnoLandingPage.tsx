@@ -335,6 +335,175 @@ export const OverlaysUnoLandingPage = () => {
   const [nflFocused, setNflFocused] = useState<boolean>(false);
   const heroStageRef = React.useRef<HTMLDivElement | null>(null);
 
+  // Control panel state for fluid animation
+  const [showControls, setShowControls] = useState(false);
+  const [fluidConfig, setFluidConfig] = useState({
+    textureDownsample: 1,
+    densityDissipation: 0.98,
+    velocityDissipation: 0.99,
+    pressureDissipation: 0.8,
+    pressureIterations: 25,
+    curl: 30,
+    splatRadius: 0.005,
+  });
+
+  // Ref to access the fluid animation instance
+  const fluidAnimationRef = React.useRef<any>(null);
+
+  const handleConfigChange = (key: string, value: number) => {
+    console.log('🎛️ Config changed:', key, '=', value);
+    const newConfig = { ...fluidConfig, [key]: value };
+    console.log('🎛️ New fluid config:', newConfig);
+    setFluidConfig(prev => ({ ...prev, [key]: value }));
+  };
+
+  const triggerRandomSplats = () => {
+    console.log('🎨 Triggering random splats');
+
+    // First, try to find the canvas element
+    const canvasElement = document.querySelector('canvas');
+    if (!canvasElement) {
+      console.log('🎨 No canvas element found');
+      return;
+    }
+
+    console.log('🎨 Found canvas element, triggering splats via simulated events');
+
+    // Trigger multiple random splats at different positions
+    const numSplats = 3 + Math.floor(Math.random() * 5); // 3-7 splats
+
+    for (let i = 0; i < numSplats; i++) {
+      setTimeout(() => {
+        const rect = canvasElement.getBoundingClientRect();
+        const x = Math.random() * rect.width;
+        const y = Math.random() * rect.height;
+
+        console.log('🎨 Creating splat at canvas position:', x, y);
+
+        // Create and dispatch mouse events to simulate user interaction
+        const mouseDownEvent = new MouseEvent('mousedown', {
+          clientX: rect.left + x,
+          clientY: rect.top + y,
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+
+        const mouseMoveEvent = new MouseEvent('mousemove', {
+          clientX: rect.left + x + (Math.random() - 0.5) * 50,
+          clientY: rect.top + y + (Math.random() - 0.5) * 50,
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+
+        const mouseUpEvent = new MouseEvent('mouseup', {
+          clientX: rect.left + x + (Math.random() - 0.5) * 50,
+          clientY: rect.top + y + (Math.random() - 0.5) * 50,
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+
+        // Dispatch the events
+        canvasElement.dispatchEvent(mouseDownEvent);
+
+        setTimeout(() => {
+          canvasElement.dispatchEvent(mouseMoveEvent);
+
+          setTimeout(() => {
+            canvasElement.dispatchEvent(mouseUpEvent);
+          }, 50);
+        }, 10);
+
+        // Also try pointer events for better compatibility
+        const pointerDownEvent = new PointerEvent('pointerdown', {
+          clientX: rect.left + x,
+          clientY: rect.top + y,
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          pointerId: 1,
+          pointerType: 'mouse'
+        });
+
+        const pointerMoveEvent = new PointerEvent('pointermove', {
+          clientX: rect.left + x + (Math.random() - 0.5) * 50,
+          clientY: rect.top + y + (Math.random() - 0.5) * 50,
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          pointerId: 1,
+          pointerType: 'mouse'
+        });
+
+        const pointerUpEvent = new PointerEvent('pointerup', {
+          clientX: rect.left + x + (Math.random() - 0.5) * 50,
+          clientY: rect.top + y + (Math.random() - 0.5) * 50,
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          pointerId: 1,
+          pointerType: 'mouse'
+        });
+
+        // Try pointer events too
+        setTimeout(() => {
+          canvasElement.dispatchEvent(pointerDownEvent);
+          setTimeout(() => {
+            canvasElement.dispatchEvent(pointerMoveEvent);
+            setTimeout(() => {
+              canvasElement.dispatchEvent(pointerUpEvent);
+            }, 50);
+          }, 10);
+        }, 100);
+
+      }, i * 150); // Stagger splats by 150ms
+    }
+
+    // Also try accessing the animation instance for direct API calls
+    if (fluidAnimationRef.current) {
+      console.log('🎨 Available methods on fluid animation:', Object.getOwnPropertyNames(fluidAnimationRef.current));
+      console.log('🎨 Fluid animation current value:', fluidAnimationRef.current);
+    }
+  };
+
+  // Auto-generate splats periodically to ensure animation is active
+  React.useEffect(() => {
+    if (!nflFocused) return;
+
+    console.log('🎨 Setting up auto-splat generation for fluid animation');
+
+    const autoSplatInterval = setInterval(() => {
+      const canvasElement = document.querySelector('canvas');
+      if (canvasElement) {
+        const rect = canvasElement.getBoundingClientRect();
+        const x = Math.random() * rect.width;
+        const y = Math.random() * rect.height;
+
+        // Create a gentle automatic splat
+        const mouseMoveEvent = new MouseEvent('mousemove', {
+          clientX: rect.left + x,
+          clientY: rect.top + y,
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+
+        canvasElement.dispatchEvent(mouseMoveEvent);
+        console.log('🎨 Auto-generated splat at:', x, y);
+      }
+    }, 3000); // Auto-splat every 3 seconds
+
+    return () => {
+      console.log('🎨 Cleaning up auto-splat generation');
+      clearInterval(autoSplatInterval);
+    };
+  }, [nflFocused]);
+
+  // Debug logging
+  console.log('🎛️ OverlaysUnoLandingPage rendering - showControls:', showControls);
+
   // Add missing variables
   const baseStyles = 'absolute cursor-pointer border border-white/10 rounded-2xl bg-white/5';
   const zFor = (id: string): number => {
@@ -607,6 +776,279 @@ export const OverlaysUnoLandingPage = () => {
   // @return
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1F1A30] via-[#582864] to-[#9149c1] text-white font-sans">
+      {/* Floating Control Panel */}
+      {showControls && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, x: 50 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          exit={{ opacity: 0, scale: 0.8, x: 50 }}
+          className="fixed right-6 bg-black/90 backdrop-blur-md rounded-xl border border-white/30 shadow-2xl p-2 max-w-sm z-50"
+          style={{
+            top: '100px',
+            width: '160px',
+            maxHeight: '40vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            backdropFilter: 'blur(12px)'
+          }}
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          onMouseUp={(e) => e.stopPropagation()}
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between mb-2 pb-2 border-b border-white/20">
+            <h4 className="text-white text-xs font-semibold">🎛️ Controls</h4>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                console.log('🎛️ Control panel close button clicked');
+                setShowControls(false);
+              }}
+              onMouseDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              className="w-5 h-5 flex items-center justify-center rounded hover:bg-white/10 transition-colors"
+              aria-label="Hide controls"
+            >
+              ×
+            </button>
+          </div>
+
+          {/* Controls */}
+          <div className="space-y-2 max-h-[30vh] overflow-y-auto">
+            {/* Density Dissipation */}
+            <div>
+              <label className="text-white/70 text-xs flex justify-between mb-1">
+                <span>Density</span>
+                <span className="text-white/90 font-mono text-xs">
+                  {fluidConfig.densityDissipation.toFixed(2)}
+                </span>
+              </label>
+              <input
+                type="range"
+                min="0.9"
+                max="1"
+                step="0.01"
+                value={fluidConfig.densityDissipation}
+                onChange={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  console.log('🎛️ Density changed to:', e.target.value);
+                  handleConfigChange('densityDissipation', parseFloat(e.target.value));
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onPointerUp={(e) => e.stopPropagation()}
+                className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.densityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.densityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Velocity Dissipation */}
+            <div>
+              <label className="text-white/70 text-xs flex justify-between mb-1">
+                <span>Velocity</span>
+                <span className="text-white/90 font-mono text-xs">
+                  {fluidConfig.velocityDissipation.toFixed(2)}
+                </span>
+              </label>
+              <input
+                type="range"
+                min="0.9"
+                max="1"
+                step="0.01"
+                value={fluidConfig.velocityDissipation}
+                onChange={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleConfigChange('velocityDissipation', parseFloat(e.target.value));
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onPointerUp={(e) => e.stopPropagation()}
+                className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.velocityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.velocityDissipation - 0.9) / 0.1) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Pressure Dissipation */}
+            <div>
+              <label className="text-white/70 text-xs flex justify-between mb-1">
+                <span>Pressure</span>
+                <span className="text-white/90 font-mono text-xs">
+                  {fluidConfig.pressureDissipation.toFixed(2)}
+                </span>
+              </label>
+              <input
+                type="range"
+                min="0.5"
+                max="1"
+                step="0.01"
+                value={fluidConfig.pressureDissipation}
+                onChange={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleConfigChange('pressureDissipation', parseFloat(e.target.value));
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onPointerUp={(e) => e.stopPropagation()}
+                className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.pressureDissipation - 0.5) / 0.5) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.pressureDissipation - 0.5) / 0.5) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Curl */}
+            <div>
+              <label className="text-white/70 text-xs flex justify-between mb-1">
+                <span>Curl</span>
+                <span className="text-white/90 font-mono text-xs">{fluidConfig.curl}</span>
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                value={fluidConfig.curl}
+                onChange={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleConfigChange('curl', parseInt(e.target.value));
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onPointerUp={(e) => e.stopPropagation()}
+                className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${fluidConfig.curl}%, rgba(255, 255, 255, 0.2) ${fluidConfig.curl}%, rgba(255, 255, 255, 0.2) 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Splat Radius */}
+            <div>
+              <label className="text-white/70 text-xs flex justify-between mb-1">
+                <span>Splat</span>
+                <span className="text-white/90 font-mono text-xs">{fluidConfig.splatRadius.toFixed(3)}</span>
+              </label>
+              <input
+                type="range"
+                min="0.001"
+                max="0.02"
+                step="0.001"
+                value={fluidConfig.splatRadius}
+                onChange={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleConfigChange('splatRadius', parseFloat(e.target.value));
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onPointerUp={(e) => e.stopPropagation()}
+                className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.splatRadius - 0.001) / 0.019) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.splatRadius - 0.001) / 0.019) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Pressure Iterations */}
+            <div>
+              <label className="text-white/70 text-xs flex justify-between mb-1">
+                <span>Iterations</span>
+                <span className="text-white/90 font-mono text-xs">{fluidConfig.pressureIterations}</span>
+              </label>
+              <input
+                type="range"
+                min="10"
+                max="50"
+                step="5"
+                value={fluidConfig.pressureIterations}
+                onChange={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleConfigChange('pressureIterations', parseInt(e.target.value));
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onPointerUp={(e) => e.stopPropagation()}
+                className="w-full h-1 bg-white/20 rounded appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFC542 0%, #FFC542 ${((fluidConfig.pressureIterations - 10) / 40) * 100}%, rgba(255, 255, 255, 0.2) ${((fluidConfig.pressureIterations - 10) / 40) * 100}%, rgba(255, 255, 255, 0.2) 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Random Splats Button */}
+            <div
+              className="pt-2 border-t border-white/10"
+              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onMouseUp={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              onPointerUp={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                  triggerRandomSplats();
+                }}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+                onMouseUp={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+                onPointerUp={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+                className="w-full py-2 px-3 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF5C25]/80 hover:to-[#FFC542]/80 rounded text-white text-xs font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
+                aria-label="Trigger random splats"
+                style={{ userSelect: 'none', pointerEvents: 'auto' }}
+              >
+                🎨 Random Splats
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Header */}
       <header className="bg-gradient-to-b from-[#26213a] to-[#302742] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
         <div
@@ -764,6 +1206,11 @@ export const OverlaysUnoLandingPage = () => {
                 </div>
               </div>
               <motion.button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log('🎛️ Hero button clicked - toggling control panel');
+                  setShowControls(!showControls);
+                }}
                 className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-[padding,background-position,color,box-shadow] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] px-10 py-4 rounded-full font-bold text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg"
                 whileHover={{
                   scale: 1.05,
@@ -824,15 +1271,10 @@ export const OverlaysUnoLandingPage = () => {
                         zIndex: 1,
                       }}
                       config={{
-                        textureDownsample: 1,
-                        densityDissipation: 0.98,
-                        velocityDissipation: 0.99,
-                        pressureDissipation: 0.8,
-                        pressureIterations: 25,
-                        curl: 30,
-                        splatRadius: 0.008,
+                        ...fluidConfig,
                         colorsPool: ['#FF5C25', '#FFC542', '#9149c1', '#582864', '#ffffff'],
                       }}
+                      animationRef={fluidAnimationRef}
                     />
                   )}
 
