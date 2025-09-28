@@ -693,7 +693,7 @@ export const OverlaysUnoLandingPage = () => {
             // Lock footprint to keep size consistent when active/focused
             width: '92%',
             left: nflFocused ? '10%' : '15%',
-            top: nflFocused ? '15%' : '20%',
+            top: nflFocused ? '15%' : '21%',
             transform: nflFocused ? 'translate(0,0) scale(0.9)' : 'translate(4%, -2%) scale(0.73)',
             transformStyle: 'preserve-3d',
             padding: 0,
@@ -724,7 +724,7 @@ export const OverlaysUnoLandingPage = () => {
           style={{
             zIndex: zFor('phone-preview'),
             left: '2%',
-            top: '17%',
+            top: '20%',
             transform: 'translate(-6%, -6%) scale(.7)',
             transformStyle: 'preserve-3d',
           }}
@@ -1375,7 +1375,7 @@ export const OverlaysUnoLandingPage = () => {
                           width: '92%',
                           // Center within the relative container when focused
                           left: nflFocused ? '50%' : '15%',
-                          top: nflFocused ? '50%' : '20%',
+                          top: nflFocused ? '50%' : '21%',
                           transform: nflFocused
                             ? 'translate(-50%, -50%) scale(0.9)'
                             : 'translate(4%, -2%) scale(0.73)',
@@ -1431,7 +1431,8 @@ export const OverlaysUnoLandingPage = () => {
                         style={{
                           zIndex: zFor('phone-preview'),
                           left: '2%',
-                          top: '17%',
+                          top: '20%',
+                          height: '79%',
                           transform: 'translate(-6%, -6%) scale(.7)',
                           transformStyle: 'preserve-3d',
                         }}
@@ -1472,7 +1473,7 @@ export const OverlaysUnoLandingPage = () => {
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-50 pointer-events-auto">
                           <button
                             className={`inline-block h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-200 ${activeDot === 0 ? 'bg-gray-400' : 'bg-white/10 hover:bg-white/20'}`}
-                            onClick={(e) => {
+                            onClick={e => {
                               e.preventDefault();
                               e.stopPropagation();
                               setActiveDot(0);
@@ -1481,7 +1482,7 @@ export const OverlaysUnoLandingPage = () => {
                           />
                           <button
                             className={`inline-block h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-200 ${activeDot === 1 ? 'bg-gray-400' : 'bg-white/10 hover:bg-white/20'}`}
-                            onClick={(e) => {
+                            onClick={e => {
                               e.preventDefault();
                               e.stopPropagation();
                               setActiveDot(1);
@@ -1490,7 +1491,7 @@ export const OverlaysUnoLandingPage = () => {
                           />
                           <button
                             className={`inline-block h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-200 ${activeDot === 2 ? 'bg-gray-400' : 'bg-white/10 hover:bg-white/20'}`}
-                            onClick={(e) => {
+                            onClick={e => {
                               e.preventDefault();
                               e.stopPropagation();
                               setActiveDot(2);
