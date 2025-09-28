@@ -134,8 +134,8 @@ const stats = [
     sublabel: '',
   },
   {
-    number: '47%',
-    label: 'Fewer Technical Issues',
+    number: '30%',
+    label: 'Higher Viewer Retention',
     sublabel: '',
   },
 ] as any[];
@@ -157,7 +157,7 @@ const communityCards = [
   {
     icon: Heart,
     title: 'Customize It',
-    subtitle: 'Something specific? We can help',
+    subtitle: 'Something specific? Themes, logos, animations & more...',
     buttonText: 'Reach Out',
     color: 'bg-[oklch(0.510_0.262_276.9)]',
   },
@@ -301,7 +301,7 @@ function useRevealOnce<T extends HTMLElement>() {
 }
 
 // Count-up utility using requestAnimationFrame
-function useCountUp(target: number, inView: boolean, duration = 1200) {
+function useCountUp(target: number, inView: boolean, duration = 300) {
   const [value, setValue] = React.useState(0);
   React.useEffect(() => {
     if (!inView) return;
@@ -326,7 +326,7 @@ export const OverlaysUnoLandingPage = () => {
   React.useEffect(() => {
     setActiveCategory('Browse Overlays');
   }, []);
-  const [activeDot, setActiveDot] = useState<number>(-1);
+  const [activeDot, setActiveDot] = useState<number>(0);
   // Track which hero button is selected; none by default
   const [selectedHero, setSelectedHero] = useState<'form' | 'nfl' | 'phone' | null>(null);
   // Maintain recency order: most-recent first, least-recent last
@@ -1226,9 +1226,9 @@ export const OverlaysUnoLandingPage = () => {
                 }}
               >
                 <span>
-                  {activeDot === 1
+                  {selectedHero === 'form'
                     ? 'Browse Tools'
-                    : activeDot === 2
+                    : selectedHero === 'phone'
                       ? 'Learn More'
                       : 'Browse Overlays'}
                 </span>
@@ -1252,7 +1252,6 @@ export const OverlaysUnoLandingPage = () => {
                   }`}
                   style={{
                     perspective: 1200,
-                    cursor: nflFocused ? 'crosshair' : 'default',
                   }}
                   onMouseMove={e => {
                     // Only trigger hover effect if NFL is focused and not hovering the button
@@ -1470,10 +1469,34 @@ export const OverlaysUnoLandingPage = () => {
 
                       {/* Bottom-center dots indicator for NFL selected */}
                       {selectedHero === 'nfl' ? (
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                          <span className="inline-block h-2.5 w-2.5 rounded-full bg-gray-400" />
-                          <span className="inline-block h-2.5 w-2.5 rounded-full bg-white/10" />
-                          <span className="inline-block h-2.5 w-2.5 rounded-full bg-white/10" />
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-50 pointer-events-auto">
+                          <button
+                            className={`inline-block h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-200 ${activeDot === 0 ? 'bg-gray-400' : 'bg-white/10 hover:bg-white/20'}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setActiveDot(0);
+                            }}
+                            aria-label="Select page 1"
+                          />
+                          <button
+                            className={`inline-block h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-200 ${activeDot === 1 ? 'bg-gray-400' : 'bg-white/10 hover:bg-white/20'}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setActiveDot(1);
+                            }}
+                            aria-label="Select page 2"
+                          />
+                          <button
+                            className={`inline-block h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-200 ${activeDot === 2 ? 'bg-gray-400' : 'bg-white/10 hover:bg-white/20'}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setActiveDot(2);
+                            }}
+                            aria-label="Select page 3"
+                          />
                         </div>
                       ) : null}
                     </div>
@@ -1575,7 +1598,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
               <span>Team Boards</span>
             </h2>
             <div className="hidden">
@@ -1662,7 +1685,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
               <span>Themes</span>
             </h2>
             <div className="hidden">
@@ -1750,7 +1773,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
               <span>Extras</span>
             </h2>
             <div className="hidden">
@@ -1837,7 +1860,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
               <span>Tools</span>
             </h2>
             <div className="flex items-center">
@@ -2237,7 +2260,7 @@ export const OverlaysUnoLandingPage = () => {
       {/* Stats */}
       <section className="px-6 pt-24 pb-0 bg-gradient-to-b from-[#2b253e] to-[#302742]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-center text-5xl font-bold mb-20">
+          <h2 className="text-center text-5xl font-bold mb-[calc(var(--spacing)*9)]">
             <span>Why Production Quality Matters</span>
           </h2>
           {/* Create a self-contained stage with fixed min-height so hover growth doesn't nudge following sections */}
@@ -2284,10 +2307,10 @@ export const OverlaysUnoLandingPage = () => {
                     <p className="text-md text-white/90 bg-white/10 rounded-xl px-4 py-3">
                       <span>
                         {stat.number === '19.8%'
-                          ? 'Streams with premium production quality generate 19.8% longer average watch times and more active chat participation'
+                          ? 'Increase engagement. Premium production quality delivers 19.8% longer watch times and higher chat activity than basic streams'
                           : stat.number === '3.2x'
-                            ? 'Professional production quality converts casual viewers to regular customers 3.2x more effectively than basic setups'
-                            : 'Streamlined overlay systems reduce technical interruptions by 47%, keeping your audience engaged for every break'}
+                            ? 'Turn viewers into fans. Quality production converts casual viewers into loyal fans 3.2x more effectively than basic setups'
+                            : 'Boost retention. Cutting technical issues lowers stream drop-off rates by up to 30%, helping your audience stay longer'}
                       </span>
                     </p>
                   </div>
@@ -2343,7 +2366,7 @@ export const OverlaysUnoLandingPage = () => {
       {/* Community CTAs */}
       <section className="px-6 pt-0 pb-24 bg-gradient-to-b from-[#302742] to-[#1F1A30]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-center text-4xl font-bold mb-[calc(var(--spacing)*9)]">
+          <h2 className="text-center text-5xl font-bold mb-[calc(var(--spacing)*9)]">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C25] to-[#FFC542]">
               Get in Touch
             </span>
