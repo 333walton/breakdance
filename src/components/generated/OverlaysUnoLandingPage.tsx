@@ -12,6 +12,7 @@ import {
   Target,
   Palette,
   Copy,
+  ExternalLink,
 } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
 import GlassmorphicButton from '../GlassmorphicButton';
@@ -172,9 +173,6 @@ const navigationItems = [
   },
   {
     label: 'How It Works',
-  },
-  {
-    label: 'Demo',
   },
   {
     label: 'Live Breaks',
@@ -1131,12 +1129,6 @@ export const OverlaysUnoLandingPage = () => {
                 <span>Login</span>
               </button>
               <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2">
-                <Users
-                  className="w-4 h-4"
-                  style={{
-                    display: 'none',
-                  }}
-                />
                 <span
                   style={{
                     color: 'rgb(0 0 0)',
@@ -1144,6 +1136,12 @@ export const OverlaysUnoLandingPage = () => {
                 >
                   Launch App
                 </span>
+                <ExternalLink
+                  className="w-4 h-4"
+                  style={{
+                    color: 'rgb(0 0 0)',
+                  }}
+                />
               </button>
             </div>
           </div>
