@@ -8,7 +8,7 @@ import {
 import './GlassmorphicButton.css';
 
 interface GlassmorphicButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'onDrag' | 'onDragStart' | 'onDragEnd'> {
   children: ReactNode;
 }
 
