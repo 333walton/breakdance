@@ -1,0 +1,161 @@
+.glassmorphic-button {
+  --button-radius: 40px;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --pointer-opacity: 0;
+  position: relative;
+  width: 214.8px;
+  height: 64.8px;
+  border: none;
+  padding: 0;
+  background: transparent;
+  border-radius: var(--button-radius);
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  isolation: isolate;
+  transition: box-shadow 0.35s ease;
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .glassmorphic-button {
+    width: 168px;
+    height: 51px;
+    --button-radius: 30px;
+  }
+  .glassmorphic-lights .glassmorphic-gradient {
+    left: -15px;
+    top: -10.8px;
+    width: 198px;
+    height: 73.2px;
+  }
+  .glassmorphic-content {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .glassmorphic-button {
+    width: 192px;
+    height: 58.2px;
+    --button-radius: 35px;
+  }
+  .glassmorphic-lights .glassmorphic-gradient {
+    left: -17.4px;
+    top: -12.6px;
+    width: 226.8px;
+    height: 84px;
+  }
+  .glassmorphic-content {
+    font-size: 17.5px;
+  }
+}
+
+.glassmorphic-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(103, 0, 255, 0.4);
+  --pointer-opacity: 1;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+}
+
+.glassmorphic-button:focus-visible .glassmorphic-lights .glassmorphic-gradient {
+  transform: scale(1);
+}
+
+.glassmorphic-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--button-radius);
+  pointer-events: none;
+}
+
+.glassmorphic-lights {
+  z-index: 1;
+}
+
+.glassmorphic-lights img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+
+.glassmorphic-lights .glassmorphic-gradient {
+  left: -19.8px;
+  top: -14.4px;
+  width: 255px;
+  height: 94.2px;
+  z-index: 0;
+  border-radius: calc(var(--button-radius) * 1.4);
+  background: conic-gradient(
+    from 61deg at 52.47% 52.87%,
+    #4A03C0 0deg,
+    #05C246 76.87500178813934deg,
+    #0C07BA 129.375deg,
+    #BA0AA5 232.49999284744263deg,
+    #077DBA 360deg
+  );
+  transition: opacity 0.3s ease;
+  transform: scale(1);
+}
+
+.glassmorphic-button:hover .glassmorphic-lights .glassmorphic-gradient {
+  transform: scale(1);
+}
+
+.glassmorphic-blur {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20.7px);
+}
+
+.glassmorphic-stroke {
+  z-index: 4;
+  border: 1px solid #6700ff;
+  background: linear-gradient(
+    85deg,
+    rgba(104, 1, 254, 0.08) 2.96%,
+    rgba(217, 217, 217, 0.08) 96.14%
+  );
+  box-shadow: 0 9.6px 38.4px rgba(104, 1, 255, 0.12);
+}
+
+.glassmorphic-highlight {
+  z-index: 3;
+  background: radial-gradient(
+    circle at var(--pointer-x) var(--pointer-y),
+    rgba(104, 1, 255, 0.36) 0%,
+    rgba(12, 166, 247, 0.25) 28%,
+    rgba(2, 0, 24, 0.1) 58%,
+    transparent 72%
+  );
+  opacity: var(--pointer-opacity);
+  transition: opacity 0.3s ease;
+}
+
+.glassmorphic-button:hover {
+  --pointer-opacity: 1;
+}
+
+.glassmorphic-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow: 0 6.6px 13.8px rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(2.7px);
+  padding: 0 14.4px;
+  font-size: 18px;
+  line-height: 1;
+}

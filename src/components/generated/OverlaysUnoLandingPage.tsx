@@ -14,6 +14,7 @@ import {
   Copy,
 } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
+import GlassmorphicButton from '../GlassmorphicButton';
 const overlayCategories = [
   {
     name: 'Browse Overlays',
@@ -1062,7 +1063,7 @@ export const OverlaysUnoLandingPage = () => {
             {/* Logo */}
             <div className="text-2xl font-bold flex items-center -ml-4">
               <img
-                src="/static/logo_rough.png"
+                src="/static/logo_rough2.png"
                 alt="Logo"
                 className="h-20 w-auto object-contain mr-3 transition-all duration-300 hover:scale-105 hover:brightness-110 cursor-pointer"
                 style={{ marginLeft: '-20px' }}
@@ -1164,7 +1165,7 @@ export const OverlaysUnoLandingPage = () => {
               }}
               variants={fadeRise}
               ref={heroCopyRef as any}
-              className={`space-y-8 overflow-visible transition-[margin,transform,opacity,padding] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? '-translate-y-2' : '-translate-y-2'}`}
+              className={`space-y-8 overflow-visible transition-[margin,transform,opacity,padding] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? '-translate-y-2' : '-translate-y-2'} min-w-0`}
               style={{
                 paddingBottom: selectedHero ? 12 : 0,
               }}
@@ -1208,31 +1209,29 @@ export const OverlaysUnoLandingPage = () => {
                   ) : null}
                 </div>
               </div>
-              <motion.button
-                onClick={e => {
-                  e.stopPropagation();
-                  console.log('🎛️ Hero button clicked - toggling control panel');
-                  setShowControls(!showControls);
-                }}
-                className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-[padding,background-position,color,box-shadow] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] px-10 py-4 rounded-full font-bold text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg"
-                whileHover={{
-                  scale: 1.05,
-                }}
-                whileTap={{
-                  scale: 0.95,
-                }}
-                style={{
-                  fontFamily: 'Nunito, sans-serif',
-                }}
-              >
-                <span>
+              <div className="w-fit">
+                <GlassmorphicButton
+                  className="px-5 py-2 text-sm"
+                  onClick={e => {
+                    e.stopPropagation();
+                    console.log('🎛️ Hero button clicked - toggling control panel');
+                    setShowControls(!showControls);
+                  }}
+                  style={{
+                    fontFamily: 'Nunito, sans-serif',
+                    transform: 'none',
+                    width: '214.8px',
+                    height: '64.8px',
+                    fontSize: '18px',
+                  }}
+                >
                   {selectedHero === 'form'
                     ? 'Browse Tools'
                     : selectedHero === 'phone'
                       ? 'Learn More'
                       : 'Browse Overlays'}
-                </span>
-              </motion.button>
+                </GlassmorphicButton>
+              </div>
             </motion.div>
 
             <motion.div
