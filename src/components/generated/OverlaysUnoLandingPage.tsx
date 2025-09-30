@@ -714,22 +714,21 @@ export const OverlaysUnoLandingPage = () => {
           />
         </button>
 
-        {/* Front layer – Phone Button */}
-        <button
-          type="button"
-          aria-label="Open phone preview"
-          onClick={() => bringToFront('phone')}
-          className={`${baseStyles} phone-preview aspect-[390/844] w-45 transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-[transform,filter,box-shadow,background-color,border-color] duration-500 ease-in-out hover:bg-white/10 hover:shadow-lg hover:border-white/20`}
+        {/* Phone preview wrapper for synchronized scaling */}
+        <div
+          className="phone-preview-wrapper absolute"
           style={{
-            zIndex: zFor('phone-preview'),
             left: '2%',
             top: '20%',
+            width: 'calc(11.25rem * 0.99)',
+            aspectRatio: '390/844',
+            zIndex: zFor('phone-preview'),
             transform: 'translate(-6%, -6%) scale(.7)',
             transformStyle: 'preserve-3d',
+            transition: 'transform 500ms ease-in-out',
           }}
           onMouseEnter={e => {
             if (selectedHero !== 'phone' && !nflFocused) {
-              // Let CSS handle the interpolation; only set the end-state
               e.currentTarget.style.transform = 'translate(-6%, -6%) scale(0.75)';
             }
           }}
@@ -739,29 +738,35 @@ export const OverlaysUnoLandingPage = () => {
             }
           }}
         >
-          <div className="relative w-full h-full rounded-[14px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]">
-            {/* iPhone top dynamic island / notch */}
-            <div
-              className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black/90 border border-white/10"
-              aria-hidden="true"
-            />
-            {/* side buttons (decorative) */}
-            <span
-              className="absolute left-0 top-[18%] -translate-x-1/2 h-10 w-0.5 rounded bg-white/20"
-              aria-hidden="true"
-            />
-            <span
-              className="absolute right-0 top-[26%] translate-x-1/2 h-6 w-0.5 rounded bg-white/20"
-              aria-hidden="true"
-            />
-            <span
-              className="absolute right-0 top-[36%] translate-x-1/2 h-14 w-0.5 rounded bg-white/20"
-              aria-hidden="true"
-            />
-            {/* screen */}
-            <div className="w-full h-full rounded-[22px] bg-black" />
-          </div>
-        </button>
+          {/* Back layer – Phone Background */}
+          <div
+            className={`absolute transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-80'} !rounded-[28px] bg-gray-800 border border-white/5 brightness-[0.7]`}
+            style={{
+              position: 'absolute',
+              width: 'calc(100% - 10px)',
+              height: 'calc(100% - 10px)',
+              top: '5px',
+              left: '5px',
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Front layer – Phone Button */}
+          <img
+            src="/static/iphone_frame.png"
+            alt="Open phone preview"
+            onClick={() => bringToFront('phone')}
+            className={`transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} hover:brightness-[0.35] cursor-pointer brightness-[0.35]`}
+            style={{
+              position: 'absolute',
+              width: '101%',
+              height: '101%',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        </div>
 
         <style>{`
           @media (hover:hover) {
@@ -1409,29 +1414,18 @@ export const OverlaysUnoLandingPage = () => {
                         </div>
                       </button>
 
-                      {/* Front layer – Phone Button */}
-                      <button
-                        type="button"
-                        aria-label="Open phone preview"
-                        onClick={() => {
-                          setNflFocused(false);
-                          const clicked: 'phone' = 'phone';
-                          const clickedId = 'phone-preview';
-                          setSelectedHero(clicked);
-                          setRecency(prev => {
-                            const next = prev.filter(id => id !== clickedId);
-                            next.unshift(clickedId);
-                            return next;
-                          });
-                        }}
-                        className={`${baseStyles} phone-preview aspect-[390/844] w-45 transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-transform duration-500 ease-in-out`}
+                      {/* Phone preview wrapper for synchronized scaling */}
+                      <div
+                        className="phone-preview-wrapper absolute"
                         style={{
-                          zIndex: zFor('phone-preview'),
                           left: '2%',
                           top: '20%',
+                          width: 'calc(11.25rem * 0.99)',
                           height: '79%',
+                          zIndex: zFor('phone-preview'),
                           transform: 'translate(-6%, -6%) scale(.7)',
                           transformStyle: 'preserve-3d',
+                          transition: 'transform 500ms ease-in-out',
                         }}
                         onMouseEnter={e => {
                           if (selectedHero !== 'phone' && !nflFocused) {
@@ -1444,26 +1438,45 @@ export const OverlaysUnoLandingPage = () => {
                           }
                         }}
                       >
-                        <div className="relative w-full h-full rounded-[14px] bg-black border border-white/20 p-2 shadow-[0_22px_60px_rgba(0,0,0,0.55)]">
-                          <div
-                            className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black/90 border border-white/10"
-                            aria-hidden="true"
-                          />
-                          <span
-                            className="absolute left-0 top-[18%] -translate-x-1/2 h-10 w-0.5 rounded bg-white/20"
-                            aria-hidden="true"
-                          />
-                          <span
-                            className="absolute right-0 top-[26%] translate-x-1/2 h-6 w-0.5 rounded bg-white/20"
-                            aria-hidden="true"
-                          />
-                          <span
-                            className="absolute right-0 top-[36%] translate-x-1/2 h-14 w-0.5 rounded bg-white/20"
-                            aria-hidden="true"
-                          />
-                          <div className="w-full h-full rounded-[22px] bg-black" />
-                        </div>
-                      </button>
+                        {/* Back layer – Phone Background */}
+                        <div
+                          className={`absolute transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-80'} !rounded-[28px] bg-gray-800 border border-white/5 brightness-[0.7]`}
+                          style={{
+                            position: 'absolute',
+                            width: 'calc(100% - 10px)',
+                            height: 'calc(100% - 10px)',
+                            top: '5px',
+                            left: '5px',
+                            pointerEvents: 'none',
+                          }}
+                        />
+
+                        {/* Front layer – Phone Button */}
+                        <img
+                          src="/static/iphone_frame.png"
+                          alt="Open phone preview"
+                          onClick={() => {
+                            setNflFocused(false);
+                            const clicked: 'phone' = 'phone';
+                            const clickedId = 'phone-preview';
+                            setSelectedHero(clicked);
+                            setRecency(prev => {
+                              const next = prev.filter(id => id !== clickedId);
+                              next.unshift(clickedId);
+                              return next;
+                            });
+                          }}
+                          className={`transition-opacity duration-300 ${nflFocused ? 'opacity-0 pointer-events-none' : 'opacity-100'} hover:brightness-[0.35] cursor-pointer brightness-[0.35]`}
+                          style={{
+                            position: 'absolute',
+                            width: '101%',
+                            height: '101%',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                          }}
+                        />
+                      </div>
 
                       {/* Bottom-center dots indicator for NFL selected */}
                       {selectedHero === 'nfl' ? (
