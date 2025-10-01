@@ -1606,6 +1606,7 @@ export const OverlaysUnoLandingPage = () => {
       {/* Sports Overlays Carousel */}
       <section
         className={`px-6 py-5 bg-gradient-to-b from-[#222032] to-[#2a2338] ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`}
+        style={{ height: '353.39px' }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
@@ -1635,8 +1636,8 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {sportsOverlays.slice(0, 4).map(overlay => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 5)' }}>
+            {sportsOverlays.slice(0, 4).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
                 className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10"
@@ -1647,39 +1648,41 @@ export const OverlaysUnoLandingPage = () => {
                   amount: 0.25,
                 }}
                 variants={fadeRiseSoft}
-                whileHover={{
-                  scale: 1.02,
-                  y: -8,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
               >
-                <div className="relative overflow-hidden">
-                  <div className="w-full aspect-[5/3] bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 flex items-center justify-center">
-                    <div className="text-center space-y-2">
+                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
+                <div className="relative" style={{ height: '275.39px' }}>
+                  {/* Full card with gradient background - stays fixed */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 flex items-center justify-center">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <div className="p-5 space-y-3">
-                  <h3 className="font-semibold text-white group-hover:text-orange-300 transition-colors duration-200 text-base leading-tight">
-                    <span>
-                      {overlay.name === 'LPF Argentina Stadium Fly In'
-                        ? 'NFL'
-                        : overlay.name === 'Basketball Stats Overlay'
-                          ? 'MLB'
-                          : overlay.name === 'Football Scoreboard Pro'
-                            ? 'NBA'
-                            : overlay.name === 'Tennis Match Display'
-                              ? 'NHL'
-                              : overlay.name}
-                    </span>
-                  </h3>
-                  <span className="inline-block text-xs text-gray-400 bg-slate-700/80 px-3 py-1 rounded-full font-medium">
-                    <span>{overlay.aspect}</span>
-                  </span>
+                  {/* Caption card - starts lower, slides up on hover to reveal additional content */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-5 pb-5 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white text-[17px] leading-tight mt-[3px]">
+                      <span>
+                        {overlay.name === 'LPF Argentina Stadium Fly In'
+                          ? 'NFL'
+                          : overlay.name === 'Basketball Stats Overlay'
+                            ? 'MLB'
+                            : overlay.name === 'Football Scoreboard Pro'
+                              ? 'NBA'
+                              : overlay.name === 'Tennis Match Display'
+                                ? 'NHL'
+                                : overlay.name}
+                      </span>
+                    </h3>
+                    {/* Additional info that gets revealed on hover */}
+                    <div className="flex items-center justify-between -translate-y-[3px]">
+                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                        <span>{overlay.aspect}</span>
+                      </span>
+                      {/* Button appears only on hover */}
+                      <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] text-[14.3px] font-medium text-white bg-orange-500 hover:bg-orange-600 px-[15.4px] py-[2.2px] rounded-full -translate-y-[2px]">
+                        Take a look
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -1691,7 +1694,7 @@ export const OverlaysUnoLandingPage = () => {
       <section
         className={`px-6 py-5 bg-gradient-to-b from-[#2a2338] to-[#2b253e] ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`}
         style={{
-          paddingTop: 'calc(var(--spacing)*0)',
+          paddingTop: 'calc(var(--spacing)*5)',
         }}
       >
         <div className="max-w-7xl mx-auto">
