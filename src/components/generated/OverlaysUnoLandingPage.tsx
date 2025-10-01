@@ -1640,7 +1640,8 @@ export const OverlaysUnoLandingPage = () => {
             {sportsOverlays.slice(0, 4).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
-                className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10"
+                className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
+                style={{ borderRadius: '16px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1652,14 +1653,14 @@ export const OverlaysUnoLandingPage = () => {
                 {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
                 <div className="relative" style={{ height: '275.39px' }}>
                   {/* Full card with gradient background - stays fixed */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-5 pb-5 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white text-[17px] leading-tight mt-[3px]">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
                       <span>
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'NFL'
@@ -1673,13 +1674,13 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between -translate-y-[3px]">
+                    <div className="flex items-center justify-between">
                       <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] text-[14.3px] font-medium text-white bg-orange-500 hover:bg-orange-600 px-[15.4px] py-[2.2px] rounded-full -translate-y-[2px]">
-                        Take a look
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                        View Details
                       </button>
                     </div>
                   </div>
@@ -1725,11 +1726,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
             {gamingOverlays.slice(0, 4).map(overlay => (
               <motion.div
                 key={overlay.name}
-                className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10"
+                className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
+                style={{ borderRadius: '16px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1737,39 +1739,41 @@ export const OverlaysUnoLandingPage = () => {
                   amount: 0.25,
                 }}
                 variants={fadeSlideLeft}
-                whileHover={{
-                  scale: 1.02,
-                  y: -8,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
               >
-                <div className="relative overflow-hidden">
-                  <div className="w-full aspect-[5/3] bg-gradient-to-b from-[#582864]/20 via-[#9149c1]/10 to-[#c6a1eb]/5 flex items-center justify-center">
-                    <div className="text-center space-y-2">
+                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
+                <div className="relative" style={{ height: '275.39px' }}>
+                  {/* Full card with gradient background - stays fixed */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <div className="p-5 space-y-3">
-                  <h3 className="font-semibold text-white group-hover:text-orange-300 transition-colors duration-200 text-base leading-tight">
-                    <span>
-                      {overlay.name === 'FPS Combat HUD'
-                        ? 'Color Blast'
-                        : overlay.name === 'RPG Interface Pro'
-                          ? 'Downtown'
-                          : overlay.name === 'Racing Dashboard'
-                            ? 'Kaboom'
-                            : overlay.name === 'Strategy Command'
-                              ? 'Stained Glass'
-                              : overlay.name}
-                    </span>
-                  </h3>
-                  <span className="inline-block text-xs text-gray-400 bg-slate-700/80 px-3 py-1 rounded-full font-medium">
-                    <span>{overlay.aspect}</span>
-                  </span>
+                  {/* Caption card - starts lower, slides up on hover to reveal additional content */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                      <span>
+                        {overlay.name === 'FPS Combat HUD'
+                          ? 'Color Blast'
+                          : overlay.name === 'RPG Interface Pro'
+                            ? 'Downtown'
+                            : overlay.name === 'Racing Dashboard'
+                              ? 'Kaboom'
+                              : overlay.name === 'Strategy Command'
+                                ? 'Stained Glass'
+                                : overlay.name}
+                      </span>
+                    </h3>
+                    {/* Additional info that gets revealed on hover */}
+                    <div className="flex items-center justify-between">
+                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                        <span>{overlay.aspect}</span>
+                      </span>
+                      {/* Button appears only on hover */}
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                        View Details
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -1813,11 +1817,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
             {podcastOverlays.slice(0, 4).map(overlay => (
               <motion.div
                 key={overlay.name}
-                className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10"
+                className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
+                style={{ borderRadius: '16px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1825,39 +1830,41 @@ export const OverlaysUnoLandingPage = () => {
                   amount: 0.25,
                 }}
                 variants={fadeZoom}
-                whileHover={{
-                  scale: 1.02,
-                  y: -8,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
               >
-                <div className="relative overflow-hidden">
-                  <div className="w-full aspect-[5/3] bg-gradient-to-b from-[#582864]/20 via-[#9149c1]/10 to-[#c6a1eb]/5 flex items-center justify-center">
-                    <div className="text-center space-y-2">
+                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
+                <div className="relative" style={{ height: '275.39px' }}>
+                  {/* Full card with gradient background - stays fixed */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <div className="p-5 space-y-3">
-                  <h3 className="font-semibold text-white group-hover:text-orange-300 transition-colors duration-200 text-base leading-tight">
-                    <span>
-                      {overlay.name === 'Talk Show Professional'
-                        ? 'Music Visualizer'
-                        : overlay.name === 'Interview Setup Clean'
-                          ? 'Counter'
-                          : overlay.name === 'News Broadcast Modern'
-                            ? 'Message Scroller'
-                            : overlay.name === 'Panel Discussion Layout'
-                              ? 'Image Frame'
-                              : overlay.name}
-                    </span>
-                  </h3>
-                  <span className="inline-block text-xs text-gray-400 bg-slate-700/80 px-3 py-1 rounded-full font-medium">
-                    <span>{overlay.aspect}</span>
-                  </span>
+                  {/* Caption card - starts lower, slides up on hover to reveal additional content */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                      <span>
+                        {overlay.name === 'Talk Show Professional'
+                          ? 'Music Visualizer'
+                          : overlay.name === 'Interview Setup Clean'
+                            ? 'Counter'
+                            : overlay.name === 'News Broadcast Modern'
+                              ? 'Message Scroller'
+                              : overlay.name === 'Panel Discussion Layout'
+                                ? 'Image Frame'
+                                : overlay.name}
+                      </span>
+                    </h3>
+                    {/* Additional info that gets revealed on hover */}
+                    <div className="flex items-center justify-between">
+                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                        <span>{overlay.aspect}</span>
+                      </span>
+                      {/* Button appears only on hover */}
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                        View Details
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -1896,11 +1903,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
             {sportsOverlays.slice(0, 4).map(overlay => (
               <motion.div
                 key={`tools-${overlay.name}`}
-                className="bg-white/10 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer group border border-white/10"
+                className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
+                style={{ borderRadius: '16px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1908,39 +1916,41 @@ export const OverlaysUnoLandingPage = () => {
                   amount: 0.25,
                 }}
                 variants={fadeSlideRight}
-                whileHover={{
-                  scale: 1.02,
-                  y: -8,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
               >
-                <div className="relative overflow-hidden">
-                  <div className="w-full aspect-[5/3] bg-gradient-to-b from-[#582864]/20 via-[#9149c1]/10 to-[#c6a1eb]/5 flex items-center justify-center">
-                    <div className="text-center space-y-2">
+                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
+                <div className="relative" style={{ height: '275.39px' }}>
+                  {/* Full card with gradient background - stays fixed */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <div className="p-5 space-y-3">
-                  <h3 className="font-semibold text-white group-hover:text-orange-300 transition-colors duration-200 text-base leading-tight">
-                    <span>
-                      {overlay.name === 'LPF Argentina Stadium Fly In'
-                        ? 'Breaker Inventory Manager'
-                        : overlay.name === 'Basketball Stats Overlay'
-                          ? 'Comps Finder'
-                          : overlay.name === 'Football Scoreboard Pro'
-                            ? 'Pop Report Lookup'
-                            : overlay.name === 'Tennis Match Display'
-                              ? 'ROI Tracker'
-                              : overlay.name}
-                    </span>
-                  </h3>
-                  <span className="inline-block text-xs text-gray-400 bg-slate-700/80 px-3 py-1 rounded-full font-medium">
-                    <span>{overlay.aspect}</span>
-                  </span>
+                  {/* Caption card - starts lower, slides up on hover to reveal additional content */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                      <span>
+                        {overlay.name === 'LPF Argentina Stadium Fly In'
+                          ? 'Breaker Inventory Manager'
+                          : overlay.name === 'Basketball Stats Overlay'
+                            ? 'Comps Finder'
+                            : overlay.name === 'Football Scoreboard Pro'
+                              ? 'Pop Report Lookup'
+                              : overlay.name === 'Tennis Match Display'
+                                ? 'ROI Tracker'
+                                : overlay.name}
+                      </span>
+                    </h3>
+                    {/* Additional info that gets revealed on hover */}
+                    <div className="flex items-center justify-between">
+                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                        <span>{overlay.aspect}</span>
+                      </span>
+                      {/* Button appears only on hover */}
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                        View Details
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
