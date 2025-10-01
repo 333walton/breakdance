@@ -113,7 +113,7 @@ const FluidAnimationWrapper: React.FC<FluidAnimationWrapperProps> = ({
           justifyContent: 'center',
         }}
       >
-        <div className="text-white/50 text-sm">Loading animation...</div>
+        <div className="text-white/50 text-sm"></div>
       </div>
     );
   }
