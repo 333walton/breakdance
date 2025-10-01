@@ -1636,7 +1636,7 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 5)' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
             {sportsOverlays.slice(0, 4).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
