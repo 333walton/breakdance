@@ -1660,7 +1660,7 @@ export const OverlaysUnoLandingPage = () => {
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'NFL'
@@ -1750,7 +1750,7 @@ export const OverlaysUnoLandingPage = () => {
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'FPS Combat HUD'
                           ? 'Color Blast'
@@ -1841,7 +1841,7 @@ export const OverlaysUnoLandingPage = () => {
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'Talk Show Professional'
                           ? 'Music Visualizer'
@@ -1927,7 +1927,7 @@ export const OverlaysUnoLandingPage = () => {
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white text-[18.7px] leading-tight">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'Breaker Inventory Manager'
