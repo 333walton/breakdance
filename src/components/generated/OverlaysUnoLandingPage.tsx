@@ -1606,7 +1606,7 @@ export const OverlaysUnoLandingPage = () => {
       {/* Sports Overlays Carousel */}
       <section
         className={`px-6 py-5 bg-gradient-to-b from-[#222032] to-[#2a2338] ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`}
-        style={{ height: '353.39px' }}
+        style={{ paddingTop: 'calc(var(--spacing)*5)' }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
@@ -1636,12 +1636,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
-            {sportsOverlays.slice(0, 4).map((overlay, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+            {sportsOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
                 className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
-                style={{ borderRadius: '16px' }}
+                style={{ borderRadius: '12px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1650,8 +1650,8 @@ export const OverlaysUnoLandingPage = () => {
                 }}
                 variants={fadeRiseSoft}
               >
-                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
-                <div className="relative" style={{ height: '275.39px' }}>
+                {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
+                <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
@@ -1659,8 +1659,8 @@ export const OverlaysUnoLandingPage = () => {
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'NFL'
@@ -1670,16 +1670,18 @@ export const OverlaysUnoLandingPage = () => {
                               ? 'NBA'
                               : overlay.name === 'Tennis Match Display'
                                 ? 'NHL'
-                                : overlay.name}
+                                : index === 4
+                                  ? 'MLS'
+                                  : overlay.name}
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between">
-                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                    <div className="flex items-center justify-between -translate-y-[5px]">
+                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
                         View Details
                       </button>
                     </div>
@@ -1695,7 +1697,7 @@ export const OverlaysUnoLandingPage = () => {
       <section
         className={`px-6 py-5 bg-gradient-to-b from-[#2a2338] to-[#2b253e] ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`}
         style={{
-          paddingTop: 'calc(var(--spacing)*5)',
+          paddingTop: 'calc(var(--spacing)*0)',
         }}
       >
         <div className="max-w-7xl mx-auto">
@@ -1726,12 +1728,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
-            {gamingOverlays.slice(0, 4).map(overlay => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+            {gamingOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
                 className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
-                style={{ borderRadius: '16px' }}
+                style={{ borderRadius: '12px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1740,8 +1742,8 @@ export const OverlaysUnoLandingPage = () => {
                 }}
                 variants={fadeSlideLeft}
               >
-                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
-                <div className="relative" style={{ height: '275.39px' }}>
+                {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
+                <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
@@ -1749,8 +1751,8 @@ export const OverlaysUnoLandingPage = () => {
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'FPS Combat HUD'
                           ? 'Color Blast'
@@ -1760,16 +1762,18 @@ export const OverlaysUnoLandingPage = () => {
                               ? 'Kaboom'
                               : overlay.name === 'Strategy Command'
                                 ? 'Stained Glass'
-                                : overlay.name}
+                                : index === 4
+                                  ? 'Base'
+                                  : overlay.name}
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between">
-                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                    <div className="flex items-center justify-between -translate-y-[5px]">
+                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
                         View Details
                       </button>
                     </div>
@@ -1817,12 +1821,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
-            {podcastOverlays.slice(0, 4).map(overlay => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+            {podcastOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
                 className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
-                style={{ borderRadius: '16px' }}
+                style={{ borderRadius: '12px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1831,8 +1835,8 @@ export const OverlaysUnoLandingPage = () => {
                 }}
                 variants={fadeZoom}
               >
-                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
-                <div className="relative" style={{ height: '275.39px' }}>
+                {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
+                <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
@@ -1840,27 +1844,29 @@ export const OverlaysUnoLandingPage = () => {
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'Talk Show Professional'
                           ? 'Music Visualizer'
                           : overlay.name === 'Interview Setup Clean'
                             ? 'Counter'
                             : overlay.name === 'News Broadcast Modern'
-                              ? 'Message Scroller'
+                              ? 'Text Scroller'
                               : overlay.name === 'Panel Discussion Layout'
                                 ? 'Image Frame'
-                                : overlay.name}
+                                : index === 4
+                                  ? 'Timer'
+                                  : overlay.name}
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between">
-                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                    <div className="flex items-center justify-between -translate-y-[5px]">
+                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
                         View Details
                       </button>
                     </div>
@@ -1903,12 +1909,12 @@ export const OverlaysUnoLandingPage = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '275.39px' }}>
-            {sportsOverlays.slice(0, 4).map(overlay => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+            {sportsOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={`tools-${overlay.name}`}
                 className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
-                style={{ borderRadius: '16px' }}
+                style={{ borderRadius: '12px' }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -1917,8 +1923,8 @@ export const OverlaysUnoLandingPage = () => {
                 }}
                 variants={fadeSlideRight}
               >
-                {/* Effect 3: Codrops Caption Hover - Applied to all four cards */}
-                <div className="relative" style={{ height: '275.39px' }}>
+                {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
+                <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
@@ -1926,27 +1932,29 @@ export const OverlaysUnoLandingPage = () => {
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-4 px-5 pb-6 space-y-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[18.7px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                       <span>
                         {overlay.name === 'LPF Argentina Stadium Fly In'
-                          ? 'Breaker Inventory Manager'
+                          ? 'Inventory Manager'
                           : overlay.name === 'Basketball Stats Overlay'
                             ? 'Comps Finder'
                             : overlay.name === 'Football Scoreboard Pro'
-                              ? 'Pop Report Lookup'
+                              ? 'Pop Lookup'
                               : overlay.name === 'Tennis Match Display'
                                 ? 'ROI Tracker'
-                                : overlay.name}
+                                : index === 4
+                                  ? 'Price Guide'
+                                  : overlay.name}
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between">
-                      <span className="inline-block text-[10px] text-gray-400 bg-slate-700/80 px-2.5 py-0.5 rounded-full font-medium">
+                    <div className="flex items-center justify-between -translate-y-[5px]">
+                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-6 py-2 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.9rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
                         View Details
                       </button>
                     </div>
