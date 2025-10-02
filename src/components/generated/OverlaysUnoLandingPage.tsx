@@ -1171,30 +1171,39 @@ export const OverlaysUnoLandingPage = () => {
               className={`space-y-8 overflow-visible transition-[margin,transform,opacity,padding] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? '-translate-y-2' : '-translate-y-2'} min-w-0`}
               style={{
                 paddingBottom: selectedHero ? 12 : 0,
+                marginLeft: '-5%',
               }}
             >
               <h1
                 className={`text-6xl lg:text-7xl font-bold leading-tight transition-[margin,opacity,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? 'mt-0' : 'mt-2'}`}
               >
+                {/* Mobile layout (3 lines) - shown below 768px */}
                 <span
-                  className="block"
+                  className="block md:hidden"
                   style={{
-                    fontSize: '70px',
+                    fontSize: '57.75px',
+                    marginLeft: '-5%',
                   }}
                 >
-                  Premium Overlays & Tools - Built For Breaking
+                  <span className="block">Premium Overlays</span>
+                  <span className="block">& Tools</span>
+                  <span className="block bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-clip-text text-transparent">Built For Breaking</span>
                 </span>
+
+                {/* Desktop layout (2 lines) - shown at 768px and above */}
                 <span
-                  className="block"
+                  className="hidden md:block"
                   style={{
-                    display: 'none',
+                    fontSize: '57.75px',
+                    marginLeft: '-5%',
                   }}
                 >
-                  Made for Breaking
+                  <span className="block whitespace-nowrap">Premium Overlays & Tools</span>
+                  <span className="block whitespace-nowrap bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-clip-text text-transparent">Built For Breaking</span>
                 </span>
               </h1>
               {/* Dynamic description below the title based on selected hero button */}
-              <div aria-live="polite" aria-atomic="true" className="relative">
+              <div aria-live="polite" aria-atomic="true" className="relative" style={{ marginLeft: '-5%' }}>
                 {/* Mount placeholder to keep flow stable and enable height tweening */}
                 <div
                   className={`transition-[max-height,opacity,transform,margin] duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? 'max-h-[200px] opacity-100 translate-y-0 mt-3' : 'max-h-0 opacity-0 -translate-y-1 mt-0'} overflow-hidden`}
@@ -1205,14 +1214,14 @@ export const OverlaysUnoLandingPage = () => {
                         {selectedHero === 'form'
                           ? 'Break smarter with integrated tools—every feature tuned for creators to streamline and succeed.'
                           : selectedHero === 'nfl'
-                            ? 'Inspired by the hobby’s most iconic card designs — from Panini, Topps, and more — reimagined for streaming.'
+                            ? 'Inspired by the hobby\'s most iconic card designs — from Panini, Topps, and more — reimagined for streaming.'
                             : 'Stream with BreakDance overlays and get instant promotion to collectors in our Live Breaks directory.'}
                       </span>
                     </p>
                   ) : null}
                 </div>
               </div>
-              <div className="w-fit">
+              <div className="w-fit" style={{ marginLeft: '-5%' }}>
                 <GlassmorphicButton
                   className="px-5 py-2 text-sm"
                   onClick={e => {
