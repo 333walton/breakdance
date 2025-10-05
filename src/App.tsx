@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Container, Theme } from './settings/types';
 import { OverlaysUnoLandingPage } from './components/generated/OverlaysUnoLandingPage';
+import ContactPage from './components/generated/ContactPage';
 
 let theme: Theme = 'dark';
 // only use 'centered' container for standalone components, never for full page apps or websites.
@@ -22,14 +24,21 @@ function App() {
     return <OverlaysUnoLandingPage />; // %EXPORT_STATEMENT%
   }, []);
 
+  const content = (
+    <Routes>
+      <Route path="/" element={generatedComponent} />
+      <Route path="/contact" element={<ContactPage />} />
+    </Routes>
+  );
+
   if (container === 'centered') {
     return (
       <div className="h-full w-full flex flex-col items-center justify-center">
-        {generatedComponent}
+        {content}
       </div>
     );
   } else {
-    return generatedComponent;
+    return content;
   }
 }
 

@@ -27,15 +27,18 @@ import App from './App.tsx';
 import { RootDnd } from './dnd-kit/RootDnd.tsx';
 import { DragStateProvider } from './dnd-kit/DragStateContext.tsx';
 import { MoveProvider } from './dnd-kit/MoveContext.tsx';
+import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <MoveProvider>
-      <DragStateProvider>
-        <RootDnd>
-          <App />
-        </RootDnd>
-      </DragStateProvider>
-    </MoveProvider>
+    <BrowserRouter>
+      <MoveProvider>
+        <DragStateProvider>
+          <RootDnd>
+            <App />
+          </RootDnd>
+        </DragStateProvider>
+      </MoveProvider>
+    </BrowserRouter>
   </StrictMode>
 );

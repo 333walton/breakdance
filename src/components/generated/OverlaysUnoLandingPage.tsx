@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   ChevronLeft,
   ChevronRight,
@@ -319,6 +320,7 @@ function useCountUp(target: number, inView: boolean, duration = 300) {
 
 // @component: OverlaysUnoLandingPage
 export const OverlaysUnoLandingPage = () => {
+  const navigate = useNavigate();
   const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
   const [activeCategory, setActiveCategory] = useState('BROWSE OVERLAYS');
   // Ensure the "Browse Overlays" tab is selected by default regardless of casing
@@ -1068,7 +1070,8 @@ export const OverlaysUnoLandingPage = () => {
               <img
                 src="/static/logo_rough2.png"
                 alt="Logo"
-                className="h-20 w-auto object-contain mr-3 transition-all duration-300 hover:scale-105 hover:brightness-110 cursor-pointer"
+                onClick={() => navigate('/')}
+                className="h-20 w-auto object-contain mr-3 cursor-pointer"
                 style={{ marginLeft: '-20px' }}
               />
               <span
@@ -2478,7 +2481,12 @@ export const OverlaysUnoLandingPage = () => {
                   <span>{card.subtitle}</span>
                 </p>
                 <button
-                  className={`w-full py-4 ${card.color} hover:opacity-90 text-white rounded-xl transition-opacity duration-200 font-semibold text-lg`}
+                  onClick={() => {
+                    if (card.buttonText === 'Reach Out') {
+                      navigate('/contact');
+                    }
+                  }}
+                  className={`w-full py-4 ${card.color} hover:opacity-90 text-white rounded-xl transition-opacity duration-200 font-semibold text-lg cursor-pointer`}
                 >
                   <span>{card.buttonText}</span>
                 </button>
