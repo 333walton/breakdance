@@ -11,8 +11,11 @@ import {
   Dribbble,
   ChevronDown,
   ExternalLink,
+  X,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { SignInCard as SignUpCard } from './SignUpCard';
+import { SignInCard } from './SignInCard';
 
 // Checkbox styling
 const checkboxStyles = `
@@ -39,6 +42,9 @@ const checkboxStyles = `
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
+  .country-option:hover {
+    background-color: color-mix(in oklab, var(--color-white) 5%, transparent) !important;
+  }
 `;
 
 const navigationItems = [
@@ -63,7 +69,7 @@ const navigationItems = [
 ] as any[];
 interface FormData {
   firstName: string;
-  lastName: string;
+  companyName: string;
   email: string;
   phone: string;
   message: string;
@@ -76,7 +82,7 @@ interface FormData {
 }
 interface FormErrors {
   firstName?: string;
-  lastName?: string;
+  companyName?: string;
   email?: string;
   message?: string;
 }
@@ -84,7 +90,7 @@ const ContactPage: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
-    lastName: '',
+    companyName: '',
     email: '',
     phone: '',
     message: '',
@@ -100,6 +106,30 @@ const ContactPage: React.FC = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('US');
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
+  const [showLoginOverlay, setShowLoginOverlay] = useState(false);
+
+  // Scroll to top on component mount
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showCountryDropdown) {
+        setShowCountryDropdown(false);
+      }
+    };
+
+    if (showCountryDropdown) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showCountryDropdown]);
   const countries = [
     {
       code: 'US',
@@ -125,18 +155,15 @@ const ContactPage: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+      newErrors.firstName = 'Required';
     }
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = 'Required';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -155,7 +182,7 @@ const ContactPage: React.FC = () => {
     setTimeout(() => {
       setFormData({
         firstName: '',
-        lastName: '',
+        companyName: '',
         email: '',
         phone: '',
         message: '',
@@ -265,13 +292,19 @@ const ContactPage: React.FC = () => {
 
             {/* Auth & Discord */}
             <div className="flex items-center space-x-3">
-              <button className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900">
+              <button
+                onClick={() => setShowSignUpOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
                 <span>Sign up</span>
               </button>
-              <button className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900">
+              <button
+                onClick={() => setShowLoginOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
                 <span>Login</span>
               </button>
-              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2">
+              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
                 <span
                   style={{
                     color: 'rgb(0 0 0)',
@@ -378,18 +411,6 @@ const ContactPage: React.FC = () => {
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <Youtube className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <Dribbble className="w-5 h-5" />
-                </a>
               </div>
             </div>
 
@@ -413,7 +434,7 @@ const ContactPage: React.FC = () => {
                       id="firstName"
                       value={formData.firstName}
                       onChange={e => handleInputChange('firstName', e.target.value)}
-                      placeholder="Name"
+                      placeholder="First Last"
                       className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${errors.firstName ? 'border-destructive' : 'border-border'}`}
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
@@ -425,24 +446,24 @@ const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <label
-                      htmlFor="lastName"
+                      htmlFor="companyName"
                       className="block text-sm font-medium text-foreground mb-2"
                     >
                       Company Name
                     </label>
                     <input
                       type="text"
-                      id="lastName"
-                      value={formData.lastName}
-                      onChange={e => handleInputChange('lastName', e.target.value)}
+                      id="companyName"
+                      value={formData.companyName}
+                      onChange={e => handleInputChange('companyName', e.target.value)}
                       placeholder="Company"
-                      className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${errors.lastName ? 'border-destructive' : 'border-border'}`}
+                      className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${errors.companyName ? 'border-destructive' : 'border-border'}`}
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                       }}
                     />
-                    {errors.lastName && (
-                      <p className="text-destructive text-xs mt-1">{errors.lastName}</p>
+                    {errors.companyName && (
+                      <p className="text-destructive text-xs mt-1">{errors.companyName}</p>
                     )}
                   </div>
                 </div>
@@ -475,7 +496,10 @@ const ContactPage: React.FC = () => {
                     <div className="relative">
                       <button
                         type="button"
-                        onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                        onClick={e => {
+                          e.stopPropagation();
+                          setShowCountryDropdown(!showCountryDropdown);
+                        }}
                         className="flex items-center px-3 py-2 border border-r-0 rounded-l-lg text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                         style={{
                           backgroundColor:
@@ -490,11 +514,8 @@ const ContactPage: React.FC = () => {
                       </button>
                       {showCountryDropdown && (
                         <div
-                          className="absolute top-full left-0 z-10 border border-border rounded-lg shadow-lg mt-1 min-w-[150px]"
-                          style={{
-                            backgroundColor:
-                              'color-mix(in oklab, var(--color-white) 10%, transparent)',
-                          }}
+                          className="absolute top-full left-0 z-10 border border-border rounded-lg shadow-lg mt-1 min-w-[150px] overflow-hidden"
+                          style={{ backgroundColor: '#231835' }}
                         >
                           {countries.map(country => (
                             <button
@@ -504,7 +525,7 @@ const ContactPage: React.FC = () => {
                                 setSelectedCountry(country.code);
                                 setShowCountryDropdown(false);
                               }}
-                              className="w-full flex items-center px-3 py-2 text-sm hover:bg-accent transition-colors"
+                              className="country-option w-full flex items-center px-3 py-2 text-sm transition-colors"
                             >
                               <span className="mr-2">{country.flag}</span>
                               <span>{country.code}</span>
@@ -617,13 +638,10 @@ const ContactPage: React.FC = () => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  whileHover={{
-                    scale: 1.02,
-                  }}
                   whileTap={{
                     scale: 0.98,
                   }}
-                  className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${submitSuccess ? 'bg-green-600 text-white' : 'bg-slate-900/80 backdrop-blur-sm text-white hover:bg-slate-800'} disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${submitSuccess ? 'bg-green-600 text-white' : 'bg-slate-900/80 backdrop-blur-sm text-white hover:bg-slate-900/90'} cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
@@ -682,6 +700,48 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Sign Up Overlay */}
+      {showSignUpOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowSignUpOverlay(false)}
+        >
+          <div
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowSignUpOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <SignUpCard />
+          </div>
+        </div>
+      )}
+
+      {/* Login Overlay */}
+      {showLoginOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowLoginOverlay(false)}
+        >
+          <div
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowLoginOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <SignInCard />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

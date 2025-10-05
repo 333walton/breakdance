@@ -14,9 +14,12 @@ import {
   Palette,
   Copy,
   ExternalLink,
+  X,
 } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
 import GlassmorphicButton from '../GlassmorphicButton';
+import { SignInCard as SignUpCard } from './SignUpCard';
+import { SignInCard } from './SignInCard';
 const overlayCategories = [
   {
     name: 'Browse Overlays',
@@ -347,6 +350,8 @@ export const OverlaysUnoLandingPage = () => {
     curl: 30,
     splatRadius: 0.005,
   });
+  const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
+  const [showLoginOverlay, setShowLoginOverlay] = useState(false);
 
   // Ref to access the fluid animation instance
   const fluidAnimationRef = React.useRef<any>(null);
@@ -1059,7 +1064,7 @@ export const OverlaysUnoLandingPage = () => {
       )}
 
       {/* Header */}
-      <header className="bg-gradient-to-b from-[#26213a] to-[#302742] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
+      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
         <div
           className="w-full max-w-screen-xl mx-auto px-4"
           style={{ paddingTop: '5px', paddingBottom: '0px' }}
@@ -1130,13 +1135,19 @@ export const OverlaysUnoLandingPage = () => {
 
             {/* Auth & Discord */}
             <div className="flex items-center space-x-3">
-              <button className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900">
+              <button
+                onClick={() => setShowSignUpOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
                 <span>Sign up</span>
               </button>
-              <button className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900">
+              <button
+                onClick={() => setShowLoginOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
                 <span>Login</span>
               </button>
-              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2">
+              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
                 <span
                   style={{
                     color: 'rgb(0 0 0)',
@@ -2630,6 +2641,48 @@ export const OverlaysUnoLandingPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* Sign Up Overlay */}
+      {showSignUpOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowSignUpOverlay(false)}
+        >
+          <div
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowSignUpOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <SignUpCard />
+          </div>
+        </div>
+      )}
+
+      {/* Login Overlay */}
+      {showLoginOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowLoginOverlay(false)}
+        >
+          <div
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowLoginOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <SignInCard />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
