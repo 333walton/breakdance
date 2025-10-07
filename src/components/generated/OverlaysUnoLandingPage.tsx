@@ -2249,7 +2249,7 @@ export const OverlaysUnoLandingPage = () => {
               <div className="flex h-full flex-col">
                 {pricingToggle === 'yearly' && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold">
-                    <span>Save 21%</span>
+                    <span>Save 17%</span>
                   </div>
                 )}
                 <h3 className="text-3xl font-bold mb-2">
@@ -2262,7 +2262,7 @@ export const OverlaysUnoLandingPage = () => {
                   </span>
                 </p>
                 <div className="text-5xl font-bold mb-8 h-12 leading-[48px]">
-                  <span>{pricingToggle === 'monthly' ? '$3.99' : '$37.99'}</span>
+                  <span>{pricingToggle === 'monthly' ? '$4.99' : '$49.99'}</span>
                   <span className="text-lg text-gray-400 font-normal">
                     /{pricingToggle === 'monthly' ? 'month' : 'year'}
                   </span>
