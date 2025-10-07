@@ -16,6 +16,7 @@ import {
 import { motion } from 'framer-motion';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
+import { PasswordResetCard } from './PasswordResetCard';
 
 // Checkbox styling
 const checkboxStyles = `
@@ -42,6 +43,9 @@ const checkboxStyles = `
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
+  }
+  .group:hover .custom-checkbox:not(:checked) {
+    box-shadow: 0 0 0 3px rgba(128, 128, 128, 0.2) !important;
   }
   .country-option:hover {
     background-color: color-mix(in oklab, var(--color-white) 5%, transparent) !important;
@@ -109,6 +113,7 @@ const ContactPage: React.FC = () => {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
+  const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
 
   // Scroll to top on component mount
   React.useEffect(() => {
@@ -157,6 +162,9 @@ const ContactPage: React.FC = () => {
     const newErrors: FormErrors = {};
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'Required';
+    }
+    if (!formData.companyName.trim()) {
+      newErrors.companyName = 'Required';
     }
     if (!formData.email.trim()) {
       newErrors.email = 'Required';
@@ -329,9 +337,9 @@ const ContactPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 py-12 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Contact Information Section */}
-            <div className="space-y-8">
+            <div className="space-y-8 cursor-default">
               <div>
-                <h1 className="text-3xl lg:text-4xl font-semibold text-foreground mb-4">
+                <h1 className="text-3xl lg:text-4xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C25] to-[#FFC542]">
                   Get in touch
                 </h1>
                 <p className="text-muted-foreground text-lg">
@@ -432,14 +440,14 @@ const ContactPage: React.FC = () => {
                       htmlFor="firstName"
                       className="block text-sm font-medium text-foreground mb-2"
                     >
-                      Name *
+                      First Name *
                     </label>
                     <input
                       type="text"
                       id="firstName"
                       value={formData.firstName}
                       onChange={e => handleInputChange('firstName', e.target.value)}
-                      placeholder="First Last"
+                      placeholder="First"
                       className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors ${errors.firstName ? 'border-destructive' : 'border-border'}`}
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
@@ -451,17 +459,17 @@ const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <label
-                      htmlFor="companyName"
+                      htmlFor="lastName"
                       className="block text-sm font-medium text-foreground mb-2"
                     >
-                      Company Name
+                      Last Name *
                     </label>
                     <input
                       type="text"
-                      id="companyName"
+                      id="lastName"
                       value={formData.companyName}
                       onChange={e => handleInputChange('companyName', e.target.value)}
-                      placeholder="Company"
+                      placeholder="Last"
                       className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors ${errors.companyName ? 'border-destructive' : 'border-border'}`}
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
@@ -493,33 +501,31 @@ const ContactPage: React.FC = () => {
                 </div>
 
                 {/* Phone Number */}
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                    Phone Number
-                  </label>
-                  <div className="flex">
-                    <div className="relative">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                      Phone Number
+                    </label>
+                    <div className="flex">
+                      <div className="relative">
                       <button
                         type="button"
                         onClick={e => {
                           e.stopPropagation();
                           setShowCountryDropdown(!showCountryDropdown);
                         }}
-                        className="flex items-center px-3 py-2 border border-r-0 rounded-l-lg text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="flex items-center px-3 py-2 border border-r-0 rounded-l-lg text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 h-[42px]"
                         style={{
                           backgroundColor:
                             'color-mix(in oklab, var(--color-white) 10%, transparent)',
                         }}
                       >
-                        <span className="mr-2">
-                          {countries.find(c => c.code === selectedCountry)?.flag}
-                        </span>
                         <span className="text-sm">{selectedCountry}</span>
                         <ChevronDown className="w-4 h-4 ml-1" />
                       </button>
                       {showCountryDropdown && (
                         <div
-                          className="absolute top-full left-0 z-10 border border-border rounded-lg shadow-lg mt-1 min-w-[150px] overflow-hidden"
+                          className="absolute top-full left-0 z-10 border border-border rounded-lg shadow-lg mt-0 min-w-[150px] overflow-hidden"
                           style={{ backgroundColor: '#231835' }}
                         >
                           {countries.map(country => (
@@ -532,7 +538,6 @@ const ContactPage: React.FC = () => {
                               }}
                               className="country-option w-full flex items-center px-3 py-2 text-sm transition-colors"
                             >
-                              <span className="mr-2">{country.flag}</span>
                               <span>{country.code}</span>
                             </button>
                           ))}
@@ -546,6 +551,22 @@ const ContactPage: React.FC = () => {
                       onChange={e => handleInputChange('phone', e.target.value)}
                       placeholder="+1 (555) 000-0000"
                       className="flex-1 px-3 py-2 border rounded-r-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+                      style={{
+                        backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                        width: '95%'
+                      }}
+                    />
+                  </div>
+                  </div>
+                  <div>
+                    <label htmlFor="companyName" className="block text-sm font-medium text-foreground mb-2">
+                      Company
+                    </label>
+                    <input
+                      type="text"
+                      id="companyName"
+                      placeholder="Company"
+                      className="w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                       }}
@@ -746,9 +767,39 @@ const ContactPage: React.FC = () => {
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignInCard onSwitchToSignUp={() => {
-              setShowLoginOverlay(false);
-              setShowSignUpOverlay(true);
+            <SignInCard
+              onSwitchToSignUp={() => {
+                setShowLoginOverlay(false);
+                setShowSignUpOverlay(true);
+              }}
+              onSwitchToPasswordReset={() => {
+                setShowLoginOverlay(false);
+                setShowPasswordResetOverlay(true);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Password Reset Overlay */}
+      {showPasswordResetOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowPasswordResetOverlay(false)}
+        >
+          <div
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowPasswordResetOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <PasswordResetCard onBack={() => {
+              setShowPasswordResetOverlay(false);
+              setShowLoginOverlay(true);
             }} />
           </div>
         </div>

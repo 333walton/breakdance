@@ -15,9 +15,10 @@ interface FormErrors {
 // @component: SignInCard
 interface SignInCardProps {
   onSwitchToSignUp?: () => void;
+  onSwitchToPasswordReset?: () => void;
 }
 
-export const SignInCard = ({ onSwitchToSignUp }: SignInCardProps = {}) => {
+export const SignInCard = ({ onSwitchToSignUp, onSwitchToPasswordReset }: SignInCardProps = {}) => {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -77,7 +78,7 @@ export const SignInCard = ({ onSwitchToSignUp }: SignInCardProps = {}) => {
     >
       <div className="rounded-2xl shadow-xl border overflow-hidden" style={{ backgroundColor: '#271e37' }}>
         <div className="px-8 py-10">
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 cursor-default">
             <h1 className="text-2xl font-bold text-white mb-2">
               <span>Welcome back</span>
             </h1>
@@ -146,7 +147,7 @@ export const SignInCard = ({ onSwitchToSignUp }: SignInCardProps = {}) => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
                 >
                   {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
                 </button>
@@ -161,6 +162,7 @@ export const SignInCard = ({ onSwitchToSignUp }: SignInCardProps = {}) => {
             <div className="flex justify-end">
               <button
                 type="button"
+                onClick={onSwitchToPasswordReset}
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors cursor-pointer"
               >
                 <span
@@ -200,7 +202,7 @@ export const SignInCard = ({ onSwitchToSignUp }: SignInCardProps = {}) => {
                 <div className="w-[40%] border-t border-gray-500"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 text-gray-500 font-bold" style={{ backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)' }}>
+                <span className="px-4 text-gray-500 font-bold cursor-default" style={{ backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)' }}>
                   <span>Or</span>
                 </span>
               </div>
@@ -269,7 +271,7 @@ export const SignInCard = ({ onSwitchToSignUp }: SignInCardProps = {}) => {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-600 cursor-default">
               <span>Don't have an account? </span>
               <button
                 onClick={onSwitchToSignUp}

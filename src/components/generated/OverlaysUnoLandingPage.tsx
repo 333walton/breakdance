@@ -20,6 +20,7 @@ import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
 import GlassmorphicButton from '../GlassmorphicButton';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
+import { PasswordResetCard } from './PasswordResetCard';
 const overlayCategories = [
   {
     name: 'Browse Overlays',
@@ -352,6 +353,7 @@ export const OverlaysUnoLandingPage = () => {
   });
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
+  const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
 
   // Ref to access the fluid animation instance
   const fluidAnimationRef = React.useRef<any>(null);
@@ -1189,7 +1191,7 @@ export const OverlaysUnoLandingPage = () => {
               }}
             >
               <h1
-                className={`text-6xl lg:text-7xl font-bold leading-tight transition-[margin,opacity,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? 'mt-0' : 'mt-2'}`}
+                className={`text-6xl lg:text-7xl font-bold leading-tight transition-[margin,opacity,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] cursor-default ${selectedHero ? 'mt-0' : 'mt-2'}`}
               >
                 {/* Mobile layout (3 lines) - shown below 768px */}
                 <span
@@ -1223,7 +1225,7 @@ export const OverlaysUnoLandingPage = () => {
                   className={`transition-[max-height,opacity,transform,margin] duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? 'max-h-[200px] opacity-100 translate-y-0 mt-3' : 'max-h-0 opacity-0 -translate-y-1 mt-0'} overflow-hidden`}
                 >
                   {selectedHero ? (
-                    <p className="text-xl text-gray-200 leading-relaxed max-w-lg transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] delay-150 opacity-100 translate-y-0 will-change-[opacity,transform]">
+                    <p className="text-xl text-gray-200 leading-relaxed max-w-lg transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] delay-150 opacity-100 translate-y-0 will-change-[opacity,transform] cursor-default">
                       <span>
                         {selectedHero === 'form'
                           ? 'Break smarter with integrated tools—every feature tuned for creators to streamline and succeed.'
@@ -1602,7 +1604,7 @@ export const OverlaysUnoLandingPage = () => {
                 variants={fadeSlideRight}
               >
                 <span
-                  className="text-sm tracking-wide"
+                  className="text-sm tracking-wide cursor-default"
                   style={{
                     fontSize: 'var(--text-lg)',
                   }}
@@ -1633,7 +1635,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
+            <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
               <span>Team Boards</span>
             </h2>
             <div className="hidden">
@@ -1725,7 +1727,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
+            <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
               <span>Themes</span>
             </h2>
             <div className="hidden">
@@ -1818,7 +1820,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
+            <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
               <span>Extras</span>
             </h2>
             <div className="hidden">
@@ -1910,7 +1912,7 @@ export const OverlaysUnoLandingPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold" style={{ marginBottom: '-14px' }}>
+            <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
               <span>Tools</span>
             </h2>
             <div className="flex items-center">
@@ -2011,13 +2013,13 @@ export const OverlaysUnoLandingPage = () => {
               }}
               variants={fadeRise}
             >
-              <h2 className="text-5xl font-bold leading-tight">
+              <h2 className="text-5xl font-bold leading-tight cursor-default">
                 <span>Go live. Get featured. </span>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C25] to-[#FFC542]">
                   Stand out.
                 </span>
               </h2>
-              <p className="text-xl text-gray-200 leading-relaxed">
+              <p className="text-xl text-gray-200 leading-relaxed cursor-default">
                 <span>
                   Every BreakDance overlay automatically features your stream in our Live Breaks
                   directory, driving qualified traffic to your channel
@@ -2053,7 +2055,7 @@ export const OverlaysUnoLandingPage = () => {
                 <div className="w-24 h-24 bg-orange-500/20 rounded-2xl mx-auto flex items-center justify-center">
                   <Play className="w-12 h-12 text-orange-400" />
                 </div>
-                <p className="text-gray-300 text-lg font-medium">
+                <p className="text-gray-300 text-lg font-medium cursor-default">
                   <span>Feature Video Preview</span>
                 </p>
               </div>
@@ -2065,10 +2067,10 @@ export const OverlaysUnoLandingPage = () => {
       {/* How It Works */}
       <section className="px-6 py-24 bg-gradient-to-b from-[#302742] to-[#43305b]">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6">
+          <h2 className="text-5xl font-bold mb-6 cursor-default">
             <span>From Purchase to Live in Minutes</span>
           </h2>
-          <p className="text-xl text-gray-300 mb-20 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 mb-20 max-w-3xl mx-auto cursor-default">
             <span>
               Get streaming like a pro in under 5 minutes with our streamlined process - for
               breakers at every level
@@ -2079,7 +2081,7 @@ export const OverlaysUnoLandingPage = () => {
             {howItWorksSteps.map((step, index) => (
               <motion.div
                 key={step.title}
-                className="text-center space-y-6"
+                className="text-center space-y-6 cursor-default"
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -2122,10 +2124,10 @@ export const OverlaysUnoLandingPage = () => {
       {/* Pricing */}
       <section className="px-6 py-24 bg-gradient-to-b from-[#302742] to-[#43305b]">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6">
+          <h2 className="text-5xl font-bold mb-6 cursor-default">
             <span>Level Up Your Production</span>
           </h2>
-          <p className="text-xl text-gray-300 mb-16">
+          <p className="text-xl text-gray-300 mb-16 cursor-default">
             <span>
               Ready for a breakthrough? Upgrade to Pro for premium tools and bigger reach.
             </span>
@@ -2166,7 +2168,7 @@ export const OverlaysUnoLandingPage = () => {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Free Plan */}
             <motion.div
-              className="bg-white/10 rounded-3xl p-10 border border-white/10 h-full"
+              className="bg-white/10 rounded-3xl p-10 border border-white/10 h-full cursor-default"
               initial="hidden"
               whileInView="show"
               viewport={{
@@ -2235,7 +2237,7 @@ export const OverlaysUnoLandingPage = () => {
 
             {/* Plus Plan */}
             <motion.div
-              className="bg-white/10 rounded-3xl p-10 border border-orange-500/30 relative"
+              className="bg-white/10 rounded-3xl p-10 border border-orange-500/30 relative cursor-default"
               initial="hidden"
               whileInView="show"
               viewport={{
@@ -2319,7 +2321,7 @@ export const OverlaysUnoLandingPage = () => {
       {/* Stats */}
       <section className="px-6 pt-24 pb-0 bg-gradient-to-b from-[#2b253e] to-[#302742]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-center text-5xl font-bold mb-[calc(var(--spacing)*9)]">
+          <h2 className="text-center text-5xl font-bold mb-[calc(var(--spacing)*9)] cursor-default">
             <span>Why Production Quality Matters</span>
           </h2>
           {/* Create a self-contained stage with fixed min-height so hover growth doesn't nudge following sections */}
@@ -2338,7 +2340,7 @@ export const OverlaysUnoLandingPage = () => {
               {stats.map(stat => (
                 <motion.div
                   key={stat.label}
-                  className="text-center bg-white/5 rounded-3xl p-8 border border-white/10 overflow-visible stats-card"
+                  className="text-center bg-white/5 rounded-3xl p-8 border border-white/10 overflow-visible stats-card cursor-default"
                   initial="hidden"
                   whileInView="show"
                   viewport={{
@@ -2425,7 +2427,7 @@ export const OverlaysUnoLandingPage = () => {
       {/* Community CTAs */}
       <section className="px-6 pt-0 pb-24 bg-gradient-to-b from-[#302742] to-[#1F1A30]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-center text-5xl font-bold mb-[calc(var(--spacing)*9)]">
+          <h2 className="text-center text-5xl font-bold mb-[calc(var(--spacing)*9)] cursor-default">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C25] to-[#FFC542]">
               Get in Touch
             </span>
@@ -2434,7 +2436,7 @@ export const OverlaysUnoLandingPage = () => {
             {communityCards.map(card => (
               <motion.div
                 key={card.title}
-                className="bg-white/10 rounded-3xl p-10 text-center border border-white/10"
+                className="bg-white/10 rounded-3xl p-10 text-center border border-white/10 cursor-default"
                 initial="hidden"
                 whileInView="show"
                 viewport={{
@@ -2516,7 +2518,7 @@ export const OverlaysUnoLandingPage = () => {
           >
             <div className="bg-white/5 border border-white/10 rounded-3xl px-4 sm:px-6 md:px-8 py-5 md:py-6">
               <header className="mb-4">
-                <h3 id="insta-subscribe-title" className="text-2xl font-bold mb-4 text-center">
+                <h3 id="insta-subscribe-title" className="text-2xl font-bold mb-4 text-center cursor-default">
                   <span>Latest on Instagram</span>
                 </h3>
               </header>
@@ -2686,9 +2688,39 @@ export const OverlaysUnoLandingPage = () => {
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignInCard onSwitchToSignUp={() => {
-              setShowLoginOverlay(false);
-              setShowSignUpOverlay(true);
+            <SignInCard
+              onSwitchToSignUp={() => {
+                setShowLoginOverlay(false);
+                setShowSignUpOverlay(true);
+              }}
+              onSwitchToPasswordReset={() => {
+                setShowLoginOverlay(false);
+                setShowPasswordResetOverlay(true);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Password Reset Overlay */}
+      {showPasswordResetOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowPasswordResetOverlay(false)}
+        >
+          <div
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowPasswordResetOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <PasswordResetCard onBack={() => {
+              setShowPasswordResetOverlay(false);
+              setShowLoginOverlay(true);
             }} />
           </div>
         </div>
