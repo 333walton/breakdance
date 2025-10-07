@@ -15,7 +15,11 @@ interface FormErrors {
 }
 
 // @component: SignInCard
-export const SignInCard = () => {
+interface SignUpCardProps {
+  onSwitchToSignIn?: () => void;
+}
+
+export const SignInCard = ({ onSwitchToSignIn }: SignUpCardProps = {}) => {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -83,13 +87,13 @@ export const SignInCard = () => {
       }}
       className="w-full max-w-md mx-auto"
     >
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className="rounded-2xl shadow-xl border overflow-hidden" style={{ backgroundColor: '#271e37' }}>
         <div className="px-8 py-10">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-white mb-2">
               <span>Sign Up</span>
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-500">
               <span>Free - no credit card required</span>
             </p>
           </div>
@@ -109,11 +113,15 @@ export const SignInCard = () => {
                     }))
                   }
                   className={cn(
-                    'w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20',
+                    'w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500',
                     errors.email
                       ? 'border-red-300 bg-red-50'
-                      : 'border-gray-200 focus:border-blue-300'
+                      : ''
                   )}
+                  style={{
+                    backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                    borderColor: 'oklch(0.446 0.03 256.802)'
+                  }}
                 />
               </div>
               {errors.email && (
@@ -137,18 +145,22 @@ export const SignInCard = () => {
                     }))
                   }
                   className={cn(
-                    'w-full pl-10 pr-12 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20',
+                    'w-full pl-10 pr-12 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500',
                     errors.password
                       ? 'border-red-300 bg-red-50'
-                      : 'border-gray-200 focus:border-blue-300'
+                      : ''
                   )}
+                  style={{
+                    backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                    borderColor: 'oklch(0.446 0.03 256.802)'
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
                 </button>
               </div>
               {errors.password && (
@@ -168,7 +180,7 @@ export const SignInCard = () => {
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder="Re-enter your password"
                   value={formData.confirmPassword}
                   onChange={e =>
                     setFormData(prev => ({
@@ -177,18 +189,22 @@ export const SignInCard = () => {
                     }))
                   }
                   className={cn(
-                    'w-full pl-10 pr-12 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20',
+                    'w-full pl-10 pr-12 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500',
                     errors.confirmPassword
                       ? 'border-red-300 bg-red-50'
-                      : 'border-gray-200 focus:border-blue-300'
+                      : ''
                   )}
+                  style={{
+                    backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                    borderColor: 'oklch(0.446 0.03 256.802)'
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
                 </button>
               </div>
               {errors.confirmPassword && (
@@ -201,14 +217,14 @@ export const SignInCard = () => {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                className="text-sm text-blue-600 font-medium"
               >
                 <span
                   style={{
                     fontSize: '11px',
                   }}
                 >
-                  Password must be at least 5 characters
+                  Password must be at least 8 characters
                 </span>
               </button>
             </div>
@@ -227,7 +243,7 @@ export const SignInCard = () => {
               whileTap={{
                 scale: 0.98,
               }}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <span>Sign up</span>
             </motion.button>
@@ -235,12 +251,13 @@ export const SignInCard = () => {
 
           <div className="mt-6">
             <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
+              <div className="absolute inset-0 flex items-center justify-between">
+                <div className="w-[40%] border-t border-gray-500"></div>
+                <div className="w-[40%] border-t border-gray-500"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500">
-                  <span>Or continue with</span>
+                <span className="px-4 text-gray-500 font-bold" style={{ backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)' }}>
+                  <span>Or</span>
                 </span>
               </div>
             </div>
@@ -253,7 +270,8 @@ export const SignInCard = () => {
                 whileTap={{
                   scale: 0.98,
                 }}
-                className="w-full flex items-center justify-center px-4 py-3 border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50"
+                className="w-full flex items-center justify-center px-4 py-3 border rounded-xl text-white font-medium hover:!bg-white hover:text-black hover:border-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50 cursor-pointer"
+                style={{ backgroundColor: '#1a1a1a', borderColor: '#1a1a1a' }}
               >
                 {socialLoading === 'google' ? (
                   <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
@@ -277,7 +295,7 @@ export const SignInCard = () => {
                         d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                       />
                     </svg>
-                    <span>Google</span>
+                    <span>Continue with Google</span>
                   </div>
                 )}
               </motion.button>
@@ -309,8 +327,11 @@ export const SignInCard = () => {
           <div className="mt-8 text-center">
             <p className="text-gray-600">
               <span>Already a member? </span>
-              <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                <span>Login here!</span>
+              <button
+                onClick={onSwitchToSignIn}
+                className="text-blue-600 hover:text-blue-700 font-medium hover:font-bold transition-colors cursor-pointer relative inline-block">
+                <span className="invisible font-bold">Login here!</span>
+                <span className="absolute inset-0 font-medium hover:font-bold">Login here!</span>
               </button>
             </p>
           </div>

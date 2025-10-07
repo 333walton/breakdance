@@ -1578,7 +1578,7 @@ export const OverlaysUnoLandingPage = () => {
               <motion.button
                 key={category.name}
                 onClick={() => setActiveCategory(category.name)}
-                className={`relative whitespace-nowrap px-8 py-4 rounded-xl font-medium transition-all duration-200 text-gray-300 hover:text-white hover:bg-white/10 ${activeCategory === category.name ? '!bg-white/20 !text-white shadow-lg border border-white/20' : ''}`}
+                className={`relative whitespace-nowrap px-8 py-4 rounded-xl font-medium transition-all duration-200 text-gray-300 hover:text-white hover:bg-white/10 cursor-pointer ${activeCategory === category.name ? '!bg-white/20 !text-white shadow-lg border border-white/20' : ''}`}
                 whileHover={{
                   scale: 1.02,
                 }}
@@ -1653,7 +1653,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2">
+            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1684,7 +1684,7 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span>
+                      <span className="hover:cursor-pointer">
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'NFL'
                           : overlay.name === 'Basketball Stats Overlay'
@@ -1745,7 +1745,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2">
+            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1776,7 +1776,7 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span>
+                      <span className="hover:cursor-pointer">
                         {overlay.name === 'FPS Combat HUD'
                           ? 'Color Blast'
                           : overlay.name === 'RPG Interface Pro'
@@ -1838,7 +1838,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2">
+            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1869,7 +1869,7 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span>
+                      <span className="hover:cursor-pointer">
                         {overlay.name === 'Talk Show Professional'
                           ? 'Music Visualizer'
                           : overlay.name === 'Interview Setup Clean'
@@ -1926,7 +1926,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2">
+            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1957,7 +1957,7 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span>
+                      <span className="hover:cursor-pointer">
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'Inventory Manager'
                           : overlay.name === 'Basketball Stats Overlay'
@@ -2025,7 +2025,7 @@ export const OverlaysUnoLandingPage = () => {
               </p>
               <div className="w-16 h-1 bg-orange-500 rounded-full"></div>
               <motion.button
-                className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none"
+                className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer"
                 whileHover={{
                   scale: 1.05,
                 }}
@@ -2109,7 +2109,7 @@ export const OverlaysUnoLandingPage = () => {
           {/* Instagram Subscribe Carousel Card moved to Follow Us section below */}
 
           <button
-            className="mt-16 mb-4 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-8 py-4 rounded-xl font-bold text-xl lg:text-2xl text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg"
+            className="mt-16 mb-4 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-8 py-4 rounded-xl font-bold text-xl lg:text-2xl text-white focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none shadow-lg cursor-pointer"
             style={{
               fontFamily: 'Nunito, sans-serif',
             }}
@@ -2146,7 +2146,7 @@ export const OverlaysUnoLandingPage = () => {
               />
               <button
                 onClick={() => setPricingToggle('monthly')}
-                className={`relative z-[1] px-8 py-3 rounded-xl transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 ${pricingToggle === 'monthly' ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+                className={`relative z-[1] px-8 py-3 rounded-xl transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 cursor-pointer ${pricingToggle === 'monthly' ? 'text-white' : 'text-gray-300 hover:text-white'}`}
                 aria-pressed={pricingToggle === 'monthly'}
                 aria-label="Select monthly pricing"
               >
@@ -2154,7 +2154,7 @@ export const OverlaysUnoLandingPage = () => {
               </button>
               <button
                 onClick={() => setPricingToggle('yearly')}
-                className={`relative z-[1] px-8 py-3 rounded-xl transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 ${pricingToggle === 'yearly' ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+                className={`relative z-[1] px-8 py-3 rounded-xl transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 cursor-pointer ${pricingToggle === 'yearly' ? 'text-white' : 'text-gray-300 hover:text-white'}`}
                 aria-pressed={pricingToggle === 'yearly'}
                 aria-label="Select yearly pricing"
               >
@@ -2224,7 +2224,9 @@ export const OverlaysUnoLandingPage = () => {
                   </li>
                 </ul>
                 <div className="mt-auto">
-                  <button className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150">
+                  <button
+                    onClick={() => setShowSignUpOverlay(true)}
+                    className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer">
                     <span>Start Free</span>
                   </button>
                 </div>
@@ -2302,7 +2304,9 @@ export const OverlaysUnoLandingPage = () => {
                   </li>
                 </ul>
                 <div className="mt-auto">
-                  <button className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center">
+                  <button
+                    onClick={() => setShowSignUpOverlay(true)}
+                    className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer">
                     <span>Get Pro</span>
                   </button>
                 </div>
@@ -2654,11 +2658,14 @@ export const OverlaysUnoLandingPage = () => {
           >
             <button
               onClick={() => setShowSignUpOverlay(false)}
-              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignUpCard />
+            <SignUpCard onSwitchToSignIn={() => {
+              setShowSignUpOverlay(false);
+              setShowLoginOverlay(true);
+            }} />
           </div>
         </div>
       )}
@@ -2675,11 +2682,14 @@ export const OverlaysUnoLandingPage = () => {
           >
             <button
               onClick={() => setShowLoginOverlay(false)}
-              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignInCard />
+            <SignInCard onSwitchToSignUp={() => {
+              setShowLoginOverlay(false);
+              setShowSignUpOverlay(true);
+            }} />
           </div>
         </div>
       )}

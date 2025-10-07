@@ -30,6 +30,7 @@ const checkboxStyles = `
   .custom-checkbox:checked {
     background-color: color-mix(in oklab, var(--color-white) 2%, transparent) !important;
     border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2) !important;
   }
   .custom-checkbox:checked::after {
     content: '';
@@ -381,12 +382,9 @@ const ContactPage: React.FC = () => {
                   <div>
                     <h3 className="font-medium text-foreground mb-1">Phone</h3>
                     <p className="text-muted-foreground text-sm mb-2">Mon-Fri / 9am to 5pm EST</p>
-                    <a
-                      href="tel:+15550000000"
-                      className="text-primary hover:text-primary/80 transition-colors text-sm font-medium"
-                    >
+                    <span className="text-primary text-sm font-medium">
                       +1 (555) 000-0000
-                    </a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -416,8 +414,15 @@ const ContactPage: React.FC = () => {
 
             {/* Contact Form Section */}
             <div
-              className="rounded-xl p-8 border border-border"
-              style={{ backgroundColor: 'color-mix(in oklab, var(--color-white) 5%, transparent)' }}
+              className="rounded-xl p-8 border"
+              style={{
+                backgroundColor: 'color-mix(in oklab, var(--color-white) 5%, transparent)',
+                borderColor: 'color-mix(in oklab, var(--color-orange-500) 30%, transparent)',
+                borderTopColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
+                borderRightColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
+                borderBottomColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
+                borderLeftColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)'
+              }}
             >
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Fields */}
@@ -435,7 +440,7 @@ const ContactPage: React.FC = () => {
                       value={formData.firstName}
                       onChange={e => handleInputChange('firstName', e.target.value)}
                       placeholder="First Last"
-                      className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${errors.firstName ? 'border-destructive' : 'border-border'}`}
+                      className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors ${errors.firstName ? 'border-destructive' : 'border-border'}`}
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                       }}
@@ -457,7 +462,7 @@ const ContactPage: React.FC = () => {
                       value={formData.companyName}
                       onChange={e => handleInputChange('companyName', e.target.value)}
                       placeholder="Company"
-                      className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${errors.companyName ? 'border-destructive' : 'border-border'}`}
+                      className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors ${errors.companyName ? 'border-destructive' : 'border-border'}`}
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                       }}
@@ -479,7 +484,7 @@ const ContactPage: React.FC = () => {
                     value={formData.email}
                     onChange={e => handleInputChange('email', e.target.value)}
                     placeholder="you@company.com"
-                    className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors ${errors.email ? 'border-destructive' : 'border-border'}`}
+                    className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors ${errors.email ? 'border-destructive' : 'border-border'}`}
                     style={{
                       backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                     }}
@@ -540,7 +545,7 @@ const ContactPage: React.FC = () => {
                       value={formData.phone}
                       onChange={e => handleInputChange('phone', e.target.value)}
                       placeholder="+1 (555) 000-0000"
-                      className="flex-1 px-3 py-2 border rounded-r-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                      className="flex-1 px-3 py-2 border rounded-r-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
                       style={{
                         backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                       }}
@@ -562,7 +567,7 @@ const ContactPage: React.FC = () => {
                     value={formData.message}
                     onChange={e => handleInputChange('message', e.target.value)}
                     placeholder="Leave us a message..."
-                    className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none ${errors.message ? 'border-destructive' : 'border-border'}`}
+                    className={`w-full px-3 py-2 border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none ${errors.message ? 'border-destructive' : 'border-border'}`}
                     style={{
                       backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
                     }}
@@ -713,11 +718,14 @@ const ContactPage: React.FC = () => {
           >
             <button
               onClick={() => setShowSignUpOverlay(false)}
-              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignUpCard />
+            <SignUpCard onSwitchToSignIn={() => {
+              setShowSignUpOverlay(false);
+              setShowLoginOverlay(true);
+            }} />
           </div>
         </div>
       )}
@@ -734,11 +742,14 @@ const ContactPage: React.FC = () => {
           >
             <button
               onClick={() => setShowLoginOverlay(false)}
-              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignInCard />
+            <SignInCard onSwitchToSignUp={() => {
+              setShowLoginOverlay(false);
+              setShowSignUpOverlay(true);
+            }} />
           </div>
         </div>
       )}
