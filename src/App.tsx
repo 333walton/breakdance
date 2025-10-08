@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Container, Theme } from './settings/types';
 import { OverlaysUnoLandingPage } from './components/generated/OverlaysUnoLandingPage';
 import ContactPage from './components/generated/ContactPage';
+import { OverlaysLibraryGridPage } from './components/generated/LibraryPage';
 
 let theme: Theme = 'dark';
 // only use 'centered' container for standalone components, never for full page apps or websites.
@@ -28,6 +29,8 @@ function App() {
     <Routes>
       <Route path="/" element={generatedComponent} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/library" element={<OverlaysLibraryGridPage key="library" />} />
+      <Route path="/tools" element={<OverlaysLibraryGridPage key="tools" initialView="Tools" />} />
     </Routes>
   );
 

@@ -1105,7 +1105,15 @@ export const OverlaysUnoLandingPage = () => {
                 <a
                   key={nav.label}
                   href="#"
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-medium tracking-wide relative"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (nav.label === 'Library') {
+                      navigate('/library');
+                    } else if (nav.label === 'Tools') {
+                      navigate('/tools');
+                    }
+                  }}
+                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-medium tracking-wide relative cursor-pointer"
                   style={{
                     fontFamily: 'Nunito, sans-serif',
                   }}
@@ -1655,7 +1663,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1747,7 +1755,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1840,7 +1848,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -1928,7 +1936,7 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
