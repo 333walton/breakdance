@@ -1636,7 +1636,7 @@ export const OverlaysUnoLandingPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
             <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
-              <span>Team Boards</span>
+              <span>Categories</span>
             </h2>
             <div className="hidden">
               <div className="hidden">
@@ -1728,6 +1728,99 @@ export const OverlaysUnoLandingPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-0">
             <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
+              <span>Functions</span>
+            </h2>
+            <div className="hidden">
+              <div className="hidden">
+                <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10">
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10">
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+              <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5">
+                <span>See More</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+              <span>See More</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+            {podcastOverlays.slice(0, 5).map((overlay, index) => (
+              <motion.div
+                key={overlay.name}
+                className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
+                style={{ borderRadius: '12px' }}
+                initial="hidden"
+                whileInView="show"
+                viewport={{
+                  once: true,
+                  amount: 0.25,
+                }}
+                variants={fadeSlideLeft}
+              >
+                {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
+                <div className="relative" style={{ height: '220px' }}>
+                  {/* Full card with gradient background - stays fixed */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
+                      <span className="text-gray-400 text-xs font-medium">Preview</span>
+                    </div>
+                  </div>
+                  {/* Caption card - starts lower, slides up on hover to reveal additional content */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
+                      <span className="hover:cursor-pointer">
+                        {overlay.name === 'Talk Show Professional'
+                          ? 'Team Board'
+                          : overlay.name === 'Interview Setup Clean'
+                            ? 'Counter'
+                            : overlay.name === 'News Broadcast Modern'
+                              ? 'Text Scroller'
+                              : overlay.name === 'Panel Discussion Layout'
+                                ? 'Image Frame'
+                                : index === 4
+                                  ? 'Music Visualizer'
+                                  : overlay.name}
+                      </span>
+                    </h3>
+                    {/* Additional info that gets revealed on hover */}
+                    <div className="flex items-center justify-between -translate-y-[5px]">
+                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
+                        <span>{overlay.aspect}</span>
+                      </span>
+                      {/* Button appears only on hover */}
+                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Podcasts Overlays Carousel */}
+      <section
+        className={`px-6 py-5 bg-gradient-to-b from-[#2b233e] to-[#302742] ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`}
+        style={{
+          paddingBottom: 'calc(var(--spacing)*14)',
+          paddingTop: 'calc(var(--spacing)*0)',
+        }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-0">
+            <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
               <span>Themes</span>
             </h2>
             <div className="hidden">
@@ -1765,99 +1858,6 @@ export const OverlaysUnoLandingPage = () => {
                   once: true,
                   amount: 0.25,
                 }}
-                variants={fadeSlideLeft}
-              >
-                {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
-                <div className="relative" style={{ height: '220px' }}>
-                  {/* Full card with gradient background - stays fixed */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
-                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
-                      <span className="text-gray-400 text-xs font-medium">Preview</span>
-                    </div>
-                  </div>
-                  {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span className="hover:cursor-pointer">
-                        {overlay.name === 'FPS Combat HUD'
-                          ? 'Color Blast'
-                          : overlay.name === 'RPG Interface Pro'
-                            ? 'Downtown'
-                            : overlay.name === 'Racing Dashboard'
-                              ? 'Kaboom'
-                              : overlay.name === 'Strategy Command'
-                                ? 'Stained Glass'
-                                : index === 4
-                                  ? 'Base'
-                                  : overlay.name}
-                      </span>
-                    </h3>
-                    {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between -translate-y-[5px]">
-                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
-                        <span>{overlay.aspect}</span>
-                      </span>
-                      {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Podcasts Overlays Carousel */}
-      <section
-        className={`px-6 py-5 bg-gradient-to-b from-[#2b233e] to-[#302742] ${activeCategory === 'Browse Tools' ? 'hidden' : ''}`}
-        style={{
-          paddingBottom: 'calc(var(--spacing)*14)',
-          paddingTop: 'calc(var(--spacing)*0)',
-        }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-0">
-            <h2 className="text-4xl font-bold cursor-default" style={{ marginBottom: '-14px' }}>
-              <span>Extras</span>
-            </h2>
-            <div className="hidden">
-              <div className="hidden">
-                <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10">
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 border border-white/10">
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-              <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-5">
-                <span>See More</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            <button className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
-              <span>See More</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
-            {podcastOverlays.slice(0, 5).map((overlay, index) => (
-              <motion.div
-                key={overlay.name}
-                className="bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-default group border border-white/10"
-                style={{ borderRadius: '12px' }}
-                initial="hidden"
-                whileInView="show"
-                viewport={{
-                  once: true,
-                  amount: 0.25,
-                }}
                 variants={fadeZoom}
               >
                 {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
@@ -1872,16 +1872,16 @@ export const OverlaysUnoLandingPage = () => {
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                       <span className="hover:cursor-pointer">
-                        {overlay.name === 'Talk Show Professional'
-                          ? 'Music Visualizer'
-                          : overlay.name === 'Interview Setup Clean'
-                            ? 'Counter'
-                            : overlay.name === 'News Broadcast Modern'
-                              ? 'Text Scroller'
-                              : overlay.name === 'Panel Discussion Layout'
-                                ? 'Image Frame'
+                        {overlay.name === 'FPS Combat HUD'
+                          ? 'Base'
+                          : overlay.name === 'RPG Interface Pro'
+                            ? 'Downtown'
+                            : overlay.name === 'Racing Dashboard'
+                              ? 'Kaboom'
+                              : overlay.name === 'Strategy Command'
+                                ? 'Stained Glass'
                                 : index === 4
-                                  ? 'Timer'
+                                  ? 'Color Blast'
                                   : overlay.name}
                       </span>
                     </h3>
