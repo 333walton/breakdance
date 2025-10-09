@@ -325,7 +325,10 @@ export const OverlaysLibraryGridPage = ({
 
   // @return
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1a1428] via-[#221832] to-[#2a1e3a] text-white">
+    <div
+      className="bg-gradient-to-b from-[#1a1428] via-[#221832] to-[#2a1e3a] text-white"
+      style={{ height: '100vh', overflow: 'hidden' }}
+    >
       <style>{`
         .filter-panel-scrollbar::-webkit-scrollbar {
           width: 6px;
@@ -934,7 +937,10 @@ export const OverlaysLibraryGridPage = ({
           )}
         </AnimatePresence>
 
-        <main className="flex-1 overflow-y-auto filter-panel-scrollbar">
+        <main
+          className="flex-1 overflow-y-auto filter-panel-scrollbar"
+          style={{ maxHeight: navMaxHeight }}
+        >
           <div className="max-w-7xl mx-auto p-6 lg:p-8">
             {activeNavItem === 'Library' && (
               <div className="mb-8">
