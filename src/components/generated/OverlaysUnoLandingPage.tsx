@@ -339,6 +339,7 @@ export const OverlaysUnoLandingPage = () => {
   // New: focus mode for NFL centering
   const [nflFocused, setNflFocused] = useState<boolean>(false);
   const heroStageRef = React.useRef<HTMLDivElement | null>(null);
+  const heroButtonRef = React.useRef<HTMLDivElement | null>(null);
 
   // Control panel state for fluid animation
   const [showControls, setShowControls] = useState(false);
@@ -540,10 +541,11 @@ export const OverlaysUnoLandingPage = () => {
   React.useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       const stage = heroStageRef.current;
+      const button = heroButtonRef.current;
       if (!stage) return;
       const target = e.target as Node | null;
-      if (target && !stage.contains(target)) {
-        // Restore defaults when clicking outside the hero frame
+      if (target && !stage.contains(target) && (!button || !button.contains(target))) {
+        // Restore defaults when clicking outside the hero frame and button
         setNflFocused(false);
         setSelectedHero(null);
         setRecency(['phone-preview', 'nfl-grid', 'form-window']);
@@ -1259,13 +1261,21 @@ export const OverlaysUnoLandingPage = () => {
                   ) : null}
                 </div>
               </div>
-              <div className="w-fit" style={{ marginLeft: '-5%' }}>
+              <div ref={heroButtonRef} className="w-fit" style={{ marginLeft: '-5%' }}>
                 <GlassmorphicButton
                   className="px-5 py-2 text-sm"
                   onClick={e => {
                     e.stopPropagation();
-                    console.log('🎛️ Hero button clicked - no-op for controls (moved to NFL grid)');
-                    // Controls panel now opens when NFL grid is selected
+                    console.log('Hero button clicked, selectedHero:', selectedHero);
+                    if (selectedHero === 'form') {
+                      console.log('Navigating to /tools');
+                      navigate('/tools');
+                    } else if (selectedHero === 'phone') {
+                      console.log('Learn More clicked');
+                    } else {
+                      console.log('Navigating to /library');
+                      navigate('/library');
+                    }
                   }}
                   style={{
                     fontFamily: 'Nunito, sans-serif',
@@ -1337,11 +1347,13 @@ export const OverlaysUnoLandingPage = () => {
                         type="button"
                         aria-label="Open form window"
                         onClick={() => {
+                          console.log('Form window clicked, setting selectedHero to form');
                           setNflFocused(false);
                           // keep original bringToFront for form
                           const clicked = 'form' as const;
                           const clickedId = 'form-window';
                           setSelectedHero(clicked);
+                          console.log('After setSelectedHero, clicked:', clicked);
                           setRecency(prev => {
                             const next = prev.filter(id => id !== clickedId);
                             next.unshift(clickedId);
@@ -2025,7 +2037,7 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library')}
+              onClick={() => navigate('/tools')}
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
