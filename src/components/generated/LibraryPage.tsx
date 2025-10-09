@@ -23,6 +23,7 @@ import {
   Trash2,
   FolderPlus,
   ExternalLink,
+  Play,
 } from 'lucide-react';
 type Overlay = {
   id: string;
@@ -218,12 +219,14 @@ export const OverlaysLibraryGridPage = ({
     return state?.showMoreSections ? new Set(state.showMoreSections) : new Set();
   });
   const [isNavExpanded, setIsNavExpanded] = useState(true);
+  const [showNavText, setShowNavText] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [activeNavItem, setActiveNavItem] = useState<NavItem>(initialView);
   const [sortBy, setSortBy] = useState<SortOption>('a-to-z');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [myOverlaysExpanded, setMyOverlaysExpanded] = useState(false);
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
+  const [showAsideText, setShowAsideText] = useState(false);
 
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)?.highlightedTool;
@@ -271,6 +274,28 @@ export const OverlaysLibraryGridPage = ({
     window.addEventListener('resize', updateNavHeight);
     return () => window.removeEventListener('resize', updateNavHeight);
   }, []);
+
+  useEffect(() => {
+    if (isNavExpanded) {
+      // Delay showing text until panel expansion animation completes
+      const timer = setTimeout(() => setShowNavText(true), 320);
+      return () => clearTimeout(timer);
+    } else {
+      // Hide text immediately when collapsing
+      setShowNavText(false);
+    }
+  }, [isNavExpanded]);
+
+  useEffect(() => {
+    if (isFilterOpen) {
+      // Delay showing text until panel slide-in animation completes
+      const timer = setTimeout(() => setShowAsideText(true), 320);
+      return () => clearTimeout(timer);
+    } else {
+      // Hide text immediately when closing
+      setShowAsideText(false);
+    }
+  }, [isFilterOpen]);
   const toggleSection = (section: string) => {
     setExpandedSections(prev => {
       const next = new Set(prev);
@@ -519,6 +544,7 @@ export const OverlaysLibraryGridPage = ({
         }}
       >
         <motion.nav
+          initial={false}
           animate={{
             width: isNavExpanded ? 210 : 80,
           }}
@@ -532,49 +558,80 @@ export const OverlaysLibraryGridPage = ({
           }}
           style={{ maxHeight: navMaxHeight }}
         >
-          <div className="flex items-end justify-center pt-4 pb-0 px-[2.8px]">
-            <button className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF4D1F] hover:to-[#FFB838] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-black focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer w-[80%]" style={{ fontFamily: 'Nunito, sans-serif' }}>
-              Go Live
+          <div className="flex items-end pb-0 px-4" style={{ paddingTop: 'calc(var(--spacing) * 10)' }}>
+            <button
+              className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF4D1F] hover:to-[#FFB838] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out rounded-full font-bold text-black focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer flex items-center justify-center h-12 overflow-hidden"
+              style={{
+                fontFamily: 'Nunito, sans-serif',
+                width: isNavExpanded ? '100%' : '48px',
+              }}
+              title={!isNavExpanded ? 'Go Live' : undefined}
+            >
+              <Play
+                className="w-5 h-5 transition-opacity duration-200 absolute"
+                style={{
+                  opacity: !isNavExpanded ? 1 : 0,
+                  pointerEvents: !isNavExpanded ? 'auto' : 'none',
+                }}
+              />
+              <div
+                className="flex items-center space-x-2 transition-opacity duration-200"
+                style={{
+                  opacity: showNavText ? 1 : 0,
+                  pointerEvents: showNavText ? 'auto' : 'none',
+                }}
+              >
+                <span>Go Live</span>
+                <ExternalLink className="w-4 h-4" />
+              </div>
             </button>
           </div>
-          <div className="p-4 overflow-y-auto flex-1 pb-28">
+          <div className="p-4 overflow-y-auto flex-1 pb-28 mt-[30px]">
             <div className="space-y-2">
               <button
                 onClick={() => navigate('/tools')}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Tools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                style={
-                  !isNavExpanded
-                    ? {
-                        aspectRatio: '1/1',
-                        width: '48px',
-                        height: '48px',
-                        padding: '0',
-                      }
-                    : undefined
-                }
+                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Tools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                style={{
+                  height: '48px',
+                }}
                 title={!isNavExpanded ? 'Tools' : undefined}
               >
-                <Wrench className="h-5 w-5 flex-shrink-0" />
-                {isNavExpanded && <span className="text-sm font-medium">Tools</span>}
+                <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                  <Wrench className="h-5 w-5" />
+                </div>
+                <span
+                  className="text-sm font-medium transition-opacity duration-200"
+                  style={{
+                    paddingLeft: '12px',
+                    opacity: showNavText ? 1 : 0,
+                    pointerEvents: showNavText ? 'auto' : 'none',
+                  }}
+                >
+                  Tools
+                </span>
               </button>
 
               <button
                 onClick={() => navigate('/library')}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Library' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                style={
-                  !isNavExpanded
-                    ? {
-                        aspectRatio: '1/1',
-                        width: '48px',
-                        height: '48px',
-                        padding: '0',
-                      }
-                    : undefined
-                }
+                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Library' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                style={{
+                  height: '48px',
+                }}
                 title={!isNavExpanded ? 'Library' : undefined}
               >
-                <Library className="h-5 w-5 flex-shrink-0" />
-                {isNavExpanded && <span className="text-sm font-medium">Library</span>}
+                <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                  <Library className="h-5 w-5" />
+                </div>
+                <span
+                  className="text-sm font-medium transition-opacity duration-200"
+                  style={{
+                    paddingLeft: '12px',
+                    opacity: showNavText ? 1 : 0,
+                    pointerEvents: showNavText ? 'auto' : 'none',
+                  }}
+                >
+                  Library
+                </span>
               </button>
 
               {activeNavItem === 'Library' && isNavExpanded && (
@@ -606,14 +663,30 @@ export const OverlaysLibraryGridPage = ({
                   <div>
                     <button
                       onClick={() => setMyOverlaysExpanded(!myOverlaysExpanded)}
-                      className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                      className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                      style={{
+                        height: '48px',
+                      }}
                     >
-                      <div className="flex items-center gap-3">
-                        <Layers className="h-5 w-5 flex-shrink-0" />
-                        <span className="text-sm font-medium">My Overlays</span>
+                      <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                        <Layers className="h-5 w-5" />
                       </div>
+                      <span
+                        className="text-sm font-medium transition-opacity duration-200"
+                        style={{
+                          paddingLeft: '12px',
+                          opacity: showNavText ? 1 : 0,
+                          pointerEvents: showNavText ? 'auto' : 'none',
+                        }}
+                      >
+                        My Overlays
+                      </span>
                       <ChevronDown
-                        className={`h-4 w-4 transition-transform duration-200 ${myOverlaysExpanded ? 'rotate-180' : ''}`}
+                        className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myOverlaysExpanded ? 'rotate-180' : ''}`}
+                        style={{
+                          opacity: showNavText ? 1 : 0,
+                          pointerEvents: showNavText ? 'auto' : 'none',
+                        }}
                       />
                     </button>
 
@@ -670,14 +743,30 @@ export const OverlaysLibraryGridPage = ({
                   <div>
                     <button
                       onClick={() => setMyImagesExpanded(!myImagesExpanded)}
-                      className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                      className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                      style={{
+                        height: '48px',
+                      }}
                     >
-                      <div className="flex items-center gap-3">
-                        <Image className="h-5 w-5 flex-shrink-0" />
-                        <span className="text-sm font-medium">My Images</span>
+                      <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                        <Image className="h-5 w-5" />
                       </div>
+                      <span
+                        className="text-sm font-medium transition-opacity duration-200"
+                        style={{
+                          paddingLeft: '12px',
+                          opacity: showNavText ? 1 : 0,
+                          pointerEvents: showNavText ? 'auto' : 'none',
+                        }}
+                      >
+                        My Images
+                      </span>
                       <ChevronDown
-                        className={`h-4 w-4 transition-transform duration-200 ${myImagesExpanded ? 'rotate-180' : ''}`}
+                        className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myImagesExpanded ? 'rotate-180' : ''}`}
+                        style={{
+                          opacity: showNavText ? 1 : 0,
+                          pointerEvents: showNavText ? 'auto' : 'none',
+                        }}
                       />
                     </button>
 
@@ -798,67 +887,73 @@ export const OverlaysLibraryGridPage = ({
               <div className="space-y-3">
                 <button
                   onClick={() => navigate('/pricing')}
-                  className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                  style={
-                    !isNavExpanded
-                      ? {
-                          aspectRatio: '1/1',
-                          width: '48px',
-                          height: '48px',
-                          padding: '0',
-                        }
-                      : undefined
-                  }
+                  className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                  style={{
+                    height: '48px',
+                  }}
                   title={!isNavExpanded ? 'Pricing' : undefined}
                 >
-                  <DollarSign className="h-5 w-5 flex-shrink-0" />
-                  {isNavExpanded && <span className="text-sm font-medium">Pricing</span>}
+                  <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                    <DollarSign className="h-5 w-5" />
+                  </div>
+                  <span
+                    className="text-sm font-medium transition-opacity duration-200"
+                    style={{
+                      paddingLeft: '12px',
+                      opacity: showNavText ? 1 : 0,
+                      pointerEvents: showNavText ? 'auto' : 'none',
+                    }}
+                  >
+                    Pricing
+                  </span>
                 </button>
 
                 <button
                   onClick={() => navigate('/account')}
-                  className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                  style={
-                    !isNavExpanded
-                      ? {
-                          aspectRatio: '1/1',
-                          width: '48px',
-                          height: '48px',
-                          padding: '0',
-                        }
-                      : undefined
-                  }
+                  className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                  style={{
+                    height: '48px',
+                  }}
                   title={!isNavExpanded ? 'Account' : undefined}
                 >
-                  <User className="h-5 w-5 flex-shrink-0" />
-                  {isNavExpanded && <span className="text-sm font-medium">Account</span>}
+                  <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                    <User className="h-5 w-5" />
+                  </div>
+                  <span
+                    className="text-sm font-medium transition-opacity duration-200"
+                    style={{
+                      paddingLeft: '12px',
+                      opacity: showNavText ? 1 : 0,
+                      pointerEvents: showNavText ? 'auto' : 'none',
+                    }}
+                  >
+                    Account
+                  </span>
                 </button>
 
                 <div className="border-t border-white/5 my-2" />
 
                 <button
                   onClick={() => setIsNavExpanded(!isNavExpanded)}
-                  className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white`}
-                  style={
-                    !isNavExpanded
-                      ? {
-                          aspectRatio: '1/1',
-                          width: '48px',
-                          height: '48px',
-                          padding: '0',
-                        }
-                      : undefined
-                  }
+                  className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                  style={{
+                    height: '48px',
+                  }}
                   title={!isNavExpanded ? 'Expand' : 'Collapse'}
                 >
-                  {isNavExpanded ? (
-                    <>
-                      <ChevronsLeft className="h-5 w-5 flex-shrink-0" />
-                      <span className="text-sm font-medium">Collapse</span>
-                    </>
-                  ) : (
-                    <ChevronsRight className="h-5 w-5 flex-shrink-0" />
-                  )}
+                  <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                    {isNavExpanded ? <ChevronsLeft className="h-5 w-5" /> : <ChevronsRight className="h-5 w-5" />}
+                  </div>
+                  <span
+                    className="text-sm font-medium transition-opacity duration-200"
+                    style={{
+                      paddingLeft: '12px',
+                      opacity: showNavText ? 1 : 0,
+                      pointerEvents: showNavText ? 'auto' : 'none',
+                    }}
+                  >
+                    Collapse
+                  </span>
                 </button>
               </div>
             </div>
@@ -900,12 +995,23 @@ export const OverlaysLibraryGridPage = ({
               <div className="p-11">
                 <div className="mb-6 flex items-center justify-between">
                   <h2 className="text-xl font-bold">
-                    <span>Filters</span>
+                    <span
+                      className="transition-opacity duration-200"
+                      style={{
+                        opacity: showAsideText ? 1 : 0,
+                      }}
+                    >
+                      Filters
+                    </span>
                   </h2>
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}
-                      className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                      className="text-xs text-purple-400 hover:text-purple-300 transition-all duration-200"
+                      style={{
+                        opacity: showAsideText ? 1 : 0,
+                        pointerEvents: showAsideText ? 'auto' : 'none',
+                      }}
                     >
                       <span>Clear All</span>
                     </button>
@@ -923,14 +1029,18 @@ export const OverlaysLibraryGridPage = ({
                       return (
                         <div
                           key={filterKey}
-                          className="border-b border-white/5 pb-4"
+                          className="border-b border-white/5 pb-4 transition-opacity duration-200"
                           style={{
                             borderBottomWidth: '3px',
+                            opacity: showAsideText ? 1 : 0,
                           }}
                         >
                           <button
                             onClick={() => toggleSection(filterKey)}
                             className="w-full flex items-center justify-between py-2 hover:text-white/90 transition-colors"
+                            style={{
+                              pointerEvents: showAsideText ? 'auto' : 'none',
+                            }}
                           >
                             <div className="flex items-center gap-2">
                               {IconComponent && <IconComponent className="h-4 w-4" />}
