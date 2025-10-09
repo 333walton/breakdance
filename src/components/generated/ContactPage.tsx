@@ -230,85 +230,85 @@ const ContactPage: React.FC = () => {
     <div className="min-h-screen">
       <style>{checkboxStyles}</style>
       {/* Header */}
-      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
+      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50">
         <div
-          className="w-full max-w-screen-xl mx-auto px-4"
-          style={{ paddingTop: '5px', paddingBottom: '0px' }}
+          className="w-full px-6 flex items-center justify-between"
+          style={{ paddingTop: '4px', paddingBottom: '4px' }}
         >
-          <div className="flex flex-col md:flex-row items-center justify-between w-full">
-            {/* Logo */}
-            <div className="text-2xl font-bold flex items-center -ml-4">
-              <img
-                src="/static/logo_rough2.png"
-                alt="Logo"
-                onClick={() => navigate('/')}
-                className="h-20 w-auto object-contain mr-3 cursor-pointer"
-                style={{ marginLeft: '-20px' }}
-              />
-              <span
-                className="text-orange-500"
-                style={{
-                  display: 'none',
-                }}
-              >
-                overlays.
-              </span>
-              <span
-                className="text-white"
-                style={{
-                  display: 'none',
-                }}
-              >
-                uno
-              </span>
-            </div>
-
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 -ml-8 lg:-ml-64">
-              {navigationItems.map(nav => (
-                <a
-                  key={nav.label}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (nav.label === 'Library') {
-                      navigate('/library');
-                    } else if (nav.label === 'Tools') {
-                      navigate('/tools');
-                    }
-                  }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-medium tracking-wide relative cursor-pointer"
+          <div className="flex items-center">
+              {/* Logo */}
+              <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
+                <img
+                  src="/static/logo_rough2.png"
+                  alt="Logo"
+                  onClick={() => navigate('/')}
+                  className="h-16 w-auto object-contain cursor-pointer"
+                />
+                <span
+                  className="text-orange-500"
                   style={{
-                    fontFamily: 'Nunito, sans-serif',
+                    display: 'none',
                   }}
                 >
-                  <span
+                  overlays.
+                </span>
+                <span
+                  className="text-white"
+                  style={{
+                    display: 'none',
+                  }}
+                >
+                  uno
+                </span>
+              </div>
+
+              {/* Navigation */}
+              <nav className="hidden md:flex items-center space-x-8 ml-12" style={{ marginLeft: 'calc(var(--spacing) * 21)' }}>
+                {navigationItems.map(nav => (
+                  <a
+                    key={nav.label}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (nav.label === 'Library') {
+                        navigate('/library');
+                      } else if (nav.label === 'Tools') {
+                        navigate('/tools');
+                      }
+                    }}
+                    className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
                     style={{
-                      fontSize: '16px',
+                      fontFamily: 'Nunito, sans-serif',
                     }}
                   >
-                    {nav.label}
-                  </span>
-                  {nav.label === 'Live Breaks' ? (
                     <span
-                      aria-hidden="true"
-                      className="absolute block"
                       style={{
-                        width: '8px',
-                        height: '8px',
-                        background: 'oklch(0.75 0.14 151.711)',
-                        borderRadius: '9999px',
-                        top: '-4px',
-                        right: '-10px',
+                        fontSize: '16px',
                       }}
-                    />
-                  ) : null}
-                </a>
-              ))}
-            </nav>
+                    >
+                      {nav.label}
+                    </span>
+                    {nav.label === 'Live Breaks' ? (
+                      <span
+                        aria-hidden="true"
+                        className="absolute block"
+                        style={{
+                          width: '8px',
+                          height: '8px',
+                          background: 'oklch(0.75 0.14 151.711)',
+                          borderRadius: '9999px',
+                          top: '-4px',
+                          right: '-10px',
+                        }}
+                      />
+                    ) : null}
+                  </a>
+                ))}
+              </nav>
+            </div>
 
             {/* Auth & Discord */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 flex-shrink-0">
               <button
                 onClick={() => setShowSignUpOverlay(true)}
                 className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
@@ -336,7 +336,6 @@ const ContactPage: React.FC = () => {
                   }}
                 />
               </button>
-            </div>
           </div>
         </div>
       </header>

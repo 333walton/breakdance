@@ -310,21 +310,35 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
   // @return
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1428] via-[#221832] to-[#2a1e3a] text-white">
+      <style>{`
+        .filter-panel-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .filter-panel-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .filter-panel-scrollbar::-webkit-scrollbar-thumb {
+          background: #3a3a3a;
+          border-radius: 3px;
+        }
+        .filter-panel-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #4a4a4a;
+        }
+      `}</style>
       {/* Header */}
-      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
+      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50">
         <div
-          className="w-full max-w-screen-xl mx-auto px-4"
-          style={{ paddingTop: '5px', paddingBottom: '0px' }}
+          className="w-full px-6 flex items-center justify-between"
+          style={{ paddingTop: '4px', paddingBottom: '4px' }}
         >
-          <div className="flex flex-col md:flex-row items-center justify-between w-full">
+          <div className="flex items-center">
             {/* Logo */}
-            <div className="text-2xl font-bold flex items-center -ml-4">
+            <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
               <img
                 src="/static/logo_rough2.png"
                 alt="Logo"
                 onClick={() => navigate('/')}
-                className="h-20 w-auto object-contain mr-3 cursor-pointer"
-                style={{ marginLeft: '-20px' }}
+                className="h-16 w-auto object-contain cursor-pointer"
               />
               <span
                 className="text-orange-500"
@@ -345,7 +359,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 -ml-8 lg:-ml-64">
+            <nav className="hidden md:flex items-center space-x-8 ml-12" style={{ marginLeft: 'calc(var(--spacing) * 21)' }}>
               {navigationItems.map(nav => (
                 <a
                   key={nav.label}
@@ -358,7 +372,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                       navigate('/tools');
                     }
                   }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-medium tracking-wide relative cursor-pointer"
+                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
                   style={{
                     fontFamily: 'Nunito, sans-serif',
                   }}
@@ -387,9 +401,10 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                 </a>
               ))}
             </nav>
+          </div>
 
-            {/* Auth & Discord */}
-            <div className="flex items-center space-x-3">
+          {/* Auth & Discord */}
+          <div className="flex items-center space-x-3 flex-shrink-0">
               <button
                 onClick={() => setShowSignUpOverlay(true)}
                 className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
@@ -417,7 +432,6 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                   }}
                 />
               </button>
-            </div>
           </div>
         </div>
       </header>
@@ -436,7 +450,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
           <div className="p-4">
             <div className="space-y-2">
               <button
-                onClick={() => setActiveNavItem('Tools')}
+                onClick={() => navigate('/tools')}
                 className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Tools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={
                   !isNavExpanded
@@ -455,7 +469,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
               </button>
 
               <button
-                onClick={() => setActiveNavItem('Library')}
+                onClick={() => navigate('/library')}
                 className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Library' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={
                   !isNavExpanded
@@ -693,26 +707,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
               />
 
               <button
-                onClick={() => setActiveNavItem('Account')}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                style={
-                  !isNavExpanded
-                    ? {
-                        aspectRatio: '1/1',
-                        width: '48px',
-                        height: '48px',
-                        padding: '0',
-                      }
-                    : undefined
-                }
-                title={!isNavExpanded ? 'Account' : undefined}
-              >
-                <User className="h-5 w-5 flex-shrink-0" />
-                {isNavExpanded && <span className="text-sm font-medium">Account</span>}
-              </button>
-
-              <button
-                onClick={() => setActiveNavItem('Pricing')}
+                onClick={() => navigate('/pricing')}
                 className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={
                   !isNavExpanded
@@ -731,8 +726,8 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
               </button>
 
               <button
-                onClick={() => setActiveNavItem('Logout')}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Logout' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                onClick={() => navigate('/account')}
+                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={
                   !isNavExpanded
                     ? {
@@ -743,10 +738,10 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                       }
                     : undefined
                 }
-                title={!isNavExpanded ? 'Logout' : undefined}
+                title={!isNavExpanded ? 'Account' : undefined}
               >
-                <LogOut className="h-5 w-5 flex-shrink-0" />
-                {isNavExpanded && <span className="text-sm font-medium">Logout</span>}
+                <User className="h-5 w-5 flex-shrink-0" />
+                {isNavExpanded && <span className="text-sm font-medium">Account</span>}
               </button>
 
               <div
@@ -916,7 +911,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
           )}
         </AnimatePresence>
 
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto filter-panel-scrollbar">
           <div className="max-w-7xl mx-auto p-6 lg:p-8">
             {activeNavItem === 'Library' && (
               <div className="mb-8">
@@ -1161,6 +1156,9 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                     </div>
                   </div>
                 </div>
+                <button className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer">
+                  <span>Logout</span>
+                </button>
               </div>
             )}
 

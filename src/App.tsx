@@ -31,6 +31,8 @@ function App() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/library" element={<OverlaysLibraryGridPage key="library" />} />
       <Route path="/tools" element={<OverlaysLibraryGridPage key="tools" initialView="Tools" />} />
+      <Route path="/account" element={<OverlaysLibraryGridPage key="account" initialView="Account" />} />
+      <Route path="/pricing" element={<OverlaysLibraryGridPage key="pricing" initialView="Pricing" />} />
     </Routes>
   );
 

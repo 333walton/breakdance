@@ -1066,20 +1066,22 @@ export const OverlaysUnoLandingPage = () => {
       )}
 
       {/* Header */}
-      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-between">
+      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50">
         <div
-          className="w-full max-w-screen-xl mx-auto px-4"
-          style={{ paddingTop: '5px', paddingBottom: '0px' }}
+          className="w-full px-6 flex items-center justify-between"
+          style={{ paddingTop: '4px', paddingBottom: '4px' }}
         >
-          <div className="flex flex-col md:flex-row items-center justify-between w-full">
+          <div className="flex items-center">
             {/* Logo */}
-            <div className="text-2xl font-bold flex items-center -ml-4">
+            <div
+              className="text-2xl font-bold flex items-center flex-shrink-0"
+              style={{ marginLeft: '4px' }}
+            >
               <img
                 src="/static/logo_rough2.png"
                 alt="Logo"
                 onClick={() => navigate('/')}
-                className="h-20 w-auto object-contain mr-3 cursor-pointer"
-                style={{ marginLeft: '-20px' }}
+                className="h-16 w-auto object-contain cursor-pointer"
               />
               <span
                 className="text-orange-500"
@@ -1100,12 +1102,15 @@ export const OverlaysUnoLandingPage = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 -ml-8 lg:-ml-64">
+            <nav
+              className="hidden md:flex items-center space-x-8 ml-12"
+              style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
+            >
               {navigationItems.map(nav => (
                 <a
                   key={nav.label}
                   href="#"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
                     if (nav.label === 'Library') {
                       navigate('/library');
@@ -1113,7 +1118,7 @@ export const OverlaysUnoLandingPage = () => {
                       navigate('/tools');
                     }
                   }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-medium tracking-wide relative cursor-pointer"
+                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
                   style={{
                     fontFamily: 'Nunito, sans-serif',
                   }}
@@ -1142,37 +1147,37 @@ export const OverlaysUnoLandingPage = () => {
                 </a>
               ))}
             </nav>
+          </div>
 
-            {/* Auth & Discord */}
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => setShowSignUpOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+          {/* Auth & Discord */}
+          <div className="flex items-center space-x-3 flex-shrink-0">
+            <button
+              onClick={() => setShowSignUpOverlay(true)}
+              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            >
+              <span>Sign up</span>
+            </button>
+            <button
+              onClick={() => setShowLoginOverlay(true)}
+              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            >
+              <span>Login</span>
+            </button>
+            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
+              <span
+                style={{
+                  color: 'rgb(0 0 0)',
+                }}
               >
-                <span>Sign up</span>
-              </button>
-              <button
-                onClick={() => setShowLoginOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-              >
-                <span>Login</span>
-              </button>
-              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
-                <span
-                  style={{
-                    color: 'rgb(0 0 0)',
-                  }}
-                >
-                  Launch App
-                </span>
-                <ExternalLink
-                  className="w-4 h-4"
-                  style={{
-                    color: 'rgb(0 0 0)',
-                  }}
-                />
-              </button>
-            </div>
+                Launch App
+              </span>
+              <ExternalLink
+                className="w-4 h-4"
+                style={{
+                  color: 'rgb(0 0 0)',
+                }}
+              />
+            </button>
           </div>
         </div>
       </header>
@@ -1211,7 +1216,9 @@ export const OverlaysUnoLandingPage = () => {
                 >
                   <span className="block">Premium Overlays</span>
                   <span className="block">& Tools</span>
-                  <span className="block bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-clip-text text-transparent">Built For Breaking</span>
+                  <span className="block bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-clip-text text-transparent">
+                    Built For Breaking
+                  </span>
                 </span>
 
                 {/* Desktop layout (2 lines) - shown at 768px and above */}
@@ -1223,11 +1230,18 @@ export const OverlaysUnoLandingPage = () => {
                   }}
                 >
                   <span className="block whitespace-nowrap">Premium Overlays & Tools</span>
-                  <span className="block whitespace-nowrap bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-clip-text text-transparent">Built For Breaking</span>
+                  <span className="block whitespace-nowrap bg-gradient-to-r from-[#FF5C25] to-[#FFC542] bg-clip-text text-transparent">
+                    Built For Breaking
+                  </span>
                 </span>
               </h1>
               {/* Dynamic description below the title based on selected hero button */}
-              <div aria-live="polite" aria-atomic="true" className="relative" style={{ marginLeft: '-5%' }}>
+              <div
+                aria-live="polite"
+                aria-atomic="true"
+                className="relative"
+                style={{ marginLeft: '-5%' }}
+              >
                 {/* Mount placeholder to keep flow stable and enable height tweening */}
                 <div
                   className={`transition-[max-height,opacity,transform,margin] duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? 'max-h-[200px] opacity-100 translate-y-0 mt-3' : 'max-h-0 opacity-0 -translate-y-1 mt-0'} overflow-hidden`}
@@ -1238,7 +1252,7 @@ export const OverlaysUnoLandingPage = () => {
                         {selectedHero === 'form'
                           ? 'Break smarter with integrated tools—every feature tuned for creators to streamline and succeed.'
                           : selectedHero === 'nfl'
-                            ? 'Inspired by the hobby\'s most iconic card designs — from Panini, Topps, and more — reimagined for streaming.'
+                            ? "Inspired by the hobby's most iconic card designs — from Panini, Topps, and more — reimagined for streaming."
                             : 'Stream with BreakDance overlays and get instant promotion to collectors in our Live Breaks directory.'}
                       </span>
                     </p>
@@ -1663,13 +1677,19 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button
+              onClick={() => navigate('/library')}
+              className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
+            >
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+            style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}
+          >
             {sportsOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
@@ -1714,7 +1734,25 @@ export const OverlaysUnoLandingPage = () => {
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
+                        style={{
+                          borderRadius: '12px',
+                          backgroundColor: 'oklch(0.66 0.14 55.934)',
+                          fontFamily: "'Nunito', sans-serif",
+                          fontWeight: 700,
+                          fontSize: '0.75rem',
+                          letterSpacing: 0,
+                          textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)',
+                          color: '#FFF',
+                        }}
+                        onMouseEnter={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)')
+                        }
+                        onMouseLeave={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)')
+                        }
+                      >
                         View Details
                       </button>
                     </div>
@@ -1755,13 +1793,19 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button
+              onClick={() => navigate('/library')}
+              className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
+            >
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+            style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}
+          >
             {podcastOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
@@ -1806,7 +1850,25 @@ export const OverlaysUnoLandingPage = () => {
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
+                        style={{
+                          borderRadius: '12px',
+                          backgroundColor: 'oklch(0.66 0.14 55.934)',
+                          fontFamily: "'Nunito', sans-serif",
+                          fontWeight: 700,
+                          fontSize: '0.75rem',
+                          letterSpacing: 0,
+                          textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)',
+                          color: '#FFF',
+                        }}
+                        onMouseEnter={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)')
+                        }
+                        onMouseLeave={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)')
+                        }
+                      >
                         View Details
                       </button>
                     </div>
@@ -1848,13 +1910,19 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button
+              onClick={() => navigate('/library')}
+              className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
+            >
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+            style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}
+          >
             {gamingOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={overlay.name}
@@ -1899,7 +1967,25 @@ export const OverlaysUnoLandingPage = () => {
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
+                        style={{
+                          borderRadius: '12px',
+                          backgroundColor: 'oklch(0.66 0.14 55.934)',
+                          fontFamily: "'Nunito', sans-serif",
+                          fontWeight: 700,
+                          fontSize: '0.75rem',
+                          letterSpacing: 0,
+                          textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)',
+                          color: '#FFF',
+                        }}
+                        onMouseEnter={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)')
+                        }
+                        onMouseLeave={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)')
+                        }
+                      >
                         View Details
                       </button>
                     </div>
@@ -1936,13 +2022,19 @@ export const OverlaysUnoLandingPage = () => {
           </div>
 
           <div className="flex justify-end">
-            <button onClick={() => navigate('/library')} className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer">
+            <button
+              onClick={() => navigate('/library')}
+              className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
+            >
               <span>See More</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+            style={{ paddingBottom: 'calc(var(--spacing) * 0)', height: '220px' }}
+          >
             {sportsOverlays.slice(0, 5).map((overlay, index) => (
               <motion.div
                 key={`tools-${overlay.name}`}
@@ -1987,7 +2079,25 @@ export const OverlaysUnoLandingPage = () => {
                         <span>{overlay.aspect}</span>
                       </span>
                       {/* Button appears only on hover */}
-                      <button className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center" style={{ borderRadius: '12px', backgroundColor: 'oklch(0.66 0.14 55.934)', fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0, textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)', color: '#FFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)'}>
+                      <button
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
+                        style={{
+                          borderRadius: '12px',
+                          backgroundColor: 'oklch(0.66 0.14 55.934)',
+                          fontFamily: "'Nunito', sans-serif",
+                          fontWeight: 700,
+                          fontSize: '0.75rem',
+                          letterSpacing: 0,
+                          textShadow: '0 6.6px 13.8px rgba(255, 255, 255, 0.13)',
+                          color: '#FFF',
+                        }}
+                        onMouseEnter={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.58 0.14 55.934)')
+                        }
+                        onMouseLeave={e =>
+                          (e.currentTarget.style.backgroundColor = 'oklch(0.66 0.14 55.934)')
+                        }
+                      >
                         View Details
                       </button>
                     </div>
@@ -2236,7 +2346,8 @@ export const OverlaysUnoLandingPage = () => {
                 <div className="mt-auto">
                   <button
                     onClick={() => setShowSignUpOverlay(true)}
-                    className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer">
+                    className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer"
+                  >
                     <span>Start Free</span>
                   </button>
                 </div>
@@ -2316,7 +2427,8 @@ export const OverlaysUnoLandingPage = () => {
                 <div className="mt-auto">
                   <button
                     onClick={() => setShowSignUpOverlay(true)}
-                    className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer">
+                    className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer"
+                  >
                     <span>Get Pro</span>
                   </button>
                 </div>
@@ -2526,7 +2638,10 @@ export const OverlaysUnoLandingPage = () => {
           >
             <div className="bg-white/5 border border-white/10 rounded-3xl px-4 sm:px-6 md:px-8 py-5 md:py-6">
               <header className="mb-4">
-                <h3 id="insta-subscribe-title" className="text-2xl font-bold mb-4 text-center cursor-default">
+                <h3
+                  id="insta-subscribe-title"
+                  className="text-2xl font-bold mb-4 text-center cursor-default"
+                >
                   <span>Latest on Instagram</span>
                 </h3>
               </header>
@@ -2662,20 +2777,19 @@ export const OverlaysUnoLandingPage = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowSignUpOverlay(false)}
         >
-          <div
-            className="relative w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setShowSignUpOverlay(false)}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignUpCard onSwitchToSignIn={() => {
-              setShowSignUpOverlay(false);
-              setShowLoginOverlay(true);
-            }} />
+            <SignUpCard
+              onSwitchToSignIn={() => {
+                setShowSignUpOverlay(false);
+                setShowLoginOverlay(true);
+              }}
+            />
           </div>
         </div>
       )}
@@ -2686,10 +2800,7 @@ export const OverlaysUnoLandingPage = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowLoginOverlay(false)}
         >
-          <div
-            className="relative w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setShowLoginOverlay(false)}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2716,20 +2827,19 @@ export const OverlaysUnoLandingPage = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowPasswordResetOverlay(false)}
         >
-          <div
-            className="relative w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setShowPasswordResetOverlay(false)}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <PasswordResetCard onBack={() => {
-              setShowPasswordResetOverlay(false);
-              setShowLoginOverlay(true);
-            }} />
+            <PasswordResetCard
+              onBack={() => {
+                setShowPasswordResetOverlay(false);
+                setShowLoginOverlay(true);
+              }}
+            />
           </div>
         </div>
       )}
