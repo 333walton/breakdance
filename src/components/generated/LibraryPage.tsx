@@ -193,8 +193,12 @@ interface OverlaysLibraryGridPageProps {
   initialView?: NavItem;
 }
 
-export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLibraryGridPageProps = {}) => {
+export const OverlaysLibraryGridPage = ({
+  initialView = 'Library',
+}: OverlaysLibraryGridPageProps = {}) => {
   const navigate = useNavigate();
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [navMaxHeight, setNavMaxHeight] = useState<string>('calc(100vh - 64px)');
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -235,6 +239,18 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isSortDropdownOpen]);
+
+  useEffect(() => {
+    const updateNavHeight = () => {
+      const headerHeight = headerRef.current
+        ? headerRef.current.getBoundingClientRect().height
+        : 64;
+      setNavMaxHeight(`calc(100vh - ${Math.ceil(headerHeight)}px)`);
+    };
+    updateNavHeight();
+    window.addEventListener('resize', updateNavHeight);
+    return () => window.removeEventListener('resize', updateNavHeight);
+  }, []);
   const toggleSection = (section: string) => {
     setExpandedSections(prev => {
       const next = new Set(prev);
@@ -326,14 +342,20 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
         }
       `}</style>
       {/* Header */}
-      <header className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50">
+      <header
+        ref={headerRef}
+        className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50"
+      >
         <div
           className="w-full px-6 flex items-center justify-between"
           style={{ paddingTop: '4px', paddingBottom: '4px' }}
         >
           <div className="flex items-center">
             {/* Logo */}
-            <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
+            <div
+              className="text-2xl font-bold flex items-center flex-shrink-0"
+              style={{ marginLeft: '4px' }}
+            >
               <img
                 src="/static/logo_rough2.png"
                 alt="Logo"
@@ -359,12 +381,15 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 ml-12" style={{ marginLeft: 'calc(var(--spacing) * 21)' }}>
+            <nav
+              className="hidden md:flex items-center space-x-8 ml-12"
+              style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
+            >
               {navigationItems.map(nav => (
                 <a
                   key={nav.label}
                   href="#"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
                     if (nav.label === 'Library') {
                       navigate('/library');
@@ -405,33 +430,33 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
 
           {/* Auth & Discord */}
           <div className="flex items-center space-x-3 flex-shrink-0">
-              <button
-                onClick={() => setShowSignUpOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            <button
+              onClick={() => setShowSignUpOverlay(true)}
+              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            >
+              <span>Sign up</span>
+            </button>
+            <button
+              onClick={() => setShowLoginOverlay(true)}
+              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            >
+              <span>Login</span>
+            </button>
+            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
+              <span
+                style={{
+                  color: 'rgb(0 0 0)',
+                }}
               >
-                <span>Sign up</span>
-              </button>
-              <button
-                onClick={() => setShowLoginOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-              >
-                <span>Login</span>
-              </button>
-              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
-                <span
-                  style={{
-                    color: 'rgb(0 0 0)',
-                  }}
-                >
-                  Launch App
-                </span>
-                <ExternalLink
-                  className="w-4 h-4"
-                  style={{
-                    color: 'rgb(0 0 0)',
-                  }}
-                />
-              </button>
+                Launch App
+              </span>
+              <ExternalLink
+                className="w-4 h-4"
+                style={{
+                  color: 'rgb(0 0 0)',
+                }}
+              />
+            </button>
           </div>
         </div>
       </header>
@@ -445,9 +470,10 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
             duration: 0.3,
             ease: 'easeInOut',
           }}
-          className="border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm overflow-y-auto flex-shrink-0"
+          className="border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm flex flex-col flex-shrink-0 relative"
+          style={{ maxHeight: navMaxHeight }}
         >
-          <div className="p-4">
+          <div className="p-4 overflow-y-auto flex-1 pb-28">
             <div className="space-y-2">
               <button
                 onClick={() => navigate('/tools')}
@@ -699,82 +725,78 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                 </motion.div>
               )}
 
-              <div
-                className="border-t border-white/5 my-4"
-                style={{
-                  borderTopWidth: '2px',
-                }}
-              />
+              {/* bottom controls moved below so they stay anchored to the bottom */}
+            </div>
+          </div>
+          {/* bottom controls container: Pricing, Account, divider, Collapse */}
+          <div className="p-4 absolute bottom-0 left-0 right-0 bg-[#0f0a1a]/95 z-10">
+            <div className="mt-4 pt-4 border-t border-white/5">
+              <div className="space-y-3">
+                <button
+                  onClick={() => navigate('/pricing')}
+                  className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                  style={
+                    !isNavExpanded
+                      ? {
+                          aspectRatio: '1/1',
+                          width: '48px',
+                          height: '48px',
+                          padding: '0',
+                        }
+                      : undefined
+                  }
+                  title={!isNavExpanded ? 'Pricing' : undefined}
+                >
+                  <DollarSign className="h-5 w-5 flex-shrink-0" />
+                  {isNavExpanded && <span className="text-sm font-medium">Pricing</span>}
+                </button>
 
-              <button
-                onClick={() => navigate('/pricing')}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                style={
-                  !isNavExpanded
-                    ? {
-                        aspectRatio: '1/1',
-                        width: '48px',
-                        height: '48px',
-                        padding: '0',
-                      }
-                    : undefined
-                }
-                title={!isNavExpanded ? 'Pricing' : undefined}
-              >
-                <DollarSign className="h-5 w-5 flex-shrink-0" />
-                {isNavExpanded && <span className="text-sm font-medium">Pricing</span>}
-              </button>
+                <button
+                  onClick={() => navigate('/account')}
+                  className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                  style={
+                    !isNavExpanded
+                      ? {
+                          aspectRatio: '1/1',
+                          width: '48px',
+                          height: '48px',
+                          padding: '0',
+                        }
+                      : undefined
+                  }
+                  title={!isNavExpanded ? 'Account' : undefined}
+                >
+                  <User className="h-5 w-5 flex-shrink-0" />
+                  {isNavExpanded && <span className="text-sm font-medium">Account</span>}
+                </button>
 
-              <button
-                onClick={() => navigate('/account')}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer border ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                style={
-                  !isNavExpanded
-                    ? {
-                        aspectRatio: '1/1',
-                        width: '48px',
-                        height: '48px',
-                        padding: '0',
-                      }
-                    : undefined
-                }
-                title={!isNavExpanded ? 'Account' : undefined}
-              >
-                <User className="h-5 w-5 flex-shrink-0" />
-                {isNavExpanded && <span className="text-sm font-medium">Account</span>}
-              </button>
+                <div className="border-t border-white/5 my-2" />
 
-              <div
-                className="border-t border-white/5 my-4"
-                style={{
-                  borderTopWidth: '2px',
-                }}
-              />
-
-              <button
-                onClick={() => setIsNavExpanded(!isNavExpanded)}
-                className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white`}
-                style={
-                  !isNavExpanded
-                    ? {
-                        aspectRatio: '1/1',
-                        width: '48px',
-                        height: '48px',
-                        padding: '0',
-                      }
-                    : undefined
-                }
-                title={!isNavExpanded ? 'Expand' : 'Collapse'}
-              >
-                {isNavExpanded ? (
-                  <>
-                    <ChevronsLeft className="h-5 w-5 flex-shrink-0" />
-                    <span className="text-sm font-medium">Collapse</span>
-                  </>
-                ) : (
-                  <ChevronsRight className="h-5 w-5 flex-shrink-0" />
-                )}
-              </button>
+                <button
+                  onClick={() => setIsNavExpanded(!isNavExpanded)}
+                  className={`w-full flex items-center ${isNavExpanded ? 'gap-3 px-4' : 'justify-center px-0'} py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white`}
+                  style={
+                    !isNavExpanded
+                      ? {
+                          aspectRatio: '1/1',
+                          width: '48px',
+                          height: '48px',
+                          padding: '0',
+                        }
+                      : undefined
+                  }
+                  title={!isNavExpanded ? 'Expand' : 'Collapse'}
+                >
+                  {isNavExpanded ? (
+                    <>
+                      <ChevronsLeft className="h-5 w-5 flex-shrink-0" />
+                      <span className="text-sm font-medium">Collapse</span>
+                    </>
+                  ) : (
+                    <ChevronsRight className="h-5 w-5 flex-shrink-0" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </motion.nav>
@@ -799,6 +821,7 @@ export const OverlaysLibraryGridPage = ({ initialView = 'Library' }: OverlaysLib
                 ease: 'easeInOut',
               }}
               className="w-64 border-r border-white/10 bg-[#1a1428]/80 backdrop-blur-sm overflow-y-auto filter-panel-scrollbar"
+              style={{ maxHeight: navMaxHeight }}
             >
               <div className="p-11">
                 <div className="mb-6 flex items-center justify-between">
