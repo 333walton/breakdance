@@ -16,7 +16,7 @@ interface FluidAnimationWrapperProps {
   className?: string;
   config?: FluidAnimationConfig;
   style?: React.CSSProperties;
-  animationRef?: React.MutableRefObject<any>;
+  animationRef?: React.MutableRefObject<unknown | null>;
 }
 
 const defaultConfig: FluidAnimationConfig = {
@@ -44,9 +44,9 @@ const FluidAnimationWrapper: React.FC<FluidAnimationWrapperProps> = ({
   animationRef,
 }) => {
   const [isClient, setIsClient] = useState(false);
-  const [FluidAnimation, setFluidAnimation] = useState<any>(null);
+  const [FluidAnimation, setFluidAnimation] = useState<React.ComponentType<unknown> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const localAnimationRef = useRef<any>(null);
+  const localAnimationRef = useRef<unknown | null>(null);
 
   // Ensure we're on the client side
   useEffect(() => {
@@ -84,7 +84,7 @@ const FluidAnimationWrapper: React.FC<FluidAnimationWrapperProps> = ({
     if (animationRef && localAnimationRef.current) {
       animationRef.current = localAnimationRef.current;
     }
-  }, [animationRef, localAnimationRef.current]);
+  }, [animationRef]);
 
   // Don't render anything on server side
   if (!isClient) {
@@ -118,15 +118,15 @@ const FluidAnimationWrapper: React.FC<FluidAnimationWrapperProps> = ({
     );
   }
 
-  // Render the fluid animation component
-  return (
-    <FluidAnimation
-      ref={localAnimationRef}
-      className={className}
-      style={style}
-      config={mergedConfig}
-    />
-  );
+  // Render the fluid animation component (use createElement to pass ref safely)
+  return FluidAnimation
+    ? React.createElement(FluidAnimation as any, {
+        ref: localAnimationRef,
+        className,
+        style,
+        config: mergedConfig,
+      })
+    : null;
 };
 
 export default FluidAnimationWrapper;

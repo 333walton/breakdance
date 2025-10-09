@@ -71,7 +71,7 @@ const navigationItems = [
   {
     label: 'About',
   },
-] as any[];
+];
 interface FormData {
   firstName: string;
   companyName: string;
@@ -157,7 +157,7 @@ const ContactPage: React.FC = () => {
       name: 'Australia',
       flag: '🇦🇺',
     },
-  ] as any[];
+  ];
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     if (!formData.firstName.trim()) {
@@ -236,106 +236,112 @@ const ContactPage: React.FC = () => {
           style={{ paddingTop: '4px', paddingBottom: '4px' }}
         >
           <div className="flex items-center">
-              {/* Logo */}
-              <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
-                <img
-                  src="/static/logo_rough2.png"
-                  alt="Logo"
-                  onClick={() => navigate('/')}
-                  className="h-16 w-auto object-contain cursor-pointer"
-                />
-                <span
-                  className="text-orange-500"
-                  style={{
-                    display: 'none',
-                  }}
-                >
-                  overlays.
-                </span>
-                <span
-                  className="text-white"
-                  style={{
-                    display: 'none',
-                  }}
-                >
-                  uno
-                </span>
-              </div>
-
-              {/* Navigation */}
-              <nav className="hidden md:flex items-center space-x-8 ml-12" style={{ marginLeft: 'calc(var(--spacing) * 21)' }}>
-                {navigationItems.map(nav => (
-                  <a
-                    key={nav.label}
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (nav.label === 'Library') {
-                        navigate('/library');
-                      } else if (nav.label === 'Tools') {
-                        navigate('/tools');
-                      }
-                    }}
-                    className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
-                    style={{
-                      fontFamily: 'Nunito, sans-serif',
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: '16px',
-                      }}
-                    >
-                      {nav.label}
-                    </span>
-                    {nav.label === 'Live Breaks' ? (
-                      <span
-                        aria-hidden="true"
-                        className="absolute block"
-                        style={{
-                          width: '8px',
-                          height: '8px',
-                          background: 'oklch(0.75 0.14 151.711)',
-                          borderRadius: '9999px',
-                          top: '-4px',
-                          right: '-10px',
-                        }}
-                      />
-                    ) : null}
-                  </a>
-                ))}
-              </nav>
+            {/* Logo */}
+            <div
+              className="text-2xl font-bold flex items-center flex-shrink-0"
+              style={{ marginLeft: '4px' }}
+            >
+              <img
+                src="/static/logo_rough2.png"
+                alt="Logo"
+                onClick={() => navigate('/')}
+                className="h-16 w-auto object-contain cursor-pointer"
+              />
+              <span
+                className="text-orange-500"
+                style={{
+                  display: 'none',
+                }}
+              >
+                overlays.
+              </span>
+              <span
+                className="text-white"
+                style={{
+                  display: 'none',
+                }}
+              >
+                uno
+              </span>
             </div>
 
-            {/* Auth & Discord */}
-            <div className="flex items-center space-x-3 flex-shrink-0">
-              <button
-                onClick={() => setShowSignUpOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-              >
-                <span>Sign up</span>
-              </button>
-              <button
-                onClick={() => setShowLoginOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-              >
-                <span>Login</span>
-              </button>
-              <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
-                <span
+            {/* Navigation */}
+            <nav
+              className="hidden md:flex items-center space-x-8 ml-12"
+              style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
+            >
+              {navigationItems.map(nav => (
+                <a
+                  key={nav.label}
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    if (nav.label === 'Library') {
+                      navigate('/library');
+                    } else if (nav.label === 'Tools') {
+                      navigate('/tools');
+                    }
+                  }}
+                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
                   style={{
-                    color: 'rgb(0 0 0)',
+                    fontFamily: 'Nunito, sans-serif',
                   }}
                 >
-                  Launch App
-                </span>
-                <ExternalLink
-                  className="w-4 h-4"
-                  style={{
-                    color: 'rgb(0 0 0)',
-                  }}
-                />
-              </button>
+                  <span
+                    style={{
+                      fontSize: '16px',
+                    }}
+                  >
+                    {nav.label}
+                  </span>
+                  {nav.label === 'Live Breaks' ? (
+                    <span
+                      aria-hidden="true"
+                      className="absolute block"
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        background: 'oklch(0.75 0.14 151.711)',
+                        borderRadius: '9999px',
+                        top: '-4px',
+                        right: '-10px',
+                      }}
+                    />
+                  ) : null}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Auth & Discord */}
+          <div className="flex items-center space-x-3 flex-shrink-0">
+            <button
+              onClick={() => setShowSignUpOverlay(true)}
+              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            >
+              <span>Sign up</span>
+            </button>
+            <button
+              onClick={() => setShowLoginOverlay(true)}
+              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+            >
+              <span>Login</span>
+            </button>
+            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
+              <span
+                style={{
+                  color: 'rgb(0 0 0)',
+                }}
+              >
+                Launch App
+              </span>
+              <ExternalLink
+                className="w-4 h-4"
+                style={{
+                  color: 'rgb(0 0 0)',
+                }}
+              />
+            </button>
           </div>
         </div>
       </header>
@@ -397,9 +403,7 @@ const ContactPage: React.FC = () => {
                   <div>
                     <h3 className="font-medium text-foreground mb-1">Phone</h3>
                     <p className="text-muted-foreground text-sm mb-2">Mon-Fri / 9am to 5pm EST</p>
-                    <span className="text-primary text-sm font-medium">
-                      +1 (555) 000-0000
-                    </span>
+                    <span className="text-primary text-sm font-medium">+1 (555) 000-0000</span>
                   </div>
                 </div>
               </div>
@@ -435,8 +439,9 @@ const ContactPage: React.FC = () => {
                 borderColor: 'color-mix(in oklab, var(--color-orange-500) 30%, transparent)',
                 borderTopColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
                 borderRightColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
-                borderBottomColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
-                borderLeftColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)'
+                borderBottomColor:
+                  'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
+                borderLeftColor: 'color-mix(in oklab, oklch(0.705 0.213 47.604) 30%, transparent)',
               }}
             >
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -510,63 +515,70 @@ const ContactPage: React.FC = () => {
                 {/* Phone Number */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       Phone Number
                     </label>
                     <div className="flex">
                       <div className="relative">
-                      <button
-                        type="button"
-                        onClick={e => {
-                          e.stopPropagation();
-                          setShowCountryDropdown(!showCountryDropdown);
-                        }}
-                        className="flex items-center px-3 py-2 border border-r-0 rounded-l-lg text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 h-[42px]"
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            setShowCountryDropdown(!showCountryDropdown);
+                          }}
+                          className="flex items-center px-3 py-2 border border-r-0 rounded-l-lg text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 h-[42px]"
+                          style={{
+                            backgroundColor:
+                              'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                          }}
+                        >
+                          <span className="text-sm">{selectedCountry}</span>
+                          <ChevronDown className="w-4 h-4 ml-1" />
+                        </button>
+                        {showCountryDropdown && (
+                          <div
+                            className="absolute top-full left-0 z-10 border border-border rounded-lg shadow-lg mt-0 min-w-[150px] overflow-hidden"
+                            style={{ backgroundColor: '#231835' }}
+                          >
+                            {countries.map(country => (
+                              <button
+                                key={country.code}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCountry(country.code);
+                                  setShowCountryDropdown(false);
+                                }}
+                                className="country-option w-full flex items-center px-3 py-2 text-sm transition-colors"
+                              >
+                                <span>{country.code}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <input
+                        type="tel"
+                        id="phone"
+                        value={formData.phone}
+                        onChange={e => handleInputChange('phone', e.target.value)}
+                        placeholder="+1 (555) 000-0000"
+                        className="flex-1 px-3 py-2 border rounded-r-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
                         style={{
                           backgroundColor:
                             'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                          width: '95%',
                         }}
-                      >
-                        <span className="text-sm">{selectedCountry}</span>
-                        <ChevronDown className="w-4 h-4 ml-1" />
-                      </button>
-                      {showCountryDropdown && (
-                        <div
-                          className="absolute top-full left-0 z-10 border border-border rounded-lg shadow-lg mt-0 min-w-[150px] overflow-hidden"
-                          style={{ backgroundColor: '#231835' }}
-                        >
-                          {countries.map(country => (
-                            <button
-                              key={country.code}
-                              type="button"
-                              onClick={() => {
-                                setSelectedCountry(country.code);
-                                setShowCountryDropdown(false);
-                              }}
-                              className="country-option w-full flex items-center px-3 py-2 text-sm transition-colors"
-                            >
-                              <span>{country.code}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                      />
                     </div>
-                    <input
-                      type="tel"
-                      id="phone"
-                      value={formData.phone}
-                      onChange={e => handleInputChange('phone', e.target.value)}
-                      placeholder="+1 (555) 000-0000"
-                      className="flex-1 px-3 py-2 border rounded-r-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
-                      style={{
-                        backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
-                        width: '95%'
-                      }}
-                    />
-                  </div>
                   </div>
                   <div>
-                    <label htmlFor="companyName" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="companyName"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       Company
                     </label>
                     <input
@@ -740,20 +752,19 @@ const ContactPage: React.FC = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowSignUpOverlay(false)}
         >
-          <div
-            className="relative w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setShowSignUpOverlay(false)}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <SignUpCard onSwitchToSignIn={() => {
-              setShowSignUpOverlay(false);
-              setShowLoginOverlay(true);
-            }} />
+            <SignUpCard
+              onSwitchToSignIn={() => {
+                setShowSignUpOverlay(false);
+                setShowLoginOverlay(true);
+              }}
+            />
           </div>
         </div>
       )}
@@ -764,10 +775,7 @@ const ContactPage: React.FC = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowLoginOverlay(false)}
         >
-          <div
-            className="relative w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setShowLoginOverlay(false)}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -794,20 +802,19 @@ const ContactPage: React.FC = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowPasswordResetOverlay(false)}
         >
-          <div
-            className="relative w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setShowPasswordResetOverlay(false)}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-700" />
             </button>
-            <PasswordResetCard onBack={() => {
-              setShowPasswordResetOverlay(false);
-              setShowLoginOverlay(true);
-            }} />
+            <PasswordResetCard
+              onBack={() => {
+                setShowPasswordResetOverlay(false);
+                setShowLoginOverlay(true);
+              }}
+            />
           </div>
         </div>
       )}

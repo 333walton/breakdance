@@ -30,7 +30,7 @@ const overlayCategories = [
     name: 'Browse Tools',
     active: false,
   },
-] as any[];
+];
 const sportsOverlays = [
   {
     name: 'LPF Argentina Stadium Fly In',
@@ -56,7 +56,7 @@ const sportsOverlays = [
     name: 'Hockey Rink Layout',
     aspect: '16:9',
   },
-] as any[];
+];
 const gamingOverlays = [
   {
     name: 'FPS Combat HUD',
@@ -82,7 +82,7 @@ const gamingOverlays = [
     name: 'Retro Arcade Style',
     aspect: '16:9',
   },
-] as any[];
+];
 const podcastOverlays = [
   {
     name: 'Talk Show Professional',
@@ -108,7 +108,7 @@ const podcastOverlays = [
     name: 'Live Q&A Interactive',
     aspect: '16:9',
   },
-] as any[];
+];
 const howItWorksSteps = [
   {
     icon: Target,
@@ -128,7 +128,7 @@ const howItWorksSteps = [
     description:
       'Just enter a buyer’s name into the break editor—your spot counter and team list update instantly and automatically',
   },
-] as any[];
+];
 const stats = [
   {
     number: '19.8%',
@@ -145,7 +145,7 @@ const stats = [
     label: 'Higher Viewer Retention',
     sublabel: '',
   },
-] as any[];
+];
 const communityCards = [
   {
     icon: Users,
@@ -168,7 +168,7 @@ const communityCards = [
     buttonText: 'Reach Out',
     color: 'bg-[oklch(0.510_0.262_276.9)]',
   },
-] as any[];
+];
 const navigationItems = [
   {
     label: 'Library',
@@ -188,7 +188,7 @@ const navigationItems = [
   {
     label: 'About',
   },
-] as any[];
+];
 
 // Reusable variants
 const fadeRise = {
@@ -356,7 +356,7 @@ export const OverlaysUnoLandingPage = () => {
   const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
 
   // Ref to access the fluid animation instance
-  const fluidAnimationRef = React.useRef<any>(null);
+  const fluidAnimationRef = React.useRef<unknown | null>(null);
 
   const handleConfigChange = (key: string, value: number) => {
     console.log('🎛️ Config changed:', key, '=', value);
@@ -606,7 +606,7 @@ export const OverlaysUnoLandingPage = () => {
         label: 'Phone Preview',
         z: 3,
       },
-    ] as any[];
+    ];
     const [frontId, setFrontId] = React.useState<string>('phone-preview');
     function bringToFront(clicked: 'form' | 'nfl' | 'phone') {
       const clickedId =
@@ -1196,7 +1196,7 @@ export const OverlaysUnoLandingPage = () => {
                 amount: 0.3,
               }}
               variants={fadeRise}
-              ref={heroCopyRef as any}
+              ref={heroCopyRef}
               className={`space-y-8 overflow-visible transition-[margin,transform,opacity,padding] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${selectedHero ? '-translate-y-2' : '-translate-y-2'} min-w-0`}
               style={{
                 paddingBottom: selectedHero ? 12 : 0,
@@ -1264,8 +1264,8 @@ export const OverlaysUnoLandingPage = () => {
                   className="px-5 py-2 text-sm"
                   onClick={e => {
                     e.stopPropagation();
-                    console.log('🎛️ Hero button clicked - toggling control panel');
-                    setShowControls(!showControls);
+                    console.log('🎛️ Hero button clicked - no-op for controls (moved to NFL grid)');
+                    // Controls panel now opens when NFL grid is selected
                   }}
                   style={{
                     fontFamily: 'Nunito, sans-serif',
@@ -1339,7 +1339,7 @@ export const OverlaysUnoLandingPage = () => {
                         onClick={() => {
                           setNflFocused(false);
                           // keep original bringToFront for form
-                          const clicked: 'form' = 'form';
+                          const clicked = 'form' as const;
                           const clickedId = 'form-window';
                           setSelectedHero(clicked);
                           setRecency(prev => {
@@ -1395,12 +1395,12 @@ export const OverlaysUnoLandingPage = () => {
                         type="button"
                         aria-label="Open NFL grid"
                         onClick={() => {
-                          // Toggle focus mode for NFL
+                          // Toggle focus mode for NFL and open/close the controls panel
                           const newFocusState = !nflFocused;
                           setNflFocused(newFocusState);
 
                           if (newFocusState) {
-                            const clicked: 'nfl' = 'nfl';
+                            const clicked = 'nfl' as const;
                             const clickedId = 'nfl-grid';
                             setSelectedHero(clicked);
                             setRecency(prev => {
@@ -1408,8 +1408,10 @@ export const OverlaysUnoLandingPage = () => {
                               next.unshift(clickedId);
                               return next;
                             });
+                            setShowControls(true);
                           } else {
                             setSelectedHero(null);
+                            setShowControls(false);
                           }
                         }}
                         className={`${baseStyles} nfl-grid aspect-video transition-[transform,opacity,left,top] duration-500 ease-in-out ${
@@ -1504,7 +1506,7 @@ export const OverlaysUnoLandingPage = () => {
                           alt="Open phone preview"
                           onClick={() => {
                             setNflFocused(false);
-                            const clicked: 'phone' = 'phone';
+                            const clicked = 'phone' as const;
                             const clickedId = 'phone-preview';
                             setSelectedHero(clicked);
                             setRecency(prev => {
@@ -1579,9 +1581,9 @@ export const OverlaysUnoLandingPage = () => {
                 return (
                   <li key={d.id}>
                     <button
-                      aria-label={`Activate slide ${idx + 1}`}
                       onClick={() => handleDotClick(idx)}
                       className={`h-3.5 w-3.5 rounded-full border transition-all duration-300 ease-in-out ${isActive ? 'bg-[#FFC543] border-[#FFC543] opacity-100 scale-110' : 'bg-slate-600 border-slate-500 opacity-60 hover:bg-slate-400 hover:scale-105'}`}
+                      aria-label={`Go to ${d.title}`}
                     />
                   </li>
                 );
@@ -2875,21 +2877,27 @@ function StatNumber({ number }: { number: string }) {
     if (!inView || index < 0) return;
     const key = '__stats_seq__';
     const win = window as unknown as {
-      [k: string]: any;
+      [k: string]: unknown;
+    };
+    type SeqController = {
+      current: number;
+      listeners: Map<number, () => void>;
     };
     if (!win[key]) {
       // Initialize controller when first stat comes into view
-      win[key] = {
+      (win as Record<string, unknown>)[key] = {
         current: 0,
         listeners: new Map<number, () => void>(),
-      };
+      } as SeqController;
       // Microtask to notify index 0 immediately
       queueMicrotask(() => {
-        const l = win[key].listeners.get(0);
-        l && l();
+        const controller = (win as Record<string, unknown>)[key] as SeqController | undefined;
+        const l = controller?.listeners.get(0);
+        if (l) l();
       });
     }
-    const controller = win[key];
+    const controller = (win as Record<string, unknown>)[key] as SeqController | undefined;
+    if (!controller) return;
     const notify = () => setCanStart(true);
     controller.listeners.set(index, notify);
     return () => {
@@ -2908,9 +2916,13 @@ function StatNumber({ number }: { number: string }) {
     if (!hasFinished || index < 0) return;
     const key = '__stats_seq__';
     const win = window as unknown as {
-      [k: string]: any;
+      [k: string]: unknown;
     };
-    const controller = win[key];
+    type SeqController = {
+      current: number;
+      listeners: Map<number, () => void>;
+    };
+    const controller = win[key] as SeqController | undefined;
     if (!controller) return;
     const next = index + 1;
     const listener = controller.listeners.get(next);
