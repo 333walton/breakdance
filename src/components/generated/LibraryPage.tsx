@@ -125,8 +125,8 @@ type FilterState = {
 const filterOptions = {
   category: ['nfl', 'mlb', 'nba', 'nhl', 'mls'],
   type: ['panel', 'image loop', 'bug', 'baseline'],
-  function: ['team board', 'counter', 'timer', 'text scroller'],
-  theme: ['base', 'downtown', 'kaboom', 'color blast'],
+  function: ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'],
+  theme: ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'],
 };
 const filterIcons: Record<string, React.ElementType> = {
   category: Grid3x3,

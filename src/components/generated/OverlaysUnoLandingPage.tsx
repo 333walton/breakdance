@@ -1873,7 +1873,7 @@ export const OverlaysUnoLandingPage = () => {
                   filters: {
                     category: [],
                     type: [],
-                    function: ['team board', 'counter', 'timer', 'text scroller'],
+                    function: ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'],
                     theme: [],
                   },
                   expandedSections: ['function'],
@@ -1910,7 +1910,7 @@ export const OverlaysUnoLandingPage = () => {
                   <div
                     className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
                     onClick={() => {
-                      const functionMap = ['team board', 'counter', 'text scroller', 'timer', 'timer'];
+                      const functionMap = ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'];
                       const functionFilter = functionMap[index];
                       navigate('/library', {
                         state: {
@@ -1936,7 +1936,7 @@ export const OverlaysUnoLandingPage = () => {
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
-                          const functionMap = ['team board', 'counter', 'text scroller', 'timer', 'timer'];
+                          const functionMap = ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'];
                           const functionFilter = functionMap[index];
                           navigate('/library', {
                             state: {
@@ -1970,7 +1970,7 @@ export const OverlaysUnoLandingPage = () => {
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
-                          const functionMap = ['team board', 'counter', 'text scroller', 'timer', 'timer'];
+                          const functionMap = ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'];
                           const functionFilter = functionMap[index];
                           navigate('/library', {
                             state: {
@@ -2051,7 +2051,7 @@ export const OverlaysUnoLandingPage = () => {
                     category: [],
                     type: [],
                     function: [],
-                    theme: ['base', 'downtown', 'kaboom', 'color blast'],
+                    theme: ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'],
                   },
                   expandedSections: ['theme'],
                   showMoreSections: ['theme'],
@@ -2087,7 +2087,7 @@ export const OverlaysUnoLandingPage = () => {
                   <div
                     className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
                     onClick={() => {
-                      const themeMap = ['base', 'downtown', 'kaboom', 'base', 'color blast'];
+                      const themeMap = ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'];
                       const themeFilter = themeMap[index];
                       navigate('/library', {
                         state: {
@@ -2113,7 +2113,7 @@ export const OverlaysUnoLandingPage = () => {
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
-                          const themeMap = ['base', 'downtown', 'kaboom', 'base', 'color blast'];
+                          const themeMap = ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'];
                           const themeFilter = themeMap[index];
                           navigate('/library', {
                             state: {
@@ -2147,7 +2147,7 @@ export const OverlaysUnoLandingPage = () => {
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
-                          const themeMap = ['base', 'downtown', 'kaboom', 'base', 'color blast'];
+                          const themeMap = ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'];
                           const themeFilter = themeMap[index];
                           navigate('/library', {
                             state: {
