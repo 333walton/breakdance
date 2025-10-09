@@ -192,16 +192,31 @@ export const OverlaysLibraryGridPage = ({
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState<FilterState>({
-    category: [],
-    type: [],
-    function: [],
-    theme: [],
+
+  // Initialize filters from location state if provided
+  const [filters, setFilters] = useState<FilterState>(() => {
+    const state = location.state as { filters?: FilterState } | null;
+    return state?.filters || {
+      category: [],
+      type: [],
+      function: [],
+      theme: [],
+    };
   });
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set(['type', 'function', 'category', 'theme'])
-  );
-  const [showMoreSections, setShowMoreSections] = useState<Set<string>>(new Set());
+
+  // Initialize expanded sections from location state if provided
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(() => {
+    const state = location.state as { expandedSections?: string[] } | null;
+    return state?.expandedSections
+      ? new Set(state.expandedSections)
+      : new Set(['type', 'function', 'category', 'theme']);
+  });
+
+  // Initialize show more sections from location state if provided
+  const [showMoreSections, setShowMoreSections] = useState<Set<string>>(() => {
+    const state = location.state as { showMoreSections?: string[] } | null;
+    return state?.showMoreSections ? new Set(state.showMoreSections) : new Set();
+  });
   const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [activeNavItem, setActiveNavItem] = useState<NavItem>(initialView);
@@ -209,6 +224,10 @@ export const OverlaysLibraryGridPage = ({
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [myOverlaysExpanded, setMyOverlaysExpanded] = useState(false);
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
+
+  // Get highlighted tool from location state or manage with local state
+  const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)?.highlightedTool;
+  const [selectedTool, setSelectedTool] = useState<string | undefined>(initialHighlightedTool);
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
   const headerHeight = headerRef.current
@@ -1194,36 +1213,60 @@ export const OverlaysLibraryGridPage = ({
                     'Pop Report Lookup',
                     'ROI Tracker',
                     'Schedule Manager',
-                    'Analytics Dashboard',
-                  ].map(tool => (
-                    <motion.div
-                      key={tool}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      transition={{
-                        duration: 0.3,
-                      }}
-                      className="bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all cursor-pointer group"
-                    >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
-                          <Wrench className="h-6 w-6 text-purple-300" />
+                    'Price Guide',
+                  ].map(tool => {
+                    // Map landing page tool names to library page tool names
+                    const toolMapping: Record<string, string> = {
+                      'Inventory Manager': 'Breaker Inventory',
+                      'Comps Finder': 'Comps Finder',
+                      'Pop Lookup': 'Pop Report Lookup',
+                      'ROI Tracker': 'ROI Tracker',
+                      'Price Guide': 'Price Guide',
+                    };
+                    // Check if highlighted from navigation or clicked locally
+                    const isHighlighted = selectedTool
+                      ? (toolMapping[selectedTool] === tool || selectedTool === tool)
+                      : false;
+
+                    return (
+                      <motion.div
+                        key={tool}
+                        initial={{
+                          opacity: 0,
+                          y: 20,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                        transition={{
+                          duration: 0.3,
+                        }}
+                        onClick={() => setSelectedTool(tool)}
+                        className={`bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group ${
+                          isHighlighted
+                            ? 'border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
+                            : 'border-white/10 hover:border-white/20'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
+                            isHighlighted
+                              ? 'bg-orange-500/30'
+                              : 'bg-purple-500/20 group-hover:bg-purple-500/30'
+                          }`}>
+                            <Wrench className={`h-6 w-6 ${isHighlighted ? 'text-orange-300' : 'text-purple-300'}`} />
+                          </div>
+                          <h3 className="font-semibold text-lg text-white">
+                            <span>{tool}</span>
+                          </h3>
                         </div>
-                        <h3 className="font-semibold text-lg text-white">
-                          <span>{tool}</span>
-                        </h3>
-                      </div>
-                      <p className="text-sm text-gray-400">
-                        <span>Access your {tool.toLowerCase()} tools</span>
-                      </p>
-                    </motion.div>
-                  ))}
+                        <p className="text-sm text-gray-400">
+                          <span>Access your {tool.toLowerCase()} tools</span>
+                        </p>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
             )}

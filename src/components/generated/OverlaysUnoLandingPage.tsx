@@ -1692,7 +1692,18 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library')}
+              onClick={() => navigate('/library', {
+                state: {
+                  filters: {
+                    category: ['nfl', 'mlb', 'nba', 'nhl', 'mls'],
+                    type: [],
+                    function: [],
+                    theme: [],
+                  },
+                  expandedSections: ['category'],
+                  showMoreSections: ['category'],
+                }
+              })}
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
@@ -1749,6 +1760,22 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                       {/* Button appears only on hover */}
                       <button
+                        onClick={() => {
+                          const categoryMap = ['nfl', 'mlb', 'nba', 'nhl', 'mls'];
+                          const category = categoryMap[index];
+                          navigate('/library', {
+                            state: {
+                              filters: {
+                                category: [category],
+                                type: [],
+                                function: [],
+                                theme: [],
+                              },
+                              expandedSections: ['category'],
+                              showMoreSections: ['category'],
+                            }
+                          });
+                        }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
                         style={{
                           borderRadius: '12px',
@@ -1808,7 +1835,18 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library')}
+              onClick={() => navigate('/library', {
+                state: {
+                  filters: {
+                    category: [],
+                    type: [],
+                    function: ['team board', 'counter', 'timer', 'text scroller'],
+                    theme: [],
+                  },
+                  expandedSections: ['function'],
+                  showMoreSections: ['function'],
+                }
+              })}
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
@@ -1865,6 +1903,22 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                       {/* Button appears only on hover */}
                       <button
+                        onClick={() => {
+                          const functionMap = ['team board', 'counter', 'text scroller', 'timer', 'timer'];
+                          const functionFilter = functionMap[index];
+                          navigate('/library', {
+                            state: {
+                              filters: {
+                                category: [],
+                                type: [],
+                                function: [functionFilter],
+                                theme: [],
+                              },
+                              expandedSections: ['function'],
+                              showMoreSections: ['function'],
+                            }
+                          });
+                        }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
                         style={{
                           borderRadius: '12px',
@@ -1925,7 +1979,18 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library')}
+              onClick={() => navigate('/library', {
+                state: {
+                  filters: {
+                    category: [],
+                    type: [],
+                    function: [],
+                    theme: ['base', 'downtown', 'kaboom', 'color blast'],
+                  },
+                  expandedSections: ['theme'],
+                  showMoreSections: ['theme'],
+                }
+              })}
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
@@ -1982,6 +2047,22 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                       {/* Button appears only on hover */}
                       <button
+                        onClick={() => {
+                          const themeMap = ['base', 'downtown', 'kaboom', 'base', 'color blast'];
+                          const themeFilter = themeMap[index];
+                          navigate('/library', {
+                            state: {
+                              filters: {
+                                category: [],
+                                type: [],
+                                function: [],
+                                theme: [themeFilter],
+                              },
+                              expandedSections: ['theme'],
+                              showMoreSections: ['theme'],
+                            }
+                          });
+                        }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
                         style={{
                           borderRadius: '12px',
@@ -2094,6 +2175,15 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                       {/* Button appears only on hover */}
                       <button
+                        onClick={() => {
+                          const toolNames = ['Inventory Manager', 'Comps Finder', 'Pop Lookup', 'ROI Tracker', 'Price Guide'];
+                          const toolName = toolNames[index];
+                          navigate('/tools', {
+                            state: {
+                              highlightedTool: toolName,
+                            }
+                          });
+                        }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
                         style={{
                           borderRadius: '12px',
