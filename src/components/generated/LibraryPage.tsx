@@ -211,8 +211,12 @@ export const OverlaysLibraryGridPage = ({
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
-  const headerHeight = headerRef.current ? Math.ceil(headerRef.current.getBoundingClientRect().height) : 64;
-  const navTop = navRef.current ? Math.ceil(navRef.current.getBoundingClientRect().top) : headerHeight;
+  const headerHeight = headerRef.current
+    ? Math.ceil(headerRef.current.getBoundingClientRect().height)
+    : 64;
+  const navTop = navRef.current
+    ? Math.ceil(navRef.current.getBoundingClientRect().top)
+    : headerHeight;
   const filterAsideRef = useRef<HTMLElement | null>(null);
   const [asideRect, setAsideRect] = useState<{ top: number; height: number } | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -489,7 +493,12 @@ export const OverlaysLibraryGridPage = ({
         </div>
       </header>
 
-  <div className="flex h-screen overflow-hidden relative" ref={el => { containerRef.current = el as HTMLDivElement | null; }}>
+      <div
+        className="flex h-screen overflow-hidden relative"
+        ref={el => {
+          containerRef.current = el as HTMLDivElement | null;
+        }}
+      >
         <motion.nav
           animate={{
             width: isNavExpanded ? 210 : 80,
@@ -834,7 +843,7 @@ export const OverlaysLibraryGridPage = ({
 
         <AnimatePresence mode="wait">
           {isFilterOpen && activeNavItem === 'Library' && (
-              <motion.aside
+            <motion.aside
               initial={{
                 x: -256,
                 opacity: 0,
@@ -985,16 +994,21 @@ export const OverlaysLibraryGridPage = ({
               // Prefer computing header bottom relative to the container so the collapsed strip
               // sits flush under the header. Fall back to previous measurements if refs are
               // not available yet.
-              top: headerRef.current && containerRef.current
-                ? `${Math.ceil(headerRef.current.getBoundingClientRect().bottom - containerRef.current.getBoundingClientRect().top)}px`
-                : headerRef.current
-                ? `${Math.ceil(headerRef.current.getBoundingClientRect().height)}px`
-                : containerRect
-                ? `${containerRect.top}px`
+              top:
+                headerRef.current && containerRef.current
+                  ? `${Math.ceil(headerRef.current.getBoundingClientRect().bottom - containerRef.current.getBoundingClientRect().top)}px`
+                  : headerRef.current
+                    ? `${Math.ceil(headerRef.current.getBoundingClientRect().height)}px`
+                    : containerRect
+                      ? `${containerRect.top}px`
+                      : asideRect
+                        ? `${asideRect.top}px`
+                        : `${navTop}px`,
+              height: containerRect
+                ? `${containerRect.height}px`
                 : asideRect
-                ? `${asideRect.top}px`
-                : `${navTop}px`,
-              height: containerRect ? `${containerRect.height}px` : asideRect ? `${asideRect.height}px` : navMaxHeight,
+                  ? `${asideRect.height}px`
+                  : navMaxHeight,
               width: '80px',
             }}
           >
