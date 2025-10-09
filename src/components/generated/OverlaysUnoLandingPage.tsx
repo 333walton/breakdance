@@ -1731,7 +1731,25 @@ export const OverlaysUnoLandingPage = () => {
                 {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
                 <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
+                    onClick={() => {
+                      const categoryMap = ['nfl', 'mlb', 'nba', 'nhl', 'mls'];
+                      const category = categoryMap[index];
+                      navigate('/library', {
+                        state: {
+                          filters: {
+                            category: [category],
+                            type: [],
+                            function: [],
+                            theme: [],
+                          },
+                          expandedSections: ['category'],
+                          showMoreSections: ['category'],
+                        }
+                      });
+                    }}
+                  >
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
@@ -1739,7 +1757,25 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span className="hover:cursor-pointer">
+                      <span
+                        className="hover:cursor-pointer"
+                        onClick={() => {
+                          const categoryMap = ['nfl', 'mlb', 'nba', 'nhl', 'mls'];
+                          const category = categoryMap[index];
+                          navigate('/library', {
+                            state: {
+                              filters: {
+                                category: [category],
+                                type: [],
+                                function: [],
+                                theme: [],
+                              },
+                              expandedSections: ['category'],
+                              showMoreSections: ['category'],
+                            }
+                          });
+                        }}
+                      >
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'NFL'
                           : overlay.name === 'Basketball Stats Overlay'
@@ -1754,10 +1790,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between -translate-y-[5px]">
-                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
-                        <span>{overlay.aspect}</span>
-                      </span>
+                    <div className="flex items-center justify-end -translate-y-[5px]">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
@@ -1874,7 +1907,25 @@ export const OverlaysUnoLandingPage = () => {
                 {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
                 <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
+                    onClick={() => {
+                      const functionMap = ['team board', 'counter', 'text scroller', 'timer', 'timer'];
+                      const functionFilter = functionMap[index];
+                      navigate('/library', {
+                        state: {
+                          filters: {
+                            category: [],
+                            type: [],
+                            function: [functionFilter],
+                            theme: [],
+                          },
+                          expandedSections: ['function'],
+                          showMoreSections: ['function'],
+                        }
+                      });
+                    }}
+                  >
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
@@ -1882,7 +1933,25 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span className="hover:cursor-pointer">
+                      <span
+                        className="hover:cursor-pointer"
+                        onClick={() => {
+                          const functionMap = ['team board', 'counter', 'text scroller', 'timer', 'timer'];
+                          const functionFilter = functionMap[index];
+                          navigate('/library', {
+                            state: {
+                              filters: {
+                                category: [],
+                                type: [],
+                                function: [functionFilter],
+                                theme: [],
+                              },
+                              expandedSections: ['function'],
+                              showMoreSections: ['function'],
+                            }
+                          });
+                        }}
+                      >
                         {overlay.name === 'Talk Show Professional'
                           ? 'Team Board'
                           : overlay.name === 'Interview Setup Clean'
@@ -1897,10 +1966,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between -translate-y-[5px]">
-                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
-                        <span>{overlay.aspect}</span>
-                      </span>
+                    <div className="flex items-center justify-end -translate-y-[5px]">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
@@ -2018,7 +2084,25 @@ export const OverlaysUnoLandingPage = () => {
                 {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
                 <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
+                    onClick={() => {
+                      const themeMap = ['base', 'downtown', 'kaboom', 'base', 'color blast'];
+                      const themeFilter = themeMap[index];
+                      navigate('/library', {
+                        state: {
+                          filters: {
+                            category: [],
+                            type: [],
+                            function: [],
+                            theme: [themeFilter],
+                          },
+                          expandedSections: ['theme'],
+                          showMoreSections: ['theme'],
+                        }
+                      });
+                    }}
+                  >
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
@@ -2026,7 +2110,25 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span className="hover:cursor-pointer">
+                      <span
+                        className="hover:cursor-pointer"
+                        onClick={() => {
+                          const themeMap = ['base', 'downtown', 'kaboom', 'base', 'color blast'];
+                          const themeFilter = themeMap[index];
+                          navigate('/library', {
+                            state: {
+                              filters: {
+                                category: [],
+                                type: [],
+                                function: [],
+                                theme: [themeFilter],
+                              },
+                              expandedSections: ['theme'],
+                              showMoreSections: ['theme'],
+                            }
+                          });
+                        }}
+                      >
                         {overlay.name === 'FPS Combat HUD'
                           ? 'Base'
                           : overlay.name === 'RPG Interface Pro'
@@ -2041,10 +2143,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between -translate-y-[5px]">
-                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
-                        <span>{overlay.aspect}</span>
-                      </span>
+                    <div className="flex items-center justify-end -translate-y-[5px]">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
@@ -2146,7 +2245,18 @@ export const OverlaysUnoLandingPage = () => {
                 {/* Effect 3: Codrops Caption Hover - Applied to all five cards */}
                 <div className="relative" style={{ height: '220px' }}>
                   {/* Full card with gradient background - stays fixed */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
+                    onClick={() => {
+                      const toolNames = ['Inventory Manager', 'Comps Finder', 'Pop Lookup', 'ROI Tracker', 'Price Guide'];
+                      const toolName = toolNames[index];
+                      navigate('/tools', {
+                        state: {
+                          highlightedTool: toolName,
+                        }
+                      });
+                    }}
+                  >
                     <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
@@ -2154,7 +2264,18 @@ export const OverlaysUnoLandingPage = () => {
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
                     <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                      <span className="hover:cursor-pointer">
+                      <span
+                        className="hover:cursor-pointer"
+                        onClick={() => {
+                          const toolNames = ['Inventory Manager', 'Comps Finder', 'Pop Lookup', 'ROI Tracker', 'Price Guide'];
+                          const toolName = toolNames[index];
+                          navigate('/tools', {
+                            state: {
+                              highlightedTool: toolName,
+                            }
+                          });
+                        }}
+                      >
                         {overlay.name === 'LPF Argentina Stadium Fly In'
                           ? 'Inventory Manager'
                           : overlay.name === 'Basketball Stats Overlay'
@@ -2169,10 +2290,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-between -translate-y-[5px]">
-                      <span className="inline-block text-[9px] text-gray-400 bg-slate-700/80 px-2 py-0.5 rounded-full font-medium">
-                        <span>{overlay.aspect}</span>
-                      </span>
+                    <div className="flex items-center justify-end -translate-y-[5px]">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
