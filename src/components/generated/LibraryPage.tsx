@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
@@ -167,26 +167,15 @@ const sortOptions: Array<{
 ];
 type NavItem = 'Tools' | 'Library' | 'Account' | 'Pricing' | 'Logout' | 'MyOverlays' | 'MyImages';
 
-const navigationItems = [
-  {
-    label: 'Library',
-  },
-  {
-    label: 'Tools',
-  },
-  {
-    label: 'How It Works',
-  },
-  {
-    label: 'Live Breaks',
-  },
-  {
-    label: 'Shop',
-  },
-  {
-    label: 'About',
-  },
-] as any[];
+type TopNavItem = { label: string };
+const navigationItems: TopNavItem[] = [
+  { label: 'Library' },
+  { label: 'Tools' },
+  { label: 'How It Works' },
+  { label: 'Live Breaks' },
+  { label: 'Shop' },
+  { label: 'About' },
+];
 
 // @component: OverlaysLibraryGridPage
 interface OverlaysLibraryGridPageProps {
@@ -197,6 +186,7 @@ export const OverlaysLibraryGridPage = ({
   initialView = 'Library',
 }: OverlaysLibraryGridPageProps = {}) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const headerRef = useRef<HTMLDivElement | null>(null);
   const [navMaxHeight, setNavMaxHeight] = useState<string>('calc(100vh - 64px)');
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
@@ -220,6 +210,13 @@ export const OverlaysLibraryGridPage = ({
   const [myOverlaysExpanded, setMyOverlaysExpanded] = useState(false);
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
   const sortDropdownRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const headerHeight = headerRef.current ? Math.ceil(headerRef.current.getBoundingClientRect().height) : 64;
+  const navTop = navRef.current ? Math.ceil(navRef.current.getBoundingClientRect().top) : headerHeight;
+  const filterAsideRef = useRef<HTMLElement | null>(null);
+  const [asideRect, setAsideRect] = useState<{ top: number; height: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerRect, setContainerRect] = useState<{ top: number; height: number } | null>(null);
 
   // Update activeNavItem when initialView prop changes
   useEffect(() => {
@@ -323,6 +320,34 @@ export const OverlaysLibraryGridPage = ({
     return results;
   }, [searchQuery, filters, sortBy]);
 
+  useEffect(() => {
+    const measureAside = () => {
+      if (filterAsideRef.current) {
+        const rect = filterAsideRef.current.getBoundingClientRect();
+        setAsideRect({ top: Math.ceil(rect.top), height: Math.ceil(rect.height) });
+      } else {
+        setAsideRect(null);
+      }
+    };
+    measureAside();
+    window.addEventListener('resize', measureAside);
+    return () => window.removeEventListener('resize', measureAside);
+  }, [isFilterOpen]);
+
+  useEffect(() => {
+    const measureContainer = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setContainerRect({ top: Math.ceil(rect.top), height: Math.ceil(rect.height) });
+      } else {
+        setContainerRect(null);
+      }
+    };
+    measureContainer();
+    window.addEventListener('resize', measureContainer);
+    return () => window.removeEventListener('resize', measureContainer);
+  }, []);
+
   // @return
   return (
     <div
@@ -400,7 +425,7 @@ export const OverlaysLibraryGridPage = ({
                       navigate('/tools');
                     }
                   }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
+                  className={`transition-colors text-sm font-bold tracking-wide relative cursor-pointer ${(nav.label === 'Library' && location.pathname.startsWith('/library')) || (nav.label === 'Tools' && location.pathname.startsWith('/tools')) ? 'text-orange-300' : 'text-gray-200 hover:text-orange-300'}`}
                   style={{
                     fontFamily: 'Nunito, sans-serif',
                   }}
@@ -464,7 +489,7 @@ export const OverlaysLibraryGridPage = ({
         </div>
       </header>
 
-      <div className="flex h-screen overflow-hidden">
+  <div className="flex h-screen overflow-hidden relative" ref={el => { containerRef.current = el as HTMLDivElement | null; }}>
         <motion.nav
           animate={{
             width: isNavExpanded ? 210 : 80,
@@ -473,7 +498,10 @@ export const OverlaysLibraryGridPage = ({
             duration: 0.3,
             ease: 'easeInOut',
           }}
-          className="border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm flex flex-col flex-shrink-0 relative"
+          className="border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm flex flex-col flex-shrink-0 relative z-30"
+          ref={el => {
+            navRef.current = el as HTMLDivElement | null;
+          }}
           style={{ maxHeight: navMaxHeight }}
         >
           <div className="p-4 overflow-y-auto flex-1 pb-28">
@@ -806,9 +834,9 @@ export const OverlaysLibraryGridPage = ({
 
         <AnimatePresence mode="wait">
           {isFilterOpen && activeNavItem === 'Library' && (
-            <motion.aside
+              <motion.aside
               initial={{
-                x: -320,
+                x: -256,
                 opacity: 0,
               }}
               animate={{
@@ -816,16 +844,26 @@ export const OverlaysLibraryGridPage = ({
                 opacity: 1,
               }}
               exit={{
-                x: -320,
+                x: -256,
                 opacity: 0,
               }}
               transition={{
                 duration: 0.3,
                 ease: 'easeInOut',
               }}
-              className="w-64 border-r border-white/10 bg-[#1a1428]/80 backdrop-blur-sm overflow-y-auto filter-panel-scrollbar"
+              className="w-64 border-r border-white/10 bg-[#1a1428]/80 backdrop-blur-sm overflow-y-auto filter-panel-scrollbar relative z-0"
               style={{ maxHeight: navMaxHeight }}
+              ref={el => {
+                filterAsideRef.current = el as HTMLElement | null;
+              }}
             >
+              <button
+                onClick={() => setIsFilterOpen(false)}
+                aria-label="Collapse filters"
+                className="absolute top-3 right-3 p-2 rounded-md hover:bg-white/5 transition-colors z-50"
+              >
+                <ChevronsLeft className="h-4 w-4" />
+              </button>
               <div className="p-11">
                 <div className="mb-6 flex items-center justify-between">
                   <h2 className="text-xl font-bold">
@@ -863,7 +901,7 @@ export const OverlaysLibraryGridPage = ({
                           >
                             <div className="flex items-center gap-2">
                               {IconComponent && <IconComponent className="h-4 w-4" />}
-                              <span className="text-sm font-semibold uppercase tracking-wide capitalize">
+                              <span className="text-sm font-semibold uppercase tracking-wide">
                                 {filterKey}
                               </span>
                             </div>
@@ -937,6 +975,46 @@ export const OverlaysLibraryGridPage = ({
           )}
         </AnimatePresence>
 
+        {/* Expand tab when filters are closed */}
+        {!isFilterOpen && activeNavItem === 'Library' && (
+          <div
+            aria-hidden="false"
+            className="absolute z-40 border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm flex flex-col flex-shrink-0 items-center"
+            style={{
+              left: `${isNavExpanded ? 210 : 80}px`,
+              // Prefer computing header bottom relative to the container so the collapsed strip
+              // sits flush under the header. Fall back to previous measurements if refs are
+              // not available yet.
+              top: headerRef.current && containerRef.current
+                ? `${Math.ceil(headerRef.current.getBoundingClientRect().bottom - containerRef.current.getBoundingClientRect().top)}px`
+                : headerRef.current
+                ? `${Math.ceil(headerRef.current.getBoundingClientRect().height)}px`
+                : containerRect
+                ? `${containerRect.top}px`
+                : asideRect
+                ? `${asideRect.top}px`
+                : `${navTop}px`,
+              height: containerRect ? `${containerRect.height}px` : asideRect ? `${asideRect.height}px` : navMaxHeight,
+              width: '80px',
+            }}
+          >
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              aria-label="Open filters"
+              className={`w-full flex items-center justify-center px-0 py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white`}
+              style={{
+                aspectRatio: '1/1',
+                width: '48px',
+                height: '48px',
+                padding: '0',
+                marginTop: '8px',
+              }}
+            >
+              <SlidersHorizontal className="lucide lucide-sliders-horizontal h-5 w-5" />
+            </button>
+          </div>
+        )}
+
         <main
           className="flex-1 overflow-y-auto filter-panel-scrollbar"
           style={{ maxHeight: navMaxHeight }}
@@ -945,15 +1023,7 @@ export const OverlaysLibraryGridPage = ({
             {activeNavItem === 'Library' && (
               <div className="mb-8">
                 <div className="flex items-center gap-4 mb-6">
-                  {!isFilterOpen && (
-                    <button
-                      onClick={() => setIsFilterOpen(true)}
-                      className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
-                      aria-label="Open filters"
-                    >
-                      <SlidersHorizontal className="h-5 w-5" />
-                    </button>
-                  )}
+                  {/* filter open button removed from the header search area */}
                   <div className="relative w-1/2">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
