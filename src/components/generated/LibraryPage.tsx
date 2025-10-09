@@ -532,6 +532,11 @@ export const OverlaysLibraryGridPage = ({
           }}
           style={{ maxHeight: navMaxHeight }}
         >
+          <div className="flex items-end justify-center pt-4 pb-0 px-[2.8px]">
+            <button className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF4D1F] hover:to-[#FFB838] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out px-6 py-2 rounded-full font-bold text-base lg:text-lg text-black focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer w-[80%]" style={{ fontFamily: 'Nunito, sans-serif' }}>
+              Go Live
+            </button>
+          </div>
           <div className="p-4 overflow-y-auto flex-1 pb-28">
             <div className="space-y-2">
               <button
