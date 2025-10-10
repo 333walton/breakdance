@@ -25,6 +25,9 @@ import {
   ExternalLink,
   Play,
 } from 'lucide-react';
+import { SignInCard as SignUpCard } from './SignUpCard';
+import { SignInCard } from './SignInCard';
+import { PasswordResetCard } from './PasswordResetCard';
 type Overlay = {
   id: string;
   name: string;
@@ -192,6 +195,7 @@ export const OverlaysLibraryGridPage = ({
   const [navMaxHeight, setNavMaxHeight] = useState<string>('calc(100vh - 64px)');
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
+  const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Initialize filters from location state if provided
@@ -964,22 +968,22 @@ export const OverlaysLibraryGridPage = ({
           {isFilterOpen && activeNavItem === 'Library' && (
             <motion.aside
               initial={{
-                x: -256,
+                width: 0,
                 opacity: 0,
               }}
               animate={{
-                x: 0,
+                width: 256,
                 opacity: 1,
               }}
               exit={{
-                x: -256,
+                width: 0,
                 opacity: 0,
               }}
               transition={{
-                duration: 0.3,
+                duration: 0.5,
                 ease: 'easeInOut',
               }}
-              className="w-64 border-r border-white/10 bg-[#1a1428]/80 backdrop-blur-sm overflow-y-auto filter-panel-scrollbar relative z-0"
+              className="border-r border-white/10 bg-[#1a1428]/80 backdrop-blur-sm overflow-y-auto filter-panel-scrollbar relative z-0 overflow-hidden"
               style={{ maxHeight: navMaxHeight }}
               ref={el => {
                 filterAsideRef.current = el as HTMLElement | null;
@@ -992,7 +996,7 @@ export const OverlaysLibraryGridPage = ({
               >
                 <ChevronsLeft className="h-4 w-4" />
               </button>
-              <div className="p-11">
+              <div className="p-11" style={{ minWidth: '256px' }}>
                 <div className="mb-6 flex items-center justify-between">
                   <h2 className="text-xl font-bold">
                     <span
@@ -1164,10 +1168,10 @@ export const OverlaysLibraryGridPage = ({
         )}
 
         <main
-          className="flex-1 overflow-y-auto filter-panel-scrollbar"
+          className="flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out"
           style={{ maxHeight: navMaxHeight }}
         >
-          <div className="max-w-7xl mx-auto p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto p-6 lg:p-8 transition-all duration-500 ease-in-out">
             {activeNavItem === 'Library' && (
               <div className="mb-8">
                 <div className="flex items-center gap-4 mb-6">
@@ -1264,7 +1268,7 @@ export const OverlaysLibraryGridPage = ({
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
                   {filteredOverlays.map(overlay => (
                     <motion.div
                       key={overlay.id}
@@ -1539,6 +1543,79 @@ export const OverlaysLibraryGridPage = ({
           </div>
         </main>
       </div>
+
+      {/* Sign Up Overlay */}
+      {showSignUpOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowSignUpOverlay(false)}
+        >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setShowSignUpOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <SignUpCard
+              onSwitchToSignIn={() => {
+                setShowSignUpOverlay(false);
+                setShowLoginOverlay(true);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Login Overlay */}
+      {showLoginOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowLoginOverlay(false)}
+        >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setShowLoginOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <SignInCard
+              onSwitchToSignUp={() => {
+                setShowLoginOverlay(false);
+                setShowSignUpOverlay(true);
+              }}
+              onSwitchToPasswordReset={() => {
+                setShowLoginOverlay(false);
+                setShowPasswordResetOverlay(true);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Password Reset Overlay */}
+      {showPasswordResetOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowPasswordResetOverlay(false)}
+        >
+          <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setShowPasswordResetOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <PasswordResetCard
+              onBack={() => {
+                setShowPasswordResetOverlay(false);
+                setShowLoginOverlay(true);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
