@@ -22,6 +22,18 @@ import GlassmorphicButton from '../GlassmorphicButton';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { PasswordResetCard } from './PasswordResetCard';
+
+// Global sequential stats controller type and Window augmentation
+type SeqController = {
+  current: number;
+  listeners: Map<number, () => void>;
+};
+
+declare global {
+  interface Window {
+    __stats_seq__?: SeqController;
+  }
+}
 import { useAuth } from '../../contexts/AuthContext';
 const overlayCategories = [
   {
@@ -356,7 +368,8 @@ export const OverlaysUnoLandingPage = () => {
     // Reset stats animation on mount and clear the global sequence controller
     setStatsKey(Date.now());
     const key = '__stats_seq__';
-    delete (window as Record<string, unknown>)[key];
+    // Remove any existing global stats controller safely
+    delete window.__stats_seq__;
   }, []);
   const [fluidConfig, setFluidConfig] = useState({
     textureDownsample: 1,
@@ -1719,18 +1732,20 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library', {
-                state: {
-                  filters: {
-                    category: ['nfl', 'mlb', 'nba', 'nhl', 'mls'],
-                    type: [],
-                    function: [],
-                    theme: [],
+              onClick={() =>
+                navigate('/library', {
+                  state: {
+                    filters: {
+                      category: ['nfl', 'mlb', 'nba', 'nhl', 'mls'],
+                      type: [],
+                      function: [],
+                      theme: [],
+                    },
+                    expandedSections: ['category'],
+                    showMoreSections: ['category'],
                   },
-                  expandedSections: ['category'],
-                  showMoreSections: ['category'],
-                }
-              })}
+                })
+              }
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
@@ -1773,7 +1788,7 @@ export const OverlaysUnoLandingPage = () => {
                           },
                           expandedSections: ['category'],
                           showMoreSections: ['category'],
-                        }
+                        },
                       });
                     }}
                   >
@@ -1799,7 +1814,7 @@ export const OverlaysUnoLandingPage = () => {
                               },
                               expandedSections: ['category'],
                               showMoreSections: ['category'],
-                            }
+                            },
                           });
                         }}
                       >
@@ -1833,7 +1848,7 @@ export const OverlaysUnoLandingPage = () => {
                               },
                               expandedSections: ['category'],
                               showMoreSections: ['category'],
-                            }
+                            },
                           });
                         }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
@@ -1895,18 +1910,26 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library', {
-                state: {
-                  filters: {
-                    category: [],
-                    type: [],
-                    function: ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'],
-                    theme: [],
+              onClick={() =>
+                navigate('/library', {
+                  state: {
+                    filters: {
+                      category: [],
+                      type: [],
+                      function: [
+                        'team board',
+                        'counter',
+                        'text scroller',
+                        'image frame',
+                        'music visualizer',
+                      ],
+                      theme: [],
+                    },
+                    expandedSections: ['function'],
+                    showMoreSections: ['function'],
                   },
-                  expandedSections: ['function'],
-                  showMoreSections: ['function'],
-                }
-              })}
+                })
+              }
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
@@ -1937,7 +1960,13 @@ export const OverlaysUnoLandingPage = () => {
                   <div
                     className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
                     onClick={() => {
-                      const functionMap = ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'];
+                      const functionMap = [
+                        'team board',
+                        'counter',
+                        'text scroller',
+                        'image frame',
+                        'music visualizer',
+                      ];
                       const functionFilter = functionMap[index];
                       navigate('/library', {
                         state: {
@@ -1949,7 +1978,7 @@ export const OverlaysUnoLandingPage = () => {
                           },
                           expandedSections: ['function'],
                           showMoreSections: ['function'],
-                        }
+                        },
                       });
                     }}
                   >
@@ -1963,7 +1992,13 @@ export const OverlaysUnoLandingPage = () => {
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
-                          const functionMap = ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'];
+                          const functionMap = [
+                            'team board',
+                            'counter',
+                            'text scroller',
+                            'image frame',
+                            'music visualizer',
+                          ];
                           const functionFilter = functionMap[index];
                           navigate('/library', {
                             state: {
@@ -1975,7 +2010,7 @@ export const OverlaysUnoLandingPage = () => {
                               },
                               expandedSections: ['function'],
                               showMoreSections: ['function'],
-                            }
+                            },
                           });
                         }}
                       >
@@ -1997,7 +2032,13 @@ export const OverlaysUnoLandingPage = () => {
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
-                          const functionMap = ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'];
+                          const functionMap = [
+                            'team board',
+                            'counter',
+                            'text scroller',
+                            'image frame',
+                            'music visualizer',
+                          ];
                           const functionFilter = functionMap[index];
                           navigate('/library', {
                             state: {
@@ -2009,7 +2050,7 @@ export const OverlaysUnoLandingPage = () => {
                               },
                               expandedSections: ['function'],
                               showMoreSections: ['function'],
-                            }
+                            },
                           });
                         }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
@@ -2072,18 +2113,20 @@ export const OverlaysUnoLandingPage = () => {
 
           <div className="flex justify-end">
             <button
-              onClick={() => navigate('/library', {
-                state: {
-                  filters: {
-                    category: [],
-                    type: [],
-                    function: [],
-                    theme: ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'],
+              onClick={() =>
+                navigate('/library', {
+                  state: {
+                    filters: {
+                      category: [],
+                      type: [],
+                      function: [],
+                      theme: ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'],
+                    },
+                    expandedSections: ['theme'],
+                    showMoreSections: ['theme'],
                   },
-                  expandedSections: ['theme'],
-                  showMoreSections: ['theme'],
-                }
-              })}
+                })
+              }
               className="text-orange-400 hover:text-orange-300 flex items-center space-x-2 transition-colors duration-200 font-medium mb-2 cursor-pointer"
             >
               <span>See More</span>
@@ -2114,7 +2157,13 @@ export const OverlaysUnoLandingPage = () => {
                   <div
                     className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
                     onClick={() => {
-                      const themeMap = ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'];
+                      const themeMap = [
+                        'base',
+                        'downtown',
+                        'kaboom',
+                        'stained glass',
+                        'color blast',
+                      ];
                       const themeFilter = themeMap[index];
                       navigate('/library', {
                         state: {
@@ -2126,7 +2175,7 @@ export const OverlaysUnoLandingPage = () => {
                           },
                           expandedSections: ['theme'],
                           showMoreSections: ['theme'],
-                        }
+                        },
                       });
                     }}
                   >
@@ -2140,7 +2189,13 @@ export const OverlaysUnoLandingPage = () => {
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
-                          const themeMap = ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'];
+                          const themeMap = [
+                            'base',
+                            'downtown',
+                            'kaboom',
+                            'stained glass',
+                            'color blast',
+                          ];
                           const themeFilter = themeMap[index];
                           navigate('/library', {
                             state: {
@@ -2152,7 +2207,7 @@ export const OverlaysUnoLandingPage = () => {
                               },
                               expandedSections: ['theme'],
                               showMoreSections: ['theme'],
-                            }
+                            },
                           });
                         }}
                       >
@@ -2174,7 +2229,13 @@ export const OverlaysUnoLandingPage = () => {
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
-                          const themeMap = ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'];
+                          const themeMap = [
+                            'base',
+                            'downtown',
+                            'kaboom',
+                            'stained glass',
+                            'color blast',
+                          ];
                           const themeFilter = themeMap[index];
                           navigate('/library', {
                             state: {
@@ -2186,7 +2247,7 @@ export const OverlaysUnoLandingPage = () => {
                               },
                               expandedSections: ['theme'],
                               showMoreSections: ['theme'],
-                            }
+                            },
                           });
                         }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
@@ -2275,12 +2336,18 @@ export const OverlaysUnoLandingPage = () => {
                   <div
                     className="absolute inset-0 bg-gradient-to-b from-[#582864]/20 to-[#9149c1]/10 group-hover:from-[#4A2156]/18 group-hover:to-[#7D3DA8]/8 transition-all duration-300 flex items-center justify-center cursor-pointer"
                     onClick={() => {
-                      const toolNames = ['Inventory Manager', 'Comps Finder', 'Pop Lookup', 'ROI Tracker', 'Price Guide'];
+                      const toolNames = [
+                        'Inventory Manager',
+                        'Comps Finder',
+                        'Pop Lookup',
+                        'ROI Tracker',
+                        'Price Guide',
+                      ];
                       const toolName = toolNames[index];
                       navigate('/tools', {
                         state: {
                           highlightedTool: toolName,
-                        }
+                        },
                       });
                     }}
                   >
@@ -2294,12 +2361,18 @@ export const OverlaysUnoLandingPage = () => {
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
-                          const toolNames = ['Inventory Manager', 'Comps Finder', 'Pop Lookup', 'ROI Tracker', 'Price Guide'];
+                          const toolNames = [
+                            'Inventory Manager',
+                            'Comps Finder',
+                            'Pop Lookup',
+                            'ROI Tracker',
+                            'Price Guide',
+                          ];
                           const toolName = toolNames[index];
                           navigate('/tools', {
                             state: {
                               highlightedTool: toolName,
-                            }
+                            },
                           });
                         }}
                       >
@@ -2321,12 +2394,18 @@ export const OverlaysUnoLandingPage = () => {
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
-                          const toolNames = ['Inventory Manager', 'Comps Finder', 'Pop Lookup', 'ROI Tracker', 'Price Guide'];
+                          const toolNames = [
+                            'Inventory Manager',
+                            'Comps Finder',
+                            'Pop Lookup',
+                            'ROI Tracker',
+                            'Price Guide',
+                          ];
                           const toolName = toolNames[index];
                           navigate('/tools', {
                             state: {
                               highlightedTool: toolName,
-                            }
+                            },
                           });
                         }}
                         className="opacity-0 group-hover:opacity-100 transition-all duration-[400ms] px-4 py-1.5 shadow-lg hover:shadow-xl brightness-[0.85] cursor-pointer flex items-center justify-center"
@@ -3127,28 +3206,18 @@ function StatNumber({ number }: { number: string }) {
   }, []);
   React.useEffect(() => {
     if (!inView || index < 0) return;
-    const key = '__stats_seq__';
-    const win = window as unknown as {
-      [k: string]: unknown;
-    };
-    type SeqController = {
-      current: number;
-      listeners: Map<number, () => void>;
-    };
-    if (!win[key]) {
-      // Initialize controller when first stat comes into view
-      (win as Record<string, unknown>)[key] = {
+    // Initialize controller on window if needed
+    if (!window.__stats_seq__) {
+      window.__stats_seq__ = {
         current: 0,
         listeners: new Map<number, () => void>(),
-      } as SeqController;
-      // Microtask to notify index 0 immediately
+      };
       queueMicrotask(() => {
-        const controller = (win as Record<string, unknown>)[key] as SeqController | undefined;
-        const l = controller?.listeners.get(0);
+        const l = window.__stats_seq__?.listeners.get(0);
         if (l) l();
       });
     }
-    const controller = (win as Record<string, unknown>)[key] as SeqController | undefined;
+    const controller = window.__stats_seq__;
     if (!controller) return;
     const notify = () => setCanStart(true);
     controller.listeners.set(index, notify);
@@ -3166,15 +3235,7 @@ function StatNumber({ number }: { number: string }) {
   const hasFinished = inView && canStart && value >= intTarget;
   React.useEffect(() => {
     if (!hasFinished || index < 0) return;
-    const key = '__stats_seq__';
-    const win = window as unknown as {
-      [k: string]: unknown;
-    };
-    type SeqController = {
-      current: number;
-      listeners: Map<number, () => void>;
-    };
-    const controller = win[key] as SeqController | undefined;
+    const controller = window.__stats_seq__;
     if (!controller) return;
     const next = index + 1;
     const listener = controller.listeners.get(next);
