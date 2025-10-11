@@ -475,12 +475,14 @@ export const OverlaysLibraryGridPage = ({
             ) : (
               <button onClick={() => navigate('/account')} className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer" aria-label="Go to account page"><User className="w-6 h-6" /></button>
             )}
-            <button data-cart-anchor="true" onClick={() => toggleCart()} className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
-              <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+            <div className="relative">
+              <button data-cart-anchor="true" onClick={() => toggleCart()} className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
+                <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+              </button>
               {getTotal() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ fontSize: '10px' }}>{getTotal()}</span>
+                <span className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ fontSize: '10px' }}>{getTotal()}</span>
               )}
-            </button>
+            </div>
             <GlobalCartDropdown />
           </div>
         </div>
