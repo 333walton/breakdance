@@ -24,10 +24,13 @@ import {
   FolderPlus,
   ExternalLink,
   Play,
+  ShoppingCart,
+  Check,
 } from 'lucide-react';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { PasswordResetCard } from './PasswordResetCard';
+import { useAuth } from '../../contexts/AuthContext';
 type Overlay = {
   id: string;
   name: string;
@@ -205,6 +208,7 @@ export const OverlaysLibraryGridPage = ({
 }: OverlaysLibraryGridPageProps = {}) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, setIsAuthenticated, isGoLiveActive, setIsGoLiveActive } = useAuth();
   const headerRef = useRef<HTMLDivElement | null>(null);
   const [navMaxHeight, setNavMaxHeight] = useState<string>('calc(100vh - 64px)');
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
@@ -244,12 +248,16 @@ export const OverlaysLibraryGridPage = ({
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [myOverlaysExpanded, setMyOverlaysExpanded] = useState(false);
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
+  const [myToolsExpanded, setMyToolsExpanded] = useState(false);
   const [showAsideText, setShowAsideText] = useState(false);
 
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)?.highlightedTool;
   const [selectedTool, setSelectedTool] = useState<string | undefined>(initialHighlightedTool);
+  const [selectedTools, setSelectedTools] = useState<Set<string>>(new Set());
   const [bookmarkedOverlays, setBookmarkedOverlays] = useState<Set<string>>(new Set());
+  const [cartItems, setCartItems] = useState<Set<string>>(new Set());
+  const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
   const headerHeight = headerRef.current
@@ -367,6 +375,27 @@ export const OverlaysLibraryGridPage = ({
       return next;
     });
   };
+
+  const addToCart = (overlayId: string) => {
+    setCartItems(prev => {
+      const next = new Set(prev);
+      next.add(overlayId);
+      return next;
+    });
+  };
+
+  const toggleToolSelection = (tool: string) => {
+    setSelectedTools(prev => {
+      const next = new Set(prev);
+      if (next.has(tool)) {
+        next.delete(tool);
+      } else {
+        next.add(tool);
+      }
+      return next;
+    });
+  };
+
   const hasActiveFilters = Object.values(filters).some(arr => arr.length > 0);
   const filteredOverlays = useMemo(() => {
     let results = overlaysData.filter(overlay => {
@@ -481,6 +510,17 @@ export const OverlaysLibraryGridPage = ({
         .filter-panel-text h2 {
           font-size: 150% !important;
         }
+        @keyframes go-live-pulse {
+          0%, 100% {
+            box-shadow: 0 0 0 2px rgba(255, 197, 66, 0.5);
+          }
+          50% {
+            box-shadow: 0 0 0 3px rgba(255, 197, 66, 0.4);
+          }
+        }
+        .go-live-active {
+          animation: go-live-pulse 3s ease-in-out infinite;
+        }
       `}</style>
       {/* Header */}
       <header
@@ -571,32 +611,47 @@ export const OverlaysLibraryGridPage = ({
 
           {/* Auth & Discord */}
           <div className="flex items-center space-x-3 flex-shrink-0">
-            <button
-              onClick={() => setShowSignUpOverlay(true)}
-              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-            >
-              <span>Sign up</span>
-            </button>
-            <button
-              onClick={() => setShowLoginOverlay(true)}
-              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-            >
-              <span>Login</span>
-            </button>
-            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
-              <span
-                style={{
-                  color: 'rgb(0 0 0)',
-                }}
+            {!isAuthenticated && (
+              <button
+                onClick={() => setShowSignUpOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
               >
-                Launch App
-              </span>
-              <ExternalLink
-                className="w-4 h-4"
+                <span>Sign up</span>
+              </button>
+            )}
+            {!isAuthenticated ? (
+              <button
+                onClick={() => setShowLoginOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                <span>Login</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate('/account')}
+                className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+                aria-label="Go to account page"
+              >
+                <User className="w-6 h-6" />
+              </button>
+            )}
+            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center justify-center cursor-pointer relative">
+              <ShoppingCart
+                className="w-5 h-5"
                 style={{
                   color: 'rgb(0 0 0)',
                 }}
               />
+              {cartItems.size > 0 && (
+                <span
+                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                  style={{
+                    fontSize: '10px',
+                  }}
+                >
+                  {cartItems.size}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -625,7 +680,8 @@ export const OverlaysLibraryGridPage = ({
         >
           <div className="flex items-end pb-0 px-4" style={{ paddingTop: 'calc(var(--spacing) * 10)' }}>
             <button
-              className="bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF4D1F] hover:to-[#FFB838] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out rounded-full font-bold text-black focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer flex items-center justify-center h-12 overflow-hidden"
+              onClick={() => setIsGoLiveActive(!isGoLiveActive)}
+              className={`bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF4D1F] hover:to-[#FFB838] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out rounded-full font-bold text-black focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer flex items-center justify-center h-12 overflow-hidden ${isGoLiveActive ? 'go-live-active' : ''}`}
               style={{
                 fontFamily: 'Nunito, sans-serif',
                 width: isNavExpanded ? '100%' : '48px',
@@ -698,6 +754,107 @@ export const OverlaysLibraryGridPage = ({
                   Library
                 </span>
               </button>
+
+              {activeNavItem === 'Tools' && isNavExpanded && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    height: 0,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    height: 'auto',
+                  }}
+                  exit={{
+                    opacity: 0,
+                    height: 0,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                  }}
+                  className="space-y-2"
+                >
+                  <div
+                    className="border-t border-white/5 my-4"
+                    style={{
+                      borderTopWidth: '2px',
+                    }}
+                  />
+
+                  <div>
+                    <button
+                      onClick={() => setMyToolsExpanded(!myToolsExpanded)}
+                      className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                      style={{
+                        height: '48px',
+                      }}
+                    >
+                      <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                        <Wrench className="h-5 w-5" />
+                      </div>
+                      <span
+                        className="text-sm font-medium transition-opacity duration-200"
+                        style={{
+                          paddingLeft: '12px',
+                          opacity: showNavText ? 1 : 0,
+                          pointerEvents: showNavText ? 'auto' : 'none',
+                        }}
+                      >
+                        My Tools
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myToolsExpanded ? 'rotate-180' : ''}`}
+                        style={{
+                          opacity: showNavText ? 1 : 0,
+                          pointerEvents: showNavText ? 'auto' : 'none',
+                        }}
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {myToolsExpanded && (
+                        <motion.div
+                          initial={{
+                            height: 0,
+                            opacity: 0,
+                          }}
+                          animate={{
+                            height: 'auto',
+                            opacity: 1,
+                          }}
+                          exit={{
+                            height: 0,
+                            opacity: 0,
+                          }}
+                          transition={{
+                            duration: 0.2,
+                          }}
+                          className="overflow-hidden pl-4 space-y-1 mt-1"
+                        >
+                          {selectedTools.size === 0 ? (
+                            <div className="px-4 py-2 text-sm text-gray-500">
+                              <span>No tools selected</span>
+                            </div>
+                          ) : (
+                            Array.from(selectedTools).map(tool => (
+                              <button
+                                key={tool}
+                                onClick={() => {
+                                  // Could navigate to specific tool or just highlight it
+                                }}
+                                className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm"
+                              >
+                                <Wrench className="h-4 w-4 flex-shrink-0" />
+                                <span>{tool}</span>
+                              </button>
+                            ))
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )}
 
               {activeNavItem === 'Library' && isNavExpanded && (
                 <motion.div
@@ -784,95 +941,9 @@ export const OverlaysLibraryGridPage = ({
                             <span>Favorites</span>
                           </button>
                           <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Trash2 className="h-4 w-4 flex-shrink-0" />
-                            <span>Trash</span>
+                            <Image className="h-4 w-4 flex-shrink-0" />
+                            <span>My Images</span>
                           </button>
-                          <div className="flex items-center justify-between px-4 py-2 text-gray-400 text-sm">
-                            <span>Root folder</span>
-                            <button className="hover:text-white transition-colors">
-                              <FolderPlus className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  <div
-                    className="border-t border-white/5 my-4"
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-
-                  <div>
-                    <button
-                      onClick={() => setMyImagesExpanded(!myImagesExpanded)}
-                      className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
-                      style={{
-                        height: '48px',
-                      }}
-                    >
-                      <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
-                        <Image className="h-5 w-5" />
-                      </div>
-                      <span
-                        className="text-sm font-medium transition-opacity duration-200"
-                        style={{
-                          paddingLeft: '12px',
-                          opacity: showNavText ? 1 : 0,
-                          pointerEvents: showNavText ? 'auto' : 'none',
-                        }}
-                      >
-                        My Images
-                      </span>
-                      <ChevronDown
-                        className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myImagesExpanded ? 'rotate-180' : ''}`}
-                        style={{
-                          opacity: showNavText ? 1 : 0,
-                          pointerEvents: showNavText ? 'auto' : 'none',
-                        }}
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {myImagesExpanded && (
-                        <motion.div
-                          initial={{
-                            height: 0,
-                            opacity: 0,
-                          }}
-                          animate={{
-                            height: 'auto',
-                            opacity: 1,
-                          }}
-                          exit={{
-                            height: 0,
-                            opacity: 0,
-                          }}
-                          transition={{
-                            duration: 0.2,
-                          }}
-                          className="overflow-hidden pl-4 space-y-1 mt-1"
-                        >
-                          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Folder className="h-4 w-4 flex-shrink-0" />
-                            <span>All</span>
-                          </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Star className="h-4 w-4 flex-shrink-0" />
-                            <span>Favorites</span>
-                          </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Trash2 className="h-4 w-4 flex-shrink-0" />
-                            <span>Trash</span>
-                          </button>
-                          <div className="flex items-center justify-between px-4 py-2 text-gray-400 text-sm">
-                            <span>Root folder</span>
-                            <button className="hover:text-white transition-colors">
-                              <FolderPlus className="h-4 w-4" />
-                            </button>
-                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -956,7 +1027,7 @@ export const OverlaysLibraryGridPage = ({
                   style={{
                     height: '48px',
                   }}
-                  title={!isNavExpanded ? 'Pricing' : undefined}
+                  title={!isNavExpanded ? (isAuthenticated ? 'Subscription' : 'Pricing') : undefined}
                 >
                   <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
                     <DollarSign className="h-5 w-5" />
@@ -969,7 +1040,7 @@ export const OverlaysLibraryGridPage = ({
                       pointerEvents: showNavText ? 'auto' : 'none',
                     }}
                   >
-                    Pricing
+                    {isAuthenticated ? 'Subscription' : 'Pricing'}
                   </span>
                 </button>
 
@@ -1233,7 +1304,10 @@ export const OverlaysLibraryGridPage = ({
 
         <main
           className="flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out bg-[#1a1428]"
-          style={{ maxHeight: navMaxHeight }}
+          style={{
+            maxHeight: navMaxHeight,
+            marginLeft: !isFilterOpen && activeNavItem === 'Library' ? '80px' : '0'
+          }}
         >
           {activeNavItem === 'Library' && (
             <>
@@ -1360,27 +1434,41 @@ export const OverlaysLibraryGridPage = ({
                       className="group relative bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer border border-white/10 rounded-2xl"
                       style={{ aspectRatio: '4/3' }}
                     >
-                      {overlay.isNew && (
-                        <span className="absolute top-3 right-3 bg-[#d97706] text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0 z-20">
-                          NEW
-                        </span>
-                      )}
-
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleBookmark(overlay.id);
+                          // Add eye icon functionality here
                         }}
-                        className={`absolute top-3 left-3 p-2 rounded-full transition-colors z-20 ${
-                          bookmarkedOverlays.has(overlay.id)
-                            ? 'bg-yellow-500/30 hover:bg-yellow-500/40'
-                            : 'bg-white/10 hover:bg-white/20'
-                        }`}
+                        className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer z-20"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={bookmarkedOverlays.has(overlay.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={bookmarkedOverlays.has(overlay.id) ? 'text-yellow-400' : 'text-white'}>
-                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                          <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                       </button>
+
+                      <div className="absolute top-3 left-3 flex items-center gap-2 z-20">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleBookmark(overlay.id);
+                          }}
+                          className={`p-2 rounded-full transition-colors ${
+                            bookmarkedOverlays.has(overlay.id)
+                              ? 'bg-yellow-500/30 hover:bg-yellow-500/40'
+                              : 'bg-white/10 hover:bg-white/20'
+                          }`}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={bookmarkedOverlays.has(overlay.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={bookmarkedOverlays.has(overlay.id) ? 'text-yellow-400' : 'text-white'}>
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                          </svg>
+                        </button>
+                        {overlay.isNew && (
+                          <span className="bg-[#d97706] text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0">
+                            NEW
+                          </span>
+                        )}
+                      </div>
 
                       {/* Full card with gradient background - stays fixed, extends full height */}
                       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-purple-800/20 to-pink-900/30 group-hover:from-purple-900/25 group-hover:via-purple-800/15 group-hover:to-pink-900/25 transition-all duration-300 flex items-center justify-center">
@@ -1401,15 +1489,18 @@ export const OverlaysLibraryGridPage = ({
                           </span>
                         </div>
 
-                        {/* Action icons that get revealed on hover */}
-                        <div className="flex items-center justify-between">
-                          <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                              <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                          </button>
-                          <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                        {/* Description and action icons */}
+                        <div className="flex items-start justify-between gap-3">
+                          <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 flex-1">
+                            {overlay.type.charAt(0).toUpperCase() + overlay.type.slice(1)} overlay for {overlay.category.toUpperCase()} with {overlay.theme} theme
+                          </p>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addToCart(overlay.id);
+                            }}
+                            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0"
+                          >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
                               <circle cx="9" cy="21" r="1"></circle>
                               <circle cx="20" cy="21" r="1"></circle>
@@ -1458,6 +1549,9 @@ export const OverlaysLibraryGridPage = ({
                       ? (toolMapping[selectedTool] === tool || selectedTool === tool)
                       : false;
 
+                    // Check if this tool is selected for My Tools
+                    const isSelected = selectedTools.has(tool);
+
                     return (
                       <motion.div
                         key={tool}
@@ -1472,20 +1566,20 @@ export const OverlaysLibraryGridPage = ({
                         transition={{
                           duration: 0.3,
                         }}
-                        onClick={() => setSelectedTool(tool)}
+                        onClick={() => toggleToolSelection(tool)}
                         className={`bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group ${
-                          isHighlighted
+                          isSelected || isHighlighted
                             ? 'border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
                             : 'border-white/10 hover:border-white/20'
                         }`}
                       >
                         <div className="flex items-center gap-3 mb-4">
                           <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
-                            isHighlighted
+                            isSelected || isHighlighted
                               ? 'bg-orange-500/30'
                               : 'bg-purple-500/20 group-hover:bg-purple-500/30'
                           }`}>
-                            <Wrench className={`h-6 w-6 ${isHighlighted ? 'text-orange-300' : 'text-purple-300'}`} />
+                            <Wrench className={`h-6 w-6 ${isSelected || isHighlighted ? 'text-orange-300' : 'text-purple-300'}`} />
                           </div>
                           <h3 className="font-semibold text-lg text-white">
                             <span>{tool}</span>
@@ -1544,116 +1638,252 @@ export const OverlaysLibraryGridPage = ({
                     </div>
                   </div>
                 </div>
-                <button className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer">
-                  <span>Logout</span>
-                </button>
+                <div className="flex items-end justify-between">
+                  <button className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer">
+                    <span>Logout</span>
+                  </button>
+                  <button className="text-sm text-red-400 hover:text-red-300 underline transition-colors cursor-pointer">
+                    <span>Delete Account</span>
+                  </button>
+                </div>
               </div>
             </div>
           )}
 
           {activeNavItem === 'Pricing' && (
-            <div className="max-w-7xl mx-auto p-6 lg:p-8">
-              <div className="space-y-6">
-                <h1 className="text-3xl font-bold">
-                  <span>Pricing Plans</span>
-                </h1>
-                <p className="text-gray-300 text-lg">
-                  <span>Choose the plan that's right for you</span>
-                </p>
-                <div className="grid md:grid-cols-2 gap-6 mt-8">
-                  <motion.div
-                    initial={{
-                      opacity: 0,
-                      y: 20,
+            <div className="max-w-5xl mx-auto p-6 lg:p-8 text-center">
+              <h2 className="text-5xl font-bold mb-6 cursor-default">
+                <span>Level Up Your Production</span>
+              </h2>
+              <p className="text-xl text-gray-300 mb-16 cursor-default">
+                <span>
+                  Ready for a breakthrough? Upgrade to Pro for premium tools and bigger reach.
+                </span>
+              </p>
+
+              <div className="flex items-center justify-center mb-16">
+                <div className="bg-slate-800/50 rounded-2xl p-2 border border-slate-700/50 relative inline-flex">
+                  {/* Slider track */}
+                  <div className="absolute inset-2 rounded-xl bg-white/5" aria-hidden="true" />
+                  {/* Sliding handle */}
+                  <span
+                    className={`absolute top-2 h-[calc(100%-1rem)] rounded-xl bg-orange-500 shadow-lg will-change-transform transition-transform duration-300 ease-out`}
+                    style={{
+                      width: 'calc(50% - 0.25rem)',
+                      transform: pricingToggle === 'monthly' ? 'translateX(0)' : 'translateX(100%)',
                     }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    transition={{
-                      duration: 0.3,
-                    }}
-                    className="bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-8 border border-white/10"
+                    aria-hidden="true"
+                  />
+                  <button
+                    onClick={() => setPricingToggle('monthly')}
+                    className={`relative z-[1] px-8 py-3 rounded-xl transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 cursor-pointer ${pricingToggle === 'monthly' ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+                    aria-pressed={pricingToggle === 'monthly'}
+                    aria-label="Select monthly pricing"
                   >
-                    <h3 className="text-2xl font-bold mb-2">
-                      <span>Free</span>
-                    </h3>
-                    <p className="text-gray-400 mb-6">
-                      <span>Perfect for getting started</span>
-                    </p>
-                    <div className="text-4xl font-bold mb-6">
-                      <span>$0</span>
-                      <span className="text-lg text-gray-400 font-normal">/month</span>
-                    </div>
-                    <ul className="space-y-3 mb-8">
-                      <li className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center">
-                          <span className="text-purple-300 text-xs">✓</span>
-                        </div>
-                        <span className="text-gray-300">Basic overlay library access</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center">
-                          <span className="text-purple-300 text-xs">✓</span>
-                        </div>
-                        <span className="text-gray-300">Limited tools access</span>
-                      </li>
-                    </ul>
-                    <button className="w-full py-3 bg-white/10 hover:bg-white/20 rounded-lg text-white font-medium transition-colors">
-                      <span>Current Plan</span>
-                    </button>
-                  </motion.div>
-                  <motion.div
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    transition={{
-                      duration: 0.3,
-                      delay: 0.1,
-                    }}
-                    className="bg-gradient-to-b from-purple-500/20 to-[#1a1428]/40 rounded-2xl p-8 border border-purple-500/30"
+                    <span>Monthly</span>
+                  </button>
+                  <button
+                    onClick={() => setPricingToggle('yearly')}
+                    className={`relative z-[1] px-8 py-3 rounded-xl transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 cursor-pointer ${pricingToggle === 'yearly' ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+                    aria-pressed={pricingToggle === 'yearly'}
+                    aria-label="Select yearly pricing"
                   >
-                    <h3 className="text-2xl font-bold mb-2">
-                      <span>Pro</span>
-                    </h3>
-                    <p className="text-gray-400 mb-6">
-                      <span>For serious breakers</span>
-                    </p>
-                    <div className="text-4xl font-bold mb-6">
-                      <span>$3.99</span>
-                      <span className="text-lg text-gray-400 font-normal">/month</span>
-                    </div>
-                    <ul className="space-y-3 mb-8">
-                      <li className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-purple-500/40 flex items-center justify-center">
-                          <span className="text-purple-200 text-xs">✓</span>
-                        </div>
-                        <span className="text-white">Full overlay library</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-purple-500/40 flex items-center justify-center">
-                          <span className="text-purple-200 text-xs">✓</span>
-                        </div>
-                        <span className="text-white">All tools unlocked</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-purple-500/40 flex items-center justify-center">
-                          <span className="text-purple-200 text-xs">✓</span>
-                        </div>
-                        <span className="text-white">Priority support</span>
-                      </li>
-                    </ul>
-                    <button className="w-full py-3 bg-purple-500 hover:bg-purple-600 rounded-lg text-white font-medium transition-colors">
-                      <span>Upgrade to Pro</span>
-                    </button>
-                  </motion.div>
+                    <span>Yearly</span>
+                  </button>
                 </div>
               </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Free Plan */}
+                <motion.div
+                  className="bg-white/10 rounded-3xl p-10 border border-white/10 h-full cursor-default"
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                  }}
+                >
+                  <div className="flex h-full flex-col">
+                    <h3 className="text-3xl font-bold mb-2">
+                      <span>BreakDance Starter</span>
+                    </h3>
+                    <p className="text-gray-300 mb-6 text-base">
+                      <span>Get started and explore BreakDance with no cost or no commitment</span>
+                    </p>
+                    <div className="text-5xl font-bold mb-8">
+                      <span>$0.00</span>
+                    </div>
+                    <ul className="space-y-4 mb-10 text-left">
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Full access to the overlay library</span>
+                      </li>
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Full access to the 'break editor' ui</span>
+                      </li>
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Save unlimited overlays to your collection</span>
+                      </li>
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Limited access to break tools dashboard</span>
+                      </li>
+                    </ul>
+                    <div className="mt-auto">
+                      <button
+                        onClick={() => setShowSignUpOverlay(true)}
+                        className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer"
+                      >
+                        <span>Start Free</span>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Plus Plan */}
+                <motion.div
+                  className="bg-white/10 rounded-3xl p-10 border border-orange-500/30 relative cursor-default"
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    delay: 0.1,
+                  }}
+                >
+                  <div className="flex h-full flex-col">
+                    {pricingToggle === 'yearly' && (
+                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold">
+                        <span>Save 17%</span>
+                      </div>
+                    )}
+                    <h3 className="text-3xl font-bold mb-2">
+                      <span>BreakDance Pro</span>
+                    </h3>
+                    <p className="text-gray-300 mb-6 text-base">
+                      <span>
+                        Best for regular users who want to experience the full functionality of the
+                        platform
+                      </span>
+                    </p>
+                    <div className="text-5xl font-bold mb-8 h-12 leading-[48px]">
+                      <span>{pricingToggle === 'monthly' ? '$4.99' : '$49.99'}</span>
+                      <span className="text-lg text-gray-400 font-normal">
+                        /{pricingToggle === 'monthly' ? 'month' : 'year'}
+                      </span>
+                    </div>
+                    <ul className="space-y-4 mb-10 text-left">
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Everything in Free</span>
+                      </li>
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Full access to break tools dashboard</span>
+                      </li>
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Get featured every time you go live</span>
+                      </li>
+                      <li
+                        className="flex items-center"
+                        style={{
+                          fontFamily: 'Nunito, sans-serif',
+                        }}
+                      >
+                        <Check className="w-6 h-6 text-green-400 mr-4 flex-shrink-0" />
+                        <span className="text-lg">Get notified first for LE collection drops</span>
+                      </li>
+                    </ul>
+                    <div className="mt-auto">
+                      <button
+                        onClick={() => setShowSignUpOverlay(true)}
+                        className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer"
+                      >
+                        <span>Get Pro</span>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Custom Assets Card */}
+              <motion.div
+                className="bg-white/10 rounded-3xl p-10 border border-orange-500/30 relative cursor-default mt-8 max-w-2xl mx-auto"
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.2,
+                }}
+              >
+                <h3 className="text-3xl font-bold mb-4">
+                  <span>Custom Assets</span>
+                </h3>
+                <p className="text-gray-300 mb-6 text-lg">
+                  <span>For custom needs like rich animations, logo's, and more</span>
+                </p>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors cursor-pointer"
+                >
+                  <span>Contact Us</span>
+                </button>
+              </motion.div>
             </div>
           )}
         </main>
@@ -1703,6 +1933,10 @@ export const OverlaysLibraryGridPage = ({
               onSwitchToPasswordReset={() => {
                 setShowLoginOverlay(false);
                 setShowPasswordResetOverlay(true);
+              }}
+              onSignIn={() => {
+                setIsAuthenticated(true);
+                setShowLoginOverlay(false);
               }}
             />
           </div>

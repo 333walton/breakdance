@@ -12,11 +12,13 @@ import {
   ChevronDown,
   ExternalLink,
   X,
+  UserCircle,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { PasswordResetCard } from './PasswordResetCard';
+import { useAuth } from '../../contexts/AuthContext';
 
 // Checkbox styling
 const checkboxStyles = `
@@ -93,6 +95,7 @@ interface FormErrors {
 }
 const ContactPage: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     companyName: '',
@@ -315,18 +318,30 @@ const ContactPage: React.FC = () => {
 
           {/* Auth & Discord */}
           <div className="flex items-center space-x-3 flex-shrink-0">
-            <button
-              onClick={() => setShowSignUpOverlay(true)}
-              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-            >
-              <span>Sign up</span>
-            </button>
-            <button
-              onClick={() => setShowLoginOverlay(true)}
-              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-            >
-              <span>Login</span>
-            </button>
+            {!isAuthenticated && (
+              <button
+                onClick={() => setShowSignUpOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                <span>Sign up</span>
+              </button>
+            )}
+            {!isAuthenticated ? (
+              <button
+                onClick={() => setShowLoginOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                <span>Login</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate('/account')}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+                aria-label="Go to account page"
+              >
+                <UserCircle className="w-6 h-6" />
+              </button>
+            )}
             <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
               <span
                 style={{
@@ -790,6 +805,10 @@ const ContactPage: React.FC = () => {
               onSwitchToPasswordReset={() => {
                 setShowLoginOverlay(false);
                 setShowPasswordResetOverlay(true);
+              }}
+              onSignIn={() => {
+                setIsAuthenticated(true);
+                setShowLoginOverlay(false);
               }}
             />
           </div>

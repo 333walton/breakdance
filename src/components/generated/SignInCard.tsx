@@ -16,9 +16,10 @@ interface FormErrors {
 interface SignInCardProps {
   onSwitchToSignUp?: () => void;
   onSwitchToPasswordReset?: () => void;
+  onSignIn?: () => void;
 }
 
-export const SignInCard = ({ onSwitchToSignUp, onSwitchToPasswordReset }: SignInCardProps = {}) => {
+export const SignInCard = ({ onSwitchToSignUp, onSwitchToPasswordReset, onSignIn }: SignInCardProps = {}) => {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -53,11 +54,21 @@ export const SignInCard = ({ onSwitchToSignUp, onSwitchToPasswordReset }: SignIn
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);
+
+    // Call onSignIn callback if provided
+    if (onSignIn) {
+      onSignIn();
+    }
   };
   const handleSocialSignIn = async (provider: string) => {
     setSocialLoading(provider);
     await new Promise(resolve => setTimeout(resolve, 1500));
     setSocialLoading(null);
+
+    // Call onSignIn callback if provided
+    if (onSignIn) {
+      onSignIn();
+    }
   };
 
   // @return

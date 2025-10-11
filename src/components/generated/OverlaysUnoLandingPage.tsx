@@ -15,12 +15,14 @@ import {
   Copy,
   ExternalLink,
   X,
+  UserCircle,
 } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
 import GlassmorphicButton from '../GlassmorphicButton';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { PasswordResetCard } from './PasswordResetCard';
+import { useAuth } from '../../contexts/AuthContext';
 const overlayCategories = [
   {
     name: 'Browse Overlays',
@@ -186,6 +188,9 @@ const navigationItems = [
     label: 'Shop',
   },
   {
+    label: 'Pricing',
+  },
+  {
     label: 'About',
   },
 ];
@@ -325,6 +330,7 @@ function useCountUp(target: number, inView: boolean, duration = 300) {
 // @component: OverlaysUnoLandingPage
 export const OverlaysUnoLandingPage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
   const [activeCategory, setActiveCategory] = useState('BROWSE OVERLAYS');
   // Ensure the "Browse Overlays" tab is selected by default regardless of casing
@@ -343,6 +349,15 @@ export const OverlaysUnoLandingPage = () => {
 
   // Control panel state for fluid animation
   const [showControls, setShowControls] = useState(false);
+
+  // Key to force stat animations to replay on mount
+  const [statsKey, setStatsKey] = useState(0);
+  React.useEffect(() => {
+    // Reset stats animation on mount and clear the global sequence controller
+    setStatsKey(Date.now());
+    const key = '__stats_seq__';
+    delete (window as Record<string, unknown>)[key];
+  }, []);
   const [fluidConfig, setFluidConfig] = useState({
     textureDownsample: 1,
     densityDissipation: 0.98,
@@ -1130,7 +1145,7 @@ export const OverlaysUnoLandingPage = () => {
                       fontSize: '16px',
                     }}
                   >
-                    {nav.label}
+                    {nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}
                   </span>
                   {nav.label === 'Live Breaks' ? (
                     <span
@@ -1153,18 +1168,30 @@ export const OverlaysUnoLandingPage = () => {
 
           {/* Auth & Discord */}
           <div className="flex items-center space-x-3 flex-shrink-0">
-            <button
-              onClick={() => setShowSignUpOverlay(true)}
-              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-            >
-              <span>Sign up</span>
-            </button>
-            <button
-              onClick={() => setShowLoginOverlay(true)}
-              className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-            >
-              <span>Login</span>
-            </button>
+            {!isAuthenticated && (
+              <button
+                onClick={() => setShowSignUpOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                <span>Sign up</span>
+              </button>
+            )}
+            {!isAuthenticated ? (
+              <button
+                onClick={() => setShowLoginOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                <span>Login</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate('/account')}
+                className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+                aria-label="Go to account page"
+              >
+                <UserCircle className="w-6 h-6" />
+              </button>
+            )}
             <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
               <span
                 style={{
@@ -2674,6 +2701,7 @@ export const OverlaysUnoLandingPage = () => {
             }}
           >
             <div
+              key={statsKey}
               className="grid gap-8 stats-grid md:grid-cols-3"
               style={{
                 fontFamily: 'Nunito, sans-serif',
@@ -3037,6 +3065,10 @@ export const OverlaysUnoLandingPage = () => {
               onSwitchToPasswordReset={() => {
                 setShowLoginOverlay(false);
                 setShowPasswordResetOverlay(true);
+              }}
+              onSignIn={() => {
+                setIsAuthenticated(true);
+                setShowLoginOverlay(false);
               }}
             />
           </div>
