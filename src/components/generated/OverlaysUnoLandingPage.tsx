@@ -339,7 +339,7 @@ function useCountUp(target: number, inView: boolean, duration = 300) {
   return value;
 }
 
-// @component: OverlaysUnoLandingPage
+  // @component: OverlaysUnoLandingPage
 export const OverlaysUnoLandingPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
@@ -1127,7 +1127,7 @@ export const OverlaysUnoLandingPage = () => {
                   display: 'none',
                 }}
               >
-                uno
+                BreakDance
               </span>
             </div>
 
@@ -3063,7 +3063,7 @@ export const OverlaysUnoLandingPage = () => {
       <footer className="px-6 py-16 bg-gradient-to-b from-[#1F1A30] to-[#582864] text-white font-normal">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center text-center">
-            <a href="#" aria-label="overlays.uno home" className="mb-10 mt-4">
+            <a href="#" aria-label="BreakDance home" className="mb-10 mt-4">
               <h2 className="text-[44px] leading-none font-bold tracking-tight">
                 <span className="sr-only">BreakDance</span>
                 <span aria-hidden="true" className="align-middle">

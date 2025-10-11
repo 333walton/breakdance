@@ -4,7 +4,9 @@ import { Container, Theme } from './settings/types';
 import { OverlaysUnoLandingPage } from './components/generated/OverlaysUnoLandingPage';
 import ContactPage from './components/generated/ContactPage';
 import { OverlaysLibraryGridPage } from './components/generated/LibraryPage';
+import CheckoutDemo from './pages/CheckoutDemo';
 import { AuthProvider } from './contexts/AuthContext';
+import GlobalCartDropdown from './components/GlobalCartDropdown';
 
 let theme: Theme = 'dark';
 // only use 'centered' container for standalone components, never for full page apps or websites.
@@ -28,6 +30,8 @@ function App() {
 
   const content = (
     <AuthProvider>
+      {/* global cart dropdown rendered once for app-wide access */}
+      <GlobalCartDropdown />
       <Routes>
         <Route path="/" element={generatedComponent} />
         <Route path="/contact" element={<ContactPage />} />
@@ -35,6 +39,7 @@ function App() {
         <Route path="/tools" element={<OverlaysLibraryGridPage key="tools" initialView="Tools" />} />
         <Route path="/account" element={<OverlaysLibraryGridPage key="account" initialView="Account" />} />
         <Route path="/pricing" element={<OverlaysLibraryGridPage key="pricing" initialView="Pricing" />} />
+        <Route path="/checkout" element={<CheckoutDemo />} />
       </Routes>
     </AuthProvider>
   );

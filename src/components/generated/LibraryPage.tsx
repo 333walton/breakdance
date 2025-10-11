@@ -29,8 +29,13 @@ import {
 } from 'lucide-react';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
+import { LeaderboardInfoModal } from './LeaderboardModal';
+import GlobalCartDropdown from '../GlobalCartDropdown';
 import { PasswordResetCard } from './PasswordResetCard';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/cartCore';
+import CartControls from '../CartControls';
+ 
 type Overlay = {
   id: string;
   name: string;
@@ -214,6 +219,8 @@ export const OverlaysLibraryGridPage = ({
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
   const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
+  const [showLeaderboardOverlay, setShowLeaderboardOverlay] = useState(false);
+  const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Initialize filters from location state if provided
@@ -248,7 +255,7 @@ export const OverlaysLibraryGridPage = ({
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [myOverlaysExpanded, setMyOverlaysExpanded] = useState(false);
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
-  const [myToolsExpanded, setMyToolsExpanded] = useState(false);
+  const [myToolsExpanded, setMyToolsExpanded] = useState(true);
   const [showAsideText, setShowAsideText] = useState(false);
 
   // Get highlighted tool from location state or manage with local state
@@ -256,7 +263,7 @@ export const OverlaysLibraryGridPage = ({
   const [selectedTool, setSelectedTool] = useState<string | undefined>(initialHighlightedTool);
   const [selectedTools, setSelectedTools] = useState<Set<string>>(new Set());
   const [bookmarkedOverlays, setBookmarkedOverlays] = useState<Set<string>>(new Set());
-  const [cartItems, setCartItems] = useState<Set<string>>(new Set());
+  const { cart, add, remove, getTotal, isCartOpen, openCart, closeCart, toggleCart } = useCart();
   const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
@@ -376,13 +383,7 @@ export const OverlaysLibraryGridPage = ({
     });
   };
 
-  const addToCart = (overlayId: string) => {
-    setCartItems(prev => {
-      const next = new Set(prev);
-      next.add(overlayId);
-      return next;
-    });
-  };
+  // cart, add, remove, getTotal come from CartContext (persisted in provider)
 
   const toggleToolSelection = (tool: string) => {
     setSelectedTools(prev => {
@@ -527,132 +528,53 @@ export const OverlaysLibraryGridPage = ({
         ref={headerRef}
         className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50"
       >
-        <div
-          className="w-full px-6 flex items-center justify-between"
-          style={{ paddingTop: '4px', paddingBottom: '4px' }}
-        >
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between relative" style={{ paddingTop: '4px', paddingBottom: '4px' }}>
           <div className="flex items-center">
             {/* Logo */}
-            <div
-              className="text-2xl font-bold flex items-center flex-shrink-0"
-              style={{ marginLeft: '4px' }}
-            >
-              <img
-                src="/static/logo_rough2.png"
-                alt="Logo"
-                onClick={() => navigate('/')}
-                className="h-16 w-auto object-contain cursor-pointer"
-              />
-              <span
-                className="text-orange-500"
-                style={{
-                  display: 'none',
-                }}
-              >
-                overlays.
-              </span>
-              <span
-                className="text-white"
-                style={{
-                  display: 'none',
-                }}
-              >
-                uno
-              </span>
+            <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
+              <img src="/static/logo_rough2.png" alt="Logo" onClick={() => navigate('/')} className="h-16 w-auto object-contain cursor-pointer" />
             </div>
 
-            {/* Navigation */}
-            <nav
-              className="hidden md:flex items-center space-x-8 ml-12"
-              style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
-            >
+            {/* Navigation (desktop) */}
+            <nav className="hidden md:flex items-center space-x-8 ml-12">
               {navigationItems.map(nav => (
                 <a
                   key={nav.label}
                   href="#"
                   onClick={e => {
                     e.preventDefault();
-                    if (nav.label === 'Library') {
-                      navigate('/library');
-                    } else if (nav.label === 'Tools') {
-                      navigate('/tools');
-                    }
+                    if (nav.label === 'Library') navigate('/library');
+                    if (nav.label === 'Tools') navigate('/tools');
                   }}
                   className={`transition-colors text-sm font-bold tracking-wide relative cursor-pointer ${(nav.label === 'Library' && location.pathname.startsWith('/library')) || (nav.label === 'Tools' && location.pathname.startsWith('/tools')) ? 'text-orange-300' : 'text-gray-200 hover:text-orange-300'}`}
-                  style={{
-                    fontFamily: 'Nunito, sans-serif',
-                  }}
+                  style={{ fontFamily: 'Nunito, sans-serif', fontSize: '16px' }}
                 >
-                  <span
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    {nav.label}
-                  </span>
-                  {nav.label === 'Live Breaks' ? (
-                    <span
-                      aria-hidden="true"
-                      className="absolute block"
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        background: 'oklch(0.75 0.14 151.711)',
-                        borderRadius: '9999px',
-                        top: '-4px',
-                        right: '-10px',
-                      }}
-                    />
-                  ) : null}
+                  {nav.label}
                 </a>
               ))}
             </nav>
           </div>
 
-          {/* Auth & Discord */}
+          {/* Right controls: auth + cart */}
           <div className="flex items-center space-x-3 flex-shrink-0">
-            {!isAuthenticated && (
-              <button
-                onClick={() => setShowSignUpOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-              >
-                <span>Sign up</span>
-              </button>
-            )}
             {!isAuthenticated ? (
-              <button
-                onClick={() => setShowLoginOverlay(true)}
-                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-              >
-                <span>Login</span>
-              </button>
+              <>
+                <button onClick={() => setShowSignUpOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-slate-900">Sign up</button>
+                <button onClick={() => setShowLoginOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-slate-900">Login</button>
+              </>
             ) : (
-              <button
-                onClick={() => navigate('/account')}
-                className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-                aria-label="Go to account page"
-              >
-                <User className="w-6 h-6" />
-              </button>
+              <button onClick={() => navigate('/account')} className="p-2 text-white border border-white/20 rounded-full hover:bg-white hover:text-slate-900" aria-label="Go to account page"><User className="w-6 h-6" /></button>
             )}
-            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center justify-center cursor-pointer relative">
-              <ShoppingCart
-                className="w-5 h-5"
-                style={{
-                  color: 'rgb(0 0 0)',
-                }}
-              />
-              {cartItems.size > 0 && (
-                <span
-                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  style={{
-                    fontSize: '10px',
-                  }}
-                >
-                  {cartItems.size}
-                </span>
-              )}
-            </button>
+
+            <div className="relative">
+              <button onClick={() => toggleCart()} className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium flex items-center gap-2">
+                <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+                {getTotal() > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ fontSize: '10px' }}>{getTotal()}</span>
+                )}
+              </button>
+              <GlobalCartDropdown />
+            </div>
           </div>
         </div>
       </header>
@@ -836,18 +758,29 @@ export const OverlaysLibraryGridPage = ({
                               <span>No tools selected</span>
                             </div>
                           ) : (
-                            Array.from(selectedTools).map(tool => (
-                              <button
-                                key={tool}
-                                onClick={() => {
-                                  // Could navigate to specific tool or just highlight it
-                                }}
-                                className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm"
-                              >
-                                <Wrench className="h-4 w-4 flex-shrink-0" />
-                                <span>{tool}</span>
-                              </button>
-                            ))
+                            Array.from(selectedTools).map(tool => {
+                              // Abbreviate certain long tool names for the compact left-nav
+                              const toolAbbreviations: Record<string, string> = {
+                                'Breaker Inventory': 'Inventory',
+                                'Pop Report Lookup': 'Pop Lookup',
+                                'Schedule Manager': 'Schedule',
+                              };
+                              const displayLabel = toolAbbreviations[tool] || tool;
+                              return (
+                                <button
+                                  key={tool}
+                                  onClick={() => {
+                                    // Could navigate to specific tool or just highlight it
+                                  }}
+                                  title={tool}
+                                  aria-label={`Open ${tool}`}
+                                  className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm"
+                                >
+                                  <Wrench className="h-4 w-4 flex-shrink-0" />
+                                  <span>{displayLabel}</span>
+                                </button>
+                              );
+                            })
                           )}
                         </motion.div>
                       )}
@@ -1432,6 +1365,10 @@ export const OverlaysLibraryGridPage = ({
                         duration: 0.3,
                       }}
                       className="group relative bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer border border-white/10 rounded-2xl"
+                      onClick={() => {
+                        setActiveOverlay(overlay);
+                        setShowLeaderboardOverlay(true);
+                      }}
                       style={{ aspectRatio: '4/3' }}
                     >
                       <button
@@ -1494,19 +1431,50 @@ export const OverlaysLibraryGridPage = ({
                           <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 flex-1">
                             {overlay.type.charAt(0).toUpperCase() + overlay.type.slice(1)} overlay for {overlay.category.toUpperCase()} with {overlay.theme} theme
                           </p>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              addToCart(overlay.id);
-                            }}
-                            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                              <circle cx="9" cy="21" r="1"></circle>
-                              <circle cx="20" cy="21" r="1"></circle>
-                              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                          </button>
+                          { (cart[overlay.id] || 0) === 0 ? (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                add(overlay.id);
+                              }}
+                              className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0"
+                              aria-label={`Add ${overlay.name} to cart`}
+                              title={`Add ${overlay.name}`}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                              </svg>
+                              <span className="text-sm">Add</span>
+                            </button>
+                          ) : (
+                            <div className="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1">
+                              <button
+                                  onClick={(e) => {
+                                e.stopPropagation();
+                                remove(overlay.id);
+                              }}
+                                className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm"
+                                aria-label={`Decrease quantity for ${overlay.name}`}
+                                title={`Remove one ${overlay.name}`}
+                              >
+                                −
+                              </button>
+                              <div className="px-2 text-white text-sm">{cart[overlay.id]}</div>
+                              <button
+                                  onClick={(e) => {
+                                  e.stopPropagation();
+                                  add(overlay.id);
+                                }}
+                                className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm"
+                                aria-label={`Increase quantity for ${overlay.name}`}
+                                title={`Add one ${overlay.name}`}
+                              >
+                                +
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -1961,6 +1929,27 @@ export const OverlaysLibraryGridPage = ({
                 setShowPasswordResetOverlay(false);
                 setShowLoginOverlay(true);
               }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Leaderboard Info Overlay */}
+      {showLeaderboardOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowLeaderboardOverlay(false)}
+        >
+          <div className="relative w-full max-w-5xl" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setShowLeaderboardOverlay(false)}
+              className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+            <LeaderboardInfoModal
+              onClose={() => setShowLeaderboardOverlay(false)}
+              overlay={activeOverlay}
             />
           </div>
         </div>

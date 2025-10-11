@@ -27,6 +27,8 @@ import App from './App.tsx';
 import { RootDnd } from './dnd-kit/RootDnd.tsx';
 import { DragStateProvider } from './dnd-kit/DragStateContext.tsx';
 import { MoveProvider } from './dnd-kit/MoveContext.tsx';
+import { CartProvider } from './contexts/CartProvider';
+import { NotificationsProvider } from './contexts/NotificationsProvider';
 import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
@@ -35,7 +37,11 @@ createRoot(document.getElementById('root')!).render(
       <MoveProvider>
         <DragStateProvider>
           <RootDnd>
-            <App />
+            <CartProvider>
+              <NotificationsProvider>
+                <App />
+              </NotificationsProvider>
+            </CartProvider>
           </RootDnd>
         </DragStateProvider>
       </MoveProvider>
