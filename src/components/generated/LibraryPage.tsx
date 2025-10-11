@@ -128,7 +128,7 @@ type FilterState = {
 };
 const filterOptions = {
   category: ['nfl', 'mlb', 'nba', 'nhl', 'mls'],
-  type: ['panel', 'image loop', 'bug', 'baseline'],
+  type: ['panel', 'image loop', 'bug', 'baseline', 'vertical scroller', 'horizontal scroller'],
   function: ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'],
   theme: ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'],
 };
@@ -419,6 +419,37 @@ export const OverlaysLibraryGridPage = ({
         }
         .filter-panel-scrollbar::-webkit-scrollbar-thumb:hover {
           background: #4a4a4a;
+        }
+        .filter-checkbox {
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          border: 2px solid #6b7280;
+          border-radius: 3px;
+          background-color: transparent;
+          cursor: pointer;
+          position: relative;
+        }
+        .filter-checkbox:checked {
+          background-color: white;
+          border-color: #6b7280;
+        }
+        .filter-checkbox:checked::after {
+          content: '';
+          position: absolute;
+          left: 4px;
+          top: 1px;
+          width: 4px;
+          height: 8px;
+          border: solid black;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+        .filter-panel-text * {
+          font-size: 96% !important;
+        }
+        .filter-panel-text h2 {
+          font-size: 150% !important;
         }
       `}</style>
       {/* Header */}
@@ -972,7 +1003,7 @@ export const OverlaysLibraryGridPage = ({
                 opacity: 0,
               }}
               animate={{
-                width: 256,
+                width: 236,
                 opacity: 1,
               }}
               exit={{
@@ -996,8 +1027,8 @@ export const OverlaysLibraryGridPage = ({
               >
                 <ChevronsLeft className="h-4 w-4" />
               </button>
-              <div className="p-11" style={{ minWidth: '256px' }}>
-                <div className="mb-6 flex items-center justify-between">
+              <div className="p-11 filter-panel-text" style={{ minWidth: '236px', padding: 'calc(var(--spacing) * 8)' }}>
+                <div className="mb-6 relative">
                   <h2 className="text-xl font-bold">
                     <span
                       className="transition-opacity duration-200"
@@ -1011,10 +1042,13 @@ export const OverlaysLibraryGridPage = ({
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}
-                      className="text-xs text-purple-400 hover:text-purple-300 transition-all duration-200"
+                      className="text-xs text-purple-400 hover:text-purple-300 transition-all duration-200 absolute"
                       style={{
                         opacity: showAsideText ? 1 : 0,
                         pointerEvents: showAsideText ? 'auto' : 'none',
+                        right: 0,
+                        top: '100%',
+                        marginTop: '8px',
                       }}
                     >
                       <span>Clear All</span>
