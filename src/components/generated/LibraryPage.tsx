@@ -36,6 +36,7 @@ type Overlay = {
   function: string;
   theme: string;
   isNew?: boolean;
+  price: number;
 };
 const overlaysData: Overlay[] = [
   {
@@ -46,6 +47,7 @@ const overlaysData: Overlay[] = [
     function: 'team board',
     theme: 'base',
     isNew: false,
+    price: 8,
   },
   {
     id: '2',
@@ -55,6 +57,7 @@ const overlaysData: Overlay[] = [
     function: 'team board',
     theme: 'downtown',
     isNew: false,
+    price: 6,
   },
   {
     id: '3',
@@ -64,6 +67,7 @@ const overlaysData: Overlay[] = [
     function: 'text scroller',
     theme: 'kaboom',
     isNew: true,
+    price: 10,
   },
   {
     id: '4',
@@ -73,6 +77,7 @@ const overlaysData: Overlay[] = [
     function: 'counter',
     theme: 'color blast',
     isNew: false,
+    price: 12,
   },
   {
     id: '5',
@@ -82,6 +87,7 @@ const overlaysData: Overlay[] = [
     function: 'timer',
     theme: 'base',
     isNew: true,
+    price: 5,
   },
   {
     id: '6',
@@ -91,6 +97,7 @@ const overlaysData: Overlay[] = [
     function: 'team board',
     theme: 'downtown',
     isNew: false,
+    price: 9,
   },
   {
     id: '7',
@@ -100,6 +107,7 @@ const overlaysData: Overlay[] = [
     function: 'counter',
     theme: 'kaboom',
     isNew: false,
+    price: 7,
   },
   {
     id: '8',
@@ -109,6 +117,7 @@ const overlaysData: Overlay[] = [
     function: 'timer',
     theme: 'color blast',
     isNew: true,
+    price: 11,
   },
   {
     id: '9',
@@ -118,6 +127,7 @@ const overlaysData: Overlay[] = [
     function: 'text scroller',
     theme: 'base',
     isNew: false,
+    price: 4,
   },
 ];
 type FilterState = {
@@ -235,6 +245,7 @@ export const OverlaysLibraryGridPage = ({
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)?.highlightedTool;
   const [selectedTool, setSelectedTool] = useState<string | undefined>(initialHighlightedTool);
+  const [bookmarkedOverlays, setBookmarkedOverlays] = useState<Set<string>>(new Set());
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
   const headerHeight = headerRef.current
@@ -1321,16 +1332,31 @@ export const OverlaysLibraryGridPage = ({
                       transition={{
                         duration: 0.3,
                       }}
-                      className="group relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl overflow-hidden border border-white/10 transition-all duration-300 cursor-pointer"
+                      className="group relative bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer border border-white/10 rounded-2xl"
+                      style={{ aspectRatio: '4/3' }}
                     >
-                      <div className="aspect-video bg-gradient-to-br from-purple-900/30 via-purple-800/20 to-pink-900/30 flex items-center justify-center relative overflow-hidden">
+                      <span className="absolute top-3 right-3 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0 z-20" style={{ transform: 'scale(1.1)' }}>
+                        ${overlay.price}
+                      </span>
+
+                      <button className="absolute top-3 left-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                      </button>
+
+                      {/* Full card with gradient background - stays fixed, extends full height */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-purple-800/20 to-pink-900/30 group-hover:from-purple-900/25 group-hover:via-purple-800/15 group-hover:to-pink-900/25 transition-all duration-300 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.1)_0%,transparent_70%)]" />
-                        <span className="text-gray-500 text-sm font-medium z-10">Preview</span>
+                        <div className="text-center space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]" style={{ marginBottom: '60px' }}>
+                          <span className="text-gray-400 text-xs font-medium">Preview</span>
+                        </div>
                       </div>
 
-                      <div className="p-5 space-y-3 group-hover:bg-white/5 transition-colors duration-300 relative">
-                        <div className="flex items-start justify-between gap-3">
-                          <h3 className="font-semibold text-lg text-white transition-colors">
+                      {/* Caption card overlay - slides up on hover to reveal additional content */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(100%-60px)] group-hover:translate-y-0">
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                             <span>{overlay.name}</span>
                           </h3>
                           {overlay.isNew && (
@@ -1340,10 +1366,21 @@ export const OverlaysLibraryGridPage = ({
                           )}
                         </div>
 
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                            <span>{overlay.type}</span>
-                          </span>
+                        {/* Action icons that get revealed on hover */}
+                        <div className="flex items-center justify-between">
+                          <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                              <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                          </button>
+                          <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                              <circle cx="9" cy="21" r="1"></circle>
+                              <circle cx="20" cy="21" r="1"></circle>
+                              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                          </button>
                         </div>
                       </div>
                     </motion.div>
