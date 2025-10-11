@@ -157,7 +157,7 @@ const filterLabels: Record<string, string> = {
   nhl: 'NHL',
   mls: 'MLS',
 };
-type SortOption = 'popular' | 'trending' | 'a-to-z' | 'recent';
+type SortOption = 'popular' | 'trending' | 'a-to-z' | 'recent' | 'bookmarked';
 const sortOptions: Array<{
   value: SortOption;
   label: string;
@@ -177,6 +177,10 @@ const sortOptions: Array<{
   {
     value: 'recent',
     label: 'Recent',
+  },
+  {
+    value: 'bookmarked',
+    label: 'Bookmarked',
   },
 ];
 type NavItem = 'Tools' | 'Library' | 'Account' | 'Pricing' | 'Logout' | 'MyOverlays' | 'MyImages';
@@ -351,6 +355,18 @@ export const OverlaysLibraryGridPage = ({
       theme: [],
     });
   };
+
+  const toggleBookmark = (overlayId: string) => {
+    setBookmarkedOverlays(prev => {
+      const next = new Set(prev);
+      if (next.has(overlayId)) {
+        next.delete(overlayId);
+      } else {
+        next.add(overlayId);
+      }
+      return next;
+    });
+  };
   const hasActiveFilters = Object.values(filters).some(arr => arr.length > 0);
   const filteredOverlays = useMemo(() => {
     let results = overlaysData.filter(overlay => {
@@ -368,8 +384,11 @@ export const OverlaysLibraryGridPage = ({
       return matchesSearch && matchesCategory && matchesType && matchesFunction && matchesTheme;
     });
 
-    // Apply sorting
-    if (sortBy === 'a-to-z') {
+    // Apply sorting/filtering
+    if (sortBy === 'bookmarked') {
+      // Filter to show only bookmarked items
+      results = results.filter(overlay => bookmarkedOverlays.has(overlay.id));
+    } else if (sortBy === 'a-to-z') {
       results = [...results].sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === 'recent') {
       results = [...results].sort((a, b) => {
@@ -381,7 +400,7 @@ export const OverlaysLibraryGridPage = ({
     // Add other sort options as needed in the future
 
     return results;
-  }, [searchQuery, filters, sortBy]);
+  }, [searchQuery, filters, sortBy, bookmarkedOverlays]);
 
   useEffect(() => {
     const measureAside = () => {
@@ -1213,108 +1232,114 @@ export const OverlaysLibraryGridPage = ({
         )}
 
         <main
-          className="flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out"
+          className="flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out bg-[#1a1428]"
           style={{ maxHeight: navMaxHeight }}
         >
-          <div className="max-w-7xl mx-auto p-6 lg:p-8 transition-all duration-500 ease-in-out">
-            {activeNavItem === 'Library' && (
-              <div className="mb-8">
-                <div className="flex items-center gap-4 mb-6">
-                  {/* filter open button removed from the header search area */}
-                  <div className="relative w-1/2">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Search Library"
-                      value={searchQuery}
-                      onChange={e => setSearchQuery(e.target.value)}
-                      className="w-full bg-[#2a1e3a]/60 border border-white/10 rounded-full py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-white/10 transition-all"
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery('')}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-                        aria-label="Clear search"
-                      >
-                        <X className="h-4 w-4 text-gray-400" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <h1 className="text-3xl font-bold">
-                    <span>Library</span>
-                  </h1>
-                  <div className="flex items-center gap-3">
-                    <div className="relative" ref={sortDropdownRef}>
-                      <button
-                        onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                        className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 cursor-pointer"
-                      >
-                        <span>{sortOptions.find(opt => opt.value === sortBy)?.label}</span>
-                        <ChevronDown
-                          className={`h-4 w-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`}
+          {activeNavItem === 'Library' && (
+            <>
+              {/* Fixed header section */}
+              <div className="flex-shrink-0 bg-[#1a1428] sticky top-0 z-50">
+                <div className="max-w-7xl mx-auto px-6 pt-6 lg:px-8 lg:pt-8">
+                  <div>
+                    <div className="flex items-center gap-4 mb-6">
+                      {/* filter open button removed from the header search area */}
+                      <div className="relative w-1/2">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search Library"
+                          value={searchQuery}
+                          onChange={e => setSearchQuery(e.target.value)}
+                          className="w-full bg-[rgb(168,85,247)]/10 border border-white/10 rounded-full py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-white/10 transition-all"
                         />
-                      </button>
-
-                      <AnimatePresence>
-                        {isSortDropdownOpen && (
-                          <motion.div
-                            initial={{
-                              opacity: 0,
-                              y: -10,
-                            }}
-                            animate={{
-                              opacity: 1,
-                              y: 0,
-                            }}
-                            exit={{
-                              opacity: 0,
-                              y: -10,
-                            }}
-                            transition={{
-                              duration: 0.2,
-                            }}
-                            className="absolute right-0 w-40 bg-[#2a1e3a] border border-white/10 rounded-lg shadow-xl overflow-hidden z-50"
-                            style={{
-                              marginTop: 'calc(var(--spacing) * 0.3)',
-                            }}
+                        {searchQuery && (
+                          <button
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                            aria-label="Clear search"
                           >
-                            {sortOptions.map(option => (
-                              <button
-                                key={option.value}
-                                onClick={() => {
-                                  setSortBy(option.value);
-                                  setIsSortDropdownOpen(false);
-                                }}
-                                className={`w-full px-4 py-3 text-left text-sm transition-colors cursor-pointer ${sortBy === option.value ? 'bg-purple-500/20 text-purple-300' : 'text-gray-300 hover:bg-white/5 hover:text-white'}`}
-                              >
-                                <span>{option.label}</span>
-                              </button>
-                            ))}
-                          </motion.div>
+                            <X className="h-4 w-4 text-gray-400" />
+                          </button>
                         )}
-                      </AnimatePresence>
+                      </div>
                     </div>
-                    <span className="text-sm text-gray-400">
-                      <span>{filteredOverlays.length} results</span>
-                    </span>
+
+                    <div className="flex items-center justify-between">
+                      <h1 className="text-3xl font-bold">
+                        <span>Library</span>
+                      </h1>
+                      <div className="flex items-center gap-3">
+                        <div className="relative" ref={sortDropdownRef}>
+                          <button
+                            onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 cursor-pointer"
+                          >
+                            <span>{sortOptions.find(opt => opt.value === sortBy)?.label}</span>
+                            <ChevronDown
+                              className={`h-4 w-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`}
+                            />
+                          </button>
+
+                          <AnimatePresence>
+                            {isSortDropdownOpen && (
+                              <motion.div
+                                initial={{
+                                  opacity: 0,
+                                  y: -10,
+                                }}
+                                animate={{
+                                  opacity: 1,
+                                  y: 0,
+                                }}
+                                exit={{
+                                  opacity: 0,
+                                  y: -10,
+                                }}
+                                transition={{
+                                  duration: 0.2,
+                                }}
+                                className="absolute right-0 w-40 bg-[#2a1e3a] border border-white/10 rounded-lg shadow-xl overflow-hidden z-50"
+                                style={{
+                                  marginTop: 'calc(var(--spacing) * 0.3)',
+                                }}
+                              >
+                                {sortOptions.map(option => (
+                                  <button
+                                    key={option.value}
+                                    onClick={() => {
+                                      setSortBy(option.value);
+                                      setIsSortDropdownOpen(false);
+                                    }}
+                                    className={`w-full px-4 py-3 text-left text-sm transition-colors cursor-pointer ${sortBy === option.value ? 'bg-purple-500/20 text-purple-300' : 'text-gray-300 hover:bg-white/5 hover:text-white'}`}
+                                  >
+                                    <span>{option.label}</span>
+                                  </button>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                        <span className="text-sm text-gray-400">
+                          <span>{filteredOverlays.length} results</span>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            )}
 
-            {activeNavItem === 'Library' &&
-              (filteredOverlays.length === 0 ? (
-                <div className="text-center py-20">
-                  <p className="text-gray-400 text-lg">
-                    <span>No overlays found matching your criteria</span>
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
-                  {filteredOverlays.map(overlay => (
+            {/* Scrollable content section */}
+            <div className="flex-1 overflow-y-auto filter-panel-scrollbar">
+              <div className="max-w-7xl mx-auto p-6 lg:p-8">
+                {filteredOverlays.length === 0 ? (
+                  <div className="text-center py-20">
+                    <p className="text-gray-400 text-lg">
+                      <span>No overlays found matching your criteria</span>
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
+                    {filteredOverlays.map(overlay => (
                     <motion.div
                       key={overlay.id}
                       initial={{
@@ -1335,12 +1360,24 @@ export const OverlaysLibraryGridPage = ({
                       className="group relative bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer border border-white/10 rounded-2xl"
                       style={{ aspectRatio: '4/3' }}
                     >
-                      <span className="absolute top-3 right-3 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0 z-20" style={{ transform: 'scale(1.1)' }}>
-                        ${overlay.price}
-                      </span>
+                      {overlay.isNew && (
+                        <span className="absolute top-3 right-3 bg-[#d97706] text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0 z-20">
+                          NEW
+                        </span>
+                      )}
 
-                      <button className="absolute top-3 left-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-20">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleBookmark(overlay.id);
+                        }}
+                        className={`absolute top-3 left-3 p-2 rounded-full transition-colors z-20 ${
+                          bookmarkedOverlays.has(overlay.id)
+                            ? 'bg-yellow-500/30 hover:bg-yellow-500/40'
+                            : 'bg-white/10 hover:bg-white/20'
+                        }`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={bookmarkedOverlays.has(overlay.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={bookmarkedOverlays.has(overlay.id) ? 'text-yellow-400' : 'text-white'}>
                           <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                         </svg>
                       </button>
@@ -1354,16 +1391,14 @@ export const OverlaysLibraryGridPage = ({
                       </div>
 
                       {/* Caption card overlay - slides up on hover to reveal additional content */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(100%-60px)] group-hover:translate-y-0">
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(100%-40px)] group-hover:translate-y-0">
                         <div className="flex items-start justify-between gap-3 mb-3">
                           <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                             <span>{overlay.name}</span>
                           </h3>
-                          {overlay.isNew && (
-                            <span className="bg-[#d97706] text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0">
-                              NEW
-                            </span>
-                          )}
+                          <span className="bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0" style={{ transform: 'scale(1.1)' }}>
+                            ${overlay.price}
+                          </span>
                         </div>
 
                         {/* Action icons that get revealed on hover */}
@@ -1384,11 +1419,16 @@ export const OverlaysLibraryGridPage = ({
                         </div>
                       </div>
                     </motion.div>
-                  ))}
-                </div>
-              ))}
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
 
-            {activeNavItem === 'Tools' && (
+        {activeNavItem === 'Tools' && (
+          <div className="max-w-7xl mx-auto p-6 lg:p-8">
               <div className="space-y-6">
                 <h1 className="text-3xl font-bold">
                   <span>Tools Dashboard</span>
@@ -1459,9 +1499,11 @@ export const OverlaysLibraryGridPage = ({
                   })}
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {activeNavItem === 'Account' && (
+          {activeNavItem === 'Account' && (
+            <div className="max-w-7xl mx-auto p-6 lg:p-8">
               <div className="space-y-6">
                 <h1 className="text-3xl font-bold">
                   <span>Account Settings</span>
@@ -1506,9 +1548,11 @@ export const OverlaysLibraryGridPage = ({
                   <span>Logout</span>
                 </button>
               </div>
-            )}
+            </div>
+          )}
 
-            {activeNavItem === 'Pricing' && (
+          {activeNavItem === 'Pricing' && (
+            <div className="max-w-7xl mx-auto p-6 lg:p-8">
               <div className="space-y-6">
                 <h1 className="text-3xl font-bold">
                   <span>Pricing Plans</span>
@@ -1610,8 +1654,8 @@ export const OverlaysLibraryGridPage = ({
                   </motion.div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </main>
       </div>
 
