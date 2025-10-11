@@ -35,109 +35,8 @@ import { PasswordResetCard } from './PasswordResetCard';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/cartCore';
 import CartControls from '../CartControls';
- 
-type Overlay = {
-  id: string;
-  name: string;
-  category: string;
-  type: string;
-  function: string;
-  theme: string;
-  isNew?: boolean;
-  price: number;
-};
-const overlaysData: Overlay[] = [
-  {
-    id: '1',
-    name: 'Bug - Future',
-    category: 'nfl',
-    type: 'bug',
-    function: 'team board',
-    theme: 'base',
-    isNew: false,
-    price: 8,
-  },
-  {
-    id: '2',
-    name: 'Lower Third - Future',
-    category: 'mlb',
-    type: 'lower third',
-    function: 'team board',
-    theme: 'downtown',
-    isNew: false,
-    price: 6,
-  },
-  {
-    id: '3',
-    name: 'Ticker - Zombie',
-    category: 'nba',
-    type: 'baseline',
-    function: 'text scroller',
-    theme: 'kaboom',
-    isNew: true,
-    price: 10,
-  },
-  {
-    id: '4',
-    name: 'Panel - Stadium',
-    category: 'nhl',
-    type: 'panel',
-    function: 'counter',
-    theme: 'color blast',
-    isNew: false,
-    price: 12,
-  },
-  {
-    id: '5',
-    name: 'Image Loop - Retro',
-    category: 'mls',
-    type: 'image loop',
-    function: 'timer',
-    theme: 'base',
-    isNew: true,
-    price: 5,
-  },
-  {
-    id: '6',
-    name: 'Scoreboard - Classic',
-    category: 'nfl',
-    type: 'panel',
-    function: 'team board',
-    theme: 'downtown',
-    isNew: false,
-    price: 9,
-  },
-  {
-    id: '7',
-    name: 'Counter - Modern',
-    category: 'mlb',
-    type: 'baseline',
-    function: 'counter',
-    theme: 'kaboom',
-    isNew: false,
-    price: 7,
-  },
-  {
-    id: '8',
-    name: 'Timer - Neon',
-    category: 'nba',
-    type: 'bug',
-    function: 'timer',
-    theme: 'color blast',
-    isNew: true,
-    price: 11,
-  },
-  {
-    id: '9',
-    name: 'Scroller - Wave',
-    category: 'nhl',
-    type: 'image loop',
-    function: 'text scroller',
-    theme: 'base',
-    isNew: false,
-    price: 4,
-  },
-];
+import overlaysDataRaw, { Overlay } from '../../lib/overlays';
+const overlaysData: Overlay[] = overlaysDataRaw;
 type FilterState = {
   category: string[];
   type: string[];
@@ -528,53 +427,61 @@ export const OverlaysLibraryGridPage = ({
         ref={headerRef}
         className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50"
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between relative" style={{ paddingTop: '4px', paddingBottom: '4px' }}>
+        <div
+          className="w-full px-6 flex items-center justify-between"
+          style={{ paddingTop: '4px', paddingBottom: '4px' }}
+        >
           <div className="flex items-center">
             {/* Logo */}
             <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
               <img src="/static/logo_rough2.png" alt="Logo" onClick={() => navigate('/')} className="h-16 w-auto object-contain cursor-pointer" />
+              <span className="text-orange-500" style={{ display: 'none' }}>overlays.</span>
+              <span className="text-white" style={{ display: 'none' }}>BreakDance</span>
             </div>
 
-            {/* Navigation (desktop) */}
-            <nav className="hidden md:flex items-center space-x-8 ml-12">
+            {/* Navigation */}
+            <nav className="hidden md:flex items-center space-x-8 ml-12" style={{ marginLeft: 'calc(var(--spacing) * 21)' }}>
               {navigationItems.map(nav => (
                 <a
                   key={nav.label}
                   href="#"
                   onClick={e => {
                     e.preventDefault();
-                    if (nav.label === 'Library') navigate('/library');
-                    if (nav.label === 'Tools') navigate('/tools');
+                    if (nav.label === 'Library') {
+                      navigate('/library');
+                    } else if (nav.label === 'Tools') {
+                      navigate('/tools');
+                    }
                   }}
-                  className={`transition-colors text-sm font-bold tracking-wide relative cursor-pointer ${(nav.label === 'Library' && location.pathname.startsWith('/library')) || (nav.label === 'Tools' && location.pathname.startsWith('/tools')) ? 'text-orange-300' : 'text-gray-200 hover:text-orange-300'}`}
-                  style={{ fontFamily: 'Nunito, sans-serif', fontSize: '16px' }}
+                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
+                  style={{ fontFamily: 'Nunito, sans-serif' }}
                 >
-                  {nav.label}
+                  <span style={{ fontSize: '16px' }}>{nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}</span>
+                  {nav.label === 'Live Breaks' ? (
+                    <span aria-hidden="true" className="absolute block" style={{ width: '8px', height: '8px', background: 'oklch(0.75 0.14 151.711)', borderRadius: '9999px', top: '-4px', right: '-10px' }} />
+                  ) : null}
                 </a>
               ))}
             </nav>
           </div>
 
-          {/* Right controls: auth + cart */}
+          {/* Auth & Cart */}
           <div className="flex items-center space-x-3 flex-shrink-0">
-            {!isAuthenticated ? (
-              <>
-                <button onClick={() => setShowSignUpOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-slate-900">Sign up</button>
-                <button onClick={() => setShowLoginOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-slate-900">Login</button>
-              </>
-            ) : (
-              <button onClick={() => navigate('/account')} className="p-2 text-white border border-white/20 rounded-full hover:bg-white hover:text-slate-900" aria-label="Go to account page"><User className="w-6 h-6" /></button>
+            {!isAuthenticated && (
+              <button onClick={() => setShowSignUpOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer">Sign up</button>
             )}
-
-            <div className="relative">
-              <button onClick={() => toggleCart()} className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium flex items-center gap-2">
-                <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
-                {getTotal() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ fontSize: '10px' }}>{getTotal()}</span>
-                )}
-              </button>
-              <GlobalCartDropdown />
-            </div>
+            {!isAuthenticated ? (
+              <button onClick={() => setShowLoginOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer">Login</button>
+            ) : (
+              <button onClick={() => navigate('/account')} className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer" aria-label="Go to account page"><User className="w-6 h-6" /></button>
+            )}
+            <button data-cart-anchor="true" onClick={() => toggleCart()} className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
+              <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+              {getTotal() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ fontSize: '10px' }}>{getTotal()}</span>
+              )}
+            </button>
+            <GlobalCartDropdown />
           </div>
         </div>
       </header>
@@ -1421,10 +1328,11 @@ export const OverlaysLibraryGridPage = ({
                           <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
                             <span>{overlay.name}</span>
                           </h3>
-                          <span className="bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0" style={{ transform: 'scale(1.1)' }}>
-                            ${overlay.price}
-                          </span>
                         </div>
+                        {/* price badge sits attached to top edge of the bottom overlay for aesthetic */}
+                        <span className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide transform -translate-y-1/2">
+                          ${overlay.price}
+                        </span>
 
                         {/* Description and action icons */}
                         <div className="flex items-start justify-between gap-3">
