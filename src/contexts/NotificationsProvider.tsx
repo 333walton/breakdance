@@ -9,7 +9,11 @@ export const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = (
 
   const notify = useCallback((n: { message: string; type?: Notification['type'] }) => {
     const id = String(Date.now()) + Math.random().toString(36).slice(2, 8);
-    setList(prev => [...prev, { id, message: n.message, type: n.type }]);
+    setList(prev => {
+      const newList = [...prev, { id, message: n.message, type: n.type }];
+      // Keep only the last 3 notifications
+      return newList.slice(-3);
+    });
     setTimeout(() => {
       setList(prev => prev.filter(x => x.id !== id));
     }, 3500);

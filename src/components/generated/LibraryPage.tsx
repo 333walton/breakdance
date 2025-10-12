@@ -34,6 +34,7 @@ import GlobalCartDropdown from '../GlobalCartDropdown';
 import { PasswordResetCard } from './PasswordResetCard';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/cartCore';
+import { useNotifications } from '../../contexts/notificationsCore';
 import CartControls from '../CartControls';
 import overlaysDataRaw, { Overlay } from '../../lib/overlays';
 const overlaysData: Overlay[] = overlaysDataRaw;
@@ -44,7 +45,7 @@ type FilterState = {
   theme: string[];
 };
 const filterOptions = {
-  category: ['nfl', 'mlb', 'nba', 'nhl', 'mls'],
+  category: ['nfl', 'mlb', 'nba', 'nhl', 'mls', 'pokemon'],
   type: ['panel', 'image loop', 'bug', 'baseline', 'vertical scroller', 'horizontal scroller'],
   function: ['team board', 'counter', 'text scroller', 'image frame', 'music visualizer'],
   theme: ['base', 'downtown', 'kaboom', 'stained glass', 'color blast'],
@@ -63,6 +64,7 @@ const filterLabels: Record<string, string> = {
   nba: 'NBA',
   nhl: 'NHL',
   mls: 'MLS',
+  pokemon: 'Pokémon',
 };
 type SortOption = 'popular' | 'trending' | 'a-to-z' | 'recent' | 'bookmarked';
 const sortOptions: Array<{
@@ -113,6 +115,7 @@ export const OverlaysLibraryGridPage = ({
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, setIsAuthenticated, isGoLiveActive, setIsGoLiveActive } = useAuth();
+  const { notify } = useNotifications();
   const headerRef = useRef<HTMLDivElement | null>(null);
   const [navMaxHeight, setNavMaxHeight] = useState<string>('calc(100vh - 64px)');
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
@@ -296,6 +299,10 @@ export const OverlaysLibraryGridPage = ({
     });
   };
 
+  const getOverlayDescription = (overlay: Overlay) => {
+    return `${overlay.theme.charAt(0).toUpperCase() + overlay.theme.slice(1)} themed ${overlay.type} for ${overlay.category.toUpperCase()} broadcasts. ${overlay.function.charAt(0).toUpperCase() + overlay.function.slice(1)} functionality with Stream Deck integration.`;
+  };
+
   const hasActiveFilters = Object.values(filters).some(arr => arr.length > 0);
   const filteredOverlays = useMemo(() => {
     let results = overlaysData.filter(overlay => {
@@ -425,7 +432,7 @@ export const OverlaysLibraryGridPage = ({
       {/* Header */}
       <header
         ref={headerRef}
-        className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-50"
+        className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-[110]"
       >
         <div
           className="w-full px-6 flex items-center justify-between"
@@ -1301,8 +1308,8 @@ export const OverlaysLibraryGridPage = ({
                           }}
                           className={`p-2 rounded-full transition-colors ${
                             bookmarkedOverlays.has(overlay.id)
-                              ? 'bg-yellow-500/30 hover:bg-yellow-500/40'
-                              : 'bg-white/10 hover:bg-white/20'
+                              ? 'bg-transparent hover:bg-white/20'
+                              : 'bg-transparent hover:bg-white/20'
                           }`}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={bookmarkedOverlays.has(overlay.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={bookmarkedOverlays.has(overlay.id) ? 'text-yellow-400' : 'text-white'}>
@@ -1338,8 +1345,8 @@ export const OverlaysLibraryGridPage = ({
 
                         {/* Description and action icons */}
                         <div className="flex items-start justify-between gap-3">
-                          <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 flex-1">
-                            {overlay.type.charAt(0).toUpperCase() + overlay.type.slice(1)} overlay for {overlay.category.toUpperCase()} with {overlay.theme} theme
+                          <p className="text-gray-400 text-xs leading-relaxed line-clamp-3" style={{ width: '60%' }}>
+                            {getOverlayDescription(overlay)}
                           </p>
                           { (cart[overlay.id] || 0) === 0 ? (
                             <button
@@ -1517,7 +1524,10 @@ export const OverlaysLibraryGridPage = ({
                   </div>
                 </div>
                 <div className="flex items-end justify-between">
-                  <button className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer">
+                  <button onClick={() => {
+                    setIsAuthenticated(false);
+                    notify({ message: 'Signed Out', type: 'info' });
+                  }} className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer">
                     <span>Logout</span>
                   </button>
                   <button className="text-sm text-red-400 hover:text-red-300 underline transition-colors cursor-pointer">
