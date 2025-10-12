@@ -23,12 +23,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cart]);
 
   const add = (id: string) => setCart(prev => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
-  const remove = (id: string) => setCart(prev => {
-    const next = { ...prev } as CartMap;
-    const current = next[id] || 0;
-    if (current <= 1) delete next[id]; else next[id] = current - 1;
-    return next;
-  });
+  const remove = (id: string) =>
+    setCart(prev => {
+      const next = { ...prev } as CartMap;
+      const current = next[id] || 0;
+      if (current <= 1) delete next[id];
+      else next[id] = current - 1;
+      return next;
+    });
   const getTotal = () => Object.values(cart).reduce((s, v) => s + v, 0);
   const clear = () => setCart({});
 
@@ -37,7 +39,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const toggleCart = () => setIsCartOpen(v => !v);
 
   return (
-    <CartContext.Provider value={{ cart, add, remove, getTotal, clear, isCartOpen, openCart, closeCart, toggleCart }}>
+    <CartContext.Provider
+      value={{ cart, add, remove, getTotal, clear, isCartOpen, openCart, closeCart, toggleCart }}
+    >
       {children}
     </CartContext.Provider>
   );

@@ -33,20 +33,29 @@ function App() {
         <Route path="/" element={generatedComponent} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/library" element={<OverlaysLibraryGridPage key="library" />} />
-        <Route path="/tools" element={<OverlaysLibraryGridPage key="tools" initialView="Tools" />} />
-        <Route path="/account" element={<OverlaysLibraryGridPage key="account" initialView="Account" />} />
-        <Route path="/pricing" element={<OverlaysLibraryGridPage key="pricing" initialView="Pricing" />} />
+        <Route
+          path="/tools"
+          element={<OverlaysLibraryGridPage key="tools" initialView="Tools" />}
+        />
+        <Route
+          path="/mytools"
+          element={<OverlaysLibraryGridPage key="mytools" initialView="MyTools" />}
+        />
+        <Route
+          path="/account"
+          element={<OverlaysLibraryGridPage key="account" initialView="Account" />}
+        />
+        <Route
+          path="/pricing"
+          element={<OverlaysLibraryGridPage key="pricing" initialView="Pricing" />}
+        />
         <Route path="/checkout" element={<CheckoutDemo />} />
       </Routes>
     </AuthProvider>
   );
 
   if (container === 'centered') {
-    return (
-      <div className="h-full w-full flex flex-col items-center justify-center">
-        {content}
-      </div>
-    );
+    return <div className="h-full w-full flex flex-col items-center justify-center">{content}</div>;
   } else {
     return content;
   }

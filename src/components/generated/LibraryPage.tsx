@@ -92,7 +92,25 @@ const sortOptions: Array<{
     label: 'Bookmarked',
   },
 ];
-type NavItem = 'Tools' | 'Library' | 'Account' | 'Pricing' | 'Logout' | 'MyOverlays' | 'MyImages';
+// Short labels to ensure tool titles fit in one line inside the nav panel
+const toolShortNames: Record<string, string> = {
+  'Breaker Inventory': 'Inventory',
+  'Pop Report Lookup': 'Pop Lookup',
+  'Schedule Manager': 'Schedule',
+  'ROI Tracker': 'ROI',
+  'Price Guide': 'Price',
+};
+
+const getToolLabel = (tool: string) => toolShortNames[tool] || tool;
+type NavItem =
+  | 'Tools'
+  | 'Library'
+  | 'Account'
+  | 'Pricing'
+  | 'Logout'
+  | 'MyOverlays'
+  | 'MyImages'
+  | 'MyTools';
 
 type TopNavItem = { label: string };
 const navigationItems: TopNavItem[] = [
@@ -128,12 +146,14 @@ export const OverlaysLibraryGridPage = ({
   // Initialize filters from location state if provided
   const [filters, setFilters] = useState<FilterState>(() => {
     const state = location.state as { filters?: FilterState } | null;
-    return state?.filters || {
-      category: [],
-      type: [],
-      function: [],
-      theme: [],
-    };
+    return (
+      state?.filters || {
+        category: [],
+        type: [],
+        function: [],
+        theme: [],
+      }
+    );
   });
 
   // Initialize expanded sections from location state if provided
@@ -159,11 +179,42 @@ export const OverlaysLibraryGridPage = ({
   const [myImagesExpanded, setMyImagesExpanded] = useState(false);
   const [myToolsExpanded, setMyToolsExpanded] = useState(true);
   const [showAsideText, setShowAsideText] = useState(false);
+  // Tooltip state for nav-panel tool name hover
+  const [navTooltip, setNavTooltip] = useState<{
+    text: string;
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Get highlighted tool from location state or manage with local state
-  const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)?.highlightedTool;
+  const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)
+    ?.highlightedTool;
   const [selectedTool, setSelectedTool] = useState<string | undefined>(initialHighlightedTool);
-  const [selectedTools, setSelectedTools] = useState<Set<string>>(new Set());
+  const [selectedTools, setSelectedTools] = useState<Set<string>>(() => {
+    try {
+      const raw = localStorage.getItem('selectedTools');
+      if (raw) {
+        const arr = JSON.parse(raw) as string[];
+        return new Set(arr);
+      }
+    } catch (e) {
+      // ignore JSON parse errors
+    }
+    return new Set();
+  });
+  // Track which tools have been pinned/selected *from within* the My Tools section
+  const [selectedInMyTools, setSelectedInMyTools] = useState<Set<string>>(() => {
+    try {
+      const raw = localStorage.getItem('selectedInMyTools');
+      if (raw) {
+        const arr = JSON.parse(raw) as string[];
+        return new Set(arr);
+      }
+    } catch (e) {
+      // ignore
+    }
+    return new Set();
+  });
   const [bookmarkedOverlays, setBookmarkedOverlays] = useState<Set<string>>(new Set());
   const { cart, add, remove, getTotal, isCartOpen, openCart, closeCart, toggleCart } = useCart();
   const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
@@ -287,7 +338,8 @@ export const OverlaysLibraryGridPage = ({
 
   // cart, add, remove, getTotal come from CartContext (persisted in provider)
 
-  const toggleToolSelection = (tool: string) => {
+  // Toggle membership in the My Tools collection (added/removed from /mytools)
+  const toggleToolInCollection = (tool: string) => {
     setSelectedTools(prev => {
       const next = new Set(prev);
       if (next.has(tool)) {
@@ -295,9 +347,41 @@ export const OverlaysLibraryGridPage = ({
       } else {
         next.add(tool);
       }
+      try {
+        localStorage.setItem('selectedTools', JSON.stringify(Array.from(next)));
+      } catch (e) {
+        // ignore storage errors
+      }
       return next;
     });
   };
+
+  // Toggle pinned state for a tool *within* the My Tools page — this controls
+  // which tools appear under the My Tools nav button.
+  const toggleToolPinned = (tool: string) => {
+    setSelectedInMyTools(prev => {
+      const next = new Set(prev);
+      if (next.has(tool)) {
+        next.delete(tool);
+      } else {
+        next.add(tool);
+      }
+      try {
+        localStorage.setItem('selectedInMyTools', JSON.stringify(Array.from(next)));
+      } catch (e) {
+        // ignore
+      }
+      return next;
+    });
+  };
+
+  const handleShowNavTooltip = (text: string, e: React.MouseEvent) => {
+    setNavTooltip({ text, x: e.clientX + 12, y: e.clientY + 12 });
+  };
+  const handleMoveNavTooltip = (e: React.MouseEvent) => {
+    setNavTooltip(prev => (prev ? { ...prev, x: e.clientX + 12, y: e.clientY + 12 } : prev));
+  };
+  const handleHideNavTooltip = () => setNavTooltip(null);
 
   const getOverlayDescription = (overlay: Overlay) => {
     return `${overlay.theme.charAt(0).toUpperCase() + overlay.theme.slice(1)} themed ${overlay.type} for ${overlay.category.toUpperCase()} broadcasts. ${overlay.function.charAt(0).toUpperCase() + overlay.function.slice(1)} functionality with Stream Deck integration.`;
@@ -440,14 +524,29 @@ export const OverlaysLibraryGridPage = ({
         >
           <div className="flex items-center">
             {/* Logo */}
-            <div className="text-2xl font-bold flex items-center flex-shrink-0" style={{ marginLeft: '4px' }}>
-              <img src="/static/logo_rough2.png" alt="Logo" onClick={() => navigate('/')} className="h-16 w-auto object-contain cursor-pointer" />
-              <span className="text-orange-500" style={{ display: 'none' }}>overlays.</span>
-              <span className="text-white" style={{ display: 'none' }}>BreakDance</span>
+            <div
+              className="text-2xl font-bold flex items-center flex-shrink-0"
+              style={{ marginLeft: '4px' }}
+            >
+              <img
+                src="/static/logo_rough2.png"
+                alt="Logo"
+                onClick={() => navigate('/')}
+                className="h-16 w-auto object-contain cursor-pointer"
+              />
+              <span className="text-orange-500" style={{ display: 'none' }}>
+                overlays.
+              </span>
+              <span className="text-white" style={{ display: 'none' }}>
+                BreakDance
+              </span>
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 ml-12" style={{ marginLeft: 'calc(var(--spacing) * 21)' }}>
+            <nav
+              className="hidden md:flex items-center space-x-8 ml-12"
+              style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
+            >
               {navigationItems.map(nav => (
                 <a
                   key={nav.label}
@@ -463,9 +562,22 @@ export const OverlaysLibraryGridPage = ({
                   className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
                   style={{ fontFamily: 'Nunito, sans-serif' }}
                 >
-                  <span style={{ fontSize: '16px' }}>{nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}</span>
+                  <span style={{ fontSize: '16px' }}>
+                    {nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}
+                  </span>
                   {nav.label === 'Live Breaks' ? (
-                    <span aria-hidden="true" className="absolute block" style={{ width: '8px', height: '8px', background: 'oklch(0.75 0.14 151.711)', borderRadius: '9999px', top: '-4px', right: '-10px' }} />
+                    <span
+                      aria-hidden="true"
+                      className="absolute block"
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        background: 'oklch(0.75 0.14 151.711)',
+                        borderRadius: '9999px',
+                        top: '-4px',
+                        right: '-10px',
+                      }}
+                    />
                   ) : null}
                 </a>
               ))}
@@ -475,19 +587,77 @@ export const OverlaysLibraryGridPage = ({
           {/* Auth & Cart */}
           <div className="flex items-center space-x-3 flex-shrink-0">
             {!isAuthenticated && (
-              <button onClick={() => setShowSignUpOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer">Sign up</button>
+              <button
+                onClick={() => setShowSignUpOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                Sign up
+              </button>
             )}
             {!isAuthenticated ? (
-              <button onClick={() => setShowLoginOverlay(true)} className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer">Login</button>
+              <button
+                onClick={() => setShowLoginOverlay(true)}
+                className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+              >
+                Login
+              </button>
             ) : (
-              <button onClick={() => navigate('/account')} className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer" aria-label="Go to account page"><User className="w-6 h-6" /></button>
+              <button
+                onClick={() => navigate('/account')}
+                className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+                aria-label="Go to account page"
+              >
+                <User className="w-6 h-6" />
+              </button>
             )}
             <div className="relative">
-              <button data-cart-anchor="true" onClick={() => toggleCart()} className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
+              <button
+                data-cart-anchor="true"
+                onClick={() => toggleCart()}
+                className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
+              >
                 <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
               </button>
               {getTotal() > 0 && (
-                <span className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ fontSize: '10px' }}>{getTotal()}</span>
+                <span
+                  className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                  style={{ fontSize: '10px' }}
+                >
+                  {getTotal()}
+                </span>
+              )}
+
+              {/* Collapsed nav: show My Tools icon when Tools is the active section */}
+              {!isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="space-y-2"
+                >
+                  {!(activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
+                    <div className="border-t border-white/5 my-4" style={{ borderTopWidth: '2px' }} />
+                  )}
+                  <button
+                    onClick={() => {
+                      setActiveNavItem('MyTools');
+                      navigate('/mytools');
+                    }}
+                    className="w-full flex items-center justify-center px-0 py-3 rounded-lg transition-all duration-200 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                    style={{ aspectRatio: '1/1', width: '48px', height: '48px', padding: '0' }}
+                    title="My Tools"
+                  >
+                    <div className="relative">
+                      <Wrench className="h-5 w-5 flex-shrink-0" />
+                      {selectedInMyTools.size > 0 && (
+                        <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-500 text-black text-[10px] font-semibold">
+                          {selectedInMyTools.size}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                </motion.div>
               )}
             </div>
             <GlobalCartDropdown />
@@ -516,7 +686,10 @@ export const OverlaysLibraryGridPage = ({
           }}
           style={{ maxHeight: navMaxHeight }}
         >
-          <div className="flex items-end pb-0 px-4" style={{ paddingTop: 'calc(var(--spacing) * 10)' }}>
+          <div
+            className="flex items-end pb-0 px-4"
+            style={{ paddingTop: 'calc(var(--spacing) * 10)' }}
+          >
             <button
               onClick={() => setIsGoLiveActive(!isGoLiveActive)}
               className={`bg-gradient-to-r from-[#FF5C25] to-[#FFC542] hover:from-[#FF4D1F] hover:to-[#FFB838] bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-300 ease-in-out rounded-full font-bold text-black focus:ring-2 focus:ring-yellow-400 focus:ring-offset-1 focus:outline-none cursor-pointer flex items-center justify-center h-12 overflow-hidden ${isGoLiveActive ? 'go-live-active' : ''}`}
@@ -555,7 +728,10 @@ export const OverlaysLibraryGridPage = ({
                 }}
                 title={!isNavExpanded ? 'Tools' : undefined}
               >
-                <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{ width: '48px' }}
+                >
                   <Wrench className="h-5 w-5" />
                 </div>
                 <span
@@ -578,7 +754,10 @@ export const OverlaysLibraryGridPage = ({
                 }}
                 title={!isNavExpanded ? 'Library' : undefined}
               >
-                <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{ width: '48px' }}
+                >
                   <Library className="h-5 w-5" />
                 </div>
                 <span
@@ -593,7 +772,7 @@ export const OverlaysLibraryGridPage = ({
                 </span>
               </button>
 
-              {activeNavItem === 'Tools' && isNavExpanded && (
+              {isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -612,100 +791,73 @@ export const OverlaysLibraryGridPage = ({
                   }}
                   className="space-y-2"
                 >
-                  <div
-                    className="border-t border-white/5 my-4"
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-
-                  <div>
-                    <button
-                      onClick={() => setMyToolsExpanded(!myToolsExpanded)}
-                      className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                    <div
+                      className="border-t border-white/5 my-4"
                       style={{
-                        height: '48px',
+                        borderTopWidth: '2px',
+                      }}
+                    />
+
+                  <button
+                    onClick={() => {
+                      setActiveNavItem('MyTools');
+                      navigate('/mytools');
+                    }}
+                    className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'MyTools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                    style={{
+                      height: '48px',
+                    }}
+                    title={!isNavExpanded ? 'My Tools' : undefined}
+                  >
+                    <div
+                      className="flex items-center justify-center flex-shrink-0"
+                      style={{ width: '48px' }}
+                    >
+                      <Wrench className="h-5 w-5" />
+                    </div>
+                    <span
+                      className="text-sm font-medium transition-opacity duration-200"
+                      style={{
+                        paddingLeft: '12px',
+                        opacity: showNavText ? 1 : 0,
+                        pointerEvents: showNavText ? 'auto' : 'none',
                       }}
                     >
-                      <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
-                        <Wrench className="h-5 w-5" />
-                      </div>
-                      <span
-                        className="text-sm font-medium transition-opacity duration-200"
-                        style={{
-                          paddingLeft: '12px',
-                          opacity: showNavText ? 1 : 0,
-                          pointerEvents: showNavText ? 'auto' : 'none',
-                        }}
-                      >
-                        My Tools
+                      My Tools
+                    </span>
+                    {/* Badge showing count of selected tools */}
+                    {selectedInMyTools.size > 0 && (
+                      <span className="ml-auto mr-4 inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-500 text-black text-xs font-semibold">
+                        {selectedInMyTools.size}
                       </span>
-                      <ChevronDown
-                        className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myToolsExpanded ? 'rotate-180' : ''}`}
-                        style={{
-                          opacity: showNavText ? 1 : 0,
-                          pointerEvents: showNavText ? 'auto' : 'none',
-                        }}
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {myToolsExpanded && (
-                        <motion.div
-                          initial={{
-                            height: 0,
-                            opacity: 0,
+                    )}
+                  </button>
+                  {/* If expanded, show list of selected tools below the button */}
+                  {selectedInMyTools.size > 0 && (
+                    <div className="overflow-hidden pl-4 space-y-1 mt-1">
+                      {Array.from(selectedInMyTools).map(tool => (
+                        <button
+                          key={tool}
+                          aria-label={`Open ${tool} in Tools`}
+                          onClick={() => {
+                            navigate('/tools', { state: { highlightedTool: tool } });
+                            setActiveNavItem('Tools');
                           }}
-                          animate={{
-                            height: 'auto',
-                            opacity: 1,
-                          }}
-                          exit={{
-                            height: 0,
-                            opacity: 0,
-                          }}
-                          transition={{
-                            duration: 0.2,
-                          }}
-                          className="overflow-hidden pl-4 space-y-1 mt-1"
+                          onMouseEnter={e => handleShowNavTooltip(tool, e)}
+                          onMouseMove={e => handleMoveNavTooltip(e)}
+                          onMouseLeave={() => handleHideNavTooltip()}
+                          className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm"
                         >
-                          {selectedTools.size === 0 ? (
-                            <div className="px-4 py-2 text-sm text-gray-500">
-                              <span>No tools selected</span>
-                            </div>
-                          ) : (
-                            Array.from(selectedTools).map(tool => {
-                              // Abbreviate certain long tool names for the compact left-nav
-                              const toolAbbreviations: Record<string, string> = {
-                                'Breaker Inventory': 'Inventory',
-                                'Pop Report Lookup': 'Pop Lookup',
-                                'Schedule Manager': 'Schedule',
-                              };
-                              const displayLabel = toolAbbreviations[tool] || tool;
-                              return (
-                                <button
-                                  key={tool}
-                                  onClick={() => {
-                                    // Could navigate to specific tool or just highlight it
-                                  }}
-                                  title={tool}
-                                  aria-label={`Open ${tool}`}
-                                  className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm"
-                                >
-                                  <Wrench className="h-4 w-4 flex-shrink-0" />
-                                  <span>{displayLabel}</span>
-                                </button>
-                              );
-                            })
-                          )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                          <Wrench className="h-4 w-4 flex-shrink-0" />
+                          <span className="block text-sm truncate whitespace-nowrap" style={{ maxWidth: '160px' }}>{getToolLabel(tool)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               )}
 
-              {activeNavItem === 'Library' && isNavExpanded && (
+              {isNavExpanded && (
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -724,83 +876,90 @@ export const OverlaysLibraryGridPage = ({
                   }}
                   className="space-y-2"
                 >
-                  <div
-                    className="border-t border-white/5 my-4"
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-
-                  <div>
-                    <button
-                      onClick={() => setMyOverlaysExpanded(!myOverlaysExpanded)}
-                      className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                  {!(activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
+                    <div
+                      className="border-t border-white/5 my-4"
                       style={{
-                        height: '48px',
+                        borderTopWidth: '2px',
                       }}
-                    >
-                      <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
-                        <Layers className="h-5 w-5" />
-                      </div>
-                      <span
-                        className="text-sm font-medium transition-opacity duration-200"
+                    />
+                  )}
+
+                  {activeNavItem === 'Library' && (
+                    <div>
+                      <button
+                        onClick={() => setMyOverlaysExpanded(!myOverlaysExpanded)}
+                        className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
                         style={{
-                          paddingLeft: '12px',
-                          opacity: showNavText ? 1 : 0,
-                          pointerEvents: showNavText ? 'auto' : 'none',
+                          height: '48px',
                         }}
                       >
-                        My Overlays
-                      </span>
-                      <ChevronDown
-                        className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myOverlaysExpanded ? 'rotate-180' : ''}`}
-                        style={{
-                          opacity: showNavText ? 1 : 0,
-                          pointerEvents: showNavText ? 'auto' : 'none',
-                        }}
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {myOverlaysExpanded && (
-                        <motion.div
-                          initial={{
-                            height: 0,
-                            opacity: 0,
-                          }}
-                          animate={{
-                            height: 'auto',
-                            opacity: 1,
-                          }}
-                          exit={{
-                            height: 0,
-                            opacity: 0,
-                          }}
-                          transition={{
-                            duration: 0.2,
-                          }}
-                          className="overflow-hidden pl-4 space-y-1 mt-1"
+                        <div
+                          className="flex items-center justify-center flex-shrink-0"
+                          style={{ width: '48px' }}
                         >
-                          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Folder className="h-4 w-4 flex-shrink-0" />
-                            <span>All</span>
-                          </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Star className="h-4 w-4 flex-shrink-0" />
-                            <span>Favorites</span>
-                          </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
-                            <Image className="h-4 w-4 flex-shrink-0" />
-                            <span>My Images</span>
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                          <Layers className="h-5 w-5" />
+                        </div>
+                        <span
+                          className="text-sm font-medium transition-opacity duration-200"
+                          style={{
+                            paddingLeft: '12px',
+                            opacity: showNavText ? 1 : 0,
+                            pointerEvents: showNavText ? 'auto' : 'none',
+                          }}
+                        >
+                          My Overlays
+                        </span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-all duration-200 ml-auto mr-4 ${myOverlaysExpanded ? 'rotate-180' : ''}`}
+                          style={{
+                            opacity: showNavText ? 1 : 0,
+                            pointerEvents: showNavText ? 'auto' : 'none',
+                          }}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {myOverlaysExpanded && (
+                          <motion.div
+                            initial={{
+                              height: 0,
+                              opacity: 0,
+                            }}
+                            animate={{
+                              height: 'auto',
+                              opacity: 1,
+                            }}
+                            exit={{
+                              height: 0,
+                              opacity: 0,
+                            }}
+                            transition={{
+                              duration: 0.2,
+                            }}
+                            className="overflow-hidden pl-4 space-y-1 mt-1"
+                          >
+                            <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
+                              <Folder className="h-4 w-4 flex-shrink-0" />
+                              <span>All</span>
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
+                              <Star className="h-4 w-4 flex-shrink-0" />
+                              <span>Favorites</span>
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
+                              <Image className="h-4 w-4 flex-shrink-0" />
+                              <span>My Images</span>
+                            </button>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
                 </motion.div>
               )}
 
-              {activeNavItem === 'Library' && !isNavExpanded && (
+              {!isNavExpanded && activeNavItem === 'Library' && (
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -860,6 +1019,7 @@ export const OverlaysLibraryGridPage = ({
                   >
                     <Image className="h-5 w-5 flex-shrink-0" />
                   </button>
+                
                 </motion.div>
               )}
 
@@ -876,9 +1036,14 @@ export const OverlaysLibraryGridPage = ({
                   style={{
                     height: '48px',
                   }}
-                  title={!isNavExpanded ? (isAuthenticated ? 'Subscription' : 'Pricing') : undefined}
+                  title={
+                    !isNavExpanded ? (isAuthenticated ? 'Subscription' : 'Pricing') : undefined
+                  }
                 >
-                  <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '48px' }}
+                  >
                     <DollarSign className="h-5 w-5" />
                   </div>
                   <span
@@ -901,7 +1066,10 @@ export const OverlaysLibraryGridPage = ({
                   }}
                   title={!isNavExpanded ? 'Account' : undefined}
                 >
-                  <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '48px' }}
+                  >
                     <User className="h-5 w-5" />
                   </div>
                   <span
@@ -926,8 +1094,15 @@ export const OverlaysLibraryGridPage = ({
                   }}
                   title={!isNavExpanded ? 'Expand' : 'Collapse'}
                 >
-                  <div className="flex items-center justify-center flex-shrink-0" style={{ width: '48px' }}>
-                    {isNavExpanded ? <ChevronsLeft className="h-5 w-5" /> : <ChevronsRight className="h-5 w-5" />}
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '48px' }}
+                  >
+                    {isNavExpanded ? (
+                      <ChevronsLeft className="h-5 w-5" />
+                    ) : (
+                      <ChevronsRight className="h-5 w-5" />
+                    )}
                   </div>
                   <span
                     className="text-sm font-medium transition-opacity duration-200"
@@ -977,7 +1152,10 @@ export const OverlaysLibraryGridPage = ({
               >
                 <ChevronsLeft className="h-4 w-4" />
               </button>
-              <div className="p-11 filter-panel-text" style={{ minWidth: '236px', padding: 'calc(var(--spacing) * 8)' }}>
+              <div
+                className="p-11 filter-panel-text"
+                style={{ minWidth: '236px', padding: 'calc(var(--spacing) * 8)' }}
+              >
                 <div className="mb-6 relative">
                   <h2 className="text-xl font-bold">
                     <span
@@ -1155,7 +1333,7 @@ export const OverlaysLibraryGridPage = ({
           className="flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out bg-[#1a1428]"
           style={{
             maxHeight: navMaxHeight,
-            marginLeft: !isFilterOpen && activeNavItem === 'Library' ? '80px' : '0'
+            marginLeft: !isFilterOpen && activeNavItem === 'Library' ? '80px' : '0',
           }}
         >
           {activeNavItem === 'Library' && (
@@ -1251,160 +1429,203 @@ export const OverlaysLibraryGridPage = ({
                 </div>
               </div>
 
-            {/* Scrollable content section */}
-            <div className="flex-1 overflow-y-auto filter-panel-scrollbar">
-              <div className="max-w-7xl mx-auto p-6 lg:p-8">
-                {filteredOverlays.length === 0 ? (
-                  <div className="text-center py-20">
-                    <p className="text-gray-400 text-lg">
-                      <span>No overlays found matching your criteria</span>
-                    </p>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
-                    {filteredOverlays.map(overlay => (
-                    <motion.div
-                      key={overlay.id}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        y: -20,
-                      }}
-                      transition={{
-                        duration: 0.3,
-                      }}
-                      className="group relative bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer border border-white/10 rounded-2xl"
-                      onClick={() => {
-                        setActiveOverlay(overlay);
-                        setShowLeaderboardOverlay(true);
-                      }}
-                      style={{ aspectRatio: '4/3' }}
-                    >
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Add eye icon functionality here
-                        }}
-                        className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer z-20"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                          <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                      </button>
-
-                      <div className="absolute top-3 left-3 flex items-center gap-2 z-20">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleBookmark(overlay.id);
+              {/* Scrollable content section */}
+              <div className="flex-1 overflow-y-auto filter-panel-scrollbar">
+                <div className="max-w-7xl mx-auto p-6 lg:p-8">
+                  {filteredOverlays.length === 0 ? (
+                    <div className="text-center py-20">
+                      <p className="text-gray-400 text-lg">
+                        <span>No overlays found matching your criteria</span>
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
+                      {filteredOverlays.map(overlay => (
+                        <motion.div
+                          key={overlay.id}
+                          initial={{
+                            opacity: 0,
+                            y: 20,
                           }}
-                          className={`p-2 rounded-full transition-colors ${
-                            bookmarkedOverlays.has(overlay.id)
-                              ? 'bg-transparent hover:bg-white/20'
-                              : 'bg-transparent hover:bg-white/20'
-                          }`}
+                          animate={{
+                            opacity: 1,
+                            y: 0,
+                          }}
+                          exit={{
+                            opacity: 0,
+                            y: -20,
+                          }}
+                          transition={{
+                            duration: 0.3,
+                          }}
+                          className="group relative bg-white/10 overflow-hidden hover:bg-white/15 transition-all duration-300 cursor-pointer border border-white/10 rounded-2xl"
+                          onClick={() => {
+                            setActiveOverlay(overlay);
+                            setShowLeaderboardOverlay(true);
+                          }}
+                          style={{ aspectRatio: '4/3' }}
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={bookmarkedOverlays.has(overlay.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={bookmarkedOverlays.has(overlay.id) ? 'text-yellow-400' : 'text-white'}>
-                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                          </svg>
-                        </button>
-                        {overlay.isNew && (
-                          <span className="bg-[#d97706] text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0">
-                            NEW
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Full card with gradient background - stays fixed, extends full height */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-purple-800/20 to-pink-900/30 group-hover:from-purple-900/25 group-hover:via-purple-800/15 group-hover:to-pink-900/25 transition-all duration-300 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.1)_0%,transparent_70%)]" />
-                        <div className="text-center space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]" style={{ marginBottom: '60px' }}>
-                          <span className="text-gray-400 text-xs font-medium">Preview</span>
-                        </div>
-                      </div>
-
-                      {/* Caption card overlay - slides up on hover to reveal additional content */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(100%-40px)] group-hover:translate-y-0">
-                        <div className="flex items-start justify-between gap-3 mb-3">
-                          <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
-                            <span>{overlay.name}</span>
-                          </h3>
-                        </div>
-                        {/* price badge sits attached to top edge of the bottom overlay for aesthetic */}
-                        <span className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide transform -translate-y-1/2">
-                          ${overlay.price}
-                        </span>
-
-                        {/* Description and action icons */}
-                        <div className="flex items-start justify-between gap-3">
-                          <p className="text-gray-400 text-xs leading-relaxed line-clamp-3" style={{ width: '60%' }}>
-                            {getOverlayDescription(overlay)}
-                          </p>
-                          { (cart[overlay.id] || 0) === 0 ? (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                add(overlay.id);
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0"
-                              aria-label={`Add ${overlay.name} to cart`}
-                              title={`Add ${overlay.name}`}
+                          <button
+                            onClick={e => {
+                              e.stopPropagation();
+                              // Add eye icon functionality here
+                            }}
+                            className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer z-20"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="text-white"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                              </svg>
-                              <span className="text-sm">Add</span>
-                            </button>
-                          ) : (
-                            <div className="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1">
-                              <button
-                                  onClick={(e) => {
-                                e.stopPropagation();
-                                remove(overlay.id);
-                              }}
-                                className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm"
-                                aria-label={`Decrease quantity for ${overlay.name}`}
-                                title={`Remove one ${overlay.name}`}
-                              >
-                                −
-                              </button>
-                              <div className="px-2 text-white text-sm">{cart[overlay.id]}</div>
-                              <button
-                                  onClick={(e) => {
-                                  e.stopPropagation();
-                                  add(overlay.id);
-                                }}
-                                className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm"
-                                aria-label={`Increase quantity for ${overlay.name}`}
-                                title={`Add one ${overlay.name}`}
-                              >
-                                +
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        )}
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                              <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                          </button>
 
-        {activeNavItem === 'Tools' && (
-          <div className="max-w-7xl mx-auto p-6 lg:p-8">
+                          <div className="absolute top-3 left-3 flex items-center gap-2 z-20">
+                            <button
+                              onClick={e => {
+                                e.stopPropagation();
+                                toggleBookmark(overlay.id);
+                              }}
+                              className={`p-2 rounded-full transition-colors ${
+                                bookmarkedOverlays.has(overlay.id)
+                                  ? 'bg-transparent hover:bg-white/20'
+                                  : 'bg-transparent hover:bg-white/20'
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill={bookmarkedOverlays.has(overlay.id) ? 'currentColor' : 'none'}
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className={
+                                  bookmarkedOverlays.has(overlay.id)
+                                    ? 'text-yellow-400'
+                                    : 'text-white'
+                                }
+                              >
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                              </svg>
+                            </button>
+                            {overlay.isNew && (
+                              <span className="bg-[#d97706] text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide flex-shrink-0">
+                                NEW
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Full card with gradient background - stays fixed, extends full height */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-purple-800/20 to-pink-900/30 group-hover:from-purple-900/25 group-hover:via-purple-800/15 group-hover:to-pink-900/25 transition-all duration-300 flex items-center justify-center">
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.1)_0%,transparent_70%)]" />
+                            <div
+                              className="text-center space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]"
+                              style={{ marginBottom: '60px' }}
+                            >
+                              <span className="text-gray-400 text-xs font-medium">Preview</span>
+                            </div>
+                          </div>
+
+                          {/* Caption card overlay - slides up on hover to reveal additional content */}
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(100%-40px)] group-hover:translate-y-0">
+                            <div className="flex items-start justify-between gap-3 mb-3">
+                              <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
+                                <span>{overlay.name}</span>
+                              </h3>
+                            </div>
+                            {/* price badge sits attached to top edge of the bottom overlay for aesthetic */}
+                            <span className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide transform -translate-y-1/2">
+                              ${overlay.price}
+                            </span>
+
+                            {/* Description and action icons */}
+                            <div className="flex items-start justify-between gap-3">
+                              <p
+                                className="text-gray-400 text-xs leading-relaxed line-clamp-3"
+                                style={{ width: '60%' }}
+                              >
+                                {getOverlayDescription(overlay)}
+                              </p>
+                              {(cart[overlay.id] || 0) === 0 ? (
+                                <button
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    add(overlay.id);
+                                  }}
+                                  className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0"
+                                  aria-label={`Add ${overlay.name} to cart`}
+                                  title={`Add ${overlay.name}`}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="text-white"
+                                  >
+                                    <circle cx="9" cy="21" r="1"></circle>
+                                    <circle cx="20" cy="21" r="1"></circle>
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                  </svg>
+                                  <span className="text-sm">Add</span>
+                                </button>
+                              ) : (
+                                <div className="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1">
+                                  <button
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      remove(overlay.id);
+                                    }}
+                                    className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm"
+                                    aria-label={`Decrease quantity for ${overlay.name}`}
+                                    title={`Remove one ${overlay.name}`}
+                                  >
+                                    −
+                                  </button>
+                                  <div className="px-2 text-white text-sm">{cart[overlay.id]}</div>
+                                  <button
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      add(overlay.id);
+                                    }}
+                                    className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm"
+                                    aria-label={`Increase quantity for ${overlay.name}`}
+                                    title={`Add one ${overlay.name}`}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          {activeNavItem === 'Tools' && (
+            <div className="max-w-7xl mx-auto p-6 lg:p-8">
               <div className="space-y-6">
                 <h1 className="text-3xl font-bold">
                   <span>Tools Dashboard</span>
@@ -1431,7 +1652,7 @@ export const OverlaysLibraryGridPage = ({
                     };
                     // Check if highlighted from navigation or clicked locally
                     const isHighlighted = selectedTool
-                      ? (toolMapping[selectedTool] === tool || selectedTool === tool)
+                      ? toolMapping[selectedTool] === tool || selectedTool === tool
                       : false;
 
                     // Check if this tool is selected for My Tools
@@ -1451,7 +1672,7 @@ export const OverlaysLibraryGridPage = ({
                         transition={{
                           duration: 0.3,
                         }}
-                        onClick={() => toggleToolSelection(tool)}
+                        onClick={() => toggleToolInCollection(tool)}
                         className={`bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group ${
                           isSelected || isHighlighted
                             ? 'border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
@@ -1459,12 +1680,16 @@ export const OverlaysLibraryGridPage = ({
                         }`}
                       >
                         <div className="flex items-center gap-3 mb-4">
-                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
-                            isSelected || isHighlighted
-                              ? 'bg-orange-500/30'
-                              : 'bg-purple-500/20 group-hover:bg-purple-500/30'
-                          }`}>
-                            <Wrench className={`h-6 w-6 ${isSelected || isHighlighted ? 'text-orange-300' : 'text-purple-300'}`} />
+                          <div
+                            className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
+                              isSelected || isHighlighted
+                                ? 'bg-orange-500/30'
+                                : 'bg-purple-500/20 group-hover:bg-purple-500/30'
+                            }`}
+                          >
+                            <Wrench
+                              className={`h-6 w-6 ${isSelected || isHighlighted ? 'text-orange-300' : 'text-purple-300'}`}
+                            />
                           </div>
                           <h3 className="font-semibold text-lg text-white">
                             <span>{tool}</span>
@@ -1477,6 +1702,72 @@ export const OverlaysLibraryGridPage = ({
                     );
                   })}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeNavItem === 'MyTools' && (
+            <div className="max-w-7xl mx-auto p-6 lg:p-8">
+              <div className="space-y-6">
+                <h1 className="text-3xl font-bold">
+                  <span>My Tools</span>
+                </h1>
+                <p className="text-gray-300 text-lg">
+                  <span>Your selected breaker tools and utilities.</span>
+                </p>
+                {selectedTools.size === 0 ? (
+                  <div className="text-center py-20">
+                    <p className="text-gray-400 text-lg mb-4">
+                      <span>No tools selected yet</span>
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      <span>Visit the Tools page to select your favorite tools</span>
+                    </p>
+                    <button
+                      onClick={() => navigate('/tools')}
+                      className="mt-6 px-6 py-3 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer"
+                    >
+                      <span>Go to Tools</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    {Array.from(selectedTools).map(tool => (
+                      <motion.div
+                        key={tool}
+                        initial={{
+                          opacity: 0,
+                          y: 20,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                        transition={{
+                          duration: 0.3,
+                        }}
+                        onClick={() => {
+                          // Toggle pinned state for the nav list. Keep it in the collection as well.
+                          toggleToolPinned(tool);
+                        }}
+                        // Neutral appearance by default; clicking still toggles selection
+                        className="bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group border-white/10 hover:border-white/20"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors bg-purple-500/20 group-hover:bg-purple-500/30`}>
+                            <Wrench className="h-6 w-6 text-purple-300" />
+                          </div>
+                          <h3 className="font-semibold text-lg text-white">
+                            <span>{tool}</span>
+                          </h3>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                          <span>Access your {tool.toLowerCase()} tools</span>
+                        </p>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -1524,10 +1815,13 @@ export const OverlaysLibraryGridPage = ({
                   </div>
                 </div>
                 <div className="flex items-end justify-between">
-                  <button onClick={() => {
-                    setIsAuthenticated(false);
-                    notify({ message: 'Signed Out', type: 'info' });
-                  }} className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer">
+                  <button
+                    onClick={() => {
+                      setIsAuthenticated(false);
+                      notify({ message: 'Signed Out', type: 'info' });
+                    }}
+                    className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer"
+                  >
                     <span>Logout</span>
                   </button>
                   <button className="text-sm text-red-400 hover:text-red-300 underline transition-colors cursor-pointer">
@@ -1872,6 +2166,16 @@ export const OverlaysLibraryGridPage = ({
               overlay={activeOverlay}
             />
           </div>
+        </div>
+      )}
+      {/* Custom nav tooltip (for tool names in the nav panel) */}
+      {navTooltip && (
+        <div
+          className="fixed z-[120] pointer-events-none bg-black/90 text-white text-sm px-3 py-1 rounded shadow-lg max-w-xs truncate"
+          style={{ left: navTooltip.x, top: navTooltip.y, transform: 'translate(0, 0)' }}
+          aria-hidden="true"
+        >
+          {navTooltip.text}
         </div>
       )}
     </div>

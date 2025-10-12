@@ -37,7 +37,13 @@ export const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = (
               className={`px-4 py-2 rounded-md text-sm text-white flex items-center gap-3 shadow-lg ${n.type === 'warning' ? 'bg-orange-500' : n.type === 'success' ? 'bg-green-500' : 'bg-slate-800'}`}
             >
               <span className="flex-shrink-0">
-                {n.type === 'success' ? <Check className="w-4 h-4" /> : n.type === 'warning' ? <AlertTriangle className="w-4 h-4" /> : <Info className="w-4 h-4" />}
+                {n.type === 'success' ? (
+                  <Check className="w-4 h-4" />
+                ) : n.type === 'warning' ? (
+                  <AlertTriangle className="w-4 h-4" />
+                ) : (
+                  <Info className="w-4 h-4" />
+                )}
               </span>
               <span className="flex-1">{n.message}</span>
             </motion.div>

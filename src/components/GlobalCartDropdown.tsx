@@ -16,14 +16,14 @@ const GlobalCartDropdown: React.FC = () => {
   useEffect(() => {
     if (!isCartOpen) return;
     const anchor = document.querySelector('[data-cart-anchor="true"]') as HTMLElement | null;
-  if (!anchor) return setPos(null);
-  const rect = anchor.getBoundingClientRect();
-  // position the dropdown below the anchor, right-aligned
-  setPos({ left: rect.left, top: rect.bottom + 8, right: window.innerWidth - rect.right });
-  // compute transform-origin in px so scale animates from the cart icon visually
-  const originX = rect.left + rect.width / 2;
-  const originY = rect.top + rect.height / 2;
-  setOrigin(`${originX}px ${originY}px`);
+    if (!anchor) return setPos(null);
+    const rect = anchor.getBoundingClientRect();
+    // position the dropdown below the anchor, right-aligned
+    setPos({ left: rect.left, top: rect.bottom + 8, right: window.innerWidth - rect.right });
+    // compute transform-origin in px so scale animates from the cart icon visually
+    const originX = rect.left + rect.width / 2;
+    const originY = rect.top + rect.height / 2;
+    setOrigin(`${originX}px ${originY}px`);
 
     const handleResize = () => {
       const r = anchor.getBoundingClientRect();
@@ -62,12 +62,22 @@ const GlobalCartDropdown: React.FC = () => {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: -8, opacity: 0, scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 500, damping: 32, mass: 0.6 }}
-          style={{ position: 'fixed', top: pos ? pos.top : 80, right: pos ? pos.right : 24, left: undefined, zIndex: 99999, transform: 'translateZ(0)', transformOrigin: origin }}
+          style={{
+            position: 'fixed',
+            top: pos ? pos.top : 80,
+            right: pos ? pos.right : 24,
+            left: undefined,
+            zIndex: 99999,
+            transform: 'translateZ(0)',
+            transformOrigin: origin,
+          }}
           className="w-80 bg-[#1a1428]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md overflow-auto max-h-64"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Cart</h3>
-            <button onClick={() => closeCart()} className="p-1 rounded-md hover:bg-white/5"><X className="w-4 h-4 text-gray-300" /></button>
+            <button onClick={() => closeCart()} className="p-1 rounded-md hover:bg-white/5">
+              <X className="w-4 h-4 text-gray-300" />
+            </button>
           </div>
 
           <div className="space-y-3">
@@ -77,10 +87,15 @@ const GlobalCartDropdown: React.FC = () => {
               Object.entries(cart).map(([id, qty]) => {
                 const overlay = overlaysData.find(o => o.id === id);
                 return (
-                  <div key={id} className="flex items-center justify-between bg-[#221832]/60 rounded-lg p-3">
+                  <div
+                    key={id}
+                    className="flex items-center justify-between bg-[#221832]/60 rounded-lg p-3"
+                  >
                     <div>
                       <div className="text-sm font-medium">{overlay?.name || `Item ${id}`}</div>
-                      <div className="text-xs text-gray-400">${overlay ? overlay.price.toFixed(2) : '--'}</div>
+                      <div className="text-xs text-gray-400">
+                        ${overlay ? overlay.price.toFixed(2) : '--'}
+                      </div>
                     </div>
                     <CartControls id={id} />
                   </div>
@@ -92,10 +107,15 @@ const GlobalCartDropdown: React.FC = () => {
           <div className="mt-4 border-t border-white/5 pt-4">
             <div className="flex items-center justify-between text-sm mb-3">
               <span>Total</span>
-              <span className="font-semibold">${Object.entries(cart).reduce((s, [id, qty]) => {
-                const o = overlaysData.find(x => x.id === id);
-                return s + (o ? o.price * qty : 0);
-              }, 0).toFixed(2)}</span>
+              <span className="font-semibold">
+                $
+                {Object.entries(cart)
+                  .reduce((s, [id, qty]) => {
+                    const o = overlaysData.find(x => x.id === id);
+                    return s + (o ? o.price * qty : 0);
+                  }, 0)
+                  .toFixed(2)}
+              </span>
             </div>
 
             <div className="flex gap-2">

@@ -339,7 +339,7 @@ function useCountUp(target: number, inView: boolean, duration = 300) {
   return value;
 }
 
-  // @component: OverlaysUnoLandingPage
+// @component: OverlaysUnoLandingPage
 export const OverlaysUnoLandingPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
