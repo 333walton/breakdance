@@ -46,6 +46,10 @@ function App() {
           element={<OverlaysLibraryGridPage key="mytools-tool" initialView="MyTools" />}
         />
         <Route
+          path="/myoverlays/*"
+          element={<OverlaysLibraryGridPage key="myoverlays-section" initialView="MyOverlays" />}
+        />
+        <Route
           path="/account"
           element={<OverlaysLibraryGridPage key="account" initialView="Account" />}
         />

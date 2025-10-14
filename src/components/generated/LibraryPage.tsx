@@ -236,6 +236,11 @@ export const OverlaysLibraryGridPage = ({
         .join(' ')
     : undefined;
 
+  // Get active overlay section from URL path (e.g., /myoverlays/all -> 'all')
+  const activeOverlaySectionFromPath = location.pathname.startsWith('/myoverlays/')
+    ? location.pathname.split('/myoverlays/')[1]
+    : undefined;
+
   const [selectedTools, setSelectedTools] = useState<Set<string>>(() => {
     try {
       const raw = localStorage.getItem('selectedTools');
@@ -286,6 +291,8 @@ export const OverlaysLibraryGridPage = ({
   useEffect(() => {
     if (location.pathname.startsWith('/mytools')) {
       setActiveNavItem('MyTools');
+    } else if (location.pathname.startsWith('/myoverlays')) {
+      setActiveNavItem('MyOverlays');
     } else if (location.pathname === '/library') {
       setActiveNavItem('Library');
     } else if (location.pathname === '/tools') {
@@ -308,6 +315,13 @@ export const OverlaysLibraryGridPage = ({
       }
     }
   }, []);
+
+  // Auto-expand My Overlays dropdown when viewing a MyOverlays section
+  useEffect(() => {
+    if (activeNavItem === 'MyOverlays') {
+      setMyOverlaysExpanded(true);
+    }
+  }, [activeNavItem]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -638,7 +652,7 @@ export const OverlaysLibraryGridPage = ({
             >
               {navigationItems.map(nav => {
                 const isActive =
-                  (nav.label === 'Overlays' && location.pathname === '/library') ||
+                  (nav.label === 'Overlays' && (location.pathname === '/library' || location.pathname.startsWith('/myoverlays'))) ||
                   (nav.label === 'Tools' && (location.pathname === '/tools' || location.pathname.startsWith('/mytools'))) ||
                   (nav.label === 'Pricing' && location.pathname === '/pricing');
 
@@ -930,12 +944,6 @@ export const OverlaysLibraryGridPage = ({
                     >
                       My Tools
                     </span>
-                    {/* Badge showing count of selected tools */}
-                    {selectedInMyTools.size > 0 && (
-                      <span className="ml-auto mr-4 inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-500 text-black text-xs font-semibold">
-                        {selectedInMyTools.size}
-                      </span>
-                    )}
                   </button>
                   {/* If expanded, show list of selected tools below the button */}
                   {selectedInMyTools.size > 0 && (
@@ -1004,11 +1012,11 @@ export const OverlaysLibraryGridPage = ({
                     />
                   )}
 
-                  {activeNavItem === 'Library' && (
+                  {(activeNavItem === 'Library' || activeNavItem === 'MyOverlays') && (
                     <div>
                       <button
                         onClick={() => setMyOverlaysExpanded(!myOverlaysExpanded)}
-                        className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
+                        className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'MyOverlays' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                         style={{
                           height: '48px',
                         }}
@@ -1058,15 +1066,45 @@ export const OverlaysLibraryGridPage = ({
                             }}
                             className="overflow-hidden pl-4 space-y-1 mt-1"
                           >
-                            <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
+                            <button
+                              onClick={() => {
+                                navigate('/myoverlays/all');
+                                setActiveNavItem('MyOverlays');
+                              }}
+                              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
+                                activeOverlaySectionFromPath === 'all'
+                                  ? 'bg-purple-500/20 text-white border border-purple-500/30'
+                                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                              }`}
+                            >
                               <Folder className="h-4 w-4 flex-shrink-0" />
                               <span>All</span>
                             </button>
-                            <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
+                            <button
+                              onClick={() => {
+                                navigate('/myoverlays/favorites');
+                                setActiveNavItem('MyOverlays');
+                              }}
+                              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
+                                activeOverlaySectionFromPath === 'favorites'
+                                  ? 'bg-purple-500/20 text-white border border-purple-500/30'
+                                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                              }`}
+                            >
                               <Star className="h-4 w-4 flex-shrink-0" />
                               <span>Favorites</span>
                             </button>
-                            <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white text-sm">
+                            <button
+                              onClick={() => {
+                                navigate('/myoverlays/myimages');
+                                setActiveNavItem('MyOverlays');
+                              }}
+                              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
+                                activeOverlaySectionFromPath === 'myimages'
+                                  ? 'bg-purple-500/20 text-white border border-purple-500/30'
+                                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                              }`}
+                            >
                               <Image className="h-4 w-4 flex-shrink-0" />
                               <span>My Images</span>
                             </button>
@@ -1900,6 +1938,24 @@ export const OverlaysLibraryGridPage = ({
           {activeNavItem === 'MyTools' && activeToolFromPath && (
             <div className="w-full h-full">
               {/* Empty main content area for individual tool - ready for tool implementation */}
+            </div>
+          )}
+
+          {activeNavItem === 'MyOverlays' && activeOverlaySectionFromPath === 'all' && (
+            <div className="w-full h-full">
+              {/* Empty main content area for All overlays section - ready for implementation */}
+            </div>
+          )}
+
+          {activeNavItem === 'MyOverlays' && activeOverlaySectionFromPath === 'favorites' && (
+            <div className="w-full h-full">
+              {/* Empty main content area for Favorites section - ready for implementation */}
+            </div>
+          )}
+
+          {activeNavItem === 'MyOverlays' && activeOverlaySectionFromPath === 'myimages' && (
+            <div className="w-full h-full">
+              {/* Empty main content area for My Images section - ready for implementation */}
             </div>
           )}
 

@@ -1140,7 +1140,7 @@ export const OverlaysUnoLandingPage = () => {
             >
               {navigationItems.map(nav => {
                 const isActive =
-                  (nav.label === 'Overlays' && location.pathname === '/library') ||
+                  (nav.label === 'Overlays' && (location.pathname === '/library' || location.pathname.startsWith('/myoverlays'))) ||
                   (nav.label === 'Tools' && (location.pathname === '/tools' || location.pathname.startsWith('/mytools'))) ||
                   (nav.label === 'Pricing' && location.pathname === '/pricing');
 
