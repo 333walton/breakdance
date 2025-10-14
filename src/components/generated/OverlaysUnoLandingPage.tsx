@@ -203,7 +203,7 @@ const navigationItems = [
     label: 'Live Breaks',
   },
   {
-    label: 'About',
+    label: 'Supplies',
   },
 ];
 
