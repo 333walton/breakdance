@@ -289,6 +289,16 @@ export const OverlaysLibraryGridPage = ({
   const [asideRect, setAsideRect] = useState<{ top: number; height: number } | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerRect, setContainerRect] = useState<{ top: number; height: number } | null>(null);
+  const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup tooltip timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (tooltipTimeoutRef.current) {
+        clearTimeout(tooltipTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Update activeNavItem when initialView prop changes
   useEffect(() => {
@@ -508,12 +518,29 @@ export const OverlaysLibraryGridPage = ({
   };
 
   const handleShowNavTooltip = (text: string, e: React.MouseEvent) => {
+    // Clear any existing timeout
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+
     setNavTooltip({ text, x: e.clientX + 12, y: e.clientY + 12 });
+
+    // Set new timeout to hide after 2 seconds
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setNavTooltip(null);
+    }, 2000);
   };
   const handleMoveNavTooltip = (e: React.MouseEvent) => {
     setNavTooltip(prev => (prev ? { ...prev, x: e.clientX + 12, y: e.clientY + 12 } : prev));
   };
-  const handleHideNavTooltip = () => setNavTooltip(null);
+  const handleHideNavTooltip = () => {
+    // Clear the timeout when manually hiding
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+      tooltipTimeoutRef.current = null;
+    }
+    setNavTooltip(null);
+  };
 
   const getOverlayDescription = (overlay: Overlay) => {
     return `${overlay.theme.charAt(0).toUpperCase() + overlay.theme.slice(1)} ${overlay.type} for ${overlay.category.toUpperCase()}. ${overlay.function.charAt(0).toUpperCase() + overlay.function.slice(1)} with Stream Deck support.`;
@@ -1423,8 +1450,11 @@ export const OverlaysLibraryGridPage = ({
             >
               <button
                 onClick={() => setIsFilterOpen(false)}
+                onMouseEnter={e => handleShowNavTooltip('Collapse Filters', e)}
+                onMouseMove={e => handleMoveNavTooltip(e)}
+                onMouseLeave={() => handleHideNavTooltip()}
                 aria-label="Collapse filters"
-                className="absolute top-3 right-3 p-2 rounded-md hover:bg-white/5 transition-colors z-50"
+                className="absolute top-3 right-3 p-2 rounded-md hover:bg-white/5 transition-colors z-50 cursor-pointer"
               >
                 <ChevronsLeft className="h-4 w-4" />
               </button>
@@ -1491,9 +1521,9 @@ export const OverlaysLibraryGridPage = ({
                               </span>
                             </div>
                             {expandedSections.has(filterKey) ? (
-                              <ChevronDown className="h-4 w-4" />
+                              <ChevronDown className="h-4 w-4 cursor-pointer" />
                             ) : (
-                              <ChevronRight className="h-4 w-4" />
+                              <ChevronRight className="h-4 w-4 cursor-pointer" />
                             )}
                           </button>
 
@@ -1656,7 +1686,7 @@ export const OverlaysLibraryGridPage = ({
                           >
                             <span>{sortOptions.find(opt => opt.value === sortBy)?.label}</span>
                             <ChevronDown
-                              className={`h-4 w-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`}
+                              className={`h-4 w-4 cursor-pointer transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`}
                             />
                           </button>
 
