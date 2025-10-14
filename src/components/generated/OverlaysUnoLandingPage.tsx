@@ -2691,7 +2691,9 @@ export const OverlaysUnoLandingPage = () => {
                 </ul>
                 <div className="mt-auto">
                   <button
-                    onClick={() => setShowSignUpOverlay(true)}
+                    onClick={() => {
+                      navigate('/pricing', { state: { showSignUp: true } });
+                    }}
                     className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer"
                   >
                     <span>Start Free</span>
@@ -2772,7 +2774,9 @@ export const OverlaysUnoLandingPage = () => {
                 </ul>
                 <div className="mt-auto">
                   <button
-                    onClick={() => setShowSignUpOverlay(true)}
+                    onClick={() => {
+                      navigate('/pricing');
+                    }}
                     className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer"
                   >
                     <span>Get Pro</span>

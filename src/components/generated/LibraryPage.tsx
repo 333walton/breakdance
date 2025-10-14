@@ -332,6 +332,16 @@ export const OverlaysLibraryGridPage = ({
     }
   }, [location.pathname]);
 
+  // Show sign up overlay if navigated with showSignUp state
+  useEffect(() => {
+    const state = location.state as { showSignUp?: boolean } | null;
+    if (state?.showSignUp) {
+      setShowSignUpOverlay(true);
+      // Clear the state to prevent showing overlay on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
   // Synchronize selectedInMyTools with selectedTools on mount
   useEffect(() => {
     if (selectedTools.size > 0 && selectedInMyTools.size === 0) {
@@ -1329,6 +1339,35 @@ export const OverlaysLibraryGridPage = ({
                       })}
                     </div>
                   )}
+                </motion.div>
+              )}
+
+              {/* Divider for collapsed Account/Pricing pages */}
+              {!isNavExpanded && (activeNavItem === 'Account' || activeNavItem === 'Pricing') && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    height: 0,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    height: 'auto',
+                  }}
+                  exit={{
+                    opacity: 0,
+                    height: 0,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                  }}
+                  className="space-y-2"
+                >
+                  <div
+                    className="border-t border-white/5 my-4"
+                    style={{
+                      borderTopWidth: '2px',
+                    }}
+                  />
                 </motion.div>
               )}
 
