@@ -5,7 +5,8 @@
       "Bash(npm run build:*)",
       "WebFetch(domain:tympanus.net)",
       "Bash(npm install:*)",
-      "WebFetch(domain:overlays.uno)"
+      "WebFetch(domain:overlays.uno)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

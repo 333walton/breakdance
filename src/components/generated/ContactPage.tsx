@@ -74,9 +74,6 @@ const navigationItems = [
     label: 'Live Breaks',
   },
   {
-    label: 'Shop',
-  },
-  {
     label: 'About',
   },
 ];
@@ -284,7 +281,7 @@ const ContactPage: React.FC = () => {
               {navigationItems.map(nav => {
                 const isActive =
                   (nav.label === 'Overlays' && location.pathname === '/library') ||
-                  (nav.label === 'Tools' && location.pathname === '/tools') ||
+                  (nav.label === 'Tools' && (location.pathname === '/tools' || location.pathname.startsWith('/mytools'))) ||
                   (nav.label === 'Pricing' && location.pathname === '/pricing');
 
                 return (
