@@ -21,6 +21,7 @@ import {
   LogOut,
   Folder,
   Star,
+  List,
   Trash2,
   FolderPlus,
   ExternalLink,
@@ -36,6 +37,8 @@ import {
   LineChart,
   Lock,
   Mail,
+  Info,
+  Pencil,
 } from 'lucide-react';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
@@ -231,27 +234,64 @@ export const OverlaysLibraryGridPage = ({
     newPassword: '',
     confirmPassword: '',
   });
+  // Tools Dashboard info tooltip state
+  const [toolsInfoTooltip, setToolsInfoTooltip] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  // Tool name editing state
+  const [editingTool, setEditingTool] = useState<string | null>(null);
+  const [customToolNames, setCustomToolNames] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem('customToolNames');
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+  const [editNameTooltip, setEditNameTooltip] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const [shortlistTooltip, setShortlistTooltip] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)
     ?.highlightedTool;
   const [selectedTool, setSelectedTool] = useState<string | undefined>(initialHighlightedTool);
 
-  // Get active tool from URL path (e.g., /mytools/roi-tracker -> 'ROI Tracker')
-  const activeToolFromPath = location.pathname.startsWith('/mytools/')
-    ? location.pathname
+  // Get active tool from URL path (e.g., /mytools/roi-tracker or /tools/roi-tracker -> 'ROI Tracker')
+  const activeToolFromPath = (() => {
+    if (location.pathname.startsWith('/mytools/')) {
+      return location.pathname
         .split('/mytools/')[1]
         ?.split('-')
         .map(word => {
-          // Special case for acronyms
           const upperWord = word.toUpperCase();
           if (upperWord === 'ROI' || upperWord === 'NBA' || upperWord === 'NFL' || upperWord === 'MLB' || upperWord === 'NHL' || upperWord === 'MLS') {
             return upperWord;
           }
           return word.charAt(0).toUpperCase() + word.slice(1);
         })
-        .join(' ')
-    : undefined;
+        .join(' ');
+    } else if (location.pathname.startsWith('/tools/')) {
+      return location.pathname
+        .split('/tools/')[1]
+        ?.split('-')
+        .map(word => {
+          const upperWord = word.toUpperCase();
+          if (upperWord === 'ROI' || upperWord === 'NBA' || upperWord === 'NFL' || upperWord === 'MLB' || upperWord === 'NHL' || upperWord === 'MLS') {
+            return upperWord;
+          }
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join(' ');
+    }
+    return undefined;
+  })();
 
   // Get active overlay section from URL path (e.g., /myoverlays/all -> 'all')
   const activeOverlaySectionFromPath = location.pathname.startsWith('/myoverlays/')
@@ -323,7 +363,7 @@ export const OverlaysLibraryGridPage = ({
       setActiveNavItem('MyOverlays');
     } else if (location.pathname === '/library') {
       setActiveNavItem('Library');
-    } else if (location.pathname === '/tools') {
+    } else if (location.pathname.startsWith('/tools')) {
       setActiveNavItem('Tools');
     } else if (location.pathname === '/account') {
       setActiveNavItem('Account');
@@ -341,6 +381,17 @@ export const OverlaysLibraryGridPage = ({
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
+
+  // Keep customToolNames in sync with localStorage
+  useEffect(() => {
+    console.log('Syncing customToolNames to localStorage:', customToolNames);
+    try {
+      localStorage.setItem('customToolNames', JSON.stringify(customToolNames));
+      console.log('localStorage updated successfully');
+    } catch (e) {
+      console.error('Failed to update localStorage:', e);
+    }
+  }, [customToolNames]);
 
   // Synchronize selectedInMyTools with selectedTools on mount
   useEffect(() => {
@@ -474,15 +525,18 @@ export const OverlaysLibraryGridPage = ({
 
   // Toggle membership in the My Tools collection (added/removed from /mytools)
   const toggleToolInCollection = (tool: string) => {
-    let wasAdded = false;
+    // First, check current state to determine if we're adding or removing
+    const isCurrentlySelected = selectedTools.has(tool);
+    console.log(`toggleToolInCollection called for ${tool}, currently selected:`, isCurrentlySelected);
 
     setSelectedTools(prev => {
       const next = new Set(prev);
       if (next.has(tool)) {
         next.delete(tool);
+        console.log(`Removing ${tool} from selectedTools`);
       } else {
         next.add(tool);
-        wasAdded = true;
+        console.log(`Adding ${tool} to selectedTools`);
       }
       try {
         localStorage.setItem('selectedTools', JSON.stringify(Array.from(next)));
@@ -492,24 +546,30 @@ export const OverlaysLibraryGridPage = ({
       return next;
     });
 
-    // Also update selectedInMyTools to keep nav panel in sync
-    setSelectedInMyTools(prev => {
-      const next = new Set(prev);
-      if (next.has(tool)) {
+    // Remove custom name when tool is unstarred (if it was previously selected)
+    if (isCurrentlySelected) {
+      console.log('Tool was selected, removing custom name for:', tool);
+      // Also remove from selectedInMyTools when removing from selectedTools
+      setSelectedInMyTools(prev => {
+        const next = new Set(prev);
         next.delete(tool);
-      } else {
-        next.add(tool);
-      }
-      try {
-        localStorage.setItem('selectedInMyTools', JSON.stringify(Array.from(next)));
-      } catch (e) {
-        // ignore
-      }
-      return next;
-    });
-
-    // Show indicator when a tool is added
-    if (wasAdded) {
+        try {
+          localStorage.setItem('selectedInMyTools', JSON.stringify(Array.from(next)));
+        } catch (e) {
+          // ignore
+        }
+        return next;
+      });
+      setCustomToolNames(prev => {
+        console.log('Previous custom names:', prev);
+        const updatedNames = { ...prev };
+        delete updatedNames[tool];
+        console.log('Updated custom names after delete:', updatedNames);
+        return updatedNames;
+      });
+    } else {
+      console.log('Tool was not selected, adding it (no custom name to remove)');
+      // Show indicator when a tool is added
       setHasRecentlyAddedTool(true);
       // Hide indicator after 3 seconds
       setTimeout(() => {
@@ -535,6 +595,17 @@ export const OverlaysLibraryGridPage = ({
       }
       return next;
     });
+  };
+
+  const saveCustomToolName = (tool: string, newName: string) => {
+    const updatedNames = { ...customToolNames, [tool]: newName };
+    setCustomToolNames(updatedNames);
+    setEditingTool(null);
+  };
+
+  const getToolDisplayName = (tool: string) => {
+    console.log(`Getting display name for ${tool}:`, customToolNames[tool] || tool);
+    return customToolNames[tool] || tool;
   };
 
   const handleShowNavTooltip = (text: string, e: React.MouseEvent) => {
@@ -933,6 +1004,69 @@ export const OverlaysLibraryGridPage = ({
                 )}
               </button>
 
+              {/* Show active tool below Tools button when viewing a tool from /tools - Expanded */}
+              {isNavExpanded && activeNavItem === 'Tools' && activeToolFromPath && location.pathname.startsWith('/tools/') && (
+                <div className="overflow-hidden pl-4 space-y-1 mt-1">
+                  {(() => {
+                    const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
+                    const ToolIcon = getToolIcon(activeToolFromPath);
+                    return (
+                      <button
+                        key={activeToolFromPath}
+                        aria-label={`Open ${activeToolFromPath} in Tools`}
+                        onClick={() => {
+                          navigate(`/tools/${toolSlug}`);
+                          setActiveNavItem('Tools');
+                        }}
+                        onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
+                        onMouseMove={e => handleMoveNavTooltip(e)}
+                        onMouseLeave={() => handleHideNavTooltip()}
+                        className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm bg-purple-500/20 text-white border border-purple-500/30"
+                      >
+                        <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                        <span
+                          className="block text-sm truncate whitespace-nowrap"
+                          style={{ maxWidth: '160px' }}
+                        >
+                          {activeToolFromPath}
+                        </span>
+                      </button>
+                    );
+                  })()}
+                </div>
+              )}
+
+              {/* Show active tool below Tools button when viewing a tool from /tools - Collapsed */}
+              {!isNavExpanded && activeNavItem === 'Tools' && activeToolFromPath && location.pathname.startsWith('/tools/') && (
+                <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
+                  {(() => {
+                    const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
+                    const ToolIcon = getToolIcon(activeToolFromPath);
+                    return (
+                      <button
+                        key={activeToolFromPath}
+                        aria-label={`Open ${activeToolFromPath} in Tools`}
+                        onClick={() => {
+                          navigate(`/tools/${toolSlug}`);
+                          setActiveNavItem('Tools');
+                        }}
+                        onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
+                        onMouseMove={e => handleMoveNavTooltip(e)}
+                        onMouseLeave={() => handleHideNavTooltip()}
+                        className="flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer bg-purple-500/20 text-white"
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          padding: '0',
+                        }}
+                      >
+                        <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                      </button>
+                    );
+                  })()}
+                </div>
+              )}
+
               {isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
                 <motion.div
                   initial={{
@@ -991,13 +1125,13 @@ export const OverlaysLibraryGridPage = ({
                   {selectedInMyTools.size > 0 && (
                     <div className="overflow-hidden pl-4 space-y-1 mt-1">
                       {Array.from(selectedInMyTools).slice(0, 5).map(tool => {
-                        const isActiveTool = activeToolFromPath === tool;
+                        const isActiveTool = activeToolFromPath === tool && location.pathname.startsWith('/mytools/');
                         const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
                         const ToolIcon = getToolIcon(tool);
                         return (
                           <button
                             key={tool}
-                            aria-label={`Open ${tool} in My Tools`}
+                            aria-label={`Open ${getToolDisplayName(tool)} in My Tools`}
                             onClick={() => {
                               navigate(`/mytools/${toolSlug}`);
                               setActiveNavItem('MyTools');
@@ -1016,7 +1150,7 @@ export const OverlaysLibraryGridPage = ({
                               className="block text-sm truncate whitespace-nowrap"
                               style={{ maxWidth: '160px' }}
                             >
-                              {getToolLabel(tool)}
+                              {getToolDisplayName(tool)}
                             </span>
                           </button>
                         );
@@ -1308,13 +1442,13 @@ export const OverlaysLibraryGridPage = ({
                   {selectedInMyTools.size > 0 && (
                     <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
                       {Array.from(selectedInMyTools).slice(0, 5).map(tool => {
-                        const isActiveTool = activeToolFromPath === tool;
+                        const isActiveTool = activeToolFromPath === tool && location.pathname.startsWith('/mytools/');
                         const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
                         const ToolIcon = getToolIcon(tool);
                         return (
                           <button
                             key={tool}
-                            aria-label={`Open ${tool} in My Tools`}
+                            aria-label={`Open ${getToolDisplayName(tool)} in My Tools`}
                             onClick={() => {
                               navigate(`/mytools/${toolSlug}`);
                               setActiveNavItem('MyTools');
@@ -1982,11 +2116,24 @@ export const OverlaysLibraryGridPage = ({
             </>
           )}
 
-          {activeNavItem === 'Tools' && (
+          {activeNavItem === 'Tools' && !activeToolFromPath && (
             <div className="max-w-7xl mx-auto p-6 lg:p-8">
               <div className="space-y-6">
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-3xl font-bold flex items-center gap-3">
                   <span>Tools Dashboard</span>
+                  <div
+                    className="relative inline-flex cursor-help"
+                    onMouseEnter={e => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      setToolsInfoTooltip({
+                        x: rect.left + rect.width / 2,
+                        y: rect.top - 10,
+                      });
+                    }}
+                    onMouseLeave={() => setToolsInfoTooltip(null)}
+                  >
+                    <Info className="h-6 w-6 text-gray-400 hover:text-gray-300 transition-colors" />
+                  </div>
                 </h1>
                 <p className="text-gray-300 text-lg">
                   <span>Access your breaker tools and utilities here.</span>
@@ -2019,6 +2166,8 @@ export const OverlaysLibraryGridPage = ({
                     // Get the appropriate icon for this tool
                     const ToolIcon = getToolIcon(tool);
 
+                    const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
+
                     return (
                       <motion.div
                         key={tool}
@@ -2033,13 +2182,33 @@ export const OverlaysLibraryGridPage = ({
                         transition={{
                           duration: 0.3,
                         }}
-                        onClick={() => toggleToolInCollection(tool)}
-                        className={`bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group ${
+                        onClick={() => {
+                          navigate(`/tools/${toolSlug}`);
+                          setActiveNavItem('Tools');
+                        }}
+                        className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group ${
                           isSelected || isHighlighted
                             ? 'border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
                             : 'border-white/10 hover:border-white/20'
                         }`}
                       >
+                        {/* Star icon in top right corner */}
+                        <div
+                          className="absolute top-4 right-4"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleToolInCollection(tool);
+                          }}
+                        >
+                          <Star
+                            className={`h-6 w-6 transition-all ${
+                              isSelected || isHighlighted
+                                ? 'text-orange-400 fill-orange-400'
+                                : 'text-gray-400 hover:text-gray-300'
+                            }`}
+                          />
+                        </div>
+
                         <div className="flex items-center gap-3 mb-4">
                           <div
                             className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
@@ -2070,8 +2239,21 @@ export const OverlaysLibraryGridPage = ({
           {activeNavItem === 'MyTools' && !activeToolFromPath && (
             <div className="max-w-7xl mx-auto p-6 lg:p-8">
               <div className="space-y-6">
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-3xl font-bold flex items-center gap-3">
                   <span>My Tools</span>
+                  <div
+                    className="relative inline-flex cursor-help"
+                    onMouseEnter={e => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      setToolsInfoTooltip({
+                        x: rect.left + rect.width / 2,
+                        y: rect.top - 10,
+                      });
+                    }}
+                    onMouseLeave={() => setToolsInfoTooltip(null)}
+                  >
+                    <Info className="h-6 w-6 text-gray-400 hover:text-gray-300 transition-colors" />
+                  </div>
                 </h1>
                 <p className="text-gray-300 text-lg">
                   <span>Your selected breaker tools and utilities.</span>
@@ -2096,6 +2278,8 @@ export const OverlaysLibraryGridPage = ({
                     {Array.from(selectedTools).map(tool => {
                       const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
                       const ToolIcon = getToolIcon(tool);
+                      const displayName = getToolDisplayName(tool);
+                      const isEditing = editingTool === tool;
                       return (
                         <motion.div
                           key={tool}
@@ -2110,23 +2294,84 @@ export const OverlaysLibraryGridPage = ({
                           transition={{
                             duration: 0.3,
                           }}
-                          onClick={() => {
-                            navigate(`/mytools/${toolSlug}`);
+                          onClick={e => {
+                            if (!isEditing && !(e.target as HTMLElement).closest('.edit-icon') && !(e.target as HTMLElement).closest('.star-icon')) {
+                              navigate(`/mytools/${toolSlug}`);
+                            }
                           }}
-                        className="bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group border-white/10 hover:border-white/20"
+                        className="relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group border-white/10 hover:border-white/20"
                       >
+                        {/* Edit and Star icons in top right corner */}
+                        <div className="absolute top-4 right-4 flex items-center gap-2">
+                          <div
+                            className="edit-icon"
+                            onClick={e => {
+                              e.stopPropagation();
+                              setEditingTool(tool);
+                            }}
+                            onMouseEnter={e => {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              setEditNameTooltip({
+                                x: rect.left + rect.width / 2,
+                                y: rect.top - 10,
+                              });
+                            }}
+                            onMouseLeave={() => setEditNameTooltip(null)}
+                          >
+                            <Pencil className="h-5 w-5 text-gray-400 hover:text-gray-300 transition-colors cursor-pointer" />
+                          </div>
+                          <div
+                            className="star-icon"
+                            onClick={e => {
+                              e.stopPropagation();
+                              toggleToolPinned(tool);
+                            }}
+                            onMouseEnter={e => {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              setShortlistTooltip({
+                                x: rect.left + rect.width / 2,
+                                y: rect.top - 10,
+                              });
+                            }}
+                            onMouseLeave={() => setShortlistTooltip(null)}
+                          >
+                            <List className={`h-6 w-6 transition-all cursor-pointer ${
+                              selectedInMyTools.has(tool) ? 'text-orange-400' : 'text-gray-400 hover:text-gray-300'
+                            }`} />
+                          </div>
+                        </div>
+
                         <div className="flex items-center gap-3 mb-4">
                           <div
                             className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors bg-purple-500/20 group-hover:bg-purple-500/30`}
                           >
                             <ToolIcon className="h-6 w-6 text-purple-300" />
                           </div>
-                          <h3 className="font-semibold text-lg text-white">
-                            <span>{tool}</span>
-                          </h3>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              defaultValue={displayName}
+                              maxLength={14}
+                              autoFocus
+                              onBlur={e => saveCustomToolName(tool, e.target.value)}
+                              onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                  saveCustomToolName(tool, e.currentTarget.value);
+                                } else if (e.key === 'Escape') {
+                                  setEditingTool(null);
+                                }
+                              }}
+                              onClick={e => e.stopPropagation()}
+                              className="font-semibold text-lg text-white bg-white/10 border border-white/20 rounded px-2 py-1 focus:outline-none focus:border-purple-500/50"
+                            />
+                          ) : (
+                            <h3 className="font-semibold text-lg text-white">
+                              <span>{displayName}</span>
+                            </h3>
+                          )}
                         </div>
                         <p className="text-sm text-gray-400">
-                          <span>Access your {tool.toLowerCase()} tools</span>
+                          <span>Access your {displayName.toLowerCase()} tools</span>
                         </p>
                       </motion.div>
                       );
@@ -2137,7 +2382,7 @@ export const OverlaysLibraryGridPage = ({
             </div>
           )}
 
-          {activeNavItem === 'MyTools' && activeToolFromPath && (
+          {((activeNavItem === 'MyTools' && activeToolFromPath) || (activeNavItem === 'Tools' && activeToolFromPath)) && (
             <div className="w-full h-full">
               {/* Empty main content area for individual tool - ready for tool implementation */}
             </div>
@@ -2761,6 +3006,53 @@ export const OverlaysLibraryGridPage = ({
           aria-hidden="true"
         >
           {navTooltip.text}
+        </div>
+      )}
+
+      {/* Tools Dashboard info tooltip */}
+      {toolsInfoTooltip && (
+        <div
+          className="fixed z-[120] pointer-events-none bg-black/90 text-white text-sm px-4 py-2 rounded-lg shadow-lg max-w-xs"
+          style={{
+            left: toolsInfoTooltip.x,
+            top: toolsInfoTooltip.y,
+            transform: 'translate(-50%, -100%)',
+          }}
+          aria-hidden="true"
+        >
+          {activeNavItem === 'Tools'
+            ? 'Star all tools seen below that you would like to add to your "My Tools" list'
+            : 'Shortlist up to 5 tools below that you would like to add to your shortlist.'}
+        </div>
+      )}
+
+      {/* Edit name tooltip */}
+      {editNameTooltip && (
+        <div
+          className="fixed z-[120] pointer-events-none bg-black/90 text-white text-sm px-3 py-1 rounded shadow-lg"
+          style={{
+            left: editNameTooltip.x,
+            top: editNameTooltip.y,
+            transform: 'translate(-50%, -100%)',
+          }}
+          aria-hidden="true"
+        >
+          Edit Name
+        </div>
+      )}
+
+      {/* Shortlist tooltip */}
+      {shortlistTooltip && (
+        <div
+          className="fixed z-[120] pointer-events-none bg-black/90 text-white text-sm px-3 py-1 rounded shadow-lg"
+          style={{
+            left: shortlistTooltip.x,
+            top: shortlistTooltip.y,
+            transform: 'translate(-50%, -100%)',
+          }}
+          aria-hidden="true"
+        >
+          Shortlist
         </div>
       )}
     </div>
