@@ -34,6 +34,8 @@ import {
   BarChart3,
   Calendar,
   LineChart,
+  Lock,
+  Mail,
 } from 'lucide-react';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
@@ -148,7 +150,7 @@ const navigationItems: TopNavItem[] = [
   { label: 'Pricing' },
   { label: 'How It Works' },
   { label: 'Live Breaks' },
-  { label: 'About' },
+  { label: 'Supplies' },
 ];
 
 // @component: OverlaysLibraryGridPage
@@ -221,6 +223,14 @@ export const OverlaysLibraryGridPage = ({
     x: number;
     y: number;
   } | null>(null);
+  // Change Password modal state
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [changePasswordData, setChangePasswordData] = useState({
+    email: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
 
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)
@@ -1553,7 +1563,7 @@ export const OverlaysLibraryGridPage = ({
                                     return (
                                       <label
                                         key={option}
-                                        className="flex items-center gap-3 px-2 rounded hover:bg-white/5 cursor-pointer transition-colors group"
+                                        className="flex items-center gap-3 px-2 py-[1px] -my-[1px] rounded hover:bg-white/5 cursor-pointer transition-colors group"
                                       >
                                         <input
                                           type="checkbox"
@@ -2164,9 +2174,17 @@ export const OverlaysLibraryGridPage = ({
                   >
                     <span>Logout</span>
                   </button>
-                  <button className="text-sm text-red-400 hover:text-red-300 underline transition-colors cursor-pointer">
-                    <span>Delete Account</span>
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => setIsChangePasswordOpen(true)}
+                      className="text-sm text-purple-400 hover:text-purple-300 underline transition-colors cursor-pointer"
+                    >
+                      <span>Change Password</span>
+                    </button>
+                    <button className="text-sm text-red-400 hover:text-red-300 underline transition-colors cursor-pointer">
+                      <span>Delete Account</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2514,6 +2532,188 @@ export const OverlaysLibraryGridPage = ({
           </div>
         </div>
       )}
+      {/* Change Password Modal */}
+      <AnimatePresence>
+        {isChangePasswordOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm"
+              onClick={() => setIsChangePasswordOpen(false)}
+            />
+
+            {/* Modal */}
+            <div className="fixed inset-0 z-[101] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+                className="w-full max-w-md"
+                onClick={e => e.stopPropagation()}
+              >
+                <div className="rounded-2xl shadow-xl border overflow-hidden" style={{ backgroundColor: '#271e37' }}>
+                  <div className="px-8 py-10">
+                    <div className="text-center mb-8 cursor-default">
+                      <h1 className="text-2xl font-bold text-white mb-2">
+                        <span>Change your password</span>
+                      </h1>
+                      <p className="text-gray-500">
+                        <span>Enter your current password and choose a new one</span>
+                      </p>
+                    </div>
+
+                    <form
+                      onSubmit={e => {
+                        e.preventDefault();
+                        // Handle password change logic here
+                        notify({ message: 'Password changed successfully', type: 'success' });
+                        setIsChangePasswordOpen(false);
+                        setChangePasswordData({
+                          email: '',
+                          currentPassword: '',
+                          newPassword: '',
+                          confirmPassword: '',
+                        });
+                      }}
+                      className="space-y-4"
+                    >
+                      {/* Email Field */}
+                      <div className="space-y-1">
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                          <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={changePasswordData.email}
+                            onChange={e =>
+                              setChangePasswordData(prev => ({
+                                ...prev,
+                                email: e.target.value,
+                              }))
+                            }
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
+                            style={{
+                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              borderColor: 'oklch(0.446 0.03 256.802)',
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Current Password Field */}
+                      <div className="space-y-1">
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                          <input
+                            type="password"
+                            placeholder="Enter your current password"
+                            value={changePasswordData.currentPassword}
+                            onChange={e =>
+                              setChangePasswordData(prev => ({
+                                ...prev,
+                                currentPassword: e.target.value,
+                              }))
+                            }
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
+                            style={{
+                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              borderColor: 'oklch(0.446 0.03 256.802)',
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* New Password Field */}
+                      <div className="space-y-1">
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                          <input
+                            type="password"
+                            placeholder="Enter your new password"
+                            value={changePasswordData.newPassword}
+                            onChange={e =>
+                              setChangePasswordData(prev => ({
+                                ...prev,
+                                newPassword: e.target.value,
+                              }))
+                            }
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
+                            style={{
+                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              borderColor: 'oklch(0.446 0.03 256.802)',
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Confirm Password Field */}
+                      <div className="space-y-1">
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                          <input
+                            type="password"
+                            placeholder="Re-enter your new password"
+                            value={changePasswordData.confirmPassword}
+                            onChange={e =>
+                              setChangePasswordData(prev => ({
+                                ...prev,
+                                confirmPassword: e.target.value,
+                              }))
+                            }
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
+                            style={{
+                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              borderColor: 'oklch(0.446 0.03 256.802)',
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Reset Password Button */}
+                      <motion.button
+                        type="submit"
+                        disabled={
+                          !changePasswordData.email ||
+                          !changePasswordData.currentPassword ||
+                          !changePasswordData.newPassword ||
+                          !changePasswordData.confirmPassword
+                        }
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        <span>Reset My Password</span>
+                      </motion.button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                      <button
+                        onClick={() => {
+                          setIsChangePasswordOpen(false);
+                          setChangePasswordData({
+                            email: '',
+                            currentPassword: '',
+                            newPassword: '',
+                            confirmPassword: '',
+                          });
+                        }}
+                        className="text-gray-400 hover:text-gray-300 text-sm transition-colors cursor-pointer"
+                      >
+                        <span>Cancel</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Custom nav tooltip (for tool names in the nav panel) */}
       {navTooltip && (
         <div
