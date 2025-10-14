@@ -1810,13 +1810,13 @@ export const OverlaysUnoLandingPage = () => {
                       });
                     }}
                   >
-                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] cursor-default">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)] cursor-default">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300 cursor-default">
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
@@ -1850,7 +1850,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-end -translate-y-[5px]">
+                    <div className="flex items-center justify-end -translate-y-[5px] cursor-default">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
@@ -2000,13 +2000,13 @@ export const OverlaysUnoLandingPage = () => {
                       });
                     }}
                   >
-                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] cursor-default">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)] cursor-default">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300 cursor-default">
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
@@ -2046,7 +2046,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-end -translate-y-[5px]">
+                    <div className="flex items-center justify-end -translate-y-[5px] cursor-default">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
@@ -2197,13 +2197,13 @@ export const OverlaysUnoLandingPage = () => {
                       });
                     }}
                   >
-                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] cursor-default">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)] cursor-default">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300 cursor-default">
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
@@ -2243,7 +2243,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-end -translate-y-[5px]">
+                    <div className="flex items-center justify-end -translate-y-[5px] cursor-default">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
@@ -2369,13 +2369,13 @@ export const OverlaysUnoLandingPage = () => {
                       });
                     }}
                   >
-                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
+                    <div className="text-center space-y-2 -translate-y-[45px] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] cursor-default">
                       <span className="text-gray-400 text-xs font-medium">Preview</span>
                     </div>
                   </div>
                   {/* Caption card - starts lower, slides up on hover to reveal additional content */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)]">
-                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 space-y-3 transition-transform duration-[400ms] ease-in-out translate-y-[calc(40%+7px)] group-hover:translate-y-[calc(40%*0.2+7px)] cursor-default">
+                    <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300 cursor-default">
                       <span
                         className="hover:cursor-pointer"
                         onClick={() => {
@@ -2408,7 +2408,7 @@ export const OverlaysUnoLandingPage = () => {
                       </span>
                     </h3>
                     {/* Additional info that gets revealed on hover */}
-                    <div className="flex items-center justify-end -translate-y-[5px]">
+                    <div className="flex items-center justify-end -translate-y-[5px] cursor-default">
                       {/* Button appears only on hover */}
                       <button
                         onClick={() => {
