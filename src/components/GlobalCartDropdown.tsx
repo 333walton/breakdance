@@ -75,7 +75,7 @@ const GlobalCartDropdown: React.FC = () => {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Cart</h3>
-            <button onClick={() => closeCart()} className="p-1 rounded-md hover:bg-white/5">
+            <button onClick={() => closeCart()} className="p-1 rounded-md hover:bg-white/5 cursor-pointer">
               <X className="w-4 h-4 text-gray-300" />
             </button>
           </div>
@@ -123,7 +123,7 @@ const GlobalCartDropdown: React.FC = () => {
                 onClick={() => {
                   closeCart();
                 }}
-                className="flex-1 px-3 py-2 rounded-md bg-white/5 hover:bg-white/10 text-sm"
+                className="flex-1 px-3 py-2 rounded-md bg-white/5 hover:bg-white/10 text-sm cursor-pointer"
               >
                 Close
               </button>
@@ -134,7 +134,7 @@ const GlobalCartDropdown: React.FC = () => {
                   navigate('/checkout');
                 }}
                 disabled={Object.keys(cart).length === 0}
-                className="flex-1 px-3 py-2 rounded-md bg-orange-500 text-black font-semibold hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="flex-1 px-3 py-2 rounded-md bg-orange-500 text-black font-semibold hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-sm"
               >
                 Checkout
               </button>

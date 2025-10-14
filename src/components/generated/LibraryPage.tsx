@@ -738,32 +738,6 @@ export const OverlaysLibraryGridPage = ({
           <div className="p-4 overflow-y-auto flex-1 pb-28 mt-[30px]">
             <div className="space-y-2">
               <button
-                onClick={() => navigate('/tools')}
-                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Tools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                style={{
-                  height: '48px',
-                }}
-                title={!isNavExpanded ? 'Tools' : undefined}
-              >
-                <div
-                  className="flex items-center justify-center flex-shrink-0"
-                  style={{ width: '48px' }}
-                >
-                  <Wrench className="h-5 w-5" />
-                </div>
-                <span
-                  className="text-sm font-medium transition-opacity duration-200"
-                  style={{
-                    paddingLeft: '12px',
-                    opacity: showNavText ? 1 : 0,
-                    pointerEvents: showNavText ? 'auto' : 'none',
-                  }}
-                >
-                  Tools
-                </span>
-              </button>
-
-              <button
                 onClick={() => navigate('/library')}
                 className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Library' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={{
@@ -786,6 +760,32 @@ export const OverlaysLibraryGridPage = ({
                   }}
                 >
                   Overlays
+                </span>
+              </button>
+
+              <button
+                onClick={() => navigate('/tools')}
+                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Tools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                style={{
+                  height: '48px',
+                }}
+                title={!isNavExpanded ? 'Tools' : undefined}
+              >
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{ width: '48px' }}
+                >
+                  <Wrench className="h-5 w-5" />
+                </div>
+                <span
+                  className="text-sm font-medium transition-opacity duration-200"
+                  style={{
+                    paddingLeft: '12px',
+                    opacity: showNavText ? 1 : 0,
+                    pointerEvents: showNavText ? 'auto' : 'none',
+                  }}
+                >
+                  Tools
                 </span>
               </button>
 

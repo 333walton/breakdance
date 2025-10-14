@@ -191,7 +191,7 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
             <button
               onClick={handleToggleBookmark}
               aria-label="Toggle bookmark"
-              className="absolute -top-4 right-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors"
+              className="absolute -top-4 right-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors cursor-pointer"
               style={{ zIndex: 40 }}
             >
               <Bookmark

@@ -27,7 +27,7 @@ export const CartControls: React.FC<CartControlsProps> = ({ id, name }) => {
     return (
       <button
         onClick={onAdd}
-        className="flex items-center gap-3 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] text-white font-semibold py-2 px-4 rounded-md hover:shadow-lg transition-all"
+        className="flex items-center gap-3 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] text-white font-semibold py-2 px-4 rounded-md hover:shadow-lg transition-all cursor-pointer"
         aria-label={`Add ${name || 'item'} to cart`}
         title={`Add ${name || 'item'}`}
       >
@@ -56,7 +56,7 @@ export const CartControls: React.FC<CartControlsProps> = ({ id, name }) => {
     <div className="flex items-center gap-2">
       <button
         onClick={onRemove}
-        className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold"
+        className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer"
       >
         −
       </button>
@@ -71,7 +71,7 @@ export const CartControls: React.FC<CartControlsProps> = ({ id, name }) => {
       </motion.div>
       <button
         onClick={onAdd}
-        className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold"
+        className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer"
       >
         +
       </button>
