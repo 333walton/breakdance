@@ -116,6 +116,7 @@ type TopNavItem = { label: string };
 const navigationItems: TopNavItem[] = [
   { label: 'Overlays' },
   { label: 'Tools' },
+  { label: 'Pricing' },
   { label: 'How It Works' },
   { label: 'Live Breaks' },
   { label: 'Shop' },
@@ -550,7 +551,8 @@ export const OverlaysLibraryGridPage = ({
               {navigationItems.map(nav => {
                 const isActive =
                   (nav.label === 'Overlays' && location.pathname === '/library') ||
-                  (nav.label === 'Tools' && location.pathname === '/tools');
+                  (nav.label === 'Tools' && location.pathname === '/tools') ||
+                  (nav.label === 'Pricing' && location.pathname === '/pricing');
 
                 return (
                   <a
@@ -562,6 +564,8 @@ export const OverlaysLibraryGridPage = ({
                         navigate('/library');
                       } else if (nav.label === 'Tools') {
                         navigate('/tools');
+                      } else if (nav.label === 'Pricing') {
+                        navigate('/pricing');
                       }
                     }}
                     className={`${

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   MessageCircle,
   MapPin,
@@ -13,12 +13,15 @@ import {
   ExternalLink,
   X,
   UserCircle,
+  ShoppingCart,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { PasswordResetCard } from './PasswordResetCard';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/cartCore';
+import GlobalCartDropdown from '../GlobalCartDropdown';
 
 // Checkbox styling
 const checkboxStyles = `
@@ -62,6 +65,9 @@ const navigationItems = [
     label: 'Tools',
   },
   {
+    label: 'Pricing',
+  },
+  {
     label: 'How It Works',
   },
   {
@@ -95,7 +101,9 @@ interface FormErrors {
 }
 const ContactPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const { getTotal, toggleCart } = useCart();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     companyName: '',
@@ -273,23 +281,35 @@ const ContactPage: React.FC = () => {
               className="hidden md:flex items-center space-x-8 ml-12"
               style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
             >
-              {navigationItems.map(nav => (
-                <a
-                  key={nav.label}
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    if (nav.label === 'Overlays') {
-                      navigate('/library');
-                    } else if (nav.label === 'Tools') {
-                      navigate('/tools');
-                    }
-                  }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
-                  style={{
-                    fontFamily: 'Nunito, sans-serif',
-                  }}
-                >
+              {navigationItems.map(nav => {
+                const isActive =
+                  (nav.label === 'Overlays' && location.pathname === '/library') ||
+                  (nav.label === 'Tools' && location.pathname === '/tools') ||
+                  (nav.label === 'Pricing' && location.pathname === '/pricing');
+
+                return (
+                  <a
+                    key={nav.label}
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault();
+                      if (nav.label === 'Overlays') {
+                        navigate('/library');
+                      } else if (nav.label === 'Tools') {
+                        navigate('/tools');
+                      } else if (nav.label === 'Pricing') {
+                        navigate('/pricing');
+                      }
+                    }}
+                    className={`${
+                      isActive
+                        ? 'text-orange-300'
+                        : 'text-gray-200 hover:text-orange-300'
+                    } transition-colors text-sm font-bold tracking-wide relative cursor-pointer`}
+                    style={{
+                      fontFamily: 'Nunito, sans-serif',
+                    }}
+                  >
                   <span
                     style={{
                       fontSize: '16px',
@@ -312,7 +332,8 @@ const ContactPage: React.FC = () => {
                     />
                   ) : null}
                 </a>
-              ))}
+                );
+              })}
             </nav>
           </div>
 
@@ -342,21 +363,24 @@ const ContactPage: React.FC = () => {
                 <UserCircle className="w-6 h-6" />
               </button>
             )}
-            <button className="px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer">
-              <span
-                style={{
-                  color: 'rgb(0 0 0)',
-                }}
+            <div className="relative">
+              <button
+                data-cart-anchor="true"
+                onClick={() => toggleCart()}
+                className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
               >
-                Launch App
-              </span>
-              <ExternalLink
-                className="w-4 h-4"
-                style={{
-                  color: 'rgb(0 0 0)',
-                }}
-              />
-            </button>
+                <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+              </button>
+              {getTotal() > 0 && (
+                <span
+                  className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                  style={{ fontSize: '10px' }}
+                >
+                  {getTotal()}
+                </span>
+              )}
+            </div>
+            <GlobalCartDropdown />
           </div>
         </div>
       </header>
