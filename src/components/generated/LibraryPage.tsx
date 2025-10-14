@@ -114,7 +114,7 @@ type NavItem =
 
 type TopNavItem = { label: string };
 const navigationItems: TopNavItem[] = [
-  { label: 'Library' },
+  { label: 'Overlays' },
   { label: 'Tools' },
   { label: 'How It Works' },
   { label: 'Live Breaks' },
@@ -547,40 +547,50 @@ export const OverlaysLibraryGridPage = ({
               className="hidden md:flex items-center space-x-8 ml-12"
               style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
             >
-              {navigationItems.map(nav => (
-                <a
-                  key={nav.label}
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    if (nav.label === 'Library') {
-                      navigate('/library');
-                    } else if (nav.label === 'Tools') {
-                      navigate('/tools');
-                    }
-                  }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
-                  style={{ fontFamily: 'Nunito, sans-serif' }}
-                >
-                  <span style={{ fontSize: '16px' }}>
-                    {nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}
-                  </span>
-                  {nav.label === 'Live Breaks' ? (
-                    <span
-                      aria-hidden="true"
-                      className="absolute block"
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        background: 'oklch(0.75 0.14 151.711)',
-                        borderRadius: '9999px',
-                        top: '-4px',
-                        right: '-10px',
-                      }}
-                    />
-                  ) : null}
-                </a>
-              ))}
+              {navigationItems.map(nav => {
+                const isActive =
+                  (nav.label === 'Overlays' && location.pathname === '/library') ||
+                  (nav.label === 'Tools' && location.pathname === '/tools');
+
+                return (
+                  <a
+                    key={nav.label}
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault();
+                      if (nav.label === 'Overlays') {
+                        navigate('/library');
+                      } else if (nav.label === 'Tools') {
+                        navigate('/tools');
+                      }
+                    }}
+                    className={`${
+                      isActive
+                        ? 'text-orange-300'
+                        : 'text-gray-200 hover:text-orange-300'
+                    } transition-colors text-sm font-bold tracking-wide relative cursor-pointer`}
+                    style={{ fontFamily: 'Nunito, sans-serif' }}
+                  >
+                    <span style={{ fontSize: '16px' }}>
+                      {nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}
+                    </span>
+                    {nav.label === 'Live Breaks' ? (
+                      <span
+                        aria-hidden="true"
+                        className="absolute block"
+                        style={{
+                          width: '8px',
+                          height: '8px',
+                          background: 'oklch(0.75 0.14 151.711)',
+                          borderRadius: '9999px',
+                          top: '-4px',
+                          right: '-10px',
+                        }}
+                      />
+                    ) : null}
+                  </a>
+                );
+              })}
             </nav>
           </div>
 
@@ -755,7 +765,7 @@ export const OverlaysLibraryGridPage = ({
                 style={{
                   height: '48px',
                 }}
-                title={!isNavExpanded ? 'Library' : undefined}
+                title={!isNavExpanded ? 'Overlays' : undefined}
               >
                 <div
                   className="flex items-center justify-center flex-shrink-0"
@@ -771,7 +781,7 @@ export const OverlaysLibraryGridPage = ({
                     pointerEvents: showNavText ? 'auto' : 'none',
                   }}
                 >
-                  Library
+                  Overlays
                 </span>
               </button>
 
@@ -1355,7 +1365,7 @@ export const OverlaysLibraryGridPage = ({
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <input
                           type="text"
-                          placeholder="Search Library"
+                          placeholder="Search Overlays"
                           value={searchQuery}
                           onChange={e => setSearchQuery(e.target.value)}
                           className="w-full bg-[rgb(168,85,247)]/10 border border-white/10 rounded-full py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-white/10 transition-all"
@@ -1374,7 +1384,7 @@ export const OverlaysLibraryGridPage = ({
 
                     <div className="flex items-center justify-between">
                       <h1 className="text-3xl font-bold">
-                        <span>Library</span>
+                        <span>Browse Overlays</span>
                       </h1>
                       <div className="flex items-center gap-3">
                         <div className="relative" ref={sortDropdownRef}>
@@ -2173,6 +2183,12 @@ export const OverlaysLibraryGridPage = ({
             <LeaderboardInfoModal
               onClose={() => setShowLeaderboardOverlay(false)}
               overlay={activeOverlay}
+              isBookmarked={activeOverlay ? bookmarkedOverlays.has(activeOverlay.id) : false}
+              onToggleBookmark={() => {
+                if (activeOverlay) {
+                  toggleBookmark(activeOverlay.id);
+                }
+              }}
             />
           </div>
         </div>

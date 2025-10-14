@@ -18,15 +18,18 @@ type Overlay = {
 type LeaderboardInfoModalProps = {
   onClose?: () => void;
   overlay?: Overlay | null;
+  isBookmarked?: boolean;
+  onToggleBookmark?: () => void;
 };
 
 export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
-  const [isBookmarked, setIsBookmarked] = React.useState(false);
   const [frameOrientation, setFrameOrientation] = React.useState<
     'vertical' | 'horizontal' | 'rectangle'
   >('vertical');
   const [isRotated, setIsRotated] = React.useState(false);
   const overlay = props.overlay;
+  const isBookmarked = props.isBookmarked ?? false;
+  const handleToggleBookmark = props.onToggleBookmark ?? (() => {});
   const { cart, add, remove, openCart } = useCart();
 
   const handleNext = () => {
@@ -186,7 +189,7 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
           <div className="lg:w-[380px] flex flex-col relative">
             {/* small bookmark icon in top-right of modal */}
             <button
-              onClick={() => setIsBookmarked(!isBookmarked)}
+              onClick={handleToggleBookmark}
               aria-label="Toggle bookmark"
               className="absolute -top-4 right-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors"
               style={{ zIndex: 40 }}

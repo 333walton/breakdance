@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   ChevronLeft,
   ChevronRight,
@@ -185,7 +185,7 @@ const communityCards = [
 ];
 const navigationItems = [
   {
-    label: 'Library',
+    label: 'Overlays',
   },
   {
     label: 'Tools',
@@ -342,6 +342,7 @@ function useCountUp(target: number, inView: boolean, duration = 300) {
 // @component: OverlaysUnoLandingPage
 export const OverlaysUnoLandingPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
   const [activeCategory, setActiveCategory] = useState('BROWSE OVERLAYS');
@@ -1136,46 +1137,56 @@ export const OverlaysUnoLandingPage = () => {
               className="hidden md:flex items-center space-x-8 ml-12"
               style={{ marginLeft: 'calc(var(--spacing) * 21)' }}
             >
-              {navigationItems.map(nav => (
-                <a
-                  key={nav.label}
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    if (nav.label === 'Library') {
-                      navigate('/library');
-                    } else if (nav.label === 'Tools') {
-                      navigate('/tools');
-                    }
-                  }}
-                  className="text-gray-200 hover:text-orange-300 transition-colors text-sm font-bold tracking-wide relative cursor-pointer"
-                  style={{
-                    fontFamily: 'Nunito, sans-serif',
-                  }}
-                >
-                  <span
+              {navigationItems.map(nav => {
+                const isActive =
+                  (nav.label === 'Overlays' && location.pathname === '/library') ||
+                  (nav.label === 'Tools' && location.pathname === '/tools');
+
+                return (
+                  <a
+                    key={nav.label}
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault();
+                      if (nav.label === 'Overlays') {
+                        navigate('/library');
+                      } else if (nav.label === 'Tools') {
+                        navigate('/tools');
+                      }
+                    }}
+                    className={`${
+                      isActive
+                        ? 'text-orange-300'
+                        : 'text-gray-200 hover:text-orange-300'
+                    } transition-colors text-sm font-bold tracking-wide relative cursor-pointer`}
                     style={{
-                      fontSize: '16px',
+                      fontFamily: 'Nunito, sans-serif',
                     }}
                   >
-                    {nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}
-                  </span>
-                  {nav.label === 'Live Breaks' ? (
                     <span
-                      aria-hidden="true"
-                      className="absolute block"
                       style={{
-                        width: '8px',
-                        height: '8px',
-                        background: 'oklch(0.75 0.14 151.711)',
-                        borderRadius: '9999px',
-                        top: '-4px',
-                        right: '-10px',
+                        fontSize: '16px',
                       }}
-                    />
-                  ) : null}
-                </a>
-              ))}
+                    >
+                      {nav.label === 'Pricing' && isAuthenticated ? 'Subscription' : nav.label}
+                    </span>
+                    {nav.label === 'Live Breaks' ? (
+                      <span
+                        aria-hidden="true"
+                        className="absolute block"
+                        style={{
+                          width: '8px',
+                          height: '8px',
+                          background: 'oklch(0.75 0.14 151.711)',
+                          borderRadius: '9999px',
+                          top: '-4px',
+                          right: '-10px',
+                        }}
+                      />
+                    ) : null}
+                  </a>
+                );
+              })}
             </nav>
           </div>
 

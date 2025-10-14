@@ -56,7 +56,7 @@ const checkboxStyles = `
 
 const navigationItems = [
   {
-    label: 'Library',
+    label: 'Overlays',
   },
   {
     label: 'Tools',
@@ -279,7 +279,7 @@ const ContactPage: React.FC = () => {
                   href="#"
                   onClick={e => {
                     e.preventDefault();
-                    if (nav.label === 'Library') {
+                    if (nav.label === 'Overlays') {
                       navigate('/library');
                     } else if (nav.label === 'Tools') {
                       navigate('/tools');
