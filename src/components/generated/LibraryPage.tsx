@@ -234,6 +234,8 @@ export const OverlaysLibraryGridPage = ({
     newPassword: '',
     confirmPassword: '',
   });
+  // Account theme selection state
+  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>('dark');
   // Tools Dashboard info tooltip state
   const [toolsInfoTooltip, setToolsInfoTooltip] = useState<{
     x: number;
@@ -2383,66 +2385,144 @@ export const OverlaysLibraryGridPage = ({
 
           {activeNavItem === 'Account' && (
             <div className="max-w-7xl mx-auto p-6 lg:p-8">
-              <div className="space-y-6">
-                <h1 className="text-3xl font-bold">
+              <div className="space-y-8 max-w-[720px]">
+                <h1 className="text-3xl font-bold text-white">
                   <span>Account Settings</span>
                 </h1>
-                <div className="bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-8 border border-white/10">
+
+                {/* Form Container with Gradient Background */}
+                <div
+                  className="rounded-2xl p-8 border border-white/5"
+                  style={{
+                    background: 'linear-gradient(to bottom, #1b1126, #0e0916)',
+                    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.2)',
+                  }}
+                >
                   <div className="space-y-6">
-                    <div>
-                      <h3 className="text-xl font-semibold mb-4">
-                        <span>Profile Information</span>
-                      </h3>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
-                            <span>Username</span>
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full bg-[#1a1428]/80 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500/50 transition-colors"
-                            placeholder="Your username"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
-                            <span>Email</span>
-                          </label>
-                          <input
-                            type="email"
-                            className="w-full bg-[#1a1428]/80 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500/50 transition-colors"
-                            placeholder="your@email.com"
-                          />
-                        </div>
+                    {/* User Name */}
+                    <div className="space-y-2">
+                      <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
+                        <span>User Name</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-[#A6A1B5]"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.03)',
+                        }}
+                        placeholder="Enter your username"
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div className="space-y-2">
+                      <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
+                        <span>Email</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="email"
+                          value="charlieseiler@gmail.com"
+                          readOnly
+                          className="w-full rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none transition-colors"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.03)',
+                          }}
+                        />
+                        <button
+                          onClick={() => {/* TODO: Implement change email */}}
+                          className="absolute right-2 bottom-2 px-3 py-1.5 bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-xs font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer"
+                        >
+                          <span>Change</span>
+                        </button>
                       </div>
                     </div>
-                    <div className="pt-4 border-t border-white/10">
-                      <button className="px-6 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 rounded-lg text-white font-medium transition-colors">
-                        <span>Save Changes</span>
+
+                    {/* Theme */}
+                    <div className="space-y-3">
+                      <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
+                        <span>Theme</span>
+                      </label>
+                      <div className="flex gap-6">
+                        <button
+                          onClick={() => setSelectedTheme('light')}
+                          className="flex flex-col items-center gap-2.5 group cursor-pointer"
+                        >
+                          <div className={`w-[134px] h-[90px] bg-[#2d2840] rounded-[6px] flex items-center justify-center hover:border-gray-600 transition-colors p-4 ${
+                            selectedTheme === 'light'
+                              ? 'border-[2px] border-[#e8753a]'
+                              : 'border-[1.5px] border-[#4a4558]'
+                          }`}>
+                            <div className="grid grid-cols-4 gap-[5px]">
+                              {[...Array(8)].map((_, i) => (
+                                <div key={`light-${i}`} className="w-[14px] h-[14px] bg-[#8a8294] rounded-[2px]"></div>
+                              ))}
+                            </div>
+                          </div>
+                          <span className={`text-sm font-medium ${
+                            selectedTheme === 'light' ? 'text-white' : 'text-gray-300'
+                          }`}>Light</span>
+                        </button>
+                        <button
+                          onClick={() => setSelectedTheme('dark')}
+                          className="flex flex-col items-center gap-2.5 group cursor-pointer"
+                        >
+                          <div className={`w-[134px] h-[90px] bg-[#1f1a2e] rounded-[6px] flex items-center justify-center transition-colors p-4 ${
+                            selectedTheme === 'dark'
+                              ? 'border-[2px] border-[#e8753a]'
+                              : 'border-[1.5px] border-[#4a4558]'
+                          }`}>
+                            <div className="grid grid-cols-4 gap-[5px]">
+                              {[...Array(8)].map((_, i) => (
+                                <div key={`dark-${i}`} className="w-[14px] h-[14px] bg-[#6b4e8a] rounded-[2px]"></div>
+                              ))}
+                            </div>
+                          </div>
+                          <span className={`text-sm font-medium ${
+                            selectedTheme === 'dark' ? 'text-white' : 'text-gray-300'
+                          }`}>Dark</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Subscribe for email updates */}
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        defaultChecked
+                        id="subscribe-checkbox"
+                        className="w-4 h-4 bg-transparent border border-gray-500 rounded-[2px] checked:bg-white checked:border-gray-600 cursor-pointer accent-white"
+                      />
+                      <label htmlFor="subscribe-checkbox" className="text-sm font-medium text-[#B0A6C1] cursor-pointer">
+                        <span>Subscribe for email updates</span>
+                      </label>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="my-8 mx-4">
+                      <div className="border-t border-white/5"></div>
+                    </div>
+
+                    {/* Action Buttons - Left and Right Aligned */}
+                    <div className="flex justify-between items-center gap-4 mt-6">
+                      <div className="flex gap-4">
+                        <button
+                          onClick={() => setIsAuthenticated(false)}
+                          className="px-11 py-3 bg-transparent border border-white/10 rounded-xl text-[#C7B9E8] text-sm font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer h-[48px]"
+                        >
+                          <span>Sign Out</span>
+                        </button>
+                        <button
+                          onClick={() => setIsChangePasswordOpen(true)}
+                          className="px-11 py-3 bg-transparent border border-white/10 rounded-xl text-[#C7B9E8] text-sm font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer h-[48px]"
+                        >
+                          <span>Reset Password</span>
+                        </button>
+                      </div>
+                      <button className="px-11 py-3 bg-transparent border border-red-500/30 rounded-xl text-[#FF4D4D] text-sm font-medium hover:bg-red-500/5 hover:border-red-500/50 transition-colors cursor-pointer h-[48px]">
+                        <span>Delete Account</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-                <div className="flex items-end justify-between">
-                  <button
-                    onClick={() => {
-                      setIsAuthenticated(false);
-                      notify({ message: 'Signed Out', type: 'info' });
-                    }}
-                    className="px-6 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-medium transition-colors cursor-pointer"
-                  >
-                    <span>Logout</span>
-                  </button>
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => setIsChangePasswordOpen(true)}
-                      className="text-sm text-purple-400 hover:text-purple-300 underline transition-colors cursor-pointer"
-                    >
-                      <span>Change Password</span>
-                    </button>
-                    <button className="text-sm text-red-400 hover:text-red-300 underline transition-colors cursor-pointer">
-                      <span>Delete Account</span>
-                    </button>
                   </div>
                 </div>
               </div>
