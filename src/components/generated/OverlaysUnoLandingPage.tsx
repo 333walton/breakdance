@@ -2603,9 +2603,9 @@ export const OverlaysUnoLandingPage = () => {
               <div className="absolute inset-2 rounded-xl bg-white/5" aria-hidden="true" />
               {/* Sliding handle */}
               <span
-                className={`absolute top-2 h-[calc(100%-1rem)] rounded-xl bg-orange-500 shadow-lg will-change-transform transition-transform duration-300 ease-out`}
+                className={`absolute top-2 left-2 h-[calc(100%-1rem)] rounded-xl bg-orange-500 shadow-lg will-change-transform transition-transform duration-300 ease-out`}
                 style={{
-                  width: 'calc(50% - 0.25rem)',
+                  width: 'calc(50% - 0.5rem)',
                   transform: pricingToggle === 'monthly' ? 'translateX(0)' : 'translateX(100%)',
                 }}
                 aria-hidden="true"

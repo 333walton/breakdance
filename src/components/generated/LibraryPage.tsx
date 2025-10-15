@@ -914,7 +914,11 @@ export const OverlaysLibraryGridPage = ({
           ref={el => {
             navRef.current = el as HTMLDivElement | null;
           }}
-          style={{ maxHeight: navMaxHeight }}
+          style={{
+            height: navMaxHeight,
+            maxHeight: navMaxHeight,
+            contain: 'layout style'
+          }}
         >
           <div
             className="flex items-end pb-0 px-4"
@@ -946,7 +950,7 @@ export const OverlaysLibraryGridPage = ({
               )}
             </button>
           </div>
-          <div className="p-4 overflow-y-auto flex-1 pb-28 mt-[30px]">
+          <div className="p-4 overflow-hidden mt-[30px]" style={{ flex: '1 1 auto', contain: 'layout', isolation: 'isolate', minHeight: 0, paddingBottom: '280px' }}>
             <div className="space-y-2">
               <button
                 onClick={() => navigate('/library')}
@@ -1068,28 +1072,12 @@ export const OverlaysLibraryGridPage = ({
               )}
 
               {isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                  className="space-y-2"
-                >
+                <div className="space-y-2">
                   <div
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
                     }}
                   />
 
@@ -1157,28 +1145,11 @@ export const OverlaysLibraryGridPage = ({
                       })}
                     </div>
                   )}
-                </motion.div>
+                </div>
               )}
 
               {isNavExpanded && (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                  className="space-y-2"
-                >
+                <div className="space-y-2">
                   {!(activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
                     <div
                       className="border-t border-white/5 my-4"
@@ -1263,32 +1234,16 @@ export const OverlaysLibraryGridPage = ({
                       )}
                     </div>
                   )}
-                </motion.div>
+                </div>
               )}
 
               {!isNavExpanded && (activeNavItem === 'Library' || activeNavItem === 'MyOverlays') && (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                  className="space-y-2"
-                >
+                <div className="space-y-2">
                   <div
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
                     }}
                   />
 
@@ -1381,32 +1336,16 @@ export const OverlaysLibraryGridPage = ({
                       <Image className="h-4 w-4 flex-shrink-0" />
                     </button>
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {!isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                  className="space-y-2"
-                >
+                <div className="space-y-2">
                   <div
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
                     }}
                   />
 
@@ -1473,138 +1412,174 @@ export const OverlaysLibraryGridPage = ({
                       })}
                     </div>
                   )}
-                </motion.div>
+                </div>
               )}
 
-              {/* Divider for collapsed Account/Pricing pages */}
               {!isNavExpanded && (activeNavItem === 'Account' || activeNavItem === 'Pricing') && (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                  className="space-y-2"
-                >
+                <div className="space-y-2">
                   <div
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
                     }}
                   />
-                </motion.div>
+                </div>
               )}
 
               {/* bottom controls moved below so they stay anchored to the bottom */}
             </div>
           </div>
-          {/* bottom controls container: Pricing, Account, divider, Collapse */}
-          <div className="p-4 absolute bottom-0 left-0 right-0 bg-[#0f0a1a]/95 z-10">
-            <div className="mt-4 pt-4 border-t border-white/5">
-              <div className="space-y-3">
-                <button
-                  onClick={() => navigate('/pricing')}
-                  onMouseEnter={e => !isNavExpanded && handleShowNavTooltip(isAuthenticated ? 'Subscription' : 'Pricing', e)}
-                  onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
-                  onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                  className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                  style={{
-                    height: '48px',
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: '48px' }}
-                  >
-                    <DollarSign className="h-5 w-5" />
-                  </div>
-                  {isNavExpanded && showNavText && (
-                    <span
-                      className="text-sm font-medium"
-                      style={{
-                        paddingLeft: '12px',
-                      }}
-                    >
-                      {isAuthenticated ? 'Subscription' : 'Pricing'}
-                    </span>
-                  )}
-                </button>
+        </motion.nav>
 
-                <button
-                  onClick={() => navigate('/account')}
-                  onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Account', e)}
-                  onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
-                  onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                  className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
-                  style={{
-                    height: '48px',
-                  }}
+        {/* bottom controls container: Pricing, Account, divider, Collapse - OUTSIDE motion.nav */}
+        <div
+          className="border-r border-purple-500/30 backdrop-blur-sm"
+          style={{
+            position: 'fixed',
+            bottom: '0px',
+            left: '0px',
+            width: isNavExpanded ? '210px' : '80px',
+            height: '194px',
+            backgroundColor: 'rgba(15, 10, 26, 0.95)',
+            zIndex: 99,
+            pointerEvents: 'auto',
+            willChange: 'transform',
+            transform: 'translate3d(0, 0, 0) translateZ(0)',
+            isolation: 'isolate',
+            contain: 'strict',
+            transition: 'width 0.3s ease-in-out'
+          }}
+        >
+          <div
+            style={{
+              padding: '16px',
+              paddingBottom: '0px',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end'
+            }}
+          >
+            <div
+              className="border-t border-white/5"
+              style={{
+                marginLeft: '3px',
+                marginRight: '3px',
+                paddingTop: '16px',
+                borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
+                borderTopWidth: '2px'
+              }}
+            >
+            <div className="space-y-2">
+              <button
+                onClick={() => navigate('/pricing')}
+                onMouseEnter={e => !isNavExpanded && handleShowNavTooltip(isAuthenticated ? 'Subscription' : 'Pricing', e)}
+                onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
+                onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
+                className={`flex items-center rounded-lg cursor-pointer border whitespace-nowrap overflow-hidden ${
+                  isNavExpanded
+                    ? `w-full ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                    : `${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                }`}
+                style={{
+                  height: '48px',
+                  width: isNavExpanded ? '100%' : '48px',
+                  transition: 'none'
+                }}
+              >
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{ width: '48px', height: '48px' }}
                 >
-                  <div
-                    className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: '48px' }}
+                  <DollarSign className="h-5 w-5" />
+                </div>
+                {isNavExpanded && showNavText && (
+                  <span
+                    className="text-sm font-medium"
+                    style={{
+                      paddingLeft: '12px',
+                    }}
                   >
-                    <User className="h-5 w-5" />
-                  </div>
-                  {isNavExpanded && showNavText && (
-                    <span
-                      className="text-sm font-medium"
-                      style={{
-                        paddingLeft: '12px',
-                      }}
-                    >
-                      Account
-                    </span>
-                  )}
-                </button>
+                    {isAuthenticated ? 'Subscription' : 'Pricing'}
+                  </span>
+                )}
+              </button>
 
-                <div className="border-t border-white/5 my-2" />
-
-                <button
-                  onClick={() => setIsNavExpanded(!isNavExpanded)}
-                  onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Expand', e)}
-                  onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
-                  onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                  className="w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white"
-                  style={{
-                    height: '48px',
-                  }}
+              <button
+                onClick={() => navigate('/account')}
+                onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Account', e)}
+                onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
+                onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
+                className={`flex items-center rounded-lg cursor-pointer border whitespace-nowrap overflow-hidden ${
+                  isNavExpanded
+                    ? `w-full ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                    : `${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                }`}
+                style={{
+                  height: '48px',
+                  width: isNavExpanded ? '100%' : '48px',
+                  transition: 'none'
+                }}
+              >
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{ width: '48px', height: '48px' }}
                 >
-                  <div
-                    className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: '48px' }}
+                  <User className="h-5 w-5" />
+                </div>
+                {isNavExpanded && showNavText && (
+                  <span
+                    className="text-sm font-medium"
+                    style={{
+                      paddingLeft: '12px',
+                    }}
                   >
-                    {isNavExpanded ? (
-                      <ChevronsLeft className="h-5 w-5" />
-                    ) : (
-                      <ChevronsRight className="h-5 w-5" />
-                    )}
-                  </div>
-                  {isNavExpanded && showNavText && (
-                    <span
-                      className="text-sm font-medium"
-                      style={{
-                        paddingLeft: '12px',
-                      }}
-                    >
-                      Collapse
-                    </span>
+                    Account
+                  </span>
+                )}
+              </button>
+
+              <div className="border-t border-white/5 my-2" style={{ borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)', marginLeft: '-16px', marginRight: '-16px' }} />
+
+              <button
+                onClick={() => setIsNavExpanded(!isNavExpanded)}
+                onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Expand', e)}
+                onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
+                onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
+                className={`flex items-center rounded-lg cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white ${isNavExpanded ? 'w-full' : ''}`}
+                style={{
+                  height: '48px',
+                  width: isNavExpanded ? '100%' : '48px',
+                  transition: 'none',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{ width: '48px', height: '48px' }}
+                >
+                  {isNavExpanded ? (
+                    <ChevronsLeft className="h-5 w-5" />
+                  ) : (
+                    <ChevronsRight className="h-5 w-5" />
                   )}
-                </button>
-              </div>
+                </div>
+                {isNavExpanded && showNavText && (
+                  <span
+                    className="text-sm font-medium"
+                    style={{
+                      paddingLeft: '12px',
+                    }}
+                  >
+                    Collapse
+                  </span>
+                )}
+              </button>
+            </div>
             </div>
           </div>
-        </motion.nav>
+        </div>
 
         <AnimatePresence mode="wait">
           {isFilterOpen && activeNavItem === 'Library' && (
@@ -2491,9 +2466,9 @@ export const OverlaysLibraryGridPage = ({
                   <div className="absolute inset-2 rounded-xl bg-white/5" aria-hidden="true" />
                   {/* Sliding handle */}
                   <span
-                    className={`absolute top-2 h-[calc(100%-1rem)] rounded-xl bg-orange-500 shadow-lg will-change-transform transition-transform duration-300 ease-out`}
+                    className={`absolute top-2 left-2 h-[calc(100%-1rem)] rounded-xl bg-orange-500 shadow-lg will-change-transform transition-transform duration-300 ease-out`}
                     style={{
-                      width: 'calc(50% - 0.25rem)',
+                      width: 'calc(50% - 0.5rem)',
                       transform: pricingToggle === 'monthly' ? 'translateX(0)' : 'translateX(100%)',
                     }}
                     aria-hidden="true"
