@@ -2530,17 +2530,17 @@ export const OverlaysLibraryGridPage = ({
           )}
 
           {activeNavItem === 'Pricing' && (
-            <div className="max-w-5xl mx-auto p-6 lg:p-8 text-center">
-              <h2 className="text-5xl font-bold mb-6 cursor-default">
+            <div className="max-w-5xl mx-auto p-6 lg:p-8 text-center" style={{ transform: 'scale(0.95)', transformOrigin: 'top center' }}>
+              <h1 className="text-5xl font-bold flex items-center gap-3 justify-center mb-6 cursor-default">
                 <span>Level Up Your Production</span>
-              </h2>
+              </h1>
               <p className="text-xl text-gray-300 mb-16 cursor-default">
                 <span>
                   Ready for a breakthrough? Upgrade to Pro for premium tools and bigger reach.
                 </span>
               </p>
 
-              <div className="flex items-center justify-center mb-16">
+              <div className="flex items-center justify-center mb-8">
                 <div className="bg-slate-800/50 rounded-2xl p-2 border border-slate-700/50 relative inline-flex">
                   {/* Slider track */}
                   <div className="absolute inset-2 rounded-xl bg-white/5" aria-hidden="true" />

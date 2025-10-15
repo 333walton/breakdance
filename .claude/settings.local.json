@@ -7,7 +7,8 @@
       "Bash(npm install:*)",
       "WebFetch(domain:overlays.uno)",
       "WebSearch",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
