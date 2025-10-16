@@ -43,6 +43,7 @@ import {
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { LeaderboardInfoModal } from './LeaderboardModal';
+import { ProductCard3D } from './ProductCard3D';
 import GlobalCartDropdown from '../GlobalCartDropdown';
 import { PasswordResetCard } from './PasswordResetCard';
 import { useAuth } from '../../contexts/AuthContext';
@@ -174,6 +175,7 @@ export const OverlaysLibraryGridPage = ({
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
   const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
   const [showLeaderboardOverlay, setShowLeaderboardOverlay] = useState(false);
+  const [showProductCardModal, setShowProductCardModal] = useState(false);
   const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -1799,7 +1801,7 @@ export const OverlaysLibraryGridPage = ({
         )}
 
         <main
-          className="flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out bg-[#1a1428]"
+          className="relative flex-1 overflow-y-auto filter-panel-scrollbar transition-all duration-500 ease-in-out bg-[#1a1428]"
           style={{
             maxHeight: navMaxHeight,
             marginLeft: !isFilterOpen && activeNavItem === 'Library' ? '80px' : '0',
@@ -1835,7 +1837,7 @@ export const OverlaysLibraryGridPage = ({
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <h1 className="text-3xl font-bold">
+                      <h1 className="text-3xl font-bold" style={{ fontSize: 'clamp(24px, calc(2vw + 1rem), 30px)' }}>
                         <span>Browse Overlays</span>
                       </h1>
                       <div className="flex items-center gap-3">
@@ -1900,7 +1902,7 @@ export const OverlaysLibraryGridPage = ({
 
               {/* Scrollable content section */}
               <div className="flex-1 overflow-y-auto filter-panel-scrollbar">
-                <div className="max-w-7xl mx-auto p-6 lg:p-8">
+                <div className="max-w-7xl mx-auto" style={{ padding: 'calc(var(--spacing) * 7)' }}>
                   {filteredOverlays.length === 0 ? (
                     <div className="text-center py-20">
                       <p className="text-gray-400 text-lg">
@@ -1937,7 +1939,8 @@ export const OverlaysLibraryGridPage = ({
                           <button
                             onClick={e => {
                               e.stopPropagation();
-                              // Add eye icon functionality here
+                              setActiveOverlay(overlay);
+                              setShowProductCardModal(true);
                             }}
                             className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer z-20"
                           >
@@ -2008,19 +2011,19 @@ export const OverlaysLibraryGridPage = ({
                           </div>
 
                           {/* Caption card overlay - slides up on hover to reveal additional content */}
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(100%-40px)] group-hover:translate-y-0 cursor-default">
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/60 pt-3 px-4 pb-4 transition-transform duration-[400ms] ease-in-out translate-y-[calc(83%-40px)] group-hover:translate-y-[8%] cursor-default">
                             <div className="flex items-start justify-between gap-3 mb-3">
-                              <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[15px] leading-tight transition-colors duration-300 cursor-pointer">
+                              <h3 className="font-semibold text-white group-hover:text-[oklch(.837_.128_66.29)] text-[17px] leading-tight transition-colors duration-300 cursor-pointer">
                                 <span>{overlay.name}</span>
                               </h3>
                             </div>
                             {/* price badge sits attached to top edge of the bottom overlay for aesthetic */}
-                            <span className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide transform -translate-y-1/2 cursor-default">
+                            <span className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide cursor-default" style={{ transform: 'translateY(-50%) scale(1.05)' }}>
                               ${overlay.price}
                             </span>
 
                             {/* Description and action icons */}
-                            <div className="flex items-start justify-between gap-3 cursor-default">
+                            <div className="flex items-start justify-between gap-3 cursor-default opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]">
                               <p
                                 className="text-gray-400 text-xs leading-relaxed line-clamp-2 cursor-default"
                                 style={{ width: '60%' }}
@@ -2090,6 +2093,30 @@ export const OverlaysLibraryGridPage = ({
                   )}
                 </div>
               </div>
+
+              {/* Product Card 3D Modal - Positioned within main content area */}
+              {showProductCardModal && activeOverlay && (
+                <div
+                  className="absolute inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+                  onClick={() => setShowProductCardModal(false)}
+                >
+                  <button
+                    onClick={() => setShowProductCardModal(false)}
+                    className="absolute top-6 right-6 z-[110] bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-lg transition-all cursor-pointer backdrop-blur-sm"
+                  >
+                    <X className="w-5 h-5 text-gray-700" />
+                  </button>
+                  <div className="relative" onClick={e => e.stopPropagation()}>
+                    <ProductCard3D
+                      overlay={activeOverlay}
+                      onPreview={() => {
+                        setShowProductCardModal(false);
+                        setShowLeaderboardOverlay(true);
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
             </>
           )}
 
@@ -2871,6 +2898,7 @@ export const OverlaysLibraryGridPage = ({
           </div>
         </div>
       )}
+
       {/* Change Password Modal */}
       <AnimatePresence>
         {isChangePasswordOpen && (
