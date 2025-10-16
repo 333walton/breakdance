@@ -170,6 +170,7 @@ export const OverlaysLibraryGridPage = ({
   const { isAuthenticated, setIsAuthenticated, isGoLiveActive, setIsGoLiveActive } = useAuth();
   const { notify } = useNotifications();
   const headerRef = useRef<HTMLDivElement | null>(null);
+  const scrollableContentRef = useRef<HTMLDivElement | null>(null);
   const [navMaxHeight, setNavMaxHeight] = useState<string>('calc(100vh - 64px)');
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
@@ -177,6 +178,7 @@ export const OverlaysLibraryGridPage = ({
   const [showLeaderboardOverlay, setShowLeaderboardOverlay] = useState(false);
   const [showProductCardModal, setShowProductCardModal] = useState(false);
   const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
+  const [clickedCardPosition, setClickedCardPosition] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Initialize filters from location state if provided
@@ -306,8 +308,9 @@ export const OverlaysLibraryGridPage = ({
     : undefined;
 
   const [selectedTools, setSelectedTools] = useState<Set<string>>(() => {
+    // Use sessionStorage instead of localStorage - persists during session but clears on browser close
     try {
-      const raw = localStorage.getItem('selectedTools');
+      const raw = sessionStorage.getItem('selectedTools');
       if (raw) {
         const arr = JSON.parse(raw) as string[];
         return new Set(arr);
@@ -318,6 +321,7 @@ export const OverlaysLibraryGridPage = ({
     return new Set();
   });
   // Track which tools have been pinned/selected *from within* the My Tools section
+  // Use localStorage for shortlist persistence - should stay toggled until manually changed
   const [selectedInMyTools, setSelectedInMyTools] = useState<Set<string>>(() => {
     try {
       const raw = localStorage.getItem('selectedInMyTools');
@@ -400,17 +404,9 @@ export const OverlaysLibraryGridPage = ({
     }
   }, [customToolNames]);
 
-  // Synchronize selectedInMyTools with selectedTools on mount
-  useEffect(() => {
-    if (selectedTools.size > 0 && selectedInMyTools.size === 0) {
-      setSelectedInMyTools(new Set(selectedTools));
-      try {
-        localStorage.setItem('selectedInMyTools', JSON.stringify(Array.from(selectedTools)));
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  // Note: Do not auto-sync selectedInMyTools with selectedTools
+  // Users must explicitly toggle the shortlist button to add/remove tools from My Tools
+  // This ensures tools stay removed when the user deselects them
 
   // Persist nav expanded state to localStorage
   useEffect(() => {
@@ -441,6 +437,42 @@ export const OverlaysLibraryGridPage = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isSortDropdownOpen]);
+
+  // Freeze/unfreeze scrolling when 3D preview modal is shown
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (showProductCardModal) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (showProductCardModal) {
+        e.preventDefault();
+      }
+    };
+
+    if (scrollableContentRef.current) {
+      const element = scrollableContentRef.current;
+
+      if (showProductCardModal) {
+        // Add event listeners to prevent scrolling
+        element.addEventListener('wheel', handleWheel, { passive: false });
+        element.addEventListener('touchmove', handleTouchMove, { passive: false });
+      } else {
+        // Remove event listeners to allow scrolling
+        element.removeEventListener('wheel', handleWheel);
+        element.removeEventListener('touchmove', handleTouchMove);
+      }
+
+      return () => {
+        element.removeEventListener('wheel', handleWheel);
+        element.removeEventListener('touchmove', handleTouchMove);
+      };
+    }
+  }, [showProductCardModal]);
+
 
   useEffect(() => {
     const updateNavHeight = () => {
@@ -546,7 +578,7 @@ export const OverlaysLibraryGridPage = ({
         console.log(`Adding ${tool} to selectedTools`);
       }
       try {
-        localStorage.setItem('selectedTools', JSON.stringify(Array.from(next)));
+        sessionStorage.setItem('selectedTools', JSON.stringify(Array.from(next)));
       } catch (e) {
         // ignore storage errors
       }
@@ -621,7 +653,27 @@ export const OverlaysLibraryGridPage = ({
       clearTimeout(tooltipTimeoutRef.current);
     }
 
-    setNavTooltip({ text, x: e.clientX + 12, y: e.clientY + 12 });
+    const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+    const estimatedTooltipHeight = 40;
+    const estimatedTooltipWidth = 150;
+
+    let x = e.clientX + 12;
+    let y = e.clientY + 12;
+
+    // Check header overlap
+    if (y - estimatedTooltipHeight < headerHeight) {
+      y = headerHeight + 10;
+    }
+
+    // Check viewport boundaries
+    if (x + estimatedTooltipWidth > window.innerWidth) {
+      x = e.clientX - estimatedTooltipWidth - 12;
+    }
+    if (y + estimatedTooltipHeight > window.innerHeight) {
+      y = e.clientY - estimatedTooltipHeight - 12;
+    }
+
+    setNavTooltip({ text, x, y });
 
     // Set new timeout to hide after 2 seconds
     tooltipTimeoutRef.current = setTimeout(() => {
@@ -629,7 +681,31 @@ export const OverlaysLibraryGridPage = ({
     }, 2000);
   };
   const handleMoveNavTooltip = (e: React.MouseEvent) => {
-    setNavTooltip(prev => (prev ? { ...prev, x: e.clientX + 12, y: e.clientY + 12 } : prev));
+    setNavTooltip(prev => {
+      if (!prev) return prev;
+
+      const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+      const estimatedTooltipHeight = 40;
+      const estimatedTooltipWidth = 150;
+
+      let x = e.clientX + 12;
+      let y = e.clientY + 12;
+
+      // Check header overlap
+      if (y - estimatedTooltipHeight < headerHeight) {
+        y = headerHeight + 10;
+      }
+
+      // Check viewport boundaries
+      if (x + estimatedTooltipWidth > window.innerWidth) {
+        x = e.clientX - estimatedTooltipWidth - 12;
+      }
+      if (y + estimatedTooltipHeight > window.innerHeight) {
+        y = e.clientY - estimatedTooltipHeight - 12;
+      }
+
+      return { ...prev, x, y };
+    });
   };
   const handleHideNavTooltip = () => {
     // Clear the timeout when manually hiding
@@ -773,7 +849,7 @@ export const OverlaysLibraryGridPage = ({
       {/* Header */}
       <header
         ref={headerRef}
-        className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-[110]"
+        className="bg-gradient-to-b from-[#1f1a30] to-[#261f35] backdrop-blur-sm border-b border-orange-500/30 sticky top-0 z-[200]"
       >
         <div
           className="w-full px-6 flex items-center justify-between"
@@ -1719,6 +1795,7 @@ export const OverlaysLibraryGridPage = ({
                                       <label
                                         key={option}
                                         className="flex items-center gap-3 px-2 py-[1px] -my-[1px] rounded hover:bg-white/5 cursor-pointer transition-colors group"
+                                        style={{ paddingBottom: '3px' }}
                                       >
                                         <input
                                           type="checkbox"
@@ -1813,24 +1890,24 @@ export const OverlaysLibraryGridPage = ({
           {activeNavItem === 'Library' && (
             <>
               {/* Fixed header section */}
-              <div className="flex-shrink-0 bg-[#1a1428] sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-6 pt-6 lg:px-8 lg:pt-8">
+              <div className="flex-shrink-0 bg-[#1a1428] sticky top-0 z-[110]" style={{ paddingBottom: '12px' }}>
+                <div className="max-w-7xl mx-auto px-6 pt-4 lg:px-8 lg:pt-6">
                   <div>
                     <div className="flex items-center gap-4 mb-6">
                       {/* filter open button removed from the header search area */}
-                      <div className="relative w-1/2">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <div className="relative ml-auto" style={{ width: '35%' }}>
+                        <Search className="absolute right-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <input
                           type="text"
                           placeholder="Search Overlays"
                           value={searchQuery}
                           onChange={e => setSearchQuery(e.target.value)}
-                          className="w-full bg-[rgb(168,85,247)]/10 border border-white/10 rounded-full py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-white/10 transition-all"
+                          className="w-full bg-[rgb(168,85,247)]/10 border border-white/10 rounded-full py-3 pl-6 pr-14 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-white/10 transition-all"
                         />
                         {searchQuery && (
                           <button
                             onClick={() => setSearchQuery('')}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                            className="absolute right-12 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
                             aria-label="Clear search"
                           >
                             <X className="h-4 w-4 text-gray-400" />
@@ -1839,11 +1916,14 @@ export const OverlaysLibraryGridPage = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between" style={{ marginTop: '-12px' }}>
                       <h1 className="text-3xl font-bold" style={{ fontSize: 'clamp(24px, calc(2vw + 1rem), 30px)' }}>
                         <span>Browse Overlays</span>
                       </h1>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-end gap-3">
+                        <span className="text-sm text-gray-400">
+                          <span>{filteredOverlays.length} results</span>
+                        </span>
                         <div className="relative" ref={sortDropdownRef}>
                           <button
                             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
@@ -1873,7 +1953,7 @@ export const OverlaysLibraryGridPage = ({
                                 transition={{
                                   duration: 0.2,
                                 }}
-                                className="absolute right-0 w-40 bg-[#2a1e3a] border border-white/10 rounded-lg shadow-xl overflow-hidden z-50"
+                                className="absolute right-0 w-40 bg-[#2a1e3a] border border-white/10 rounded-lg shadow-xl overflow-hidden z-[120]"
                                 style={{
                                   marginTop: 'calc(var(--spacing) * 0.3)',
                                 }}
@@ -1894,9 +1974,6 @@ export const OverlaysLibraryGridPage = ({
                             )}
                           </AnimatePresence>
                         </div>
-                        <span className="text-sm text-gray-400">
-                          <span>{filteredOverlays.length} results</span>
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -1904,8 +1981,8 @@ export const OverlaysLibraryGridPage = ({
               </div>
 
               {/* Scrollable content section */}
-              <div className="flex-1 overflow-y-auto filter-panel-scrollbar">
-                <div className="max-w-7xl mx-auto" style={{ padding: 'calc(var(--spacing) * 7)' }}>
+              <div ref={scrollableContentRef} className={`relative flex-1 filter-panel-scrollbar ${showProductCardModal ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+                <div className="max-w-7xl mx-auto" style={{ padding: 'calc(var(--spacing) * 7)', paddingTop: 'calc(1.0rem)' }}>
                   {filteredOverlays.length === 0 ? (
                     <div className="text-center py-20">
                       <p className="text-gray-400 text-lg">
@@ -1942,6 +2019,85 @@ export const OverlaysLibraryGridPage = ({
                           <button
                             onClick={e => {
                               e.stopPropagation();
+                              const clickedCard = (e.currentTarget as HTMLElement).closest('.group') as HTMLElement;
+                              if (clickedCard && scrollableContentRef.current) {
+                                const grid = clickedCard.parentElement?.parentElement;
+                                if (grid) {
+                                  // Get all cards in the grid
+                                  const allCards = Array.from(grid.querySelectorAll('.group')) as HTMLElement[];
+                                  const clickedIndex = allCards.indexOf(clickedCard);
+
+                                  // Determine grid columns (lg:3, sm:2, default:1)
+                                  const gridWidth = grid.clientWidth;
+                                  let columns = 1;
+                                  if (window.matchMedia('(min-width: 1024px)').matches) {
+                                    columns = 3;
+                                  } else if (window.matchMedia('(min-width: 640px)').matches) {
+                                    columns = 2;
+                                  }
+
+                                  // Calculate which row the clicked card is in
+                                  const rowIndex = Math.floor(clickedIndex / columns);
+
+                                  // Find the middle card of that row
+                                  const middleColumnIndex = Math.floor(columns / 2);
+                                  const middleCardIndex = rowIndex * columns + middleColumnIndex;
+                                  const middleCard = allCards[middleCardIndex];
+
+                                  if (middleCard) {
+                                    const cardRect = middleCard.getBoundingClientRect();
+                                    const containerRect = scrollableContentRef.current.getBoundingClientRect();
+
+                                    let topPosition = cardRect.top - containerRect.top + scrollableContentRef.current.scrollTop;
+
+                                    // Calculate total number of rows
+                                    const totalRows = Math.ceil(allCards.length / columns);
+                                    const lastRowIndex = totalRows - 1;
+
+                                    // If this is the top row (rowIndex === 0), position between this row and the next
+                                    if (rowIndex === 0) {
+                                      const nextRowMiddleCardIndex = (rowIndex + 1) * columns + middleColumnIndex;
+                                      const nextRowMiddleCard = allCards[nextRowMiddleCardIndex];
+
+                                      if (nextRowMiddleCard) {
+                                        const nextCardRect = nextRowMiddleCard.getBoundingClientRect();
+                                        const nextCardTop = nextCardRect.top - containerRect.top + scrollableContentRef.current.scrollTop;
+                                        // Position at the midpoint between the two cards
+                                        topPosition = (topPosition + cardRect.height / 2 + nextCardTop + nextCardRect.height / 2) / 2;
+                                      } else {
+                                        // If there's no next row, just center on the current card
+                                        topPosition = topPosition + cardRect.height / 2;
+                                      }
+                                    }
+                                    // If this is the bottom row, position between this row and the previous
+                                    else if (rowIndex === lastRowIndex) {
+                                      const prevRowMiddleCardIndex = (rowIndex - 1) * columns + middleColumnIndex;
+                                      const prevRowMiddleCard = allCards[prevRowMiddleCardIndex];
+
+                                      if (prevRowMiddleCard) {
+                                        const prevCardRect = prevRowMiddleCard.getBoundingClientRect();
+                                        const prevCardTop = prevCardRect.top - containerRect.top + scrollableContentRef.current.scrollTop;
+                                        // Position at the midpoint between the two cards
+                                        topPosition = (prevCardTop + prevCardRect.height / 2 + topPosition + cardRect.height / 2) / 2;
+                                      } else {
+                                        // If there's no previous row, just center on the current card
+                                        topPosition = topPosition + cardRect.height / 2;
+                                      }
+                                    }
+                                    else {
+                                      // For middle rows, center on the middle card
+                                      topPosition = topPosition + cardRect.height / 2;
+                                    }
+
+                                    setClickedCardPosition({
+                                      top: topPosition,
+                                      left: cardRect.left - containerRect.left + cardRect.width / 2,
+                                      width: cardRect.width,
+                                      height: cardRect.height,
+                                    });
+                                  }
+                                }
+                              }
                               setActiveOverlay(overlay);
                               setShowProductCardModal(true);
                             }}
@@ -2095,31 +2251,33 @@ export const OverlaysLibraryGridPage = ({
                     </div>
                   )}
                 </div>
-              </div>
 
-              {/* Product Card 3D Modal - Positioned within main content area */}
-              {showProductCardModal && activeOverlay && (
-                <div
-                  className="absolute inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-                  onClick={() => setShowProductCardModal(false)}
-                >
-                  <button
+                {/* Product Card 3D Modal - Positioned over clicked card */}
+                {showProductCardModal && activeOverlay && clickedCardPosition && (
+                  <div
+                    className="absolute inset-0 z-[50] bg-black/50 backdrop-blur-sm"
                     onClick={() => setShowProductCardModal(false)}
-                    className="absolute top-6 right-6 z-[110] bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-lg transition-all cursor-pointer backdrop-blur-sm"
                   >
-                    <X className="w-5 h-5 text-gray-700" />
-                  </button>
-                  <div className="relative" onClick={e => e.stopPropagation()}>
-                    <ProductCard3D
-                      overlay={activeOverlay}
-                      onPreview={() => {
-                        setShowProductCardModal(false);
-                        setShowLeaderboardOverlay(true);
+                    <div
+                      className="absolute"
+                      style={{
+                        top: `${clickedCardPosition.top}px`,
+                        left: `${clickedCardPosition.left}px`,
+                        transform: 'translate(-50%, -50%)',
                       }}
-                    />
+                      onClick={e => e.stopPropagation()}
+                    >
+                      <ProductCard3D
+                        overlay={activeOverlay}
+                        onPreview={() => {
+                          setShowProductCardModal(false);
+                          setShowLeaderboardOverlay(true);
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </>
           )}
 
@@ -2132,10 +2290,20 @@ export const OverlaysLibraryGridPage = ({
                     className="relative inline-flex cursor-help"
                     onMouseEnter={e => {
                       const rect = e.currentTarget.getBoundingClientRect();
-                      setToolsInfoTooltip({
-                        x: rect.left + rect.width / 2,
-                        y: rect.top - 10,
-                      });
+                      const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+
+                      // Calculate tooltip position - align to right of icon
+                      let x = rect.right + 10;
+                      let y = rect.top - 10;
+
+                      // Check if tooltip would overlap header (assuming tooltip height ~40px)
+                      const estimatedTooltipHeight = 40;
+                      if (y - estimatedTooltipHeight < headerHeight) {
+                        // Position below the icon instead
+                        y = rect.bottom + 10;
+                      }
+
+                      setToolsInfoTooltip({ x, y });
                     }}
                     onMouseLeave={() => setToolsInfoTooltip(null)}
                   >
@@ -2252,10 +2420,20 @@ export const OverlaysLibraryGridPage = ({
                     className="relative inline-flex cursor-help"
                     onMouseEnter={e => {
                       const rect = e.currentTarget.getBoundingClientRect();
-                      setToolsInfoTooltip({
-                        x: rect.left + rect.width / 2,
-                        y: rect.top - 10,
-                      });
+                      const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+
+                      // Calculate tooltip position - align to right of icon
+                      let x = rect.right + 10;
+                      let y = rect.top - 10;
+
+                      // Check if tooltip would overlap header (assuming tooltip height ~40px)
+                      const estimatedTooltipHeight = 40;
+                      if (y - estimatedTooltipHeight < headerHeight) {
+                        // Position below the icon instead
+                        y = rect.bottom + 10;
+                      }
+
+                      setToolsInfoTooltip({ x, y });
                     }}
                     onMouseLeave={() => setToolsInfoTooltip(null)}
                   >
@@ -2318,10 +2496,17 @@ export const OverlaysLibraryGridPage = ({
                             }}
                             onMouseEnter={e => {
                               const rect = e.currentTarget.getBoundingClientRect();
-                              setEditNameTooltip({
-                                x: rect.left + rect.width / 2,
-                                y: rect.top - 10,
-                              });
+                              const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+
+                              let x = rect.left + rect.width / 2;
+                              let y = rect.top - 10;
+
+                              const estimatedTooltipHeight = 40;
+                              if (y - estimatedTooltipHeight < headerHeight) {
+                                y = rect.bottom + 10;
+                              }
+
+                              setEditNameTooltip({ x, y });
                             }}
                             onMouseLeave={() => setEditNameTooltip(null)}
                           >
@@ -2335,10 +2520,17 @@ export const OverlaysLibraryGridPage = ({
                             }}
                             onMouseEnter={e => {
                               const rect = e.currentTarget.getBoundingClientRect();
-                              setShortlistTooltip({
-                                x: rect.left + rect.width / 2,
-                                y: rect.top - 10,
-                              });
+                              const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+
+                              let x = rect.left + rect.width / 2;
+                              let y = rect.top - 10;
+
+                              const estimatedTooltipHeight = 40;
+                              if (y - estimatedTooltipHeight < headerHeight) {
+                                y = rect.bottom + 10;
+                              }
+
+                              setShortlistTooltip({ x, y });
                             }}
                             onMouseLeave={() => setShortlistTooltip(null)}
                           >
@@ -2426,6 +2618,7 @@ export const OverlaysLibraryGridPage = ({
                   style={{
                     background: 'linear-gradient(to bottom, #1b1126, #0e0916)',
                     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.2)',
+                    minHeight: '248px',
                   }}
                 >
                   <div className="space-y-6">
@@ -2439,7 +2632,7 @@ export const OverlaysLibraryGridPage = ({
                         className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-[#A6A1B5]"
                         style={{
                           background: 'rgba(255, 255, 255, 0.03)',
-                          width: '70%',
+                          width: '49%',
                         }}
                         placeholder="Enter your username"
                       />
@@ -2459,14 +2652,14 @@ export const OverlaysLibraryGridPage = ({
                             className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors"
                             style={{
                               background: 'rgba(255, 255, 255, 0.03)',
-                              width: '70%',
+                              width: '49%',
                             }}
                           />
                         ) : (
                           <div
                             className="text-white text-base"
                             style={{
-                              width: '70%',
+                              width: '49%',
                             }}
                           >
                             {emailValue}
@@ -2480,8 +2673,11 @@ export const OverlaysLibraryGridPage = ({
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    {/* Theme */}
+                <div className="space-y-6">
+                  {/* Theme */}
                     <div className="space-y-3">
                       <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
                         <span>Theme</span>
@@ -2566,7 +2762,6 @@ export const OverlaysLibraryGridPage = ({
                         <span>Delete Account</span>
                       </button>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -2891,7 +3086,7 @@ export const OverlaysLibraryGridPage = ({
       {/* Leaderboard Info Overlay */}
       {showLeaderboardOverlay && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[150] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowLeaderboardOverlay(false)}
         >
           <div className="relative w-full max-w-5xl" onClick={e => e.stopPropagation()}>
@@ -3115,7 +3310,7 @@ export const OverlaysLibraryGridPage = ({
           style={{
             left: toolsInfoTooltip.x,
             top: toolsInfoTooltip.y,
-            transform: 'translate(-50%, -100%)',
+            transform: 'translate(0, -100%)',
           }}
           aria-hidden="true"
         >

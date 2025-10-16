@@ -97,42 +97,42 @@ export const ProductCard3D: React.FC<ProductCard3DProps> = ({ overlay, onPreview
       >
         {/* Main Card with 3D Depth */}
         <div
-          className="relative w-full h-full bg-gradient-to-br from-[#0a0612] to-[#150b1f] rounded-2xl border border-purple-900/20 overflow-hidden shadow-2xl"
+          className="relative w-full h-full bg-gradient-to-br from-[#1a1428] to-[#2a1e3a] rounded-2xl border border-purple-900/20 overflow-hidden shadow-2xl"
           style={{
             transformStyle: 'preserve-3d',
           }}
         >
           {/* Card Thickness/Depth Layers - Increased depth */}
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/90 to-[#150b1f]/70 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/90 to-[#2a1e3a]/70 rounded-2xl"
             style={{ transform: 'translateZ(-2px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/80 to-[#150b1f]/60 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/80 to-[#2a1e3a]/60 rounded-2xl"
             style={{ transform: 'translateZ(-4px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/70 to-[#150b1f]/50 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/70 to-[#2a1e3a]/50 rounded-2xl"
             style={{ transform: 'translateZ(-6px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/60 to-[#150b1f]/40 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/60 to-[#2a1e3a]/40 rounded-2xl"
             style={{ transform: 'translateZ(-8px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/50 to-[#150b1f]/30 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/50 to-[#2a1e3a]/30 rounded-2xl"
             style={{ transform: 'translateZ(-10px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/40 to-[#150b1f]/20 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/40 to-[#2a1e3a]/20 rounded-2xl"
             style={{ transform: 'translateZ(-12px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/30 to-[#150b1f]/15 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/30 to-[#2a1e3a]/15 rounded-2xl"
             style={{ transform: 'translateZ(-14px)' }}
           />
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#0a0612]/20 to-[#150b1f]/10 rounded-2xl"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1428]/20 to-[#2a1e3a]/10 rounded-2xl"
             style={{ transform: 'translateZ(-16px)' }}
           />
 
@@ -167,40 +167,40 @@ export const ProductCard3D: React.FC<ProductCard3DProps> = ({ overlay, onPreview
             onMouseMove={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
             onMouseUp={(e) => e.stopPropagation()}
-            className="relative px-4 py-1.5 bg-purple-700/30 hover:bg-purple-600/40 active:bg-purple-600/50 text-sm font-medium rounded-lg cursor-pointer border border-purple-600/20 shadow-[0_4px_8px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.1)_inset] active:shadow-[0_1px_4px_rgba(0,0,0,0.5)_inset] active:translate-y-0.5 transition-all duration-100 pointer-events-auto"
-            style={{ color: '#ffffff' }}
+            className="relative px-4 py-1.5 bg-purple-950/70 hover:bg-purple-900/80 active:bg-purple-900/90 text-sm font-medium rounded-lg cursor-pointer border border-purple-900/40 shadow-[0_4px_8px_rgba(0,0,0,0.5),0_1px_0_rgba(255,255,255,0.05)_inset] active:shadow-[0_1px_4px_rgba(0,0,0,0.7)_inset] active:translate-y-0.5 transition-all duration-100 pointer-events-auto"
+            style={{ color: '#e9d5ff' }}
           >
             {/* Button Thickness/Depth Layers - Increased depth */}
             <div
-              className="absolute inset-0 bg-purple-800/50 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/80 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-1px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/45 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/75 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-2px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/40 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/70 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-3px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/35 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/65 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-4px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/30 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/60 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-5px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/25 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/55 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-6px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/20 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/50 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-7px)' }}
             />
             <div
-              className="absolute inset-0 bg-purple-800/15 rounded-lg pointer-events-none"
+              className="absolute inset-0 bg-purple-950/45 rounded-lg pointer-events-none"
               style={{ transform: 'translateZ(-8px)' }}
             />
             <span className="relative z-10" style={{ color: '#ffffff' }}>Preview</span>
