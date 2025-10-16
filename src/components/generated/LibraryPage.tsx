@@ -238,6 +238,9 @@ export const OverlaysLibraryGridPage = ({
   });
   // Account theme selection state
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>('dark');
+  // Email editing state
+  const [isEmailEditing, setIsEmailEditing] = useState(false);
+  const [emailValue, setEmailValue] = useState('email@gmail.com');
   // Tools Dashboard info tooltip state
   const [toolsInfoTooltip, setToolsInfoTooltip] = useState<{
     x: number;
@@ -2433,9 +2436,10 @@ export const OverlaysLibraryGridPage = ({
                       </label>
                       <input
                         type="text"
-                        className="w-full rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-[#A6A1B5]"
+                        className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-[#A6A1B5]"
                         style={{
                           background: 'rgba(255, 255, 255, 0.03)',
+                          width: '70%',
                         }}
                         placeholder="Enter your username"
                       />
@@ -2446,21 +2450,33 @@ export const OverlaysLibraryGridPage = ({
                       <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
                         <span>Email</span>
                       </label>
-                      <div className="relative">
-                        <input
-                          type="email"
-                          value="charlieseiler@gmail.com"
-                          readOnly
-                          className="w-full rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none transition-colors"
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.03)',
-                          }}
-                        />
+                      <div className="flex items-center gap-3">
+                        {isEmailEditing ? (
+                          <input
+                            type="email"
+                            value={emailValue}
+                            onChange={(e) => setEmailValue(e.target.value)}
+                            className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors"
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.03)',
+                              width: '70%',
+                            }}
+                          />
+                        ) : (
+                          <div
+                            className="text-white text-base"
+                            style={{
+                              width: '70%',
+                            }}
+                          >
+                            {emailValue}
+                          </div>
+                        )}
                         <button
-                          onClick={() => {/* TODO: Implement change email */}}
-                          className="absolute right-2 bottom-2 px-3 py-1.5 bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-xs font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer"
+                          onClick={() => setIsEmailEditing(!isEmailEditing)}
+                          className="px-3 py-1.5 bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-xs font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer"
                         >
-                          <span>Change</span>
+                          <span>{isEmailEditing ? 'Save' : 'Change'}</span>
                         </button>
                       </div>
                     </div>
@@ -2475,7 +2491,7 @@ export const OverlaysLibraryGridPage = ({
                           onClick={() => setSelectedTheme('light')}
                           className="flex flex-col items-center gap-2.5 group cursor-pointer"
                         >
-                          <div className={`w-[134px] h-[90px] bg-[#2d2840] rounded-[6px] flex items-center justify-center hover:border-gray-600 transition-colors p-4 ${
+                          <div className={`w-[134px] h-[90px] bg-[#2d2840] rounded-[6px] flex items-center justify-center transition-colors p-4 ${
                             selectedTheme === 'light'
                               ? 'border-[2px] border-[#e8753a]'
                               : 'border-[1.5px] border-[#4a4558]'
