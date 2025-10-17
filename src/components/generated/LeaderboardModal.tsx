@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Bookmark, RotateCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCart } from '../../contexts/cartCore';
@@ -20,9 +21,12 @@ type LeaderboardInfoModalProps = {
   overlay?: Overlay | null;
   isBookmarked?: boolean;
   onToggleBookmark?: () => void;
+  hideCartButtons?: boolean;
+  hideBookmarkButton?: boolean;
 };
 
 export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
+  const navigate = useNavigate();
   const [frameOrientation, setFrameOrientation] = React.useState<
     'vertical' | 'horizontal' | 'rectangle'
   >('vertical');
@@ -30,6 +34,8 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
   const overlay = props.overlay;
   const isBookmarked = props.isBookmarked ?? false;
   const handleToggleBookmark = props.onToggleBookmark ?? (() => {});
+  const hideCartButtons = props.hideCartButtons ?? false;
+  const hideBookmarkButton = props.hideBookmarkButton ?? false;
   const { cart, add, remove, openCart } = useCart();
 
   const handleNext = () => {
@@ -80,8 +86,8 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
         style={{
           paddingLeft: '50px',
           paddingRight: '50px',
-          paddingTop: '48px',
-          paddingBottom: '48px',
+          paddingTop: '40px',
+          paddingBottom: '40px',
           background:
             'linear-gradient(90deg, rgb(26, 20, 40) 0%, rgb(34, 24, 50) 50%, rgb(42, 30, 58) 100%)',
           maxWidth: '1100px',
@@ -188,16 +194,18 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
 
           <div className="lg:w-[380px] flex flex-col relative">
             {/* small bookmark icon in top-right of modal */}
-            <button
-              onClick={handleToggleBookmark}
-              aria-label="Toggle bookmark"
-              className="absolute -top-4 right-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors cursor-pointer"
-              style={{ zIndex: 40 }}
-            >
-              <Bookmark
-                className={`w-5 h-5 transition-colors ${isBookmarked ? 'text-orange-400 fill-current' : 'text-white'}`}
-              />
-            </button>
+            {!hideBookmarkButton && (
+              <button
+                onClick={handleToggleBookmark}
+                aria-label="Toggle bookmark"
+                className="absolute -top-4 right-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors cursor-pointer"
+                style={{ zIndex: 40 }}
+              >
+                <Bookmark
+                  className={`w-5 h-5 transition-colors ${isBookmarked ? 'text-orange-400 fill-current' : 'text-white'}`}
+                />
+              </button>
+            )}
             <div className="flex items-start gap-3 mb-6">
               <h1 className="text-3xl font-bold text-white leading-tight">
                 {overlay ? `${overlay.name}` : 'Leaderboard - Bold'}
@@ -241,28 +249,38 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
                 </span>
               </div>
               {overlay && <CartControls id={overlay.id} name={overlay.name} />}
-              <button
-                onClick={() => openCart()}
-                className="w-full border-2 border-white/20 text-gray-300 font-medium py-4 px-6 rounded-xl hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="w-5 h-5"
-                >
-                  <path d="M3 3h2l.4 2M7 13h10l4-8H5.4"></path>
-                  <circle cx="10" cy="20" r="1"></circle>
-                  <circle cx="19" cy="20" r="1"></circle>
-                </svg>
-                <span>View Cart</span>
-              </button>
+              {!hideCartButtons && (
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => navigate('/cart')}
+                    className="flex-1 border-2 border-white/20 text-gray-300 font-medium py-4 px-6 rounded-xl hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-5 h-5"
+                    >
+                      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4"></path>
+                      <circle cx="10" cy="20" r="1"></circle>
+                      <circle cx="19" cy="20" r="1"></circle>
+                    </svg>
+                    <span>View Cart</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/checkout')}
+                    className="flex-1 border-2 border-white/20 text-gray-300 font-medium py-4 px-6 rounded-xl hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                  >
+                    <span>Checkout</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

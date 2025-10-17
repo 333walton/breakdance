@@ -5,6 +5,7 @@ import { OverlaysUnoLandingPage } from './components/generated/OverlaysUnoLandin
 import ContactPage from './components/generated/ContactPage';
 import { OverlaysLibraryGridPage } from './components/generated/LibraryPage';
 import CheckoutDemo from './pages/CheckoutDemo';
+import CartPage from './pages/CartPage';
 import { AuthProvider } from './contexts/AuthContext';
 
 let theme: Theme = 'dark';
@@ -61,6 +62,7 @@ function App() {
           path="/pricing"
           element={<OverlaysLibraryGridPage key="pricing" initialView="Pricing" />}
         />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutDemo />} />
       </Routes>
     </AuthProvider>

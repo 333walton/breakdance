@@ -13,6 +13,31 @@ const GlobalCartDropdown: React.FC = () => {
   const [origin, setOrigin] = useState<string | undefined>(undefined);
   const elRef = useRef<HTMLDivElement | null>(null);
 
+  // Add scrollbar styles
+  React.useEffect(() => {
+    const styleId = 'cart-dropdown-scrollbar-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .cart-dropdown-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .cart-dropdown-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .cart-dropdown-scrollbar::-webkit-scrollbar-thumb {
+          background: #3a3a3a;
+          border-radius: 3px;
+        }
+        .cart-dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #4a4a4a;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }, []);
+
   useEffect(() => {
     if (!isCartOpen) return;
     const anchor = document.querySelector('[data-cart-anchor="true"]') as HTMLElement | null;
@@ -57,11 +82,13 @@ const GlobalCartDropdown: React.FC = () => {
     <AnimatePresence>
       {isCartOpen && (
         <motion.div
+          key="cart-dropdown"
           ref={elRef}
           initial={{ y: -8, opacity: 0, scale: 0.98 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: -8, opacity: 0, scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 500, damping: 32, mass: 0.6 }}
+          layout
           style={{
             position: 'fixed',
             top: pos ? pos.top : 80,
@@ -71,7 +98,7 @@ const GlobalCartDropdown: React.FC = () => {
             transform: 'translateZ(0)',
             transformOrigin: origin,
           }}
-          className="w-80 bg-[#1a1428]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md overflow-auto max-h-64"
+          className="w-80 bg-[#1a1428]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md overflow-auto max-h-64 cart-dropdown-scrollbar"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Cart</h3>
@@ -97,7 +124,7 @@ const GlobalCartDropdown: React.FC = () => {
                         ${overlay ? overlay.price.toFixed(2) : '--'}
                       </div>
                     </div>
-                    <CartControls id={id} />
+                    <CartControls id={id} variant="dropdown" />
                   </div>
                 );
               })
@@ -122,10 +149,11 @@ const GlobalCartDropdown: React.FC = () => {
               <button
                 onClick={() => {
                   closeCart();
+                  navigate('/cart');
                 }}
                 className="flex-1 px-3 py-2 rounded-md bg-white/5 hover:bg-white/10 text-sm cursor-pointer"
               >
-                Close
+                View Cart
               </button>
               <button
                 onClick={() => {

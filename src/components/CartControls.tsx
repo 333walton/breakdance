@@ -6,10 +6,11 @@ import { useNotifications } from '../contexts/notificationsCore';
 interface CartControlsProps {
   id: string;
   name?: string;
+  variant?: 'modal' | 'dropdown';
 }
 
-export const CartControls: React.FC<CartControlsProps> = ({ id, name }) => {
-  const { cart, add, remove } = useCart();
+export const CartControls: React.FC<CartControlsProps> = ({ id, name, variant = 'modal' }) => {
+  const { cart, add, remove, openCart, isCartOpen } = useCart();
   const { notify } = useNotifications();
 
   const qty = cart[id] || 0;
@@ -17,17 +18,21 @@ export const CartControls: React.FC<CartControlsProps> = ({ id, name }) => {
   const onAdd = () => {
     add(id);
     notify({ message: `${name || 'Item'} added to cart`, type: 'info' });
+    if (variant === 'modal' && !isCartOpen) {
+      openCart();
+    }
   };
   const onRemove = () => {
     remove(id);
     notify({ message: `${name || 'Item'} removed from cart`, type: 'warning' });
   };
 
-  if (qty === 0) {
+  // Modal variant: Always show the Add button
+  if (variant === 'modal') {
     return (
       <button
         onClick={onAdd}
-        className="flex items-center gap-3 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] text-white font-semibold py-2 px-4 rounded-md hover:shadow-lg transition-all cursor-pointer"
+        className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#FF5C25] to-[#FFC542] text-white font-medium py-4 px-6 rounded-xl hover:shadow-lg transition-all cursor-pointer"
         aria-label={`Add ${name || 'item'} to cart`}
         title={`Add ${name || 'item'}`}
       >
@@ -41,17 +46,18 @@ export const CartControls: React.FC<CartControlsProps> = ({ id, name }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-white"
+          className="w-5 h-5"
         >
           <circle cx="9" cy="21" r="1"></circle>
           <circle cx="20" cy="21" r="1"></circle>
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
         </svg>
-        <span className="text-sm">Add</span>
+        <span>Add</span>
       </button>
     );
   }
 
+  // Dropdown variant: Show +/- controls
   return (
     <div className="flex items-center gap-2">
       <button
