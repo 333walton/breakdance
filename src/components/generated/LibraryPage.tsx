@@ -1007,7 +1007,7 @@ export const OverlaysLibraryGridPage = ({
         <motion.nav
           initial={false}
           animate={{
-            width: isNavExpanded ? 216 : 80,
+            width: isNavExpanded ? 218 : 80,
           }}
           transition={{
             duration: 0.3,
@@ -1547,7 +1547,7 @@ export const OverlaysLibraryGridPage = ({
             position: 'fixed',
             bottom: '0px',
             left: '0px',
-            width: isNavExpanded ? '216px' : '80px',
+            width: isNavExpanded ? '218px' : '80px',
             height: '194px',
             backgroundColor: 'rgba(15, 10, 26, 0.95)',
             zIndex: 99,
@@ -1863,7 +1863,7 @@ export const OverlaysLibraryGridPage = ({
             aria-hidden="false"
             className="absolute z-40 border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm flex flex-col flex-shrink-0 items-center"
             style={{
-              left: `${isNavExpanded ? 216 : 80}px`,
+              left: `${isNavExpanded ? 218 : 80}px`,
               // Prefer computing header bottom relative to the container so the collapsed strip
               // sits flush under the header. Fall back to previous measurements if refs are
               // not available yet.
@@ -2219,6 +2219,9 @@ export const OverlaysLibraryGridPage = ({
                                   onClick={e => {
                                     e.stopPropagation();
                                     add(overlay.id);
+                                    if (!isCartOpen) {
+                                      openCart();
+                                    }
                                   }}
                                   className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0 cursor-pointer"
                                   aria-label={`Add ${overlay.name} to cart`}
@@ -2248,6 +2251,9 @@ export const OverlaysLibraryGridPage = ({
                                     onClick={e => {
                                       e.stopPropagation();
                                       remove(overlay.id);
+                                      if (!isCartOpen) {
+                                        openCart();
+                                      }
                                     }}
                                     className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm cursor-pointer"
                                     aria-label={`Decrease quantity for ${overlay.name}`}
@@ -2260,6 +2266,9 @@ export const OverlaysLibraryGridPage = ({
                                     onClick={e => {
                                       e.stopPropagation();
                                       add(overlay.id);
+                                      if (!isCartOpen) {
+                                        openCart();
+                                      }
                                     }}
                                     className="w-7 h-7 flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 text-white text-sm cursor-pointer"
                                     aria-label={`Increase quantity for ${overlay.name}`}
@@ -2598,6 +2607,9 @@ export const OverlaysLibraryGridPage = ({
                                   saveCustomToolName(tool, e.currentTarget.value);
                                 } else if (e.key === 'Escape') {
                                   setEditingTool(null);
+                                } else if (e.currentTarget.value.length >= 17 && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                                  // User is trying to type past the limit
+                                  notify({ message: 'Tool name limited to 17 characters', type: 'warning' });
                                 }
                               }}
                               onClick={e => e.stopPropagation()}
