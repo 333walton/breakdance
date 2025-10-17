@@ -266,6 +266,10 @@ export const OverlaysLibraryGridPage = ({
     x: number;
     y: number;
   } | null>(null);
+  const [favoriteTooltip, setFavoriteTooltip] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)
@@ -351,6 +355,7 @@ export const OverlaysLibraryGridPage = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerRect, setContainerRect] = useState<{ top: number; height: number } | null>(null);
   const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const shortlistNotificationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Cleanup tooltip timeout on unmount
   useEffect(() => {
@@ -623,8 +628,23 @@ export const OverlaysLibraryGridPage = ({
     setSelectedInMyTools(prev => {
       const next = new Set(prev);
       if (next.has(tool)) {
+        // Allow removing
         next.delete(tool);
       } else {
+        // Filter to only count tools that are in selectedTools (in My Tools section)
+        const currentlyShortlisted = Array.from(prev).filter(t => selectedTools.has(t));
+        // Check if we already have 5 tools shortlisted
+        if (currentlyShortlisted.length >= 5) {
+          // Show notification only if we haven't shown it recently
+          if (!shortlistNotificationTimeoutRef.current) {
+            notify({ message: 'Maximum 5 tools can be shortlisted', type: 'warning' });
+            // Set timeout to prevent duplicate notifications
+            shortlistNotificationTimeoutRef.current = setTimeout(() => {
+              shortlistNotificationTimeoutRef.current = null;
+            }, 1000);
+          }
+          return prev; // Return unchanged
+        }
         next.add(tool);
       }
       try {
@@ -987,7 +1007,7 @@ export const OverlaysLibraryGridPage = ({
         <motion.nav
           initial={false}
           animate={{
-            width: isNavExpanded ? 210 : 80,
+            width: isNavExpanded ? 216 : 80,
           }}
           transition={{
             duration: 0.3,
@@ -1040,7 +1060,7 @@ export const OverlaysLibraryGridPage = ({
                 onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Overlays', e)}
                 onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
                 onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Library' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Library' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-white border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={{
                   height: '48px',
                 }}
@@ -1068,7 +1088,7 @@ export const OverlaysLibraryGridPage = ({
                 onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Tools', e)}
                 onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
                 onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Tools' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
+                className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer border whitespace-nowrap overflow-hidden ${activeNavItem === 'Tools' ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-white border-yellow-500/40' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`}
                 style={{
                   height: '48px',
                 }}
@@ -1093,7 +1113,7 @@ export const OverlaysLibraryGridPage = ({
 
               {/* Show active tool below Tools button when viewing a tool from /tools - Expanded */}
               {isNavExpanded && activeNavItem === 'Tools' && activeToolFromPath && location.pathname.startsWith('/tools/') && (
-                <div className="overflow-hidden pl-4 space-y-1 mt-1">
+                <div className="overflow-hidden pl-1 space-y-1 mt-1">
                   {(() => {
                     const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
                     const ToolIcon = getToolIcon(activeToolFromPath);
@@ -1108,12 +1128,12 @@ export const OverlaysLibraryGridPage = ({
                         onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
                         onMouseMove={e => handleMoveNavTooltip(e)}
                         onMouseLeave={() => handleHideNavTooltip()}
-                        className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm bg-purple-500/20 text-white border border-purple-500/30"
+                        className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm text-gray-400"
                       >
                         <ToolIcon className="h-4 w-4 flex-shrink-0" />
                         <span
-                          className="block text-sm truncate whitespace-nowrap"
-                          style={{ maxWidth: '160px' }}
+                          className="block text-sm truncate whitespace-nowrap text-[oklch(.837_.128_66.29)]"
+                          style={{ maxWidth: '200px' }}
                         >
                           {activeToolFromPath}
                         </span>
@@ -1194,38 +1214,43 @@ export const OverlaysLibraryGridPage = ({
                   </button>
                   {/* If expanded, show list of selected tools below the button (max 5) */}
                   {selectedInMyTools.size > 0 && (
-                    <div className="overflow-hidden pl-4 space-y-1 mt-1">
-                      {Array.from(selectedInMyTools).slice(0, 5).map(tool => {
-                        const isActiveTool = activeToolFromPath === tool && location.pathname.startsWith('/mytools/');
-                        const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
-                        const ToolIcon = getToolIcon(tool);
-                        return (
-                          <button
-                            key={tool}
-                            aria-label={`Open ${getToolDisplayName(tool)} in My Tools`}
-                            onClick={() => {
-                              navigate(`/mytools/${toolSlug}`);
-                              setActiveNavItem('MyTools');
-                            }}
-                            onMouseEnter={e => handleShowNavTooltip(tool, e)}
-                            onMouseMove={e => handleMoveNavTooltip(e)}
-                            onMouseLeave={() => handleHideNavTooltip()}
-                            className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
-                              isActiveTool
-                                ? 'bg-purple-500/20 text-white border border-purple-500/30'
-                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                            }`}
-                          >
-                            <ToolIcon className="h-4 w-4 flex-shrink-0" />
-                            <span
-                              className="block text-sm truncate whitespace-nowrap"
-                              style={{ maxWidth: '160px' }}
+                    <div className="overflow-hidden pl-1 space-y-1 mt-1">
+                      {Array.from(selectedInMyTools)
+                        .filter(tool => selectedTools.has(tool))
+                        .slice(0, 5)
+                        .map(tool => {
+                          const isActiveTool = activeToolFromPath === tool && location.pathname.startsWith('/mytools/');
+                          const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
+                          const ToolIcon = getToolIcon(tool);
+                          return (
+                            <button
+                              key={tool}
+                              aria-label={`Open ${getToolDisplayName(tool)} in My Tools`}
+                              onClick={() => {
+                                navigate(`/mytools/${toolSlug}`);
+                                setActiveNavItem('MyTools');
+                              }}
+                              onMouseEnter={e => handleShowNavTooltip(tool, e)}
+                              onMouseMove={e => handleMoveNavTooltip(e)}
+                              onMouseLeave={() => handleHideNavTooltip()}
+                              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
+                                isActiveTool
+                                  ? 'text-gray-400'
+                                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                              }`}
                             >
-                              {getToolDisplayName(tool)}
-                            </span>
-                          </button>
-                        );
-                      })}
+                              <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                              <span
+                                className={`block text-sm truncate whitespace-nowrap ${
+                                  isActiveTool ? 'text-[oklch(.837_.128_66.29)]' : ''
+                                }`}
+                                style={{ maxWidth: '200px' }}
+                              >
+                                {getToolDisplayName(tool)}
+                              </span>
+                            </button>
+                          );
+                        })}
                     </div>
                   )}
                 </div>
@@ -1278,12 +1303,12 @@ export const OverlaysLibraryGridPage = ({
                             }}
                             className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
                               activeOverlaySectionFromPath === 'all'
-                                ? 'bg-purple-500/20 text-white border border-purple-500/30'
+                                ? 'text-gray-400'
                                 : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                           >
                             <Folder className="h-4 w-4 flex-shrink-0" />
-                            <span>All</span>
+                            <span className={activeOverlaySectionFromPath === 'all' ? 'text-[oklch(.837_.128_66.29)]' : ''}>All</span>
                           </button>
                           <button
                             onClick={() => {
@@ -1292,12 +1317,12 @@ export const OverlaysLibraryGridPage = ({
                             }}
                             className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
                               activeOverlaySectionFromPath === 'favorites'
-                                ? 'bg-purple-500/20 text-white border border-purple-500/30'
+                                ? 'text-gray-400'
                                 : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                           >
                             <Star className="h-4 w-4 flex-shrink-0" />
-                            <span>Favorites</span>
+                            <span className={activeOverlaySectionFromPath === 'favorites' ? 'text-[oklch(.837_.128_66.29)]' : ''}>Favorites</span>
                           </button>
                           <button
                             onClick={() => {
@@ -1306,12 +1331,12 @@ export const OverlaysLibraryGridPage = ({
                             }}
                             className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm ${
                               activeOverlaySectionFromPath === 'myimages'
-                                ? 'bg-purple-500/20 text-white border border-purple-500/30'
+                                ? 'text-gray-400'
                                 : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                           >
                             <Image className="h-4 w-4 flex-shrink-0" />
-                            <span>My Images</span>
+                            <span className={activeOverlaySectionFromPath === 'myimages' ? 'text-[oklch(.837_.128_66.29)]' : ''}>My Images</span>
                           </button>
                         </div>
                       )}
@@ -1522,7 +1547,7 @@ export const OverlaysLibraryGridPage = ({
             position: 'fixed',
             bottom: '0px',
             left: '0px',
-            width: isNavExpanded ? '210px' : '80px',
+            width: isNavExpanded ? '216px' : '80px',
             height: '194px',
             backgroundColor: 'rgba(15, 10, 26, 0.95)',
             zIndex: 99,
@@ -2361,7 +2386,7 @@ export const OverlaysLibraryGridPage = ({
                           navigate(`/tools/${toolSlug}`);
                           setActiveNavItem('Tools');
                         }}
-                        className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group ${
+                        className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group ${
                           isSelected || isHighlighted
                             ? 'border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
                             : 'border-white/10 hover:border-white/20'
@@ -2369,11 +2394,26 @@ export const OverlaysLibraryGridPage = ({
                       >
                         {/* Star icon in top right corner */}
                         <div
-                          className="absolute top-4 right-4"
+                          className="absolute top-4 right-4 cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
                             toggleToolInCollection(tool);
                           }}
+                          onMouseEnter={e => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+
+                            let x = rect.left + rect.width / 2;
+                            let y = rect.top - 10;
+
+                            const estimatedTooltipHeight = 40;
+                            if (y - estimatedTooltipHeight < headerHeight) {
+                              y = rect.bottom + 10;
+                            }
+
+                            setFavoriteTooltip({ x, y });
+                          }}
+                          onMouseLeave={() => setFavoriteTooltip(null)}
                         >
                           <Star
                             className={`h-6 w-6 transition-all ${
@@ -2484,7 +2524,7 @@ export const OverlaysLibraryGridPage = ({
                               navigate(`/mytools/${toolSlug}`);
                             }
                           }}
-                        className="relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all cursor-pointer group border-white/10 hover:border-white/20"
+                        className="relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group border-white/10 hover:border-white/20"
                       >
                         {/* Edit and Star icons in top right corner */}
                         <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -2550,7 +2590,7 @@ export const OverlaysLibraryGridPage = ({
                             <input
                               type="text"
                               defaultValue={displayName}
-                              maxLength={14}
+                              maxLength={17}
                               autoFocus
                               onBlur={e => saveCustomToolName(tool, e.target.value)}
                               onKeyDown={e => {
@@ -2562,6 +2602,7 @@ export const OverlaysLibraryGridPage = ({
                               }}
                               onClick={e => e.stopPropagation()}
                               className="font-semibold text-lg text-white bg-white/10 border border-white/20 rounded px-2 py-1 focus:outline-none focus:border-purple-500/50"
+                              style={{ maxWidth: '180px' }}
                             />
                           ) : (
                             <h3 className="font-semibold text-lg text-white">
@@ -3347,6 +3388,21 @@ export const OverlaysLibraryGridPage = ({
           aria-hidden="true"
         >
           Shortlist
+        </div>
+      )}
+
+      {/* Favorite tooltip */}
+      {favoriteTooltip && (
+        <div
+          className="fixed z-[120] pointer-events-none bg-black/90 text-white text-sm px-3 py-1 rounded shadow-lg"
+          style={{
+            left: favoriteTooltip.x,
+            top: favoriteTooltip.y,
+            transform: 'translate(-50%, -100%)',
+          }}
+          aria-hidden="true"
+        >
+          Favorite
         </div>
       )}
     </div>
