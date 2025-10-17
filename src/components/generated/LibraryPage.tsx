@@ -178,7 +178,12 @@ export const OverlaysLibraryGridPage = ({
   const [showLeaderboardOverlay, setShowLeaderboardOverlay] = useState(false);
   const [showProductCardModal, setShowProductCardModal] = useState(false);
   const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
-  const [clickedCardPosition, setClickedCardPosition] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
+  const [clickedCardPosition, setClickedCardPosition] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Initialize filters from location state if provided
@@ -284,7 +289,14 @@ export const OverlaysLibraryGridPage = ({
         ?.split('-')
         .map(word => {
           const upperWord = word.toUpperCase();
-          if (upperWord === 'ROI' || upperWord === 'NBA' || upperWord === 'NFL' || upperWord === 'MLB' || upperWord === 'NHL' || upperWord === 'MLS') {
+          if (
+            upperWord === 'ROI' ||
+            upperWord === 'NBA' ||
+            upperWord === 'NFL' ||
+            upperWord === 'MLB' ||
+            upperWord === 'NHL' ||
+            upperWord === 'MLS'
+          ) {
             return upperWord;
           }
           return word.charAt(0).toUpperCase() + word.slice(1);
@@ -296,7 +308,14 @@ export const OverlaysLibraryGridPage = ({
         ?.split('-')
         .map(word => {
           const upperWord = word.toUpperCase();
-          if (upperWord === 'ROI' || upperWord === 'NBA' || upperWord === 'NFL' || upperWord === 'MLB' || upperWord === 'NHL' || upperWord === 'MLS') {
+          if (
+            upperWord === 'ROI' ||
+            upperWord === 'NBA' ||
+            upperWord === 'NFL' ||
+            upperWord === 'MLB' ||
+            upperWord === 'NHL' ||
+            upperWord === 'MLS'
+          ) {
             return upperWord;
           }
           return word.charAt(0).toUpperCase() + word.slice(1);
@@ -478,7 +497,6 @@ export const OverlaysLibraryGridPage = ({
     }
   }, [showProductCardModal]);
 
-
   useEffect(() => {
     const updateNavHeight = () => {
       const headerHeight = headerRef.current
@@ -571,7 +589,10 @@ export const OverlaysLibraryGridPage = ({
   const toggleToolInCollection = (tool: string) => {
     // First, check current state to determine if we're adding or removing
     const isCurrentlySelected = selectedTools.has(tool);
-    console.log(`toggleToolInCollection called for ${tool}, currently selected:`, isCurrentlySelected);
+    console.log(
+      `toggleToolInCollection called for ${tool}, currently selected:`,
+      isCurrentlySelected
+    );
 
     setSelectedTools(prev => {
       const next = new Set(prev);
@@ -902,8 +923,13 @@ export const OverlaysLibraryGridPage = ({
             >
               {navigationItems.map(nav => {
                 const isActive =
-                  (nav.label === 'Overlays' && (location.pathname === '/library' || location.pathname.startsWith('/myoverlays'))) ||
-                  (nav.label === 'Tools' && (location.pathname === '/tools' || location.pathname.startsWith('/tools/') || location.pathname.startsWith('/mytools'))) ||
+                  (nav.label === 'Overlays' &&
+                    (location.pathname === '/library' ||
+                      location.pathname.startsWith('/myoverlays'))) ||
+                  (nav.label === 'Tools' &&
+                    (location.pathname === '/tools' ||
+                      location.pathname.startsWith('/tools/') ||
+                      location.pathname.startsWith('/mytools'))) ||
                   (nav.label === 'Pricing' && location.pathname === '/pricing');
 
                 return (
@@ -921,9 +947,7 @@ export const OverlaysLibraryGridPage = ({
                       }
                     }}
                     className={`${
-                      isActive
-                        ? 'text-orange-300'
-                        : 'text-gray-200 hover:text-orange-300'
+                      isActive ? 'text-orange-300' : 'text-gray-200 hover:text-orange-300'
                     } transition-colors text-sm font-bold tracking-wide relative cursor-pointer`}
                     style={{ fontFamily: 'Nunito, sans-serif' }}
                   >
@@ -1020,7 +1044,7 @@ export const OverlaysLibraryGridPage = ({
           style={{
             height: navMaxHeight,
             maxHeight: navMaxHeight,
-            contain: 'layout style'
+            contain: 'layout style',
           }}
         >
           <div
@@ -1053,7 +1077,16 @@ export const OverlaysLibraryGridPage = ({
               )}
             </button>
           </div>
-          <div className="p-4 overflow-hidden mt-[30px]" style={{ flex: '1 1 auto', contain: 'layout', isolation: 'isolate', minHeight: 0, paddingBottom: '280px' }}>
+          <div
+            className="p-4 overflow-hidden mt-[30px]"
+            style={{
+              flex: '1 1 auto',
+              contain: 'layout',
+              isolation: 'isolate',
+              minHeight: 0,
+              paddingBottom: '280px',
+            }}
+          >
             <div className="space-y-2">
               <button
                 onClick={() => navigate('/library')}
@@ -1112,67 +1145,73 @@ export const OverlaysLibraryGridPage = ({
               </button>
 
               {/* Show active tool below Tools button when viewing a tool from /tools - Expanded */}
-              {isNavExpanded && activeNavItem === 'Tools' && activeToolFromPath && location.pathname.startsWith('/tools/') && (
-                <div className="overflow-hidden pl-1 space-y-1 mt-1">
-                  {(() => {
-                    const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
-                    const ToolIcon = getToolIcon(activeToolFromPath);
-                    return (
-                      <button
-                        key={activeToolFromPath}
-                        aria-label={`Open ${activeToolFromPath} in Tools`}
-                        onClick={() => {
-                          navigate(`/tools/${toolSlug}`);
-                          setActiveNavItem('Tools');
-                        }}
-                        onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
-                        onMouseMove={e => handleMoveNavTooltip(e)}
-                        onMouseLeave={() => handleHideNavTooltip()}
-                        className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm text-gray-400"
-                      >
-                        <ToolIcon className="h-4 w-4 flex-shrink-0" />
-                        <span
-                          className="block text-sm truncate whitespace-nowrap text-[oklch(.837_.128_66.29)]"
-                          style={{ maxWidth: '200px' }}
+              {isNavExpanded &&
+                activeNavItem === 'Tools' &&
+                activeToolFromPath &&
+                location.pathname.startsWith('/tools/') && (
+                  <div className="overflow-hidden pl-1 space-y-1 mt-1">
+                    {(() => {
+                      const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
+                      const ToolIcon = getToolIcon(activeToolFromPath);
+                      return (
+                        <button
+                          key={activeToolFromPath}
+                          aria-label={`Open ${activeToolFromPath} in Tools`}
+                          onClick={() => {
+                            navigate(`/tools/${toolSlug}`);
+                            setActiveNavItem('Tools');
+                          }}
+                          onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
+                          onMouseMove={e => handleMoveNavTooltip(e)}
+                          onMouseLeave={() => handleHideNavTooltip()}
+                          className="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer text-sm text-gray-400"
                         >
-                          {activeToolFromPath}
-                        </span>
-                      </button>
-                    );
-                  })()}
-                </div>
-              )}
+                          <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                          <span
+                            className="block text-sm truncate whitespace-nowrap text-[oklch(.837_.128_66.29)]"
+                            style={{ maxWidth: '200px' }}
+                          >
+                            {activeToolFromPath}
+                          </span>
+                        </button>
+                      );
+                    })()}
+                  </div>
+                )}
 
               {/* Show active tool below Tools button when viewing a tool from /tools - Collapsed */}
-              {!isNavExpanded && activeNavItem === 'Tools' && activeToolFromPath && location.pathname.startsWith('/tools/') && (
-                <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
-                  {(() => {
-                    const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
-                    const ToolIcon = getToolIcon(activeToolFromPath);
-                    return (
-                      <button
-                        key={activeToolFromPath}
-                        aria-label={`Open ${activeToolFromPath} in Tools`}
-                        onClick={() => {
-                          navigate(`/tools/${toolSlug}`);
-                          setActiveNavItem('Tools');
-                        }}
-                        onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
-                        onMouseMove={e => handleMoveNavTooltip(e)}
-                        onMouseLeave={() => handleHideNavTooltip()}
-                        className="flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer bg-purple-500/20 text-white"
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          padding: '0',
-                        }}
-                      >
-                        <ToolIcon className="h-4 w-4 flex-shrink-0" />
-                      </button>
-                    );
-                  })()}
-                </div>
-              )}
+              {!isNavExpanded &&
+                activeNavItem === 'Tools' &&
+                activeToolFromPath &&
+                location.pathname.startsWith('/tools/') && (
+                  <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
+                    {(() => {
+                      const toolSlug = activeToolFromPath.toLowerCase().replace(/\s+/g, '-');
+                      const ToolIcon = getToolIcon(activeToolFromPath);
+                      return (
+                        <button
+                          key={activeToolFromPath}
+                          aria-label={`Open ${activeToolFromPath} in Tools`}
+                          onClick={() => {
+                            navigate(`/tools/${toolSlug}`);
+                            setActiveNavItem('Tools');
+                          }}
+                          onMouseEnter={e => handleShowNavTooltip(activeToolFromPath, e)}
+                          onMouseMove={e => handleMoveNavTooltip(e)}
+                          onMouseLeave={() => handleHideNavTooltip()}
+                          className="flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer bg-purple-500/20 text-white"
+                          style={{
+                            width: '36px',
+                            height: '36px',
+                            padding: '0',
+                          }}
+                        >
+                          <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                        </button>
+                      );
+                    })()}
+                  </div>
+                )}
 
               {isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
                 <div className="space-y-2">
@@ -1180,7 +1219,7 @@ export const OverlaysLibraryGridPage = ({
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
-                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
                     }}
                   />
 
@@ -1219,7 +1258,9 @@ export const OverlaysLibraryGridPage = ({
                         .filter(tool => selectedTools.has(tool))
                         .slice(0, 5)
                         .map(tool => {
-                          const isActiveTool = activeToolFromPath === tool && location.pathname.startsWith('/mytools/');
+                          const isActiveTool =
+                            activeToolFromPath === tool &&
+                            location.pathname.startsWith('/mytools/');
                           const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
                           const ToolIcon = getToolIcon(tool);
                           return (
@@ -1308,7 +1349,15 @@ export const OverlaysLibraryGridPage = ({
                             }`}
                           >
                             <Folder className="h-4 w-4 flex-shrink-0" />
-                            <span className={activeOverlaySectionFromPath === 'all' ? 'text-[oklch(.837_.128_66.29)]' : ''}>All</span>
+                            <span
+                              className={
+                                activeOverlaySectionFromPath === 'all'
+                                  ? 'text-[oklch(.837_.128_66.29)]'
+                                  : ''
+                              }
+                            >
+                              All
+                            </span>
                           </button>
                           <button
                             onClick={() => {
@@ -1322,7 +1371,15 @@ export const OverlaysLibraryGridPage = ({
                             }`}
                           >
                             <Star className="h-4 w-4 flex-shrink-0" />
-                            <span className={activeOverlaySectionFromPath === 'favorites' ? 'text-[oklch(.837_.128_66.29)]' : ''}>Favorites</span>
+                            <span
+                              className={
+                                activeOverlaySectionFromPath === 'favorites'
+                                  ? 'text-[oklch(.837_.128_66.29)]'
+                                  : ''
+                              }
+                            >
+                              Favorites
+                            </span>
                           </button>
                           <button
                             onClick={() => {
@@ -1336,7 +1393,15 @@ export const OverlaysLibraryGridPage = ({
                             }`}
                           >
                             <Image className="h-4 w-4 flex-shrink-0" />
-                            <span className={activeOverlaySectionFromPath === 'myimages' ? 'text-[oklch(.837_.128_66.29)]' : ''}>My Images</span>
+                            <span
+                              className={
+                                activeOverlaySectionFromPath === 'myimages'
+                                  ? 'text-[oklch(.837_.128_66.29)]'
+                                  : ''
+                              }
+                            >
+                              My Images
+                            </span>
                           </button>
                         </div>
                       )}
@@ -1345,107 +1410,108 @@ export const OverlaysLibraryGridPage = ({
                 </div>
               )}
 
-              {!isNavExpanded && (activeNavItem === 'Library' || activeNavItem === 'MyOverlays') && (
-                <div className="space-y-2">
-                  <div
-                    className="border-t border-white/5 my-4"
-                    style={{
-                      borderTopWidth: '2px',
-                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
-                    }}
-                  />
+              {!isNavExpanded &&
+                (activeNavItem === 'Library' || activeNavItem === 'MyOverlays') && (
+                  <div className="space-y-2">
+                    <div
+                      className="border-t border-white/5 my-4"
+                      style={{
+                        borderTopWidth: '2px',
+                        borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
+                      }}
+                    />
 
-                  <button
-                    onClick={() => {
-                      setActiveNavItem('MyOverlays');
-                      navigate('/myoverlays');
-                    }}
-                    onMouseEnter={e => handleShowNavTooltip('My Overlays', e)}
-                    onMouseMove={e => handleMoveNavTooltip(e)}
-                    onMouseLeave={() => handleHideNavTooltip()}
-                    className={`w-full flex items-center justify-center px-0 py-3 rounded-lg transition-all duration-200 cursor-pointer ${
-                      activeNavItem === 'MyOverlays'
-                        ? 'bg-purple-500/20 text-white'
-                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                    }`}
-                    style={{
-                      aspectRatio: '1/1',
-                      width: '48px',
-                      height: '48px',
-                      padding: '0',
-                    }}
-                  >
-                    <Layers className="h-5 w-5 flex-shrink-0" />
-                  </button>
+                    <button
+                      onClick={() => {
+                        setActiveNavItem('MyOverlays');
+                        navigate('/myoverlays');
+                      }}
+                      onMouseEnter={e => handleShowNavTooltip('My Overlays', e)}
+                      onMouseMove={e => handleMoveNavTooltip(e)}
+                      onMouseLeave={() => handleHideNavTooltip()}
+                      className={`w-full flex items-center justify-center px-0 py-3 rounded-lg transition-all duration-200 cursor-pointer ${
+                        activeNavItem === 'MyOverlays'
+                          ? 'bg-purple-500/20 text-white'
+                          : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                      }`}
+                      style={{
+                        aspectRatio: '1/1',
+                        width: '48px',
+                        height: '48px',
+                        padding: '0',
+                      }}
+                    >
+                      <Layers className="h-5 w-5 flex-shrink-0" />
+                    </button>
 
-                  {/* Show My Overlays items in collapsed state */}
-                  <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
-                    <button
-                      onClick={() => {
-                        navigate('/myoverlays/all');
-                        setActiveNavItem('MyOverlays');
-                      }}
-                      onMouseEnter={e => handleShowNavTooltip('All', e)}
-                      onMouseMove={e => handleMoveNavTooltip(e)}
-                      onMouseLeave={() => handleHideNavTooltip()}
-                      className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
-                        activeOverlaySectionFromPath === 'all'
-                          ? 'bg-purple-500/20 text-white'
-                          : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                      }`}
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        padding: '0',
-                      }}
-                    >
-                      <Folder className="h-4 w-4 flex-shrink-0" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigate('/myoverlays/favorites');
-                        setActiveNavItem('MyOverlays');
-                      }}
-                      onMouseEnter={e => handleShowNavTooltip('Favorites', e)}
-                      onMouseMove={e => handleMoveNavTooltip(e)}
-                      onMouseLeave={() => handleHideNavTooltip()}
-                      className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
-                        activeOverlaySectionFromPath === 'favorites'
-                          ? 'bg-purple-500/20 text-white'
-                          : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                      }`}
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        padding: '0',
-                      }}
-                    >
-                      <Star className="h-4 w-4 flex-shrink-0" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigate('/myoverlays/myimages');
-                        setActiveNavItem('MyOverlays');
-                      }}
-                      onMouseEnter={e => handleShowNavTooltip('My Images', e)}
-                      onMouseMove={e => handleMoveNavTooltip(e)}
-                      onMouseLeave={() => handleHideNavTooltip()}
-                      className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
-                        activeOverlaySectionFromPath === 'myimages'
-                          ? 'bg-purple-500/20 text-white'
-                          : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                      }`}
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        padding: '0',
-                      }}
-                    >
-                      <Image className="h-4 w-4 flex-shrink-0" />
-                    </button>
+                    {/* Show My Overlays items in collapsed state */}
+                    <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
+                      <button
+                        onClick={() => {
+                          navigate('/myoverlays/all');
+                          setActiveNavItem('MyOverlays');
+                        }}
+                        onMouseEnter={e => handleShowNavTooltip('All', e)}
+                        onMouseMove={e => handleMoveNavTooltip(e)}
+                        onMouseLeave={() => handleHideNavTooltip()}
+                        className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
+                          activeOverlaySectionFromPath === 'all'
+                            ? 'bg-purple-500/20 text-white'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                        }`}
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          padding: '0',
+                        }}
+                      >
+                        <Folder className="h-4 w-4 flex-shrink-0" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate('/myoverlays/favorites');
+                          setActiveNavItem('MyOverlays');
+                        }}
+                        onMouseEnter={e => handleShowNavTooltip('Favorites', e)}
+                        onMouseMove={e => handleMoveNavTooltip(e)}
+                        onMouseLeave={() => handleHideNavTooltip()}
+                        className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
+                          activeOverlaySectionFromPath === 'favorites'
+                            ? 'bg-purple-500/20 text-white'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                        }`}
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          padding: '0',
+                        }}
+                      >
+                        <Star className="h-4 w-4 flex-shrink-0" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate('/myoverlays/myimages');
+                          setActiveNavItem('MyOverlays');
+                        }}
+                        onMouseEnter={e => handleShowNavTooltip('My Images', e)}
+                        onMouseMove={e => handleMoveNavTooltip(e)}
+                        onMouseLeave={() => handleHideNavTooltip()}
+                        className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
+                          activeOverlaySectionFromPath === 'myimages'
+                            ? 'bg-purple-500/20 text-white'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                        }`}
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          padding: '0',
+                        }}
+                      >
+                        <Image className="h-4 w-4 flex-shrink-0" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {!isNavExpanded && (activeNavItem === 'Tools' || activeNavItem === 'MyTools') && (
                 <div className="space-y-2">
@@ -1453,7 +1519,7 @@ export const OverlaysLibraryGridPage = ({
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
-                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
                     }}
                   />
 
@@ -1488,36 +1554,40 @@ export const OverlaysLibraryGridPage = ({
                   {/* Show selected tools in collapsed state (max 5) */}
                   {selectedInMyTools.size > 0 && (
                     <div className="overflow-hidden space-y-1 mt-1 flex flex-col items-center">
-                      {Array.from(selectedInMyTools).slice(0, 5).map(tool => {
-                        const isActiveTool = activeToolFromPath === tool && location.pathname.startsWith('/mytools/');
-                        const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
-                        const ToolIcon = getToolIcon(tool);
-                        return (
-                          <button
-                            key={tool}
-                            aria-label={`Open ${getToolDisplayName(tool)} in My Tools`}
-                            onClick={() => {
-                              navigate(`/mytools/${toolSlug}`);
-                              setActiveNavItem('MyTools');
-                            }}
-                            onMouseEnter={e => handleShowNavTooltip(tool, e)}
-                            onMouseMove={e => handleMoveNavTooltip(e)}
-                            onMouseLeave={() => handleHideNavTooltip()}
-                            className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
-                              isActiveTool
-                                ? 'bg-purple-500/20 text-white'
-                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                            }`}
-                            style={{
-                              width: '36px',
-                              height: '36px',
-                              padding: '0',
-                            }}
-                          >
-                            <ToolIcon className="h-4 w-4 flex-shrink-0" />
-                          </button>
-                        );
-                      })}
+                      {Array.from(selectedInMyTools)
+                        .slice(0, 5)
+                        .map(tool => {
+                          const isActiveTool =
+                            activeToolFromPath === tool &&
+                            location.pathname.startsWith('/mytools/');
+                          const toolSlug = tool.toLowerCase().replace(/\s+/g, '-');
+                          const ToolIcon = getToolIcon(tool);
+                          return (
+                            <button
+                              key={tool}
+                              aria-label={`Open ${getToolDisplayName(tool)} in My Tools`}
+                              onClick={() => {
+                                navigate(`/mytools/${toolSlug}`);
+                                setActiveNavItem('MyTools');
+                              }}
+                              onMouseEnter={e => handleShowNavTooltip(tool, e)}
+                              onMouseMove={e => handleMoveNavTooltip(e)}
+                              onMouseLeave={() => handleHideNavTooltip()}
+                              className={`flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
+                                isActiveTool
+                                  ? 'bg-purple-500/20 text-white'
+                                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                              }`}
+                              style={{
+                                width: '36px',
+                                height: '36px',
+                                padding: '0',
+                              }}
+                            >
+                              <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                            </button>
+                          );
+                        })}
                     </div>
                   )}
                 </div>
@@ -1529,7 +1599,7 @@ export const OverlaysLibraryGridPage = ({
                     className="border-t border-white/5 my-4"
                     style={{
                       borderTopWidth: '2px',
-                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)'
+                      borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
                     }}
                   />
                 </div>
@@ -1556,7 +1626,7 @@ export const OverlaysLibraryGridPage = ({
             transform: 'translate3d(0, 0, 0) translateZ(0)',
             isolation: 'isolate',
             contain: 'strict',
-            transition: 'width 0.3s ease-in-out'
+            transition: 'width 0.3s ease-in-out',
           }}
         >
           <div
@@ -1566,7 +1636,7 @@ export const OverlaysLibraryGridPage = ({
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'flex-end'
+              justifyContent: 'flex-end',
             }}
           >
             <div
@@ -1576,115 +1646,125 @@ export const OverlaysLibraryGridPage = ({
                 marginRight: '3px',
                 paddingTop: '16px',
                 borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
-                borderTopWidth: '2px'
+                borderTopWidth: '2px',
               }}
             >
-            <div className="space-y-2">
-              <button
-                onClick={() => navigate('/pricing')}
-                onMouseEnter={e => !isNavExpanded && handleShowNavTooltip(isAuthenticated ? 'Subscription' : 'Pricing', e)}
-                onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
-                onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                className={`flex items-center rounded-lg cursor-pointer border whitespace-nowrap overflow-hidden ${
-                  isNavExpanded
-                    ? `w-full ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
-                    : `${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
-                }`}
-                style={{
-                  height: '48px',
-                  width: isNavExpanded ? '100%' : '48px',
-                  transition: 'none'
-                }}
-              >
-                <div
-                  className="flex items-center justify-center flex-shrink-0"
-                  style={{ width: '48px', height: '48px' }}
+              <div className="space-y-2">
+                <button
+                  onClick={() => navigate('/pricing')}
+                  onMouseEnter={e =>
+                    !isNavExpanded &&
+                    handleShowNavTooltip(isAuthenticated ? 'Subscription' : 'Pricing', e)
+                  }
+                  onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
+                  onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
+                  className={`flex items-center rounded-lg cursor-pointer border whitespace-nowrap overflow-hidden ${
+                    isNavExpanded
+                      ? `w-full ${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                      : `${activeNavItem === 'Pricing' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                  }`}
+                  style={{
+                    height: '48px',
+                    width: isNavExpanded ? '100%' : '48px',
+                    transition: 'none',
+                  }}
                 >
-                  <DollarSign className="h-5 w-5" />
-                </div>
-                {isNavExpanded && showNavText && (
-                  <span
-                    className="text-sm font-medium"
-                    style={{
-                      paddingLeft: '12px',
-                    }}
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '48px', height: '48px' }}
                   >
-                    {isAuthenticated ? 'Subscription' : 'Pricing'}
-                  </span>
-                )}
-              </button>
-
-              <button
-                onClick={() => navigate('/account')}
-                onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Account', e)}
-                onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
-                onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                className={`flex items-center rounded-lg cursor-pointer border whitespace-nowrap overflow-hidden ${
-                  isNavExpanded
-                    ? `w-full ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
-                    : `${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
-                }`}
-                style={{
-                  height: '48px',
-                  width: isNavExpanded ? '100%' : '48px',
-                  transition: 'none'
-                }}
-              >
-                <div
-                  className="flex items-center justify-center flex-shrink-0"
-                  style={{ width: '48px', height: '48px' }}
-                >
-                  <User className="h-5 w-5" />
-                </div>
-                {isNavExpanded && showNavText && (
-                  <span
-                    className="text-sm font-medium"
-                    style={{
-                      paddingLeft: '12px',
-                    }}
-                  >
-                    Account
-                  </span>
-                )}
-              </button>
-
-              <div className="border-t border-white/5 my-2" style={{ borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)', marginLeft: '-16px', marginRight: '-16px' }} />
-
-              <button
-                onClick={() => setIsNavExpanded(!isNavExpanded)}
-                onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Expand', e)}
-                onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
-                onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
-                className={`flex items-center rounded-lg cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white ${isNavExpanded ? 'w-full' : ''}`}
-                style={{
-                  height: '48px',
-                  width: isNavExpanded ? '100%' : '48px',
-                  transition: 'none',
-                  marginBottom: '5px'
-                }}
-              >
-                <div
-                  className="flex items-center justify-center flex-shrink-0"
-                  style={{ width: '48px', height: '48px' }}
-                >
-                  {isNavExpanded ? (
-                    <ChevronsLeft className="h-5 w-5" />
-                  ) : (
-                    <ChevronsRight className="h-5 w-5" />
+                    <DollarSign className="h-5 w-5" />
+                  </div>
+                  {isNavExpanded && showNavText && (
+                    <span
+                      className="text-sm font-medium"
+                      style={{
+                        paddingLeft: '12px',
+                      }}
+                    >
+                      {isAuthenticated ? 'Subscription' : 'Pricing'}
+                    </span>
                   )}
-                </div>
-                {isNavExpanded && showNavText && (
-                  <span
-                    className="text-sm font-medium"
-                    style={{
-                      paddingLeft: '12px',
-                    }}
+                </button>
+
+                <button
+                  onClick={() => navigate('/account')}
+                  onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Account', e)}
+                  onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
+                  onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
+                  className={`flex items-center rounded-lg cursor-pointer border whitespace-nowrap overflow-hidden ${
+                    isNavExpanded
+                      ? `w-full ${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                      : `${activeNavItem === 'Account' ? 'bg-purple-500/20 text-white border-purple-500/30' : 'text-gray-300 hover:bg-white/5 hover:text-white border-transparent'}`
+                  }`}
+                  style={{
+                    height: '48px',
+                    width: isNavExpanded ? '100%' : '48px',
+                    transition: 'none',
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '48px', height: '48px' }}
                   >
-                    Collapse
-                  </span>
-                )}
-              </button>
-            </div>
+                    <User className="h-5 w-5" />
+                  </div>
+                  {isNavExpanded && showNavText && (
+                    <span
+                      className="text-sm font-medium"
+                      style={{
+                        paddingLeft: '12px',
+                      }}
+                    >
+                      Account
+                    </span>
+                  )}
+                </button>
+
+                <div
+                  className="border-t border-white/5 my-2"
+                  style={{
+                    borderColor: 'color-mix(in oklab, var(--color-white) 15%, transparent)',
+                    marginLeft: '-16px',
+                    marginRight: '-16px',
+                  }}
+                />
+
+                <button
+                  onClick={() => setIsNavExpanded(!isNavExpanded)}
+                  onMouseEnter={e => !isNavExpanded && handleShowNavTooltip('Expand', e)}
+                  onMouseMove={e => !isNavExpanded && handleMoveNavTooltip(e)}
+                  onMouseLeave={() => !isNavExpanded && handleHideNavTooltip()}
+                  className={`flex items-center rounded-lg cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white ${isNavExpanded ? 'w-full' : ''}`}
+                  style={{
+                    height: '48px',
+                    width: isNavExpanded ? '100%' : '48px',
+                    transition: 'none',
+                    marginBottom: '5px',
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '48px', height: '48px' }}
+                  >
+                    {isNavExpanded ? (
+                      <ChevronsLeft className="h-5 w-5" />
+                    ) : (
+                      <ChevronsRight className="h-5 w-5" />
+                    )}
+                  </div>
+                  {isNavExpanded && showNavText && (
+                    <span
+                      className="text-sm font-medium"
+                      style={{
+                        paddingLeft: '12px',
+                      }}
+                    >
+                      Collapse
+                    </span>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1915,7 +1995,10 @@ export const OverlaysLibraryGridPage = ({
           {activeNavItem === 'Library' && (
             <>
               {/* Fixed header section */}
-              <div className="flex-shrink-0 bg-[#1a1428] sticky top-0 z-[110]" style={{ paddingBottom: '12px' }}>
+              <div
+                className="flex-shrink-0 bg-[#1a1428] sticky top-0 z-[110]"
+                style={{ paddingBottom: '12px' }}
+              >
                 <div className="max-w-7xl mx-auto px-6 pt-4 lg:px-8 lg:pt-6">
                   <div>
                     <div className="flex items-center gap-4 mb-6">
@@ -1941,8 +2024,14 @@ export const OverlaysLibraryGridPage = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between" style={{ marginTop: '-12px' }}>
-                      <h1 className="text-3xl font-bold" style={{ fontSize: 'clamp(24px, calc(2vw + 1rem), 30px)' }}>
+                    <div
+                      className="flex items-center justify-between"
+                      style={{ marginTop: '-12px' }}
+                    >
+                      <h1
+                        className="text-3xl font-bold"
+                        style={{ fontSize: 'clamp(24px, calc(2vw + 1rem), 30px)' }}
+                      >
                         <span>Browse Overlays</span>
                       </h1>
                       <div className="flex items-end gap-3">
@@ -2006,8 +2095,14 @@ export const OverlaysLibraryGridPage = ({
               </div>
 
               {/* Scrollable content section */}
-              <div ref={scrollableContentRef} className={`relative flex-1 filter-panel-scrollbar ${showProductCardModal ? 'overflow-hidden' : 'overflow-y-auto'}`}>
-                <div className="max-w-7xl mx-auto" style={{ padding: 'calc(var(--spacing) * 7)', paddingTop: 'calc(1.0rem)' }}>
+              <div
+                ref={scrollableContentRef}
+                className={`relative flex-1 filter-panel-scrollbar ${showProductCardModal ? 'overflow-hidden' : 'overflow-y-auto'}`}
+              >
+                <div
+                  className="max-w-7xl mx-auto"
+                  style={{ padding: 'calc(var(--spacing) * 7)', paddingTop: 'calc(1.0rem)' }}
+                >
                   {filteredOverlays.length === 0 ? (
                     <div className="text-center py-20">
                       <p className="text-gray-400 text-lg">
@@ -2044,12 +2139,16 @@ export const OverlaysLibraryGridPage = ({
                           <button
                             onClick={e => {
                               e.stopPropagation();
-                              const clickedCard = (e.currentTarget as HTMLElement).closest('.group') as HTMLElement;
+                              const clickedCard = (e.currentTarget as HTMLElement).closest(
+                                '.group'
+                              ) as HTMLElement;
                               if (clickedCard && scrollableContentRef.current) {
                                 const grid = clickedCard.parentElement?.parentElement;
                                 if (grid) {
                                   // Get all cards in the grid
-                                  const allCards = Array.from(grid.querySelectorAll('.group')) as HTMLElement[];
+                                  const allCards = Array.from(
+                                    grid.querySelectorAll('.group')
+                                  ) as HTMLElement[];
                                   const clickedIndex = allCards.indexOf(clickedCard);
 
                                   // Determine grid columns (lg:3, sm:2, default:1)
@@ -2071,9 +2170,13 @@ export const OverlaysLibraryGridPage = ({
 
                                   if (middleCard) {
                                     const cardRect = middleCard.getBoundingClientRect();
-                                    const containerRect = scrollableContentRef.current.getBoundingClientRect();
+                                    const containerRect =
+                                      scrollableContentRef.current.getBoundingClientRect();
 
-                                    let topPosition = cardRect.top - containerRect.top + scrollableContentRef.current.scrollTop;
+                                    let topPosition =
+                                      cardRect.top -
+                                      containerRect.top +
+                                      scrollableContentRef.current.scrollTop;
 
                                     // Calculate total number of rows
                                     const totalRows = Math.ceil(allCards.length / columns);
@@ -2081,14 +2184,24 @@ export const OverlaysLibraryGridPage = ({
 
                                     // If this is the top row (rowIndex === 0), position between this row and the next
                                     if (rowIndex === 0) {
-                                      const nextRowMiddleCardIndex = (rowIndex + 1) * columns + middleColumnIndex;
+                                      const nextRowMiddleCardIndex =
+                                        (rowIndex + 1) * columns + middleColumnIndex;
                                       const nextRowMiddleCard = allCards[nextRowMiddleCardIndex];
 
                                       if (nextRowMiddleCard) {
-                                        const nextCardRect = nextRowMiddleCard.getBoundingClientRect();
-                                        const nextCardTop = nextCardRect.top - containerRect.top + scrollableContentRef.current.scrollTop;
+                                        const nextCardRect =
+                                          nextRowMiddleCard.getBoundingClientRect();
+                                        const nextCardTop =
+                                          nextCardRect.top -
+                                          containerRect.top +
+                                          scrollableContentRef.current.scrollTop;
                                         // Position at the midpoint between the two cards
-                                        topPosition = (topPosition + cardRect.height / 2 + nextCardTop + nextCardRect.height / 2) / 2;
+                                        topPosition =
+                                          (topPosition +
+                                            cardRect.height / 2 +
+                                            nextCardTop +
+                                            nextCardRect.height / 2) /
+                                          2;
                                       } else {
                                         // If there's no next row, just center on the current card
                                         topPosition = topPosition + cardRect.height / 2;
@@ -2096,20 +2209,29 @@ export const OverlaysLibraryGridPage = ({
                                     }
                                     // If this is the bottom row, position between this row and the previous
                                     else if (rowIndex === lastRowIndex) {
-                                      const prevRowMiddleCardIndex = (rowIndex - 1) * columns + middleColumnIndex;
+                                      const prevRowMiddleCardIndex =
+                                        (rowIndex - 1) * columns + middleColumnIndex;
                                       const prevRowMiddleCard = allCards[prevRowMiddleCardIndex];
 
                                       if (prevRowMiddleCard) {
-                                        const prevCardRect = prevRowMiddleCard.getBoundingClientRect();
-                                        const prevCardTop = prevCardRect.top - containerRect.top + scrollableContentRef.current.scrollTop;
+                                        const prevCardRect =
+                                          prevRowMiddleCard.getBoundingClientRect();
+                                        const prevCardTop =
+                                          prevCardRect.top -
+                                          containerRect.top +
+                                          scrollableContentRef.current.scrollTop;
                                         // Position at the midpoint between the two cards
-                                        topPosition = (prevCardTop + prevCardRect.height / 2 + topPosition + cardRect.height / 2) / 2;
+                                        topPosition =
+                                          (prevCardTop +
+                                            prevCardRect.height / 2 +
+                                            topPosition +
+                                            cardRect.height / 2) /
+                                          2;
                                       } else {
                                         // If there's no previous row, just center on the current card
                                         topPosition = topPosition + cardRect.height / 2;
                                       }
-                                    }
-                                    else {
+                                    } else {
                                       // For middle rows, center on the middle card
                                       topPosition = topPosition + cardRect.height / 2;
                                     }
@@ -2202,7 +2324,10 @@ export const OverlaysLibraryGridPage = ({
                               </h3>
                             </div>
                             {/* price badge sits attached to top edge of the bottom overlay for aesthetic */}
-                            <span className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide cursor-default" style={{ transform: 'translateY(-50%) scale(1.05)' }}>
+                            <span
+                              className="absolute top-0 right-4 z-30 bg-[#d97706] text-black text-[11px] font-bold px-2 py-1 rounded uppercase tracking-wide cursor-default"
+                              style={{ transform: 'translateY(-50%) scale(1.05)' }}
+                            >
                               ${overlay.price}
                             </span>
 
@@ -2261,7 +2386,9 @@ export const OverlaysLibraryGridPage = ({
                                   >
                                     −
                                   </button>
-                                  <div className="px-2 text-white text-sm cursor-default">{cart[overlay.id]}</div>
+                                  <div className="px-2 text-white text-sm cursor-default">
+                                    {cart[overlay.id]}
+                                  </div>
                                   <button
                                     onClick={e => {
                                       e.stopPropagation();
@@ -2404,13 +2531,14 @@ export const OverlaysLibraryGridPage = ({
                         {/* Star icon in top right corner */}
                         <div
                           className="absolute top-4 right-4 cursor-pointer"
-                          onClick={(e) => {
+                          onClick={e => {
                             e.stopPropagation();
                             toggleToolInCollection(tool);
                           }}
                           onMouseEnter={e => {
                             const rect = e.currentTarget.getBoundingClientRect();
-                            const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
+                            const headerHeight =
+                              headerRef.current?.getBoundingClientRect().height || 64;
 
                             let x = rect.left + rect.width / 2;
                             let y = rect.top - 10;
@@ -2441,9 +2569,7 @@ export const OverlaysLibraryGridPage = ({
                                 : 'bg-purple-500/20 group-hover:bg-purple-500/30'
                             }`}
                           >
-                            <ToolIcon
-                              className="h-6 w-6 text-gray-200"
-                            />
+                            <ToolIcon className="h-6 w-6 text-gray-200" />
                           </div>
                           <h3 className="font-semibold text-lg text-white">
                             <span>{tool}</span>
@@ -2529,103 +2655,122 @@ export const OverlaysLibraryGridPage = ({
                             duration: 0.3,
                           }}
                           onClick={e => {
-                            if (!isEditing && !(e.target as HTMLElement).closest('.edit-icon') && !(e.target as HTMLElement).closest('.star-icon')) {
+                            if (
+                              !isEditing &&
+                              !(e.target as HTMLElement).closest('.edit-icon') &&
+                              !(e.target as HTMLElement).closest('.star-icon')
+                            ) {
                               navigate(`/mytools/${toolSlug}`);
                             }
                           }}
-                        className="relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group border-white/10 hover:border-white/20"
-                      >
-                        {/* Edit and Star icons in top right corner */}
-                        <div className="absolute top-4 right-4 flex items-center gap-2">
-                          <div
-                            className="edit-icon"
-                            onClick={e => {
-                              e.stopPropagation();
-                              setEditingTool(tool);
-                            }}
-                            onMouseEnter={e => {
-                              const rect = e.currentTarget.getBoundingClientRect();
-                              const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
-
-                              let x = rect.left + rect.width / 2;
-                              let y = rect.top - 10;
-
-                              const estimatedTooltipHeight = 40;
-                              if (y - estimatedTooltipHeight < headerHeight) {
-                                y = rect.bottom + 10;
-                              }
-
-                              setEditNameTooltip({ x, y });
-                            }}
-                            onMouseLeave={() => setEditNameTooltip(null)}
-                          >
-                            <Pencil className="h-5 w-5 text-gray-400 hover:text-gray-300 transition-colors cursor-pointer" />
-                          </div>
-                          <div
-                            className="star-icon"
-                            onClick={e => {
-                              e.stopPropagation();
-                              toggleToolPinned(tool);
-                            }}
-                            onMouseEnter={e => {
-                              const rect = e.currentTarget.getBoundingClientRect();
-                              const headerHeight = headerRef.current?.getBoundingClientRect().height || 64;
-
-                              let x = rect.left + rect.width / 2;
-                              let y = rect.top - 10;
-
-                              const estimatedTooltipHeight = 40;
-                              if (y - estimatedTooltipHeight < headerHeight) {
-                                y = rect.bottom + 10;
-                              }
-
-                              setShortlistTooltip({ x, y });
-                            }}
-                            onMouseLeave={() => setShortlistTooltip(null)}
-                          >
-                            <List className={`h-6 w-6 transition-all cursor-pointer ${
-                              selectedInMyTools.has(tool) ? 'text-orange-400' : 'text-gray-400 hover:text-gray-300'
-                            }`} />
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-3 mb-4">
-                          <div
-                            className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors bg-purple-500/20 group-hover:bg-purple-500/30`}
-                          >
-                            <ToolIcon className="h-6 w-6 text-gray-200" />
-                          </div>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              defaultValue={displayName}
-                              maxLength={17}
-                              autoFocus
-                              onBlur={e => saveCustomToolName(tool, e.target.value)}
-                              onKeyDown={e => {
-                                if (e.key === 'Enter') {
-                                  saveCustomToolName(tool, e.currentTarget.value);
-                                } else if (e.key === 'Escape') {
-                                  setEditingTool(null);
-                                } else if (e.currentTarget.value.length >= 17 && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                                  // User is trying to type past the limit
-                                  notify({ message: 'Tool name limited to 17 characters', type: 'warning' });
-                                }
+                          className="relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group border-white/10 hover:border-white/20"
+                        >
+                          {/* Edit and Star icons in top right corner */}
+                          <div className="absolute top-4 right-4 flex items-center gap-2">
+                            <div
+                              className="edit-icon"
+                              onClick={e => {
+                                e.stopPropagation();
+                                setEditingTool(tool);
                               }}
-                              onClick={e => e.stopPropagation()}
-                              className="font-semibold text-lg text-white bg-white/10 border border-white/20 rounded px-2 py-1 focus:outline-none focus:border-purple-500/50"
-                              style={{ maxWidth: '180px' }}
-                            />
-                          ) : (
-                            <h3 className="font-semibold text-lg text-white">
-                              <span>{displayName}</span>
-                            </h3>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-400">
-                          <span>Access your {displayName.toLowerCase()} tools</span>
-                        </p>
-                      </motion.div>
+                              onMouseEnter={e => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const headerHeight =
+                                  headerRef.current?.getBoundingClientRect().height || 64;
+
+                                let x = rect.left + rect.width / 2;
+                                let y = rect.top - 10;
+
+                                const estimatedTooltipHeight = 40;
+                                if (y - estimatedTooltipHeight < headerHeight) {
+                                  y = rect.bottom + 10;
+                                }
+
+                                setEditNameTooltip({ x, y });
+                              }}
+                              onMouseLeave={() => setEditNameTooltip(null)}
+                            >
+                              <Pencil className="h-5 w-5 text-gray-400 hover:text-gray-300 transition-colors cursor-pointer" />
+                            </div>
+                            <div
+                              className="star-icon"
+                              onClick={e => {
+                                e.stopPropagation();
+                                toggleToolPinned(tool);
+                              }}
+                              onMouseEnter={e => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const headerHeight =
+                                  headerRef.current?.getBoundingClientRect().height || 64;
+
+                                let x = rect.left + rect.width / 2;
+                                let y = rect.top - 10;
+
+                                const estimatedTooltipHeight = 40;
+                                if (y - estimatedTooltipHeight < headerHeight) {
+                                  y = rect.bottom + 10;
+                                }
+
+                                setShortlistTooltip({ x, y });
+                              }}
+                              onMouseLeave={() => setShortlistTooltip(null)}
+                            >
+                              <List
+                                className={`h-6 w-6 transition-all cursor-pointer ${
+                                  selectedInMyTools.has(tool)
+                                    ? 'text-orange-400'
+                                    : 'text-gray-400 hover:text-gray-300'
+                                }`}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-3 mb-4">
+                            <div
+                              className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors bg-purple-500/20 group-hover:bg-purple-500/30`}
+                            >
+                              <ToolIcon className="h-6 w-6 text-gray-200" />
+                            </div>
+                            {isEditing ? (
+                              <input
+                                type="text"
+                                defaultValue={displayName}
+                                maxLength={17}
+                                autoFocus
+                                onBlur={e => saveCustomToolName(tool, e.target.value)}
+                                onKeyDown={e => {
+                                  if (e.key === 'Enter') {
+                                    saveCustomToolName(tool, e.currentTarget.value);
+                                  } else if (e.key === 'Escape') {
+                                    setEditingTool(null);
+                                  } else if (
+                                    e.currentTarget.value.length >= 17 &&
+                                    e.key.length === 1 &&
+                                    !e.ctrlKey &&
+                                    !e.metaKey &&
+                                    !e.altKey
+                                  ) {
+                                    // User is trying to type past the limit
+                                    notify({
+                                      message: 'Tool name limited to 17 characters',
+                                      type: 'warning',
+                                    });
+                                  }
+                                }}
+                                onClick={e => e.stopPropagation()}
+                                className="font-semibold text-lg text-white bg-white/10 border border-white/20 rounded px-2 py-1 focus:outline-none focus:border-purple-500/50"
+                                style={{ maxWidth: '180px' }}
+                              />
+                            ) : (
+                              <h3 className="font-semibold text-lg text-white">
+                                <span>{displayName}</span>
+                              </h3>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-400">
+                            <span>Access your {displayName.toLowerCase()} tools</span>
+                          </p>
+                        </motion.div>
                       );
                     })}
                   </div>
@@ -2634,7 +2779,8 @@ export const OverlaysLibraryGridPage = ({
             </div>
           )}
 
-          {((activeNavItem === 'MyTools' && activeToolFromPath) || (activeNavItem === 'Tools' && activeToolFromPath)) && (
+          {((activeNavItem === 'MyTools' && activeToolFromPath) ||
+            (activeNavItem === 'Tools' && activeToolFromPath)) && (
             <div className="w-full h-full">
               {/* Empty main content area for individual tool - ready for tool implementation */}
             </div>
@@ -2701,7 +2847,7 @@ export const OverlaysLibraryGridPage = ({
                           <input
                             type="email"
                             value={emailValue}
-                            onChange={(e) => setEmailValue(e.target.value)}
+                            onChange={e => setEmailValue(e.target.value)}
                             className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors"
                             style={{
                               background: 'rgba(255, 255, 255, 0.03)',
@@ -2731,97 +2877,121 @@ export const OverlaysLibraryGridPage = ({
 
                 <div className="space-y-6">
                   {/* Theme */}
-                    <div className="space-y-3">
-                      <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
-                        <span>Theme</span>
-                      </label>
-                      <div className="flex gap-6">
-                        <button
-                          onClick={() => setSelectedTheme('light')}
-                          className="flex flex-col items-center gap-2.5 group cursor-pointer"
-                        >
-                          <div className={`w-[134px] h-[90px] bg-[#2d2840] rounded-[6px] flex items-center justify-center transition-colors p-4 ${
+                  <div className="space-y-3">
+                    <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
+                      <span>Theme</span>
+                    </label>
+                    <div className="flex gap-6">
+                      <button
+                        onClick={() => setSelectedTheme('light')}
+                        className="flex flex-col items-center gap-2.5 group cursor-pointer"
+                      >
+                        <div
+                          className={`w-[134px] h-[90px] bg-[#2d2840] rounded-[6px] flex items-center justify-center transition-colors p-4 ${
                             selectedTheme === 'light'
                               ? 'border-[2px] border-[#e8753a]'
                               : 'border-[1.5px] border-[#4a4558]'
-                          }`}>
-                            <div className="grid grid-cols-4 gap-[5px]">
-                              {[...Array(8)].map((_, i) => (
-                                <div key={`light-${i}`} className="w-[14px] h-[14px] bg-[#8a8294] rounded-[2px]"></div>
-                              ))}
-                            </div>
-                          </div>
-                          <span className={`text-sm font-medium ${
-                            selectedTheme === 'light' ? 'text-white' : 'text-gray-300'
-                          }`}>Light</span>
-                        </button>
-                        <button
-                          onClick={() => setSelectedTheme('dark')}
-                          className="flex flex-col items-center gap-2.5 group cursor-pointer"
+                          }`}
                         >
-                          <div className={`w-[134px] h-[90px] bg-[#1f1a2e] rounded-[6px] flex items-center justify-center transition-colors p-4 ${
+                          <div className="grid grid-cols-4 gap-[5px]">
+                            {[...Array(8)].map((_, i) => (
+                              <div
+                                key={`light-${i}`}
+                                className="w-[14px] h-[14px] bg-[#8a8294] rounded-[2px]"
+                              ></div>
+                            ))}
+                          </div>
+                        </div>
+                        <span
+                          className={`text-sm font-medium ${
+                            selectedTheme === 'light' ? 'text-white' : 'text-gray-300'
+                          }`}
+                        >
+                          Light
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => setSelectedTheme('dark')}
+                        className="flex flex-col items-center gap-2.5 group cursor-pointer"
+                      >
+                        <div
+                          className={`w-[134px] h-[90px] bg-[#1f1a2e] rounded-[6px] flex items-center justify-center transition-colors p-4 ${
                             selectedTheme === 'dark'
                               ? 'border-[2px] border-[#e8753a]'
                               : 'border-[1.5px] border-[#4a4558]'
-                          }`}>
-                            <div className="grid grid-cols-4 gap-[5px]">
-                              {[...Array(8)].map((_, i) => (
-                                <div key={`dark-${i}`} className="w-[14px] h-[14px] bg-[#6b4e8a] rounded-[2px]"></div>
-                              ))}
-                            </div>
+                          }`}
+                        >
+                          <div className="grid grid-cols-4 gap-[5px]">
+                            {[...Array(8)].map((_, i) => (
+                              <div
+                                key={`dark-${i}`}
+                                className="w-[14px] h-[14px] bg-[#6b4e8a] rounded-[2px]"
+                              ></div>
+                            ))}
                           </div>
-                          <span className={`text-sm font-medium ${
+                        </div>
+                        <span
+                          className={`text-sm font-medium ${
                             selectedTheme === 'dark' ? 'text-white' : 'text-gray-300'
-                          }`}>Dark</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Subscribe for email updates */}
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        defaultChecked
-                        id="subscribe-checkbox"
-                        className="w-4 h-4 bg-transparent border border-gray-500 rounded-[2px] checked:bg-white checked:border-gray-600 cursor-pointer accent-white"
-                      />
-                      <label htmlFor="subscribe-checkbox" className="text-sm font-medium text-[#B0A6C1] cursor-pointer">
-                        <span>Subscribe for email updates</span>
-                      </label>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="my-8 mx-4">
-                      <div className="border-t border-white/5"></div>
-                    </div>
-
-                    {/* Action Buttons - Left and Right Aligned */}
-                    <div className="flex justify-between items-center gap-4 mt-6">
-                      <div className="flex gap-4">
-                        <button
-                          onClick={() => setIsAuthenticated(false)}
-                          className="px-11 py-3 bg-transparent border border-white/10 rounded-xl text-[#C7B9E8] text-sm font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer h-[48px]"
+                          }`}
                         >
-                          <span>Sign Out</span>
-                        </button>
-                        <button
-                          onClick={() => setIsChangePasswordOpen(true)}
-                          className="px-11 py-3 bg-transparent border border-white/10 rounded-xl text-[#C7B9E8] text-sm font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer h-[48px]"
-                        >
-                          <span>Reset Password</span>
-                        </button>
-                      </div>
-                      <button className="px-11 py-3 bg-transparent border border-red-500/30 rounded-xl text-[#FF4D4D] text-sm font-medium hover:bg-red-500/5 hover:border-red-500/50 transition-colors cursor-pointer h-[48px]">
-                        <span>Delete Account</span>
+                          Dark
+                        </span>
                       </button>
                     </div>
+                  </div>
+
+                  {/* Subscribe for email updates */}
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      id="subscribe-checkbox"
+                      className="w-4 h-4 bg-transparent border border-gray-500 rounded-[2px] checked:bg-white checked:border-gray-600 cursor-pointer accent-white"
+                    />
+                    <label
+                      htmlFor="subscribe-checkbox"
+                      className="text-sm font-medium text-[#B0A6C1] cursor-pointer"
+                    >
+                      <span>Subscribe for email updates</span>
+                    </label>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="my-8 mx-4">
+                    <div className="border-t border-white/5"></div>
+                  </div>
+
+                  {/* Action Buttons - Left and Right Aligned */}
+                  <div className="flex justify-between items-center gap-4 mt-6">
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => setIsAuthenticated(false)}
+                        className="px-11 py-3 bg-transparent border border-white/10 rounded-xl text-[#C7B9E8] text-sm font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer h-[48px]"
+                      >
+                        <span>Sign Out</span>
+                      </button>
+                      <button
+                        onClick={() => setIsChangePasswordOpen(true)}
+                        className="px-11 py-3 bg-transparent border border-white/10 rounded-xl text-[#C7B9E8] text-sm font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer h-[48px]"
+                      >
+                        <span>Reset Password</span>
+                      </button>
+                    </div>
+                    <button className="px-11 py-3 bg-transparent border border-red-500/30 rounded-xl text-[#FF4D4D] text-sm font-medium hover:bg-red-500/5 hover:border-red-500/50 transition-colors cursor-pointer h-[48px]">
+                      <span>Delete Account</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
           {activeNavItem === 'Pricing' && (
-            <div className="max-w-5xl mx-auto p-6 lg:p-8 text-center" style={{ transform: 'scale(0.95)', transformOrigin: 'top center' }}>
+            <div
+              className="max-w-5xl mx-auto p-6 lg:p-8 text-center"
+              style={{ transform: 'scale(0.95)', transformOrigin: 'top center' }}
+            >
               <h1 className="text-5xl font-bold flex items-center gap-3 justify-center mb-6 cursor-default">
                 <span>Level Up Your Production</span>
               </h1>
@@ -3187,7 +3357,10 @@ export const OverlaysLibraryGridPage = ({
                 className="w-full max-w-md"
                 onClick={e => e.stopPropagation()}
               >
-                <div className="rounded-2xl shadow-xl border overflow-hidden" style={{ backgroundColor: '#271e37' }}>
+                <div
+                  className="rounded-2xl shadow-xl border overflow-hidden"
+                  style={{ backgroundColor: '#271e37' }}
+                >
                   <div className="px-8 py-10">
                     <div className="text-center mb-8 cursor-default">
                       <h1 className="text-2xl font-bold text-white mb-2">
@@ -3229,7 +3402,8 @@ export const OverlaysLibraryGridPage = ({
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
                             style={{
-                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              backgroundColor:
+                                'color-mix(in oklab, var(--color-white) 10%, transparent)',
                               borderColor: 'oklch(0.446 0.03 256.802)',
                             }}
                           />
@@ -3252,7 +3426,8 @@ export const OverlaysLibraryGridPage = ({
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
                             style={{
-                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              backgroundColor:
+                                'color-mix(in oklab, var(--color-white) 10%, transparent)',
                               borderColor: 'oklch(0.446 0.03 256.802)',
                             }}
                           />
@@ -3275,7 +3450,8 @@ export const OverlaysLibraryGridPage = ({
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
                             style={{
-                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              backgroundColor:
+                                'color-mix(in oklab, var(--color-white) 10%, transparent)',
                               borderColor: 'oklch(0.446 0.03 256.802)',
                             }}
                           />
@@ -3298,7 +3474,8 @@ export const OverlaysLibraryGridPage = ({
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white"
                             style={{
-                              backgroundColor: 'color-mix(in oklab, var(--color-white) 10%, transparent)',
+                              backgroundColor:
+                                'color-mix(in oklab, var(--color-white) 10%, transparent)',
                               borderColor: 'oklch(0.446 0.03 256.802)',
                             }}
                           />
@@ -3369,7 +3546,7 @@ export const OverlaysLibraryGridPage = ({
         >
           {activeNavItem === 'Tools'
             ? 'Star all tools seen below that you would like to add to your "My Tools" list'
-            : 'Shortlist up to 5 tools below that you would like to add to your shortlist.'}
+            : 'Pin up to 5 tools below that you would like quick-access to in the side panel.'}
         </div>
       )}
 
