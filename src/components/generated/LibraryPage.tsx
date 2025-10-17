@@ -903,7 +903,7 @@ export const OverlaysLibraryGridPage = ({
               {navigationItems.map(nav => {
                 const isActive =
                   (nav.label === 'Overlays' && (location.pathname === '/library' || location.pathname.startsWith('/myoverlays'))) ||
-                  (nav.label === 'Tools' && (location.pathname === '/tools' || location.pathname.startsWith('/mytools'))) ||
+                  (nav.label === 'Tools' && (location.pathname === '/tools' || location.pathname.startsWith('/tools/') || location.pathname.startsWith('/mytools'))) ||
                   (nav.label === 'Pricing' && location.pathname === '/pricing');
 
                 return (
@@ -1863,7 +1863,7 @@ export const OverlaysLibraryGridPage = ({
             aria-hidden="false"
             className="absolute z-40 border-r border-purple-500/30 bg-[#0f0a1a]/95 backdrop-blur-sm flex flex-col flex-shrink-0 items-center"
             style={{
-              left: `${isNavExpanded ? 210 : 80}px`,
+              left: `${isNavExpanded ? 216 : 80}px`,
               // Prefer computing header bottom relative to the container so the collapsed strip
               // sits flush under the header. Fall back to previous measurements if refs are
               // not available yet.
@@ -2433,7 +2433,7 @@ export const OverlaysLibraryGridPage = ({
                             }`}
                           >
                             <ToolIcon
-                              className={`h-6 w-6 ${isSelected || isHighlighted ? 'text-orange-300' : 'text-purple-300'}`}
+                              className="h-6 w-6 text-gray-200"
                             />
                           </div>
                           <h3 className="font-semibold text-lg text-white">
@@ -2584,7 +2584,7 @@ export const OverlaysLibraryGridPage = ({
                           <div
                             className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors bg-purple-500/20 group-hover:bg-purple-500/30`}
                           >
-                            <ToolIcon className="h-6 w-6 text-purple-300" />
+                            <ToolIcon className="h-6 w-6 text-gray-200" />
                           </div>
                           {isEditing ? (
                             <input
