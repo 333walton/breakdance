@@ -39,6 +39,7 @@ import {
   Mail,
   Info,
   Pencil,
+  Pin,
 } from 'lucide-react';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
@@ -294,6 +295,10 @@ export const OverlaysLibraryGridPage = ({
     x: number;
     y: number;
   } | null>(null);
+  const [openToolTooltip, setOpenToolTooltip] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Get highlighted tool from location state or manage with local state
   const initialHighlightedTool = (location.state as { highlightedTool?: string } | null)
@@ -395,12 +400,16 @@ export const OverlaysLibraryGridPage = ({
   const [containerRect, setContainerRect] = useState<{ top: number; height: number } | null>(null);
   const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const shortlistNotificationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pinTooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Cleanup tooltip timeout on unmount
   useEffect(() => {
     return () => {
       if (tooltipTimeoutRef.current) {
         clearTimeout(tooltipTimeoutRef.current);
+      }
+      if (pinTooltipTimeoutRef.current) {
+        clearTimeout(pinTooltipTimeoutRef.current);
       }
     };
   }, []);
@@ -1333,7 +1342,7 @@ export const OverlaysLibraryGridPage = ({
                       className="flex items-center justify-center flex-shrink-0"
                       style={{ width: '48px' }}
                     >
-                      <Box className="h-5 w-5" />
+                      <Star className="h-5 w-5" />
                     </div>
                     {showNavText && (
                       <span
@@ -2613,11 +2622,7 @@ export const OverlaysLibraryGridPage = ({
                         transition={{
                           duration: 0.3,
                         }}
-                        onClick={() => {
-                          navigate(`/tools/${toolSlug}`);
-                          setActiveNavItem('Tools');
-                        }}
-                        className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group ${
+                        className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl pt-6 px-6 border transition-all group ${
                           isSelected || isHighlighted
                             ? 'border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
                             : 'border-white/10 hover:border-white/20'
@@ -2670,9 +2675,22 @@ export const OverlaysLibraryGridPage = ({
                             <span>{tool}</span>
                           </h3>
                         </div>
-                        <p className="text-sm text-gray-400">
-                          <span>Access your {tool.toLowerCase()} tools</span>
-                        </p>
+                        <div className="flex justify-between gap-3" style={{ paddingBottom: '20px', paddingRight: '20px', marginLeft: '-24px', marginRight: '-24px', paddingLeft: '24px', minHeight: '60px' }}>
+                          <p className="text-sm text-gray-400 self-start" style={{ maxWidth: '60%' }}>
+                            <span>Access your {tool.toLowerCase()} tools</span>
+                          </p>
+                          {/* Open Tool button */}
+                          <button
+                            onClick={e => {
+                              e.stopPropagation();
+                              navigate(`/tools/${toolSlug}`);
+                              setActiveNavItem('Tools');
+                            }}
+                            className="flex items-center gap-2 px-6 py-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0 cursor-pointer self-end text-white text-sm font-medium"
+                          >
+                            {isAuthenticated ? 'Open' : 'Preview'}
+                          </button>
+                        </div>
                       </motion.div>
                     );
                   })}
@@ -2749,16 +2767,7 @@ export const OverlaysLibraryGridPage = ({
                           transition={{
                             duration: 0.3,
                           }}
-                          onClick={e => {
-                            if (
-                              !isEditing &&
-                              !(e.target as HTMLElement).closest('.edit-icon') &&
-                              !(e.target as HTMLElement).closest('.star-icon')
-                            ) {
-                              navigate(`/mytools/${toolSlug}`);
-                            }
-                          }}
-                          className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group border-white/10 hover:border-white/20 ${isEditing ? 'tool-card-editing' : ''}`}
+                          className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl pt-6 px-6 border transition-all group border-white/10 hover:border-white/20 ${isEditing ? 'tool-card-editing' : ''}`}
                         >
                           {/* Edit and Star icons in top right corner */}
                           <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -2794,6 +2803,12 @@ export const OverlaysLibraryGridPage = ({
                                 toggleToolPinned(tool);
                               }}
                               onMouseEnter={e => {
+                                // Clear any existing timeout
+                                if (pinTooltipTimeoutRef.current) {
+                                  clearTimeout(pinTooltipTimeoutRef.current);
+                                  pinTooltipTimeoutRef.current = null;
+                                }
+
                                 const rect = e.currentTarget.getBoundingClientRect();
                                 const headerHeight =
                                   headerRef.current?.getBoundingClientRect().height || 64;
@@ -2808,12 +2823,17 @@ export const OverlaysLibraryGridPage = ({
 
                                 setShortlistTooltip({ x, y });
                               }}
-                              onMouseLeave={() => setShortlistTooltip(null)}
+                              onMouseLeave={() => {
+                                // Fast hide for Pin tooltip (100ms delay)
+                                pinTooltipTimeoutRef.current = setTimeout(() => {
+                                  setShortlistTooltip(null);
+                                }, 100);
+                              }}
                             >
-                              <List
+                              <Pin
                                 className={`h-6 w-6 transition-all cursor-pointer ${
                                   selectedInMyTools.has(tool)
-                                    ? 'text-orange-400'
+                                    ? 'text-orange-400 fill-current'
                                     : 'text-gray-400 hover:text-gray-300'
                                 }`}
                               />
@@ -2883,9 +2903,21 @@ export const OverlaysLibraryGridPage = ({
                               </div>
                             )}
                           </div>
-                          <p className="text-sm text-gray-400">
-                            <span>Access your {displayName.toLowerCase()} tools</span>
-                          </p>
+                          <div className="flex justify-between gap-3" style={{ paddingBottom: '20px', paddingRight: '20px', marginLeft: '-24px', marginRight: '-24px', paddingLeft: '24px', minHeight: '60px' }}>
+                            <p className="text-sm text-gray-400 self-start" style={{ maxWidth: '60%' }}>
+                              <span>Access your {displayName.toLowerCase()} tools</span>
+                            </p>
+                            {/* Open Tool button */}
+                            <button
+                              onClick={e => {
+                                e.stopPropagation();
+                                navigate(`/mytools/${toolSlug}`);
+                              }}
+                              className="flex items-center gap-2 px-6 py-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0 cursor-pointer self-end text-white text-sm font-medium"
+                            >
+                              Open
+                            </button>
+                          </div>
                         </motion.div>
                       );
                     })}
@@ -3968,7 +4000,7 @@ export const OverlaysLibraryGridPage = ({
           }}
           aria-hidden="true"
         >
-          Shortlist
+          Pin
         </div>
       )}
 
@@ -3984,6 +4016,21 @@ export const OverlaysLibraryGridPage = ({
           aria-hidden="true"
         >
           Favorite
+        </div>
+      )}
+
+      {/* Open Tool tooltip */}
+      {openToolTooltip && (
+        <div
+          className="fixed z-[120] pointer-events-none bg-black/90 text-white text-sm px-3 py-1 rounded shadow-lg"
+          style={{
+            left: openToolTooltip.x,
+            top: openToolTooltip.y,
+            transform: 'translate(-50%, -100%)',
+          }}
+          aria-hidden="true"
+        >
+          Open Tool
         </div>
       )}
     </div>
