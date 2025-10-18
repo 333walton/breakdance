@@ -248,6 +248,25 @@ export const OverlaysLibraryGridPage = ({
   // Email editing state
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [emailValue, setEmailValue] = useState('email@gmail.com');
+  const [originalEmailValue, setOriginalEmailValue] = useState('email@gmail.com');
+  // Name editing state
+  const [isNameEditing, setIsNameEditing] = useState(false);
+  const [nameValue, setNameValue] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('userName');
+      return saved || '';
+    } catch (e) {
+      return '';
+    }
+  });
+  const [originalNameValue, setOriginalNameValue] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('userName');
+      return saved || '';
+    } catch (e) {
+      return '';
+    }
+  });
   // Tools Dashboard info tooltip state
   const [toolsInfoTooltip, setToolsInfoTooltip] = useState<{
     x: number;
@@ -462,6 +481,77 @@ export const OverlaysLibraryGridPage = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isSortDropdownOpen]);
+
+  // Close tool name editing when clicking outside the card
+  useEffect(() => {
+    if (!editingTool) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Find the card element that contains the editing input
+      const editingCard = target.closest('.tool-card-editing');
+      if (!editingCard) {
+        // Clicked outside any editing card, so cancel editing
+        setEditingTool(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [editingTool]);
+
+  // Close email editing when clicking outside the email container
+  useEffect(() => {
+    if (!isEmailEditing) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Find the email editing container
+      const emailContainer = target.closest('.email-editing-container');
+      if (!emailContainer) {
+        // Clicked outside the email container, so cancel editing and restore original value
+        setEmailValue(originalEmailValue);
+        setIsEmailEditing(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isEmailEditing, originalEmailValue]);
+
+  // Close name editing when clicking outside the name container
+  useEffect(() => {
+    if (!isNameEditing) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Find the name editing container
+      const nameContainer = target.closest('.name-editing-container');
+      if (!nameContainer) {
+        // Clicked outside the name container, so cancel editing and restore original value
+        setNameValue(originalNameValue);
+        setIsNameEditing(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isNameEditing, originalNameValue]);
+
+  // Save name value to sessionStorage whenever the original (saved) value changes
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('userName', originalNameValue);
+    } catch (e) {
+      // ignore sessionStorage errors
+    }
+  }, [originalNameValue]);
 
   // Freeze/unfreeze scrolling when 3D preview modal is shown
   useEffect(() => {
@@ -995,7 +1085,11 @@ export const OverlaysLibraryGridPage = ({
             ) : (
               <button
                 onClick={() => navigate('/account')}
-                className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
+                className={`p-2 text-white rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer ${
+                  activeNavItem === 'Account'
+                    ? 'border border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
+                    : 'border border-white/20'
+                }`}
                 aria-label="Go to account page"
               >
                 <User className="w-6 h-6" />
@@ -2664,7 +2758,7 @@ export const OverlaysLibraryGridPage = ({
                               navigate(`/mytools/${toolSlug}`);
                             }
                           }}
-                          className="relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group border-white/10 hover:border-white/20"
+                          className={`relative bg-gradient-to-b from-[#2a1e3a]/60 to-[#1a1428]/40 rounded-2xl p-6 border transition-all group border-white/10 hover:border-white/20 ${isEditing ? 'tool-card-editing' : ''}`}
                         >
                           {/* Edit and Star icons in top right corner */}
                           <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -2726,46 +2820,67 @@ export const OverlaysLibraryGridPage = ({
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-3 mb-4">
+                          <div className="flex items-center gap-3 mb-4" style={{ minHeight: '48px' }}>
                             <div
                               className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors bg-purple-500/20 group-hover:bg-purple-500/30`}
                             >
                               <ToolIcon className="h-6 w-6 text-gray-200" />
                             </div>
                             {isEditing ? (
-                              <input
-                                type="text"
-                                defaultValue={displayName}
-                                maxLength={17}
-                                autoFocus
-                                onBlur={e => saveCustomToolName(tool, e.target.value)}
-                                onKeyDown={e => {
-                                  if (e.key === 'Enter') {
-                                    saveCustomToolName(tool, e.currentTarget.value);
-                                  } else if (e.key === 'Escape') {
-                                    setEditingTool(null);
-                                  } else if (
-                                    e.currentTarget.value.length >= 17 &&
-                                    e.key.length === 1 &&
-                                    !e.ctrlKey &&
-                                    !e.metaKey &&
-                                    !e.altKey
-                                  ) {
-                                    // User is trying to type past the limit
-                                    notify({
-                                      message: 'Tool name limited to 17 characters',
-                                      type: 'warning',
-                                    });
-                                  }
-                                }}
-                                onClick={e => e.stopPropagation()}
-                                className="font-semibold text-lg text-white bg-white/10 border border-white/20 rounded px-2 py-1 focus:outline-none focus:border-purple-500/50"
-                                style={{ maxWidth: '180px' }}
-                              />
+                              <div className="flex items-center gap-2 flex-1">
+                                <input
+                                  type="text"
+                                  defaultValue={displayName}
+                                  maxLength={17}
+                                  autoFocus
+                                  onKeyDown={e => {
+                                    if (e.key === 'Escape') {
+                                      setEditingTool(null);
+                                    } else if (
+                                      e.currentTarget.value.length >= 17 &&
+                                      e.key.length === 1 &&
+                                      !e.ctrlKey &&
+                                      !e.metaKey &&
+                                      !e.altKey
+                                    ) {
+                                      // User is trying to type past the limit
+                                      notify({
+                                        message: 'Tool name limited to 17 characters',
+                                        type: 'warning',
+                                      });
+                                    }
+                                  }}
+                                  onClick={e => e.stopPropagation()}
+                                  className="rounded-lg px-4 py-2 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors"
+                                  style={{
+                                    background: 'rgba(255, 255, 255, 0.03)',
+                                    maxWidth: '180px',
+                                    height: '40px',
+                                  }}
+                                  id={`edit-tool-${tool}`}
+                                />
+                                <button
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    const input = document.getElementById(
+                                      `edit-tool-${tool}`
+                                    ) as HTMLInputElement;
+                                    if (input) {
+                                      saveCustomToolName(tool, input.value);
+                                    }
+                                  }}
+                                  className="px-[10px] py-[5px] bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-[10px] font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer flex-shrink-0"
+                                  style={{ fontSize: '10px', lineHeight: '1.2' }}
+                                >
+                                  Save
+                                </button>
+                              </div>
                             ) : (
-                              <h3 className="font-semibold text-lg text-white">
-                                <span>{displayName}</span>
-                              </h3>
+                              <div className="flex items-center flex-1" style={{ minHeight: '40px' }}>
+                                <h3 className="font-semibold text-lg text-white">
+                                  <span>{displayName}</span>
+                                </h3>
+                              </div>
                             )}
                           </div>
                           <p className="text-sm text-gray-400">
@@ -2814,28 +2929,79 @@ export const OverlaysLibraryGridPage = ({
 
                 {/* Form Container with Gradient Background */}
                 <div
-                  className="rounded-2xl p-8 border border-white/5"
+                  className="rounded-2xl py-6 px-8 border border-white/5 flex items-center justify-center"
                   style={{
                     background: 'linear-gradient(to bottom, #1b1126, #0e0916)',
                     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.2)',
-                    minHeight: '248px',
+                    minHeight: '200px',
                   }}
                 >
-                  <div className="space-y-6">
-                    {/* User Name */}
+                  <div className="space-y-5 w-full max-w-2xl">
+                    {/* Name */}
                     <div className="space-y-2">
                       <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
-                        <span>User Name</span>
+                        <span>Name</span>
                       </label>
-                      <input
-                        type="text"
-                        className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-[#A6A1B5]"
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.03)',
-                          width: '49%',
-                        }}
-                        placeholder="Enter your username"
-                      />
+                      <div className="flex items-end gap-3 name-editing-container" style={{ minHeight: '48px' }}>
+                        {isNameEditing ? (
+                          <input
+                            type="text"
+                            value={nameValue}
+                            maxLength={17}
+                            name="fullName"
+                            data-sentry-source-file="NameForm.tsx"
+                            onChange={e => setNameValue(e.target.value)}
+                            onKeyDown={e => {
+                              if (
+                                e.currentTarget.value.length >= 17 &&
+                                e.key.length === 1 &&
+                                !e.ctrlKey &&
+                                !e.metaKey &&
+                                !e.altKey
+                              ) {
+                                // User is trying to type past the limit
+                                notify({
+                                  message: 'Name limited to 17 characters',
+                                  type: 'warning',
+                                });
+                              }
+                            }}
+                            className="rounded-lg px-4 py-3 text-white text-base border border-white/5 focus:outline-none focus:border-purple-500/50 transition-colors"
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.03)',
+                              width: '49%',
+                              height: '48px',
+                            }}
+                          />
+                        ) : (
+                          <div
+                            className="text-white text-base px-4 py-3 flex items-center"
+                            style={{
+                              width: '49%',
+                              height: '48px',
+                            }}
+                          >
+                            {nameValue}
+                          </div>
+                        )}
+                        <button
+                          onClick={() => {
+                            if (isNameEditing) {
+                              // Save: update the original value to the current value
+                              setOriginalNameValue(nameValue);
+                              setIsNameEditing(false);
+                            } else {
+                              // Change: store current value as original before editing
+                              setOriginalNameValue(nameValue);
+                              setIsNameEditing(true);
+                            }
+                          }}
+                          className="px-[10px] py-[5px] bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-[10px] font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer flex-shrink-0"
+                          style={{ fontSize: '10px', lineHeight: '1.2' }}
+                        >
+                          <span>{isNameEditing ? 'Save' : 'Change'}</span>
+                        </button>
+                      </div>
                     </div>
 
                     {/* Email */}
@@ -2843,7 +3009,7 @@ export const OverlaysLibraryGridPage = ({
                       <label className="block text-[0.875rem] font-semibold tracking-wide text-[#B0A6C1] uppercase">
                         <span>Email</span>
                       </label>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-end gap-3 email-editing-container" style={{ minHeight: '48px' }}>
                         {isEmailEditing ? (
                           <input
                             type="email"
@@ -2853,21 +3019,34 @@ export const OverlaysLibraryGridPage = ({
                             style={{
                               background: 'rgba(255, 255, 255, 0.03)',
                               width: '49%',
+                              height: '48px',
                             }}
                           />
                         ) : (
                           <div
-                            className="text-white text-base"
+                            className="text-white text-base px-4 py-3 flex items-center"
                             style={{
                               width: '49%',
+                              height: '48px',
                             }}
                           >
                             {emailValue}
                           </div>
                         )}
                         <button
-                          onClick={() => setIsEmailEditing(!isEmailEditing)}
-                          className="px-3 py-1.5 bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-xs font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer"
+                          onClick={() => {
+                            if (isEmailEditing) {
+                              // Save: update the original value to the current value
+                              setOriginalEmailValue(emailValue);
+                              setIsEmailEditing(false);
+                            } else {
+                              // Change: store current value as original before editing
+                              setOriginalEmailValue(emailValue);
+                              setIsEmailEditing(true);
+                            }
+                          }}
+                          className="px-[10px] py-[5px] bg-transparent border border-white/10 rounded-md text-[#C7B9E8] text-[10px] font-medium hover:border-white/20 hover:text-[#D5CBEF] transition-colors cursor-pointer flex-shrink-0"
+                          style={{ fontSize: '10px', lineHeight: '1.2' }}
                         >
                           <span>{isEmailEditing ? 'Save' : 'Change'}</span>
                         </button>
