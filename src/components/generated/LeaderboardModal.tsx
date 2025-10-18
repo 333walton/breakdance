@@ -93,6 +93,19 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
           maxWidth: '1100px',
         }}
       >
+        {/* Bookmark icon in top-left corner */}
+        {!hideBookmarkButton && (
+          <button
+            onClick={handleToggleBookmark}
+            aria-label="Toggle bookmark"
+            className="absolute top-4 left-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors cursor-pointer"
+            style={{ zIndex: 40 }}
+          >
+            <Bookmark
+              className={`w-[24px] h-[24px] transition-colors ${isBookmarked ? 'text-orange-400 fill-current' : 'text-white'}`}
+            />
+          </button>
+        )}
         <div className="flex flex-col lg:flex-row gap-12">
           <div
             className="flex-1"
@@ -193,19 +206,6 @@ export const LeaderboardInfoModal = (props: LeaderboardInfoModalProps) => {
           </div>
 
           <div className="lg:w-[380px] flex flex-col relative">
-            {/* small bookmark icon in top-right of modal */}
-            {!hideBookmarkButton && (
-              <button
-                onClick={handleToggleBookmark}
-                aria-label="Toggle bookmark"
-                className="absolute -top-4 right-4 p-2 rounded-full bg-transparent hover:bg-white/10 transition-colors cursor-pointer"
-                style={{ zIndex: 40 }}
-              >
-                <Bookmark
-                  className={`w-5 h-5 transition-colors ${isBookmarked ? 'text-orange-400 fill-current' : 'text-white'}`}
-                />
-              </button>
-            )}
             <div className="flex items-start gap-3 mb-6">
               <h1 className="text-3xl font-bold text-white leading-tight">
                 {overlay ? `${overlay.name}` : 'Leaderboard - Bold'}

@@ -40,12 +40,15 @@ import {
   Info,
   Pencil,
   Pin,
+  Bookmark,
+  Globe,
 } from 'lucide-react';
 import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { LeaderboardInfoModal } from './LeaderboardModal';
 import { ProductCard3D } from './ProductCard3D';
 import GlobalCartDropdown from '../GlobalCartDropdown';
+import ProfileDropdown from '../ProfileDropdown';
 import { PasswordResetCard } from './PasswordResetCard';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/cartCore';
@@ -177,6 +180,7 @@ export const OverlaysLibraryGridPage = ({
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
   const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
   const [showLeaderboardOverlay, setShowLeaderboardOverlay] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [showProductCardModal, setShowProductCardModal] = useState(false);
   const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
   const [clickedCardPosition, setClickedCardPosition] = useState<{
@@ -440,6 +444,7 @@ export const OverlaysLibraryGridPage = ({
   useEffect(() => {
     const state = location.state as { showSignUp?: boolean } | null;
     if (state?.showSignUp) {
+      setShowLoginOverlay(false);
       setShowSignUpOverlay(true);
       // Clear the state to prevent showing overlay on refresh
       window.history.replaceState({}, document.title);
@@ -1078,7 +1083,10 @@ export const OverlaysLibraryGridPage = ({
           <div className="flex items-center space-x-3 flex-shrink-0">
             {!isAuthenticated && (
               <button
-                onClick={() => setShowSignUpOverlay(true)}
+                onClick={() => {
+                  setShowLoginOverlay(false);
+                  setShowSignUpOverlay(true);
+                }}
                 className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
               >
                 Sign up
@@ -1086,42 +1094,118 @@ export const OverlaysLibraryGridPage = ({
             )}
             {!isAuthenticated ? (
               <button
-                onClick={() => setShowLoginOverlay(true)}
+                onClick={() => {
+                  setShowSignUpOverlay(false);
+                  setShowLoginOverlay(true);
+                }}
                 className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
               >
                 Login
               </button>
             ) : (
-              <button
-                onClick={() => navigate('/account')}
-                className={`p-2 text-white rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer ${
-                  activeNavItem === 'Account'
-                    ? 'border border-orange-500/50 ring-2 ring-orange-500/30 shadow-lg shadow-orange-500/20'
-                    : 'border border-white/20'
-                }`}
-                aria-label="Go to account page"
-              >
-                <User className="w-6 h-6" />
-              </button>
-            )}
-            <div className="relative">
-              <button
-                data-cart-anchor="true"
-                onClick={() => toggleCart()}
-                className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
-              >
-                <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
-              </button>
-              {getTotal() > 0 && (
-                <span
-                  className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  style={{ fontSize: '10px' }}
+              <>
+                {/* Bookmark Icon */}
+                <button
+                  className="p-2 text-white rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer border border-white/20"
+                  aria-label="Bookmarks"
                 >
-                  {getTotal()}
-                </span>
-              )}
-            </div>
+                  <Bookmark className="w-5 h-5" />
+                </button>
+
+                {/* Globe Icon */}
+                <button
+                  className="p-2 text-white rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer border border-white/20"
+                  aria-label="Explore"
+                >
+                  <Globe className="w-5 h-5" />
+                </button>
+
+                {/* Get Pro Button or Cart Icon based on route */}
+                {location.pathname === '/library' || location.pathname.startsWith('/myoverlays') ? (
+                  /* Cart Icon for library routes */
+                  <div className="relative">
+                    <button
+                      data-cart-anchor="true"
+                      onClick={() => toggleCart()}
+                      className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
+                    >
+                      <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+                    </button>
+                    {getTotal() > 0 && (
+                      <span
+                        className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                        style={{ fontSize: '10px' }}
+                      >
+                        {getTotal()}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  /* Get Pro Button for other routes */
+                  <button
+                    onClick={() => {
+                      setShowLoginOverlay(false);
+                      setShowSignUpOverlay(true);
+                    }}
+                    className="px-4 py-2 bg-white text-slate-900 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-gray-100 cursor-pointer"
+                  >
+                    Get Pro
+                  </button>
+                )}
+
+                {/* Profile Image Button */}
+                <div className="relative">
+                  <button
+                    data-profile-anchor="true"
+                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    className="w-10 h-10 rounded-full transition-all duration-150 ease-out cursor-pointer overflow-hidden border border-white/20"
+                    aria-label="Open profile menu"
+                  >
+                    {/* Default avatar with purple/yellow gradient */}
+                    <div className="w-full h-full rounded-full bg-gradient-to-br from-purple-500 to-yellow-400 flex items-center justify-center">
+                      <User className="w-5 h-5 text-white" />
+                    </div>
+                  </button>
+                  {/* Ring overlay - only on Account page */}
+                  {activeNavItem === 'Account' && (
+                    <div className="absolute inset-0 rounded-full border-2 border-orange-500/50 ring-2 ring-orange-500/30 pointer-events-none shadow-lg shadow-orange-500/20"></div>
+                  )}
+                </div>
+              </>
+            )}
+            {/* Hide cart icon on specific routes and all tool subpages */}
+            {!(
+              ['/library', '/account', '/pricing'].includes(location.pathname) ||
+              location.pathname.startsWith('/myoverlays') ||
+              location.pathname.startsWith('/tools') ||
+              location.pathname.startsWith('/mytools')
+            ) && (
+              <div className="relative">
+                <button
+                  data-cart-anchor="true"
+                  onClick={() => toggleCart()}
+                  className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
+                >
+                  <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+                </button>
+                {getTotal() > 0 && (
+                  <span
+                    className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                    style={{ fontSize: '10px' }}
+                  >
+                    {getTotal()}
+                  </span>
+                )}
+              </div>
+            )}
             <GlobalCartDropdown />
+            <ProfileDropdown
+              isOpen={isProfileDropdownOpen}
+              onClose={() => setIsProfileDropdownOpen(false)}
+              onLogout={() => setIsAuthenticated(false)}
+              userName="User Name"
+              userEmail="user@example.com"
+            />
           </div>
         </div>
       </header>
@@ -3311,7 +3395,10 @@ export const OverlaysLibraryGridPage = ({
                     </ul>
                     <div className="mt-auto">
                       <button
-                        onClick={() => setShowSignUpOverlay(true)}
+                        onClick={() => {
+                          setShowLoginOverlay(false);
+                          setShowSignUpOverlay(true);
+                        }}
                         className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer"
                       >
                         <span>{isAuthenticated ? 'Current Plan' : 'Start Free'}</span>
@@ -3397,7 +3484,10 @@ export const OverlaysLibraryGridPage = ({
                     </ul>
                     <div className="mt-auto">
                       <button
-                        onClick={() => setShowSignUpOverlay(true)}
+                        onClick={() => {
+                          setShowLoginOverlay(false);
+                          setShowSignUpOverlay(true);
+                        }}
                         className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer"
                       >
                         <span>{isAuthenticated ? 'Upgrade' : 'Get Pro'}</span>
@@ -3656,7 +3746,7 @@ export const OverlaysLibraryGridPage = ({
       {/* Sign Up Overlay */}
       {showSignUpOverlay && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowSignUpOverlay(false)}
         >
           <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
@@ -3679,7 +3769,7 @@ export const OverlaysLibraryGridPage = ({
       {/* Login Overlay */}
       {showLoginOverlay && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowLoginOverlay(false)}
         >
           <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>
@@ -3710,7 +3800,7 @@ export const OverlaysLibraryGridPage = ({
       {/* Password Reset Overlay */}
       {showPasswordResetOverlay && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={() => setShowPasswordResetOverlay(false)}
         >
           <div className="relative w-full max-w-md" onClick={e => e.stopPropagation()}>

@@ -17,6 +17,8 @@ import {
   X,
   User,
   ShoppingCart,
+  Bookmark,
+  Globe,
 } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
 import GlassmorphicButton from '../GlassmorphicButton';
@@ -24,6 +26,7 @@ import { SignInCard as SignUpCard } from './SignUpCard';
 import { SignInCard } from './SignInCard';
 import { PasswordResetCard } from './PasswordResetCard';
 import GlobalCartDropdown from '../GlobalCartDropdown';
+import ProfileDropdown from '../ProfileDropdown';
 
 // Global sequential stats controller type and Window augmentation
 type SeqController = {
@@ -385,6 +388,7 @@ export const OverlaysUnoLandingPage = () => {
   const [showSignUpOverlay, setShowSignUpOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
   const [showPasswordResetOverlay, setShowPasswordResetOverlay] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   // Ref to access the fluid animation instance
   const fluidAnimationRef = React.useRef<unknown | null>(null);
@@ -1194,50 +1198,150 @@ export const OverlaysUnoLandingPage = () => {
             </nav>
           </div>
 
-          {/* Auth & Discord */}
+          {/* Auth & Cart */}
           <div className="flex items-center space-x-3 flex-shrink-0">
             {!isAuthenticated && (
               <button
-                onClick={() => setShowSignUpOverlay(true)}
+                onClick={() => {
+                  setShowLoginOverlay(false);
+                  setShowSignUpOverlay(true);
+                }}
                 className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
               >
-                <span>Sign up</span>
+                Sign up
               </button>
             )}
             {!isAuthenticated ? (
               <button
-                onClick={() => setShowLoginOverlay(true)}
+                onClick={() => {
+                  setShowSignUpOverlay(false);
+                  setShowLoginOverlay(true);
+                }}
                 className="px-4 py-2 text-white border border-white/20 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
               >
-                <span>Login</span>
+                Login
               </button>
             ) : (
-              <button
-                onClick={() => navigate('/account')}
-                className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
-                aria-label="Go to account page"
-              >
-                <User className="w-6 h-6" />
-              </button>
-            )}
-            <div className="relative">
-              <button
-                data-cart-anchor="true"
-                onClick={() => toggleCart()}
-                className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
-              >
-                <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
-              </button>
-              {getTotal() > 0 && (
-                <span
-                  className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  style={{ fontSize: '10px' }}
+              <>
+                {/* Bookmark Icon */}
+                <button
+                  className="p-2 text-white rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer border border-white/20"
+                  aria-label="Bookmarks"
                 >
-                  {getTotal()}
-                </span>
-              )}
-            </div>
+                  <Bookmark className="w-5 h-5" />
+                </button>
+
+                {/* Globe Icon */}
+                <button
+                  className="p-2 text-white rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer border border-white/20"
+                  aria-label="Explore"
+                >
+                  <Globe className="w-5 h-5" />
+                </button>
+
+                {/* Get Pro Button or Cart Icon based on route and cart status */}
+                {(location.pathname === '/library' || location.pathname.startsWith('/myoverlays')) ? (
+                  /* Cart Icon for library routes */
+                  <div className="relative">
+                    <button
+                      data-cart-anchor="true"
+                      onClick={() => toggleCart()}
+                      className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
+                    >
+                      <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+                    </button>
+                    {getTotal() > 0 && (
+                      <span
+                        className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                        style={{ fontSize: '10px' }}
+                      >
+                        {getTotal()}
+                      </span>
+                    )}
+                  </div>
+                ) : (location.pathname === '/' && getTotal() > 0) ? (
+                  /* Cart Icon for landing page when cart has items */
+                  <div className="relative">
+                    <button
+                      data-cart-anchor="true"
+                      onClick={() => toggleCart()}
+                      className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
+                    >
+                      <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+                    </button>
+                    <span
+                      className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                      style={{ fontSize: '10px' }}
+                    >
+                      {getTotal()}
+                    </span>
+                  </div>
+                ) : (
+                  /* Get Pro Button for other routes or landing page without cart items */
+                  <button
+                    onClick={() => {
+                      setShowLoginOverlay(false);
+                      setShowSignUpOverlay(true);
+                    }}
+                    className="px-4 py-2 bg-white text-slate-900 rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-gray-100 cursor-pointer"
+                  >
+                    Get Pro
+                  </button>
+                )}
+
+                {/* Profile Image Button */}
+                <div className="relative">
+                  <button
+                    data-profile-anchor="true"
+                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    className="w-10 h-10 rounded-full transition-all duration-150 ease-out cursor-pointer overflow-hidden border border-white/20"
+                    aria-label="Open profile menu"
+                  >
+                    {/* Default avatar with purple/yellow gradient */}
+                    <div className="w-full h-full rounded-full bg-gradient-to-br from-purple-500 to-yellow-400 flex items-center justify-center">
+                      <User className="w-5 h-5 text-white" />
+                    </div>
+                  </button>
+                  {/* Ring overlay - only on Account page */}
+                  {location.pathname === '/account' && (
+                    <div className="absolute inset-0 rounded-full border-2 border-orange-500/50 ring-2 ring-orange-500/30 pointer-events-none shadow-lg shadow-orange-500/20"></div>
+                  )}
+                </div>
+              </>
+            )}
+            {/* Hide cart icon on specific routes, landing page, and all tool subpages */}
+            {!(
+              ['/library', '/account', '/pricing', '/'].includes(location.pathname) ||
+              location.pathname.startsWith('/myoverlays') ||
+              location.pathname.startsWith('/tools') ||
+              location.pathname.startsWith('/mytools')
+            ) && (
+              <div className="relative">
+                <button
+                  data-cart-anchor="true"
+                  onClick={() => toggleCart()}
+                  className="relative px-4 py-2 bg-[#FFC543] text-slate-900 border rounded-full text-sm font-medium transition-colors duration-150 ease-out hover:bg-white hover:text-[#FFC543] hover:border-white flex items-center space-x-2 cursor-pointer"
+                >
+                  <ShoppingCart className="w-5 h-5" style={{ color: 'rgb(0 0 0)' }} />
+                </button>
+                {getTotal() > 0 && (
+                  <span
+                    className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                    style={{ fontSize: '10px' }}
+                  >
+                    {getTotal()}
+                  </span>
+                )}
+              </div>
+            )}
             <GlobalCartDropdown />
+            <ProfileDropdown
+              isOpen={isProfileDropdownOpen}
+              onClose={() => setIsProfileDropdownOpen(false)}
+              onLogout={() => setIsAuthenticated(false)}
+              userName="User Name"
+              userEmail="user@example.com"
+            />
           </div>
         </div>
       </header>
