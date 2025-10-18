@@ -133,7 +133,7 @@ const GlobalCartDropdown: React.FC = () => {
 
           <div className="mt-4 border-t border-white/5 pt-4">
             <div className="flex items-center justify-between text-sm mb-3">
-              <span>Total</span>
+              <span>Est. Total</span>
               <span className="font-semibold">
                 $
                 {Object.entries(cart)
@@ -153,7 +153,7 @@ const GlobalCartDropdown: React.FC = () => {
                 }}
                 className="flex-1 px-3 py-2 rounded-md bg-white/5 hover:bg-white/10 text-sm cursor-pointer"
               >
-                View Cart
+                View Cart ({Object.entries(cart).reduce((sum, [, qty]) => sum + qty, 0)})
               </button>
               <button
                 onClick={() => {

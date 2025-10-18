@@ -361,6 +361,7 @@ export const OverlaysLibraryGridPage = ({
   const [bookmarkedOverlays, setBookmarkedOverlays] = useState<Set<string>>(new Set());
   const { cart, add, remove, getTotal, isCartOpen, openCart, closeCart, toggleCart } = useCart();
   const [pricingToggle, setPricingToggle] = useState<'monthly' | 'yearly'>('monthly');
+  const [expandedFAQs, setExpandedFAQs] = useState<Set<number>>(new Set());
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
   const headerHeight = headerRef.current
@@ -3102,7 +3103,7 @@ export const OverlaysLibraryGridPage = ({
                         onClick={() => setShowSignUpOverlay(true)}
                         className="mx-auto w-full py-4 px-6 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl font-semibold text-lg text-center hover:bg-slate-800 transition-colors duration-150 cursor-pointer"
                       >
-                        <span>Start Free</span>
+                        <span>{isAuthenticated ? 'Current Plan' : 'Start Free'}</span>
                       </button>
                     </div>
                   </div>
@@ -3188,11 +3189,139 @@ export const OverlaysLibraryGridPage = ({
                         onClick={() => setShowSignUpOverlay(true)}
                         className="mx-auto w-full py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold text-lg transition-colors text-center cursor-pointer"
                       >
-                        <span>Get Pro</span>
+                        <span>{isAuthenticated ? 'Upgrade' : 'Get Pro'}</span>
                       </button>
                     </div>
                   </div>
                 </motion.div>
+              </div>
+
+              {/* Compare Plans & Features Table */}
+              <div className="mt-16 max-w-5xl mx-auto">
+                <h2 className="text-3xl font-bold text-center mb-8">
+                  <span>Compare Plans & Features</span>
+                </h2>
+                <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="text-left p-6 text-gray-400 font-semibold text-lg">Features</th>
+                        <th className="p-6 text-center text-white font-semibold text-lg">
+                          <div className="flex flex-col items-center gap-2">
+                            <span>BreakDance Starter</span>
+                            {isAuthenticated && (
+                              <span className="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-xs font-semibold rounded-full border border-green-500/30">
+                                Current Plan
+                              </span>
+                            )}
+                          </div>
+                        </th>
+                        <th className="p-6 text-center text-white font-semibold text-lg">
+                          <div className="flex flex-col items-center gap-2">
+                            <span>BreakDance Pro</span>
+                            <span className="inline-block px-3 py-1 bg-transparent text-transparent text-xs font-semibold rounded-full" style={{ height: '28px' }}>
+                              &nbsp;
+                            </span>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Overlay Downloads</td>
+                        <td className="p-6 text-center text-gray-300">5 per month</td>
+                        <td className="p-6 text-center text-white font-semibold">Unlimited</td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Overlay Library Access</td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Custom Branding</td>
+                        <td className="p-6 text-center text-gray-500">
+                          <X className="w-5 h-5 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Premium Overlays</td>
+                        <td className="p-6 text-center text-gray-500">
+                          <X className="w-5 h-5 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Stream Deck Integration</td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Break Tools Dashboard</td>
+                        <td className="p-6 text-center text-gray-300">Limited Access</td>
+                        <td className="p-6 text-center text-white font-semibold">Full Access</td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Cloud Storage</td>
+                        <td className="p-6 text-center text-gray-300">1 GB</td>
+                        <td className="p-6 text-center text-white font-semibold">50 GB</td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Priority Support</td>
+                        <td className="p-6 text-center text-gray-500">
+                          <X className="w-5 h-5 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Early Access to New Features</td>
+                        <td className="p-6 text-center text-gray-500">
+                          <X className="w-5 h-5 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Custom Asset Requests</td>
+                        <td className="p-6 text-center text-gray-300">1 per year</td>
+                        <td className="p-6 text-center text-white font-semibold">3 per year</td>
+                      </tr>
+                      <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Limited Edition Collections</td>
+                        <td className="p-6 text-center text-gray-500">
+                          <X className="w-5 h-5 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="p-6 text-gray-300">Commercial License</td>
+                        <td className="p-6 text-center text-gray-500">
+                          <X className="w-5 h-5 mx-auto" />
+                        </td>
+                        <td className="p-6 text-center">
+                          <Check className="w-5 h-5 text-green-400 mx-auto" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               {/* Custom Assets Card */}
@@ -3224,6 +3353,90 @@ export const OverlaysLibraryGridPage = ({
                   <span>Contact Us</span>
                 </button>
               </motion.div>
+
+              {/* FAQ Section */}
+              <div className="mt-24 max-w-3xl mx-auto">
+                <h2 className="text-3xl font-bold text-center mb-8">
+                  <span>Frequently Asked Questions</span>
+                </h2>
+                <div className="space-y-4">
+                  {[
+                    {
+                      question: "How do I download and use the overlays?",
+                      answer: "Once you've added overlays to your cart and completed checkout, you'll receive instant download links. Simply download the overlay files, import them into OBS Studio or your preferred streaming software, and customize them to match your brand. Each overlay comes with detailed instructions."
+                    },
+                    {
+                      question: "Can I use BreakDance overlays for commercial streams?",
+                      answer: "BreakDance Pro subscribers receive a commercial license allowing unlimited use across all streaming platforms, including monetized content. Free tier users have a personal use license. Upgrade to Pro to unlock commercial rights."
+                    },
+                    {
+                      question: "What streaming software is compatible with BreakDance?",
+                      answer: "Our overlays are fully compatible with OBS Studio, Streamlabs OBS, XSplit, and most popular streaming software. We also provide Stream Deck integration for quick overlay switching and real-time control during your breaks."
+                    },
+                    {
+                      question: "How does the Break Tools Dashboard work?",
+                      answer: "The Break Tools Dashboard provides inventory management, ROI tracking, price guides, and scheduling tools specifically designed for card breakers. Pro subscribers get full access to all tools, while free tier users have limited access to basic features."
+                    },
+                    {
+                      question: "Can I customize the overlays with my own branding?",
+                      answer: "Yes! Pro subscribers can fully customize overlays with their own logos, colors, and branding elements. We provide editable source files and templates. Free tier users can use overlays as-is with limited customization options."
+                    },
+                    {
+                      question: "What happens to my overlays if I cancel my subscription?",
+                      answer: "All overlays you've downloaded during your subscription remain yours to use indefinitely. However, you'll lose access to future downloads, premium overlays, and Pro-exclusive features. You can resubscribe at any time to regain full access."
+                    },
+                    {
+                      question: "Do you offer refunds?",
+                      answer: "We offer a 14-day money-back guarantee for Pro subscriptions. If you're not satisfied with BreakDance, contact our support team within 14 days of purchase for a full refund. Digital downloads may affect refund eligibility."
+                    }
+                  ].map((faq, index) => {
+                    const isExpanded = expandedFAQs.has(index);
+                    return (
+                      <div
+                        key={index}
+                        className="bg-white/5 rounded-xl border border-white/10 overflow-hidden transition-all duration-300"
+                      >
+                        <button
+                          onClick={() => {
+                            setExpandedFAQs(prev => {
+                              const next = new Set(prev);
+                              if (next.has(index)) {
+                                next.delete(index);
+                              } else {
+                                next.add(index);
+                              }
+                              return next;
+                            });
+                          }}
+                          className="w-full p-6 flex items-center justify-between text-left hover:bg-white/5 transition-colors cursor-pointer"
+                        >
+                          <span className="text-lg font-semibold text-white pr-4">{faq.question}</span>
+                          <ChevronDown
+                            className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${
+                              isExpanded ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-6 pb-6 pt-0 text-gray-300 leading-relaxed">
+                                {faq.answer}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
         </main>

@@ -15,7 +15,7 @@ import {
   Copy,
   ExternalLink,
   X,
-  UserCircle,
+  User,
   ShoppingCart,
 } from 'lucide-react';
 import FluidAnimationWrapper from '../FluidAnimation/FluidAnimationWrapper';
@@ -1217,7 +1217,7 @@ export const OverlaysUnoLandingPage = () => {
                 className="p-2 text-white border border-white/20 rounded-full transition-colors duration-150 ease-out hover:bg-white hover:text-slate-900 cursor-pointer"
                 aria-label="Go to account page"
               >
-                <UserCircle className="w-6 h-6" />
+                <User className="w-6 h-6" />
               </button>
             )}
             <div className="relative">
